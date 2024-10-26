@@ -24,7 +24,7 @@ local blinkerLevelComplete
 
 -- Sprites
 
-local botsToRescueCount <const> = 3
+local botsToRescueCountDefault <const> = 3
 local spriteGuiRescueCounter
 
 -- Static methods
@@ -50,7 +50,8 @@ function Game:init()
     spriteLevelCompleteText:moveTo(200, 60)
     spriteLevelCompleteText:setIgnoresDrawOffset(true)
 
-    spriteLevelCompleteHintText = gfx.sprite.spriteWithText("Crank to Finish", 200, 80, nil, nil, nil, kTextAlignment.center)
+    spriteLevelCompleteHintText = gfx.sprite.spriteWithText("Crank to Finish", 200, 80, nil, nil, nil,
+        kTextAlignment.center)
     spriteLevelCompleteHintText:getImage():setInverted(true)
     spriteLevelCompleteHintText:moveTo(200, 90)
     spriteLevelCompleteHintText:setIgnoresDrawOffset(true)
@@ -66,8 +67,17 @@ function Game:enter(previous, data)
 
     -- Load rescuable bot array
 
+    -- Get current level
+
+    currentLevelName = level and level.name or initialLevelName
+    local levelBounds = level and level.bounds or LDtk.get_rect(currentLevelName)
+
+    -- Initial Load - only run once per world
+
     if data.isInitialLoad then
-        local botRescueCount = botsToRescueCount
+        -- Load level fields (used only on the initial level)
+
+        local levelData = LDtk.get_custom_data(currentLevelName)
 
         -- Set up GUI
 
@@ -77,7 +87,9 @@ function Game:enter(previous, data)
             spriteRescueCounter = SpriteRescueCounter()
         end
 
-        spriteRescueCounter:setRescueSpriteCount(botRescueCount)
+        -- Set Save count
+
+        spriteRescueCounter:setRescueSpriteCount(levelData.saveCount or botsToRescueCountDefault)
     end
 
     -- This should run only once to initialize the game instance.
@@ -120,14 +132,15 @@ function Game:enter(previous, data)
 
     -- Load level --
 
-    currentLevelName = level and level.name or initialLevelName
-    local levelBounds = level and level.bounds or LDtk.get_rect(currentLevelName)
-
     if not isCheckpointRevert then
         self.checkpointHandler:pushState({ levelName = currentLevelName })
     end
 
+    -- Load level layers
+
     LDtk.loadAllLayersAsSprites(currentLevelName)
+
+    -- Load level sprites
 
     LDtk.loadAllEntitiesAsSprites(currentLevelName)
 
