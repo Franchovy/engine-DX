@@ -13,7 +13,7 @@ local timer <const> = playdate.timer
 
 -- Playdate config
 
-local fontDefault = gfx.font.new("assets/fonts/m42.TTF-7")
+local fontDefault = gfx.font.new("assets/fonts/diamond_12")
 gfx.setFont(fontDefault)
 
 gfx.setBackgroundColor(0)
@@ -45,7 +45,6 @@ local function updateDeltaTime()
 end
 
 function playdate.update()
-
   updateDeltaTime()
 
   -- Safeguard against large delta_times (happens when loading)

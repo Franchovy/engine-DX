@@ -48,7 +48,6 @@ end
 Dialog = Class("Dialog", AnimatedSprite)
 
 function Dialog:init(entity)
-
     -- Load image based on rescuable & entity ID
 
     local imagetable
@@ -131,7 +130,8 @@ function Dialog:init(entity)
                 end
 
                 -- Add line to dialog lines
-                table.insert(dialog.lines, text)
+                table.insert(dialog.lines, text) -- Unchanged Case
+                -- table.insert(dialog.lines, string.upper(text)) -- UPPERCASE
             end
 
             -- Add dialog height based on num. lines
@@ -176,7 +176,6 @@ end
 function Dialog:updateDialog()
     -- If line is greater than current lines, mimic collapse.
     if self.isStateExpanded and not (self.currentLine > #self.dialogs) then
-
         -- Update sprite size using dialog size
 
         local dialog = self.dialogs[self.currentLine]
@@ -244,7 +243,6 @@ function Dialog:expand()
 end
 
 function Dialog:collapse()
-
     -- Hide speech bubble
     self.spriteBubble:remove()
     self.isStateExpanded = false
