@@ -366,6 +366,10 @@ function Player:update()
     if activeDialog then
         activeDialog:activate()
 
+        if playdate:buttonJustPressed(playdate.kButtonB) then
+            activeDialog:showNextLine()
+        end
+
         -- Consume variable
         activeDialog = nil
     end
