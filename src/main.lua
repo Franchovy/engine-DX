@@ -28,11 +28,11 @@ manager:hook()
 -- Open Menu (& save reference)
 
 manager.scenes = {
-  start = Start(),
-  menu = Menu()
+  menu = Menu(),
+  levelSelect = LevelSelect()
 }
 
-manager:enter(manager.scenes.start)
+manager:enter(manager.scenes.menu)
 
 local last_time = 0
 

@@ -36,7 +36,7 @@ end
 -- Private Methods
 
 local function goToStart()
-    sceneManager:enter(sceneManager.scenes.start)
+    sceneManager:enter(sceneManager.scenes.menu)
 end
 
 -- Instance methods
@@ -298,7 +298,7 @@ function Game:checkpointRevert()
         -- If all bots have been rescued, then finish the level.
 
         self.timerEndSceneTransition = playdate.timer.performAfterDelay(3000, function()
-            sceneManager:enter(sceneManager.scenes.menu)
+            sceneManager:enter(sceneManager.scenes.levelSelect)
         end)
     end
 end
