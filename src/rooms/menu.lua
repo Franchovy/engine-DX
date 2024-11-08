@@ -4,18 +4,18 @@ local gfx <const> = pd.graphics
 
 -- Constants / Assets
 
-local imageSpriteTitle <const> = gfx.image.new("assets/images/title"):invertedImage()
 local imageSpriteRobot <const> = gfx.imagetable.new(assets.imageTables.player)
+local imageTitle <const> = gfx.image.new(assets.images.menu.title)
+local imageButtonAStart <const> = assert(gfx.image.new(assets.images.menu.buttonAStart))
+local imageButtonAContinue <const> = assert(gfx.image.new(assets.images.menu.buttonAContinue))
+local imageButtonBLevelSelect <const> = assert(gfx.image.new(assets.images.menu.buttonBLevelSelect))
 local spButton = assert(sound.sampleplayer.new(assets.sounds.menuSelect))
 
 -- Local Variables
 
-local spriteTitle
 local spriteRobot
-local spriteContinueButton
-local spriteSelectLevelButton
 local sceneManager
-
+local isFirstTimePlay
 
 local timerTitleAnimation
 local blinkerPressStart
@@ -34,135 +34,44 @@ function Menu:enter(previous)
     FilePlayer.play(assets.music.menu)
   end
 
-  local isFirstTimePlay = MemoryCard.getLastPlayed() == nil
+  isFirstTimePlay = MemoryCard.getLastPlayed() == nil
 
-  -- Draw background sprites
-
-  spriteTitle = gfx.sprite.new(imageSpriteTitle)
-  spriteTitle:add()
-  spriteTitle:moveTo(200, 70)
+  -- Draw player sprite
 
   spriteRobot = AnimatedSprite.new(imageSpriteRobot)
   spriteRobot:addState("placeholder-name", 9, 12, { tickStep = 2 }).asDefault()
   spriteRobot:add()
-  spriteRobot:moveTo(200, 130)
+  spriteRobot:moveTo(200, 160)
   spriteRobot:playAnimation()
-
-  spriteContinueButton = gfx.sprite.new()
-
-  if isFirstTimePlay then
-    self:setStartLabelText("PRESS A TO START")
-  else
-    self:setStartLabelText("PRESS A TO CONTINUE")
-  end
-
-  spriteContinueButton:add()
-  spriteContinueButton:moveTo(200, 180)
-
-  if not isFirstTimePlay then
-    spriteSelectLevelButton = gfx.sprite.new()
-    self:setSecondaryLabelText("PRESS B TO SELECT LEVEL")
-    spriteSelectLevelButton:add()
-    spriteSelectLevelButton:moveTo(200, 200)
-  end
 
   -- Reset draw offset
 
   gfx.setDrawOffset(0, 0)
-
-  -- Little fancy animation(s)
-
-  local animationOffset = 10
-  local showDelay = 15
-  local hideDelay = 5
-  local loopDelay = 2000
-
-  timerTitleAnimation = playdate.timer.new(loopDelay, function()
-    spriteTitle:remove()
-
-    -- Title animation
-
-    playdate.timer.performAfterDelay(hideDelay, function()
-      if not timerTitleAnimation then return end -- escape if scene has exited
-
-      spriteTitle:moveBy(-animationOffset, animationOffset)
-      spriteTitle:add()
-
-      playdate.timer.performAfterDelay(showDelay, function()
-        spriteTitle:remove()
-
-        playdate.timer.performAfterDelay(hideDelay, function()
-          if not timerTitleAnimation then return end -- escape if scene has exited
-
-          spriteTitle:moveBy(animationOffset * 2, -animationOffset * 2)
-          spriteTitle:add()
-
-          playdate.timer.performAfterDelay(showDelay, function()
-            spriteTitle:remove()
-
-            playdate.timer.performAfterDelay(hideDelay, function()
-              if not timerTitleAnimation then return end -- escape if scene has exited
-
-              spriteTitle:moveBy(-animationOffset, animationOffset)
-              spriteTitle:add()
-            end)
-          end)
-        end)
-      end)
-    end)
-  end)
-
-  timerTitleAnimation.repeats = true
-
-  -- Press start button blinker
-
-  blinkerPressStart = gfx.animation.blinker.new(1200, 80, true)
-  blinkerPressStart:startLoop()
 end
 
-function Menu:setStartLabelText(text)
-  assert(text and type(text) == "string")
+function Menu:draw()
+  -- Draw Title Image
+  imageTitle:drawAnchored(200, 20, 0.5, 0)
 
-  local textImage = gfx.imageWithText(text, 300, 80, nil, nil, nil, kTextAlignment.center)
-
-  spriteContinueButton:setImage(textImage:invertedImage())
-end
-
-function Menu:setSecondaryLabelText(text)
-  if not spriteSelectLevelButton then
-    return
+  -- Draw Button Images
+  if isFirstTimePlay then
+    imageButtonAStart:drawAnchored(30, 216, 0, 1)
+  else
+    imageButtonAContinue:drawAnchored(30, 216, 0, 1)
+    imageButtonBLevelSelect:drawAnchored(370, 216, 1, 1)
   end
-
-  assert(text and type(text) == "string")
-
-  local textImage = gfx.imageWithText(text, 300, 120, nil, nil, nil, kTextAlignment.center)
-
-  spriteSelectLevelButton:setImage(textImage:invertedImage())
 end
 
 function Menu:leave(next, ...)
   -- destroy entities and cleanup resources
 
-  spriteTitle:remove()
   spriteRobot:remove()
-  spriteContinueButton:remove()
-
-  if spriteSelectLevelButton then
-    spriteSelectLevelButton:remove()
-  end
 
   -- Music
 
   if next.super.className == "Game" then
     FilePlayer.stop()
   end
-
-  -- Start animation timer
-
-  timerTitleAnimation:remove()
-  blinkerPressStart:remove()
-
-  timerTitleAnimation = nil
 end
 
 function Menu:AButtonDown()

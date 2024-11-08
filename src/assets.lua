@@ -8,6 +8,12 @@ _G.assets = {
         speech = "assets/images/speech",
         elevator = "assets/images/elevator",
         box = "assets/images/box",
+        menu = {
+            buttonAStart = "assets/images/menu/A-Start",
+            buttonAContinue = "assets/images/menu/A-Continue",
+            buttonBLevelSelect = "assets/images/menu/B-LevelSelect",
+            title = "assets/images/menu/title"
+        }
     },
     imageTables = {
         buttons = "assets/images/buttons",
