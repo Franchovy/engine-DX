@@ -67,6 +67,7 @@ class("Player").extends(AnimatedSprite)
 local _instance
 
 function Player.getInstance() return _instance end
+
 function Player.destroy() _instance = nil end
 
 function Player:init(entity)
@@ -233,7 +234,7 @@ function Player:handleCollision(collisionData)
     local tag = other:getTag()
 
     -- If Drilling
-    if tag == TAGS.DrillableBlock and self:isMovingDown() and collisionData.normal.y == -1  then
+    if tag == TAGS.DrillableBlock and self:isMovingDown() and collisionData.normal.y == -1 then
         -- Play drilling sound
         if not spDrill:isPlaying() then
             spDrill:play(1)
@@ -305,7 +306,6 @@ function Player:update()
 
     -- Skip movement handling if timer cooldown is active
     if not self.crankWarpController:isActive() then
-
         -- Movement handling (update velocity X and Y)
 
         -- Velocity X
@@ -441,7 +441,6 @@ function Player:update()
 end
 
 function Player:updateCamera()
-
     -- Camera Movement
 
     local playerX, playerY = self.x, self.y
@@ -453,7 +452,6 @@ function Player:updateCamera()
     local cameraOffsetY = math.max(math.min(idealY, levelHeight - 240), 0)
 
     gfx.setDrawOffset(-cameraOffsetX + levelOffsetX, -cameraOffsetY + levelOffsetY)
-
 end
 
 function Player:revertCheckpoint()
@@ -504,7 +502,7 @@ function Player:pickUpBlueprint(blueprint)
 
     -- Update checkpoints
 
-    Manager.emitEvent(EVENTS.CheckpointIncrement)
+    --Manager.emitEvent(EVENTS.CheckpointIncrement)
 end
 
 function Player:enterLevel(direction, levelBounds)
