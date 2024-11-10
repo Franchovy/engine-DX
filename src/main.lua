@@ -13,7 +13,7 @@ local timer <const> = playdate.timer
 
 -- Playdate config
 
-local fontDefault = gfx.font.new("assets/fonts/diamond_12")
+local fontDefault = gfx.font.new(assets.fonts.dialog)
 gfx.setFont(fontDefault)
 
 gfx.setBackgroundColor(0)

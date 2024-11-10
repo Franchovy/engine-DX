@@ -65,6 +65,11 @@ function Game:enter(previous, data)
     local level = data.level
     local isCheckpointRevert = data.isCheckpointRevert
 
+    -- Set Font
+
+    local fontDefault = gfx.font.new(assets.fonts.dialog)
+    gfx.setFont(fontDefault)
+
     -- Load rescuable bot array
 
     -- Get current level

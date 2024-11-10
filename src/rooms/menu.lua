@@ -28,6 +28,13 @@ function Menu:enter(previous)
   -- Set sceneManager reference
   sceneManager = self.manager
 
+  -- Set font
+
+  local fontDefault = gfx.font.new(assets.fonts.menu)
+  gfx.setFont(fontDefault)
+
+  -- Set Music
+
   local shouldEnableMusic = MemoryCard.getShouldEnableMusic()
 
   if not FilePlayer.isPlaying() and shouldEnableMusic then

@@ -2,6 +2,10 @@ _G.assets = {
     path = {
         levels = "assets/levels/",
     },
+    fonts = {
+        dialog = "assets/fonts/diamond_12",
+        menu = "assets/fonts/m42.TTF-7"
+    },
     images = {
         tileset = "assets/images/tileset",
         hudPanel = "assets/images/hud-panel",
