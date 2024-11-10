@@ -197,7 +197,7 @@ function Game:leave(next, ...)
 
     --
 
-    if next.super.className == "Start" or next.super.className == "Menu" then
+    if next.super.class == Menu or next.super.class == LevelSelect then
         -- Remove end timer
 
         if timerEndSceneTransition then
@@ -261,7 +261,7 @@ end
 
 function Game:botRescued(bot, botNumber)
     local spriteRescueCounter = SpriteRescueCounter.getInstance()
-    spriteRescueCounter:setSpriteRescued(botNumber)
+    spriteRescueCounter:setSpriteRescued(botNumber, bot.fields.spriteNumber)
 
     if spriteRescueCounter:isAllSpritesRescued() then
         -- Add on-screen text

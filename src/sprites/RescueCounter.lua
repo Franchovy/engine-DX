@@ -3,13 +3,22 @@ local gfx <const> = playdate.graphics
 -- bot rescue counter
 
 local imagetableSprite <const> = assert(gfx.imagetable.new(assets.imageTables.guiRescueBots))
+local imageSpriteRescued <const> = {
+    [1] = assert(gfx.image.new(assets.images.botFaces[1])),
+    [2] = assert(gfx.image.new(assets.images.botFaces[2])),
+    [3] = assert(gfx.image.new(assets.images.botFaces[3])),
+    [4] = assert(gfx.image.new(assets.images.botFaces[4])),
+    [5] = assert(gfx.image.new(assets.images.botFaces[5])),
+    [6] = assert(gfx.image.new(assets.images.botFaces[6])),
+    [7] = assert(gfx.image.new(assets.images.botFaces[7])),
+}
 local padding <const> = 3
 
 local maxSpriteCounters <const> = 16
 local spriteCounters <const> = {}
 
 local function isSet(self)
-    return self:getImage() == imagetableSprite[2]
+    return self:getImage() ~= imagetableSprite[1]
 end
 
 ---@class CrankWarpController: playdate.graphics.sprite
@@ -18,6 +27,7 @@ SpriteRescueCounter = Class("SpriteRescueCounter", gfx.sprite)
 local _instance
 
 function SpriteRescueCounter.getInstance() return _instance end
+
 function SpriteRescueCounter.destroy() _instance = nil end
 
 function SpriteRescueCounter:init()
@@ -27,7 +37,7 @@ function SpriteRescueCounter:init()
 
     local image = imagetableSprite[1]
     local spriteWidth = image:getSize()
-    for i=1,maxSpriteCounters do
+    for i = 1, maxSpriteCounters do
         local spriteCounter = gfx.sprite.new(image)
 
         -- Sprite config for
@@ -49,7 +59,7 @@ end
 function SpriteRescueCounter:add()
     SpriteRescueCounter.super.add(self)
 
-    for i=1,self.rescueSpriteCount do
+    for i = 1, self.rescueSpriteCount do
         spriteCounters[i]:add()
     end
 end
@@ -57,7 +67,7 @@ end
 function SpriteRescueCounter:remove()
     SpriteRescueCounter.super.remove(self)
 
-    for i=1,self.rescueSpriteCount do
+    for i = 1, self.rescueSpriteCount do
         spriteCounters[i]:remove()
     end
 end
@@ -78,12 +88,13 @@ function SpriteRescueCounter:setRescueSpriteCount(count)
     end
 end
 
-function SpriteRescueCounter:setSpriteRescued(number)
-    spriteCounters[self.rescueSpriteCount - number + 1]:setImage(imagetableSprite[2])
+function SpriteRescueCounter:setSpriteRescued(number, spriteImageIndex)
+    local imageRescued = imageSpriteRescued[spriteImageIndex]
+    spriteCounters[self.rescueSpriteCount - number + 1]:setImage(imageRescued)
 end
 
 function SpriteRescueCounter:isAllSpritesRescued()
-    for i=1,self.rescueSpriteCount do
+    for i = 1, self.rescueSpriteCount do
         if not spriteCounters[i]:isSet() then
             return false
         end
