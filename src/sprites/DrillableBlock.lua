@@ -31,6 +31,8 @@ function DrillableBlock:activate()
         spListBlockCrush[index]:play()
 
         self:consume()
+
+        return true
     else
         self.ticksToDrill += 1
 

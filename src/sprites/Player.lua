@@ -339,7 +339,11 @@ function Player:update()
         if self.isActivatingDrillableBlock then
             -- Activate block drilling
 
-            self.isActivatingDrillableBlock:activate()
+            local isConsumed = self.isActivatingDrillableBlock:activate()
+
+            if isConsumed then
+                spDrill:stop()
+            end
 
             -- Move player to Center on top of the drilled block
 
