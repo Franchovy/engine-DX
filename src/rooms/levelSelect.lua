@@ -59,8 +59,9 @@ function LevelSelect:AButtonDown()
 
   local level = self.gridView:getSelectedLevel()
   if level then
-    LDtk.load(assets.path.levels .. level .. ".ldtk")
     spButton:play(1)
+
+    LDtk.load(assets.path.levels .. level .. ".ldtk")
     MemoryCard.setLastPlayed(level)
 
     sceneManager.scenes.currentGame = Game()
