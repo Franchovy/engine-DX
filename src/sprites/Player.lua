@@ -707,6 +707,8 @@ function Player:isKeyPressedGated(key)
         end
     end
     if pd.buttonJustPressed(key) then
+        screenShake(3, 5)
+
         spError:play(1)
     end
     return false
