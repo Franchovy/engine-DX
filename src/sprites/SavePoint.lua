@@ -1,7 +1,7 @@
 local gfx <const> = playdate.graphics
 
 local imageTableSprite <const> = gfx.imagetable.new(assets.imageTables.guiRescueBots)
-local spWin <const> = playdate.sound.sampleplayer.new(assets.sounds.win)
+local spWin <const> = playdate.sound.sampleplayer.new(assets.sounds.savepointActivate)
 local spError <const> = playdate.sound.sampleplayer.new(assets.sounds.errorSavePoint)
 
 ---@class SavePont: playdate.graphics.sprite
@@ -94,7 +94,7 @@ function SavePoint:isMatchBlueprints(blueprints)
     local isMatchBlueprints = #blueprints == #self.blueprints
 
     if isMatchBlueprints then
-        for i,blueprint in ipairs(self.blueprints) do
+        for i, blueprint in ipairs(self.blueprints) do
             isMatchBlueprints = isMatchBlueprints and blueprints[i] == blueprint
         end
     end

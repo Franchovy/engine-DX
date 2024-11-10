@@ -8,7 +8,7 @@ local gfx <const> = pd.graphics
 local imagetablePlayer <const> = gfx.imagetable.new(assets.imageTables.player)
 local spJump <const> = sound.sampleplayer.new("assets/sfx/Jump")
 local spError <const> = sound.sampleplayer.new(assets.sounds.errorAction)
-local spDrill <const> = sound.sampleplayer.new("assets/sfx/drill-start")
+local spDrill <const> = sound.sampleplayer.new(assets.sounds.drill)
 local spCollect <const> = sound.sampleplayer.new("assets/sfx/Collect")
 
 -- Level Bounds for camera movement (X,Y coords areas in global (world) coordinates)
@@ -30,6 +30,10 @@ local timerCooldownCheckpoint
 -- Boolean to keep overlapping with GUI state
 
 local isOverlappingWithGUI = false
+
+-- Animation state flip handling
+
+local isFlipAnimation = 0
 
 --
 
@@ -347,6 +351,10 @@ function Player:update()
             )
         end
 
+        if playdate.buttonJustReleased(playdate.kButtonDown) then
+            spDrill:stop()
+        end
+
         -- Reset update variables before update
 
         self.isActivatingElevator = false
@@ -578,8 +586,6 @@ end
 
 -- Animation Handling
 
-local flip
-
 function Player:updateAnimationState()
     local animationState
     local velocity = self.rigidBody:getCurrentVelocity()
@@ -600,10 +606,12 @@ function Player:updateAnimationState()
     -- Handle direction (flip)
 
     if velocity.dx < 0 then
-        self.states[animationState].flip = 1
+        isFlipAnimation = 1
     elseif velocity.dx > 0 then
-        self.states[animationState].flip = 0
+        isFlipAnimation = 0
     end
+
+    self.states[animationState].flip = isFlipAnimation
 
     self:changeState(animationState)
 end

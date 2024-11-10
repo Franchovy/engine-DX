@@ -1,6 +1,12 @@
 local gfx <const> = playdate.graphics
 
 local imageSprite = gfx.image.new("assets/images/drillableblock")
+local spListBlockCrush = {
+    [1] = playdate.sound.sampleplayer.new(assets.sounds.blockCrush[1]),
+    [2] = playdate.sound.sampleplayer.new(assets.sounds.blockCrush[2]),
+    [3] = playdate.sound.sampleplayer.new(assets.sounds.blockCrush[3]),
+    [4] = playdate.sound.sampleplayer.new(assets.sounds.blockCrush[4])
+}
 
 class("DrillableBlock").extends(ConsumableSprite)
 
@@ -21,6 +27,9 @@ end
 
 function DrillableBlock:activate()
     if self.ticksToDrill >= maxTicksToDrill then
+        local index = math.random(1, 4)
+        spListBlockCrush[index]:play()
+
         self:consume()
     else
         self.ticksToDrill += 1

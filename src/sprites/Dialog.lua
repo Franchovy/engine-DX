@@ -11,7 +11,7 @@ local spSpeech <const> = playdate.sound.sampleplayer.new(assets.sounds.speech)
 -- Constants
 
 local defaultSize <const> = 16
-local textMarginX <const>, textMarginY <const> = 10, 2
+local textMarginX <const>, textMarginY <const> = 10, 4
 local durationDialog <const> = 3000
 local collideRectSize <const> = 90
 local yOffset <const> = 16

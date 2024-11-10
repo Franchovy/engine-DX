@@ -77,7 +77,7 @@ function Game:enter(previous, data)
     if data.isInitialLoad then
         -- Load level fields (used only on the initial level)
 
-        local levelData = LDtk.get_custom_data(currentLevelName)
+        local levelData = LDtk.get_custom_data(currentLevelName) or {}
 
         -- Set up GUI
 

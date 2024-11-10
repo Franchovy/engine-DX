@@ -35,7 +35,6 @@ _G.assets = {
     },
     sounds = {
         speech = "assets/sfx/speech",
-        win = "assets/sfx/Win",
         errorAction = "assets/sfx/error-action",
         errorSavePoint = "assets/sfx/error-save-point",
         menuSelect = "assets/sfx/menu-select",
@@ -45,7 +44,15 @@ _G.assets = {
             [3] = "assets/sfx/robot-save-3"
         },
         warpAmbient = "assets/sfx/warp-ambient",
-        warpAction = "assets/sfx/warp-action"
+        warpAction = "assets/sfx/warp-action",
+        savepointActivate = "assets/sfx/savepoint-activate",
+        blockCrush = {
+            [1] = "assets/sfx/block-crush-1",
+            [2] = "assets/sfx/block-crush-2",
+            [3] = "assets/sfx/block-crush-3",
+            [4] = "assets/sfx/block-crush-4",
+        },
+        drill = "assets/sfx/drill",
     },
     music = {
         game = "assets/music/world_1",

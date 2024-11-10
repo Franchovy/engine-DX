@@ -77,6 +77,15 @@ end
 function Menu:AButtonDown()
   local levelFile = MemoryCard.getLastPlayed()
 
+  if levelFile then
+    -- Check if level file exists (useful while game is WIP)
+    local filepathLevel = assets.path.levels .. levelFile .. ".ldtk"
+
+    if not playdate.file.exists(filepathLevel) then
+      levelFile = nil
+    end
+  end
+
   if not levelFile then
     -- Start with first level
     local levels = ReadFile.getLevelFiles()
@@ -85,7 +94,9 @@ function Menu:AButtonDown()
   end
 
   if levelFile then
-    LDtk.load(assets.path.levels .. levelFile .. ".ldtk")
+    local filepathLevel = assets.path.levels .. levelFile .. ".ldtk"
+
+    LDtk.load(filepathLevel)
     spButton:play(1)
     MemoryCard.setLastPlayed(levelFile)
 
