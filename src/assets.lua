@@ -29,6 +29,7 @@ _G.assets = {
         }
     },
     imageTables = {
+        questionMark = "assets/images/questionmark",
         buttons = "assets/images/buttons",
         menuArrows = "assets/images/menu-arrows",
         player = "assets/images/player",

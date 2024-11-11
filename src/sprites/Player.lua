@@ -1,4 +1,5 @@
 import "player/crank"
+import "player/questionMark"
 
 local pd <const> = playdate
 local sound <const> = pd.sound
@@ -99,6 +100,9 @@ function Player:init(entity)
     self.isActivatingDrillableBlock = false
     self.isActivatingElevator = false
 
+    self.shakeX = 0
+    self.shakeY = 0
+
     -- Setup keys array and starting keys
 
     self.blueprints = {}
@@ -125,6 +129,10 @@ function Player:init(entity)
     self.crankWarpController = CrankWarpController()
 
     self.latestCheckpointPosition = gmt.point.new(self.x, self.y)
+
+    -- Add question mark
+
+    self.questionMark = PlayerQuestionMark(self)
 end
 
 function Player:postInit()
@@ -299,6 +307,10 @@ function Player:update()
     -- Sprite update
 
     Player.super.update(self)
+
+    -- Update question mark
+
+    self.questionMark:update()
 
     -- Checkpoint Handling
 
@@ -711,7 +723,8 @@ function Player:isKeyPressedGated(key)
         end
     end
     if pd.buttonJustPressed(key) then
-        screenShake(3, 5)
+        self.questionMark:play()
+        screenShake(3, 1)
 
         spError:play(1)
     end

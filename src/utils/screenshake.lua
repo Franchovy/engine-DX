@@ -10,8 +10,9 @@ function screenShake(shakeTime, shakeMagnitude)
         -- Using the timer value, so the shaking magnitude
         -- gradually decreases over time
         local magnitude = math.floor(timer.value)
-        local shakeX = math.random(-magnitude, magnitude)
-        local shakeY = math.random(-magnitude, magnitude)
+        local angle = math.random() * 2 * math.pi
+        local shakeX = math.cos(angle) * magnitude
+        local shakeY = math.sin(angle) * magnitude
         playdate.display.setOffset(shakeX, shakeY)
     end
     -- Resetting the display offset at the end of the screen shake
