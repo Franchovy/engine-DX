@@ -36,6 +36,7 @@ _G.assets = {
         elevatorTrack = "assets/images/elevator-track",
         warp = "assets/images/warp",
         guiRescueBots = "assets/images/gui-rescued-bots",
+        particlesDrilling = "assets/images/particles-drilling",
         bots = {
             helper = "assets/images/bots/A",
             [1] = "assets/images/bots/B",

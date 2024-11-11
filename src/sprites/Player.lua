@@ -1,5 +1,6 @@
 import "player/crank"
 import "player/questionMark"
+import "player/particlesDrilling"
 
 local pd <const> = playdate
 local sound <const> = pd.sound
@@ -100,9 +101,6 @@ function Player:init(entity)
     self.isActivatingDrillableBlock = false
     self.isActivatingElevator = false
 
-    self.shakeX = 0
-    self.shakeY = 0
-
     -- Setup keys array and starting keys
 
     self.blueprints = {}
@@ -124,15 +122,13 @@ function Player:init(entity)
 
     self.rigidBody = RigidBody(self, rigidBodyConfig)
 
-    -- Add Crank controller
-
-    self.crankWarpController = CrankWarpController()
-
     self.latestCheckpointPosition = gmt.point.new(self.x, self.y)
 
-    -- Add question mark
+    -- Add child animation sprites
 
+    self.crankWarpController = CrankWarpController()
     self.questionMark = PlayerQuestionMark(self)
+    self.particlesDrilling = PlayerParticlesDrilling(self)
 end
 
 function Player:postInit()
@@ -250,6 +246,8 @@ function Player:handleCollision(collisionData)
         -- Play drilling sound
         if not spDrill:isPlaying() then
             spDrill:play(1)
+
+            self.particlesDrilling:play(other.x, other.y)
         end
 
         self.isActivatingDrillableBlock = other
@@ -355,6 +353,7 @@ function Player:update()
 
             if isConsumed then
                 spDrill:stop()
+                self.particlesDrilling:endAnimation()
             end
 
             -- Move player to Center on top of the drilled block
@@ -369,6 +368,7 @@ function Player:update()
 
         if playdate.buttonJustReleased(playdate.kButtonDown) then
             spDrill:stop()
+            self.particlesDrilling:endAnimation()
         end
 
         -- Reset update variables before update
