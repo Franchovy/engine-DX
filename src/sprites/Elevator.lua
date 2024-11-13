@@ -90,7 +90,6 @@ end
 --- If elevator is within `tileAdjustmentPx` of tile, then returns
 --- the adjustment to be exactly on that tile.
 local function getAdjustmentToTile(self)
-
   -- Get adjustment from tiles both above and below.
 
   local adjustmentDown = self.displacement % TILE_SIZE
@@ -171,7 +170,7 @@ local function updateMovement(self, movement)
 
   -- Update checkpoint state
 
-  self.checkpointHandler:pushState({displacement = self.displacement})
+  self.checkpointHandler:pushState({ displacement = self.displacement })
 
   return true
 end
@@ -191,7 +190,8 @@ function Elevator:init(entity)
 
   -- Set Displacement initial, start and end scalars (1D) based on entity fields
 
-  self.displacementInitial = (entity.fields.initialDistance or 0) * TILE_SIZE -- The initial displacement can be greater than 0.
+  self.displacementInitial = (entity.fields.initialDistance or 0) *
+  TILE_SIZE                                                                   -- The initial displacement can be greater than 0.
   self.displacementEnd = entity.fields.distance * TILE_SIZE
 
   -- RigidBody config
@@ -200,8 +200,8 @@ function Elevator:init(entity)
 
   -- Elevator-specific fields
 
-  self.speed = 5 -- Constant, but could be modified on a per-elevator basis in the future.
-  self.movement = 0 -- Update scalar for movement.
+  self.speed = 5                    -- Constant, but could be modified on a per-elevator basis in the future.
+  self.movement = 0                 -- Update scalar for movement.
   self.didActivationSuccess = false -- Update value for checking if activation was successful
 
   -- Create elevator track
@@ -210,7 +210,6 @@ function Elevator:init(entity)
 end
 
 function Elevator:postInit()
-
   -- Save initial position
 
   if self.fields.orientation == ORIENTATION.Horizontal then
@@ -244,7 +243,7 @@ function Elevator:postInit()
 end
 
 function Elevator:collisionResponse(other)
-  if other:getTag() == TAGS.Dialog or other:getTag() == TAGS.SavePoint then
+  if other:getTag() == TAGS.Dialog or other:getTag() == TAGS.SavePoint or other:getTag() == TAGS.Ability then
     return gfx.sprite.kCollisionTypeOverlap
   end
 
@@ -276,7 +275,6 @@ function Elevator:activate(sprite, key)
 
   -- If activated, set update variables for movement
   if activationMovement ~= 0 then
-
     -- Set movement update scalar
     self.movement = activationMovement
   end
