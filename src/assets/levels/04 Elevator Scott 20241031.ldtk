@@ -2929,50 +2929,13 @@
 		{ "identifier": "ElevatorOrientation", "uid": 208, "values": [ { "id": "Horizontal", "tileRect": null, "color": 16711680 }, { "id": "Vertical", "tileRect": null, "color": 1535 } ], "iconTilesetUid": null, "externalRelPath": null, "externalFileChecksum": null, "tags": [] }
 	], "externalEnums": [], "levelFields": [
 		{
-			"identifier": "HintCrank",
-			"doc": null,
-			"__type": "Bool",
-			"uid": 60,
-			"type": "F_Bool",
-			"isArray": false,
-			"canBeNull": false,
-			"arrayMinLength": null,
-			"arrayMaxLength": null,
-			"editorDisplayMode": "ValueOnly",
-			"editorDisplayScale": 1,
-			"editorDisplayPos": "Above",
-			"editorLinkStyle": "StraightArrow",
-			"editorDisplayColor": null,
-			"editorAlwaysShow": true,
-			"editorShowInWorld": true,
-			"editorCutLongValues": true,
-			"editorTextSuffix": null,
-			"editorTextPrefix": null,
-			"useForSmartColor": false,
-			"exportToToc": false,
-			"searchable": false,
-			"min": null,
-			"max": null,
-			"regex": null,
-			"acceptFileTypes": null,
-			"defaultOverride": null,
-			"textLanguageMode": null,
-			"symmetricalRef": false,
-			"autoChainRef": true,
-			"allowOutOfLevelRef": true,
-			"allowedRefs": "OnlySame",
-			"allowedRefsEntityUid": null,
-			"allowedRefTags": [],
-			"tilesetUid": null
-		},
-		{
 			"identifier": "saveCount",
 			"doc": null,
 			"__type": "Int",
 			"uid": 455,
 			"type": "F_Int",
 			"isArray": false,
-			"canBeNull": false,
+			"canBeNull": true,
 			"arrayMinLength": null,
 			"arrayMaxLength": null,
 			"editorDisplayMode": "Hidden",
@@ -3023,10 +2986,7 @@
 			"__smartColor": "#ADADB5",
 			"__bgPos": null,
 			"externalRelPath": null,
-			"fieldInstances": [
-				{ "__identifier": "HintCrank", "__type": "Bool", "__value": false, "__tile": null, "defUid": 60, "realEditorValues": [] },
-				{ "__identifier": "saveCount", "__type": "Int", "__value": 5, "__tile": null, "defUid": 455, "realEditorValues": [{ "id": "V_Int", "params": [5] }] }
-			],
+			"fieldInstances": [{ "__identifier": "saveCount", "__type": "Int", "__value": 5, "__tile": null, "defUid": 455, "realEditorValues": [{ "id": "V_Int", "params": [5] }] }],
 			"layerInstances": [
 				{
 					"__identifier": "Entities",
@@ -3356,10 +3316,7 @@
 			"__smartColor": "#ADADB5",
 			"__bgPos": null,
 			"externalRelPath": null,
-			"fieldInstances": [
-				{ "__identifier": "HintCrank", "__type": "Bool", "__value": false, "__tile": null, "defUid": 60, "realEditorValues": [] },
-				{ "__identifier": "saveCount", "__type": "Int", "__value": 0, "__tile": null, "defUid": 455, "realEditorValues": [] }
-			],
+			"fieldInstances": [{ "__identifier": "saveCount", "__type": "Int", "__value": null, "__tile": null, "defUid": 455, "realEditorValues": [] }],
 			"layerInstances": [
 				{
 					"__identifier": "Entities",
@@ -4062,10 +4019,7 @@
 			"__smartColor": "#ADADB5",
 			"__bgPos": null,
 			"externalRelPath": null,
-			"fieldInstances": [
-				{ "__identifier": "HintCrank", "__type": "Bool", "__value": false, "__tile": null, "defUid": 60, "realEditorValues": [] },
-				{ "__identifier": "saveCount", "__type": "Int", "__value": 0, "__tile": null, "defUid": 455, "realEditorValues": [] }
-			],
+			"fieldInstances": [{ "__identifier": "saveCount", "__type": "Int", "__value": null, "__tile": null, "defUid": 455, "realEditorValues": [] }],
 			"layerInstances": [
 				{
 					"__identifier": "Entities",
@@ -4322,10 +4276,7 @@
 			"__smartColor": "#ADADB5",
 			"__bgPos": null,
 			"externalRelPath": null,
-			"fieldInstances": [
-				{ "__identifier": "HintCrank", "__type": "Bool", "__value": false, "__tile": null, "defUid": 60, "realEditorValues": [] },
-				{ "__identifier": "saveCount", "__type": "Int", "__value": 0, "__tile": null, "defUid": 455, "realEditorValues": [] }
-			],
+			"fieldInstances": [{ "__identifier": "saveCount", "__type": "Int", "__value": null, "__tile": null, "defUid": 455, "realEditorValues": [] }],
 			"layerInstances": [
 				{
 					"__identifier": "Entities",
@@ -5142,10 +5093,7 @@
 			"__smartColor": "#ADADB5",
 			"__bgPos": null,
 			"externalRelPath": null,
-			"fieldInstances": [
-				{ "__identifier": "HintCrank", "__type": "Bool", "__value": false, "__tile": null, "defUid": 60, "realEditorValues": [] },
-				{ "__identifier": "saveCount", "__type": "Int", "__value": 0, "__tile": null, "defUid": 455, "realEditorValues": [] }
-			],
+			"fieldInstances": [{ "__identifier": "saveCount", "__type": "Int", "__value": null, "__tile": null, "defUid": 455, "realEditorValues": [] }],
 			"layerInstances": [
 				{
 					"__identifier": "Entities",
@@ -5413,10 +5361,7 @@
 			"__smartColor": "#ADADB5",
 			"__bgPos": null,
 			"externalRelPath": null,
-			"fieldInstances": [
-				{ "__identifier": "HintCrank", "__type": "Bool", "__value": false, "__tile": null, "defUid": 60, "realEditorValues": [] },
-				{ "__identifier": "saveCount", "__type": "Int", "__value": 0, "__tile": null, "defUid": 455, "realEditorValues": [] }
-			],
+			"fieldInstances": [{ "__identifier": "saveCount", "__type": "Int", "__value": null, "__tile": null, "defUid": 455, "realEditorValues": [] }],
 			"layerInstances": [
 				{
 					"__identifier": "Entities",
@@ -6278,10 +6223,7 @@
 			"__smartColor": "#ADADB5",
 			"__bgPos": null,
 			"externalRelPath": null,
-			"fieldInstances": [
-				{ "__identifier": "HintCrank", "__type": "Bool", "__value": false, "__tile": null, "defUid": 60, "realEditorValues": [] },
-				{ "__identifier": "saveCount", "__type": "Int", "__value": 0, "__tile": null, "defUid": 455, "realEditorValues": [] }
-			],
+			"fieldInstances": [{ "__identifier": "saveCount", "__type": "Int", "__value": null, "__tile": null, "defUid": 455, "realEditorValues": [] }],
 			"layerInstances": [
 				{
 					"__identifier": "Entities",
@@ -7345,10 +7287,7 @@
 			"__smartColor": "#ADADB5",
 			"__bgPos": null,
 			"externalRelPath": null,
-			"fieldInstances": [
-				{ "__identifier": "HintCrank", "__type": "Bool", "__value": false, "__tile": null, "defUid": 60, "realEditorValues": [] },
-				{ "__identifier": "saveCount", "__type": "Int", "__value": 0, "__tile": null, "defUid": 455, "realEditorValues": [] }
-			],
+			"fieldInstances": [{ "__identifier": "saveCount", "__type": "Int", "__value": null, "__tile": null, "defUid": 455, "realEditorValues": [] }],
 			"layerInstances": [
 				{
 					"__identifier": "Entities",
@@ -7564,10 +7503,7 @@
 			"__smartColor": "#ADADB5",
 			"__bgPos": null,
 			"externalRelPath": null,
-			"fieldInstances": [
-				{ "__identifier": "HintCrank", "__type": "Bool", "__value": false, "__tile": null, "defUid": 60, "realEditorValues": [] },
-				{ "__identifier": "saveCount", "__type": "Int", "__value": 0, "__tile": null, "defUid": 455, "realEditorValues": [] }
-			],
+			"fieldInstances": [{ "__identifier": "saveCount", "__type": "Int", "__value": null, "__tile": null, "defUid": 455, "realEditorValues": [] }],
 			"layerInstances": [
 				{
 					"__identifier": "Entities",
