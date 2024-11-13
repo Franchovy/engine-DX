@@ -181,6 +181,10 @@ function Dialog:updateDialog()
         local dialog = self.dialogs[self.currentLine]
 
         -- Set timer to handle next line / collapse
+        if self.timer then
+            self.timer:remove()
+        end
+
         self.timer = playdate.timer.performAfterDelay(durationDialog, self.showNextLine, self)
 
         -- Update child sprite dialog
@@ -202,6 +206,9 @@ end
 function Dialog:showNextLine()
     -- Show next line
     self.currentLine += 1
+
+    -- Reset timer
+    self.timer:reset()
 end
 
 --- Called from the player class on collide.
