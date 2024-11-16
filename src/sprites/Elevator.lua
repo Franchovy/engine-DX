@@ -190,8 +190,8 @@ function Elevator:init(entity)
 
   -- Set Displacement initial, start and end scalars (1D) based on entity fields
 
-  self.displacementInitial = (entity.fields.initialDistance or 0) *
-  TILE_SIZE                                                                   -- The initial displacement can be greater than 0.
+  -- The initial displacement can be greater than 0.
+  self.displacementInitial = (entity.fields.initialDistance or 0) * TILE_SIZE
   self.displacementEnd = entity.fields.distance * TILE_SIZE
 
   -- RigidBody config
@@ -210,6 +210,8 @@ function Elevator:init(entity)
 end
 
 function Elevator:postInit()
+  self:setCollideRect(0, 16, 32, 16)
+
   -- Save initial position
 
   if self.fields.orientation == ORIENTATION.Horizontal then
