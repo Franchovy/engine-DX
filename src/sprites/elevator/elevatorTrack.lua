@@ -29,8 +29,9 @@ function ElevatorTrack:init(trackLengthInTiles, orientation)
     -- Create tilemap data using length
     local dataTilemap = table.create(numberOfTiles, 0)
 
-    for i=1,numberOfTiles do
-        local tileID = i == 1 and TILE_ID[orientation].START or i == numberOfTiles and TILE_ID[orientation].END or TILE_ID[orientation].BODY
+    for i = 1, numberOfTiles do
+        local tileID = i == 1 and TILE_ID[orientation].START or i == numberOfTiles and TILE_ID[orientation].END or
+            TILE_ID[orientation].BODY
 
         table.insert(dataTilemap, tileID)
     end
@@ -53,7 +54,7 @@ function ElevatorTrack:init(trackLengthInTiles, orientation)
         self:setSize(TILE_SIZE * numberOfTiles, TILE_SIZE)
     end
 
-    self:setZIndex(0)
+    self:setZIndex(Z_INDEX.Level.Background)
 end
 
 function ElevatorTrack:setInitialPosition(initialPosition)

@@ -45,7 +45,7 @@ function SpriteRescueCounter:init()
         spriteCounter:setCenter(0, 0)
         spriteCounter:moveTo(400 - i * (spriteWidth + padding), padding)
         spriteCounter:setIgnoresDrawOffset(true)
-        spriteCounter:setZIndex(100)
+        spriteCounter:setZIndex(Z_INDEX.HUD.Main)
 
         -- Provide helper function for checking if state set or not set
         spriteCounter.isSet = isSet

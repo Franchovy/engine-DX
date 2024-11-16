@@ -10,7 +10,7 @@ function LDtk.loadAllLayersAsSprites(levelName, levelX, levelY)
             sprite:setTilemap(tilemap)
             sprite:setCenter(0, 0)
             sprite:moveTo(0, 0)
-            sprite:setZIndex(layer.zIndex)
+            sprite:setZIndex(Z_INDEX.Level.Walls)
             sprite:add()
 
             local solidTiles = LDtk.get_empty_tileIDs(levelName, "Solid", layerName)
@@ -59,7 +59,7 @@ function LDtk.loadAllEntitiesAsSprites(levelName)
             sprite:setCollideRect(0, 0, entity.size.width, entity.size.height)
         end
         sprite:moveTo(tileCenterX, tileCenterY)
-        sprite:setZIndex(entity.zIndex)
+        sprite:setZIndex(Z_INDEX.Level.Active)
         sprite:add()
 
         -- Give sprite references to LDtk data

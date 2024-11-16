@@ -10,7 +10,7 @@ function PlayerQuestionMark:init(player)
     PlayerQuestionMark.super.init(self)
 
     self:setSize(imagetableQuestionMark[1]:getSize())
-    self:setZIndex(100)
+    self:setZIndex(Z_INDEX.Level.Overlay)
     self:setCenter(0.5, 1.0)
 
     self.player = player

@@ -39,7 +39,7 @@ function CrankWarpController:init()
 
     self:setScale(2)
     self:add()
-    self:setZIndex(99)
+    self:setZIndex(Z_INDEX.Level.Overlay)
 
     self.state = animationStates.none
     self.index = indexesImageTableWarp[animationStates.start]
@@ -58,7 +58,6 @@ function CrankWarpController:isActive()
 end
 
 function CrankWarpController:handleCrankChange()
-
     if self.isLoopingMode and self.state == animationStates.loop then
         -- In looping mode, we keep crank momentum constant
 
@@ -73,7 +72,8 @@ function CrankWarpController:handleCrankChange()
 
         -- If in state start, apply resistance backwards.
         local resistanceCrankMomentum = (self.crankMomentum) * coefficientCrankResistance
-        local maxCrankResistance = self.state == animationStates.start and maxCrankResistanceStart or maxCrankResistanceLoop
+        local maxCrankResistance = self.state == animationStates.start and maxCrankResistanceStart or
+            maxCrankResistanceLoop
         self.crankMomentum = math.max(0, self.crankMomentum - math.min(resistanceCrankMomentum, maxCrankResistance))
     end
 
@@ -82,9 +82,9 @@ function CrankWarpController:handleCrankChange()
     if self.state == animationStates.none and self.crankMomentum > 15 then
         self.state = animationStates.start
     elseif self.state == animationStates.start then
-
         -- Update index
-        self.index = indexesImageTableWarp[animationStates.start] - math.floor(self.crankMomentum / angleCrankToWarpTotal * 30)
+        self.index = indexesImageTableWarp[animationStates.start] -
+            math.floor(self.crankMomentum / angleCrankToWarpTotal * 30)
 
         if self.index <= indexesImageTableWarp[animationStates.loop] then
             -- Transition to loop state

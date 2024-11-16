@@ -12,7 +12,7 @@ function PlayerParticlesDrilling:init(player)
     PlayerParticlesDrilling.super.init(self)
 
     self:setSize(imagetableParticles[1]:getSize())
-    self:setZIndex(1)
+    self:setZIndex(Z_INDEX.Level.Overlay)
 
     self.player = player
     self.index = 1

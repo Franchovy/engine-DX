@@ -59,12 +59,12 @@ function AbilityPanel:init()
   _instance = self
 
   self:setCenter(0, 0)
-  self:setZIndex(99)
+  self:setZIndex(Z_INDEX.HUD.Background)
   self:setIgnoresDrawOffset(true)
   self:setUpdatesEnabled(false)
 
   for _, sprite in pairs(buttonSprites) do
-    sprite:setZIndex(100)
+    sprite:setZIndex(Z_INDEX.HUD.Main)
     sprite:setIgnoresDrawOffset(true)
     sprite:setImage(imageButtonDefault)
   end

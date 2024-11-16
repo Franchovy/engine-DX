@@ -152,7 +152,6 @@ function Dialog:init(entity)
     self.spriteBubble = gfx.sprite.new()
     self.spriteBubble.draw = drawSpeechBubble
     self.spriteBubble:moveTo(self.x, self.y)
-    self.spriteBubble:setZIndex(2)
 
     -- Self state
 
@@ -169,6 +168,8 @@ function Dialog:init(entity)
 end
 
 function Dialog:postInit()
+    self.spriteBubble:setZIndex(Z_INDEX.Level.Overlay)
+
     -- Set collide rect to full size, centered on current center.
     self:setCollideRect(
         (self.width - collideRectSize) / 2,

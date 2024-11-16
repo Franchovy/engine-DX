@@ -29,6 +29,8 @@ function SavePoint:init(entity)
 end
 
 function SavePoint:postInit()
+    self:setZIndex(Z_INDEX.Level.Background)
+
     -- Update
 
     self:updateImage()
