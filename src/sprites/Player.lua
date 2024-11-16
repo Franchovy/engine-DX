@@ -202,10 +202,40 @@ function Player:enterLevel(direction, levelBounds)
         self:moveTo(x, y)
     elseif direction == DIRECTION.TOP then
         local x = self.x + (levelGXPrevious - levelGX)
-        local y = levelHeight + 15
+        local y = levelHeight - 15
 
         self:moveTo(x, y)
     end
+
+    -- Bring any parents with player (for elevator)
+
+    if self.isActivatingElevator then
+        self.isActivatingElevator:enterLevel()
+    end
+
+    -- Push level position
+    self.checkpointHandler:pushState({
+        x = self.x,
+        y = self.y,
+        blueprints = table.deepcopy(self.blueprints)
+    })
+
+    -- Set a cooldown timer to prevent key presses on enter
+
+    timerCooldownCheckpoint = playdate.timer.new(50)
+    timerCooldownCheckpoint.timerEndedCallback = function(timer)
+        timer:remove()
+
+        -- Since there can be multiple checkpoint-reverts in sequence, we want to
+        -- ensure we're not removing a timer that's not this one.
+        if timerCooldownCheckpoint == timer then
+            timerCooldownCheckpoint = nil
+        end
+    end
+
+    -- Update Camera
+
+    self:updateCamera()
 end
 
 function Player:setBlueprints(blueprints)
@@ -531,73 +561,6 @@ function Player:pickUpBlueprint(blueprint)
     -- Update checkpoints
 
     --Manager.emitEvent(EVENTS.CheckpointIncrement)
-end
-
-function Player:enterLevel(direction, levelBounds)
-    local levelGXPrevious = levelGX
-    local levelGYPrevious = levelGY
-    local levelWidthPrevious = levelWidth
-    local levelHeightPrevious = levelHeight
-
-    -- Set persisted variables
-
-    levelGX = levelBounds.x
-    levelGY = levelBounds.y
-    levelWidth = levelBounds.width
-    levelHeight = levelBounds.height
-
-    -- Set level draw offset
-
-    levelOffsetX = levelWidth < 400 and (400 - levelWidth) / 2 or 0
-    levelOffsetY = levelHeight < 240 and (240 - levelBounds.height) / 2 or 0
-
-    -- Position player based on direction of entry
-
-    if direction == DIRECTION.RIGHT then
-        local x = (levelGXPrevious + levelWidthPrevious) - levelGX + 15
-        local y = self.y + (levelGYPrevious - levelGY)
-
-        self:moveTo(x, y)
-    elseif direction == DIRECTION.LEFT then
-        local x = levelWidth - 15
-        local y = self.y + (levelGYPrevious - levelGY)
-
-        self:moveTo(x, y)
-    elseif direction == DIRECTION.BOTTOM then
-        local x = self.x - (levelGX - levelGXPrevious)
-        local y = (levelGYPrevious + levelHeightPrevious) - levelGY + 15
-
-        self:moveTo(x, y)
-    elseif direction == DIRECTION.TOP then
-        local x = self.x + (levelGXPrevious - levelGX)
-        local y = levelHeight - 15
-
-        self:moveTo(x, y)
-    end
-
-    -- Push level position
-    self.checkpointHandler:pushState({
-        x = self.x,
-        y = self.y,
-        blueprints = table.deepcopy(self.blueprints)
-    })
-
-    -- Set a cooldown timer to prevent key presses on enter
-
-    timerCooldownCheckpoint = playdate.timer.new(50)
-    timerCooldownCheckpoint.timerEndedCallback = function(timer)
-        timer:remove()
-
-        -- Since there can be multiple checkpoint-reverts in sequence, we want to
-        -- ensure we're not removing a timer that's not this one.
-        if timerCooldownCheckpoint == timer then
-            timerCooldownCheckpoint = nil
-        end
-    end
-
-    -- Update Camera
-
-    self:updateCamera()
 end
 
 -- Animation Handling
