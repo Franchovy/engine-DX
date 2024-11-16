@@ -78,6 +78,11 @@ function Dialog:init(entity)
     self:addState(ANIMATION_STATES.Idle, 1, 4, { tickStep = botAnimationSpeed }).asDefault()
     self:addState(ANIMATION_STATES.Talking, 5, 8, { tickStep = botAnimationSpeed })
 
+    if entity.fields.flip then
+        self.states[ANIMATION_STATES.Idle].flip = 1
+        self.states[ANIMATION_STATES.Talking].flip = 1
+    end
+
     -- Set up animation states (Sad / Happy) if needs rescue
 
     if entity.fields.save then
@@ -269,7 +274,7 @@ end
 function Dialog:update()
     Dialog.super.update(self)
 
-    if not self.isRescuable then
+    if (not self.isRescuable) and self.dialogs then
         if self.isActivated then
             -- Consume update variable
             self.isActivated = false
