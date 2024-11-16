@@ -320,7 +320,7 @@ function Player:handleCollision(collisionData)
         end
     end
 
-    if tag == TAGS.Dialog then
+    if tag == TAGS.Dialog and not activeDialog then
         activeDialog = other
     end
 
