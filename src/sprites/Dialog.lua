@@ -5,13 +5,15 @@ local gfx <const> = playdate.graphics
 
 -- Assets
 
-local nineSliceSpeech <const> = gfx.nineSlice.new(assets.images.speech, 7, 7, 17, 17)
-local spSpeech <const> = playdate.sound.sampleplayer.new(assets.sounds.speech)
+local nineSliceSpeech <const> = assert(gfx.nineSlice.new(assets.images.speech, 7, 7, 17, 17))
+local imageSpeechBButton <const> = assert(gfx.image.new(assets.images.speechBButton))
+local spSpeech <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.speech))
 
 -- Constants
 
 local defaultSize <const> = 16
-local textMarginX <const>, textMarginY <const> = 10, 4
+local textMarginX <const>, textMarginY <const> = 10, 8
+local textMarginSpacing <const> = 4
 local durationDialog <const> = 3000
 local collideRectSize <const> = 90
 local yOffset <const> = 16
@@ -29,7 +31,11 @@ local ANIMATION_STATES <const> = {
 local function drawSpeechBubble(self, x, y, w, h)
     -- Draw Speech Bubble
 
-    nineSliceSpeech:drawInRect(0, 0, self.width, self.height)
+    nineSliceSpeech:drawInRect(0, 0, self.width, self.height - 8)
+
+    --
+
+    imageSpeechBButton:drawAnchored(self.width - 6, self.height, 1, 1)
 
     -- Draw Text
 
@@ -37,7 +43,7 @@ local function drawSpeechBubble(self, x, y, w, h)
         local font = gfx.getFont()
 
         for i, line in ipairs(self.dialog.lines) do
-            font:drawText(line, textMarginX, textMarginY + (i - 1) * font:getHeight())
+            font:drawText(line, textMarginX, textMarginY + (i - 1) * (textMarginSpacing + font:getHeight()))
         end
     end
 end
@@ -140,7 +146,7 @@ function Dialog:init(entity)
             end
 
             -- Add dialog height based on num. lines
-            dialog.height = font:getHeight() * #dialog.lines
+            dialog.height = (font:getHeight() + textMarginSpacing) * #dialog.lines
 
             -- Add dialog to list
             table.insert(self.dialogs, dialog)
@@ -152,6 +158,7 @@ function Dialog:init(entity)
     self.spriteBubble = gfx.sprite.new()
     self.spriteBubble.draw = drawSpeechBubble
     self.spriteBubble:moveTo(self.x, self.y)
+    self.spriteBubble:setCenter(0.5, 1)
 
     -- Self state
 
@@ -197,9 +204,9 @@ function Dialog:updateDialog()
         self.spriteBubble.dialog = dialog
 
         -- Set size and position
-        local width, height = dialog.width + textMarginX * 2, dialog.height + textMarginY * 2
+        local width, height = dialog.width + textMarginX * 2, dialog.height + textMarginY * 2 + 8
         self.spriteBubble:setSize(width, height)
-        self.spriteBubble:moveTo(self.x, self.y - height - yOffset)
+        self.spriteBubble:moveTo(self.x, self.y - 8)
     else
         self.spriteBubble:remove()
         self:changeState(ANIMATION_STATES.Idle)

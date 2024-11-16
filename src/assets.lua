@@ -10,6 +10,7 @@ _G.assets = {
         tileset = "assets/images/tileset",
         hudPanel = "assets/images/hud-panel",
         speech = "assets/images/speech",
+        speechBButton = "assets/images/speech-b-button",
         elevator = "assets/images/elevator",
         box = "assets/images/box",
         menu = {
