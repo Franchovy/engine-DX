@@ -1,6 +1,14 @@
+# Version 0.0.7
+
+Dialog:
+- Boolean "flip" (true = faces left, false = faces right)
+- Integer (nullable) "saveNumber" - control order of bots that are rescued / REQUIRED for rescueable bots
+- Boolean "save" - if on, bot is rescuable.
+- Integer (nullable) "spriteNumber" - which sprite to use for this bot (only applicable to rescuable bots)
+
 # Version 0.0.3
 
-Elevator should have an "initialDistance" field as well as a "distance" and "orientation" (enum) field. 
+Elevator should have an "initialDistance" field as well as a "distance" and "orientation" (enum) field.
 
 # Version 0.0.2
 
