@@ -281,8 +281,6 @@ function Player:handleCollision(collisionData)
         end
 
         self.isActivatingDrillableBlock = other
-    elseif self.isActivatingDrillableBlock then
-        self.isActivatingDrillableBlock = nil
     end
 
     if tag == TAGS.Elevator then
@@ -394,11 +392,11 @@ function Player:update()
                 centerBlockX - self.width / 2,
                 self.isActivatingDrillableBlock.y - self.height
             )
-        end
 
-        if playdate.buttonJustReleased(playdate.kButtonDown) then
-            spDrill:stop()
-            self.particlesDrilling:endAnimation()
+            if not isConsumed and playdate.buttonJustReleased(playdate.kButtonDown) then
+                spDrill:stop()
+                self.particlesDrilling:endAnimation()
+            end
         end
 
         -- Reset update variables before update

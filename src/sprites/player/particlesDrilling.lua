@@ -2,8 +2,8 @@ local gfx <const> = playdate.graphics
 
 local imagetableParticles <const> = assert(gfx.imagetable.new(assets.imageTables.particlesDrilling))
 
-local indexAnimationPre = 12
-local indexAnimationEnd = 65
+local indexAnimationPre = 8
+local indexAnimationEnd = 26
 
 ---@class PlayerParticlesDrilling: playdate.graphics.sprite
 PlayerParticlesDrilling = Class("PlayerParticlesDrilling", gfx.sprite)
@@ -30,6 +30,8 @@ function PlayerParticlesDrilling:play(blockX, blockY)
 
     self.blockX, self.blockY = blockX, blockY
 
+    self.index = 1
+
     self.isPlaying = true
 
     self:add()
@@ -38,7 +40,7 @@ function PlayerParticlesDrilling:play(blockX, blockY)
 end
 
 function PlayerParticlesDrilling:endAnimation()
-    if self.index < indexAnimationEnd and self.index > indexAnimationPre then
+    if self.index > indexAnimationPre and self.index < indexAnimationEnd then
         self.index = indexAnimationEnd
     else
         self:stop()
