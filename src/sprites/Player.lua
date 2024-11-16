@@ -435,7 +435,7 @@ function Player:update()
 
     local isOverlappingWithGUIPrevious = isOverlappingWithGUI
 
-    if self.x < 100 and self.y < 40 then
+    if self.x < 116 and self.y < 56 then
         isOverlappingWithGUI = true
     else
         isOverlappingWithGUI = false
