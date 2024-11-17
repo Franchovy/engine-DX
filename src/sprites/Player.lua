@@ -363,10 +363,19 @@ function Player:update()
         if self.rigidBody:getIsTouchingGround() then
             local isJumpStart = self:handleJumpStart()
 
-            if isJumpStart and self.isActivatingElevator then
+            if isJumpStart then
                 -- Disable collisions with elevator for this frame to avoid
                 -- jump / moving elevator up collisions glitch.
-                self.isActivatingElevator:disableCollisionsForFrame()
+                if self.isActivatingElevator then
+                    self.isActivatingElevator:disableCollisionsForFrame()
+                end
+
+                -- Cancel any digging if jumping
+                if self.isActivatingDrillableBlock then
+                    self.isActivatingDrillableBlock:endAnimation()
+
+                    self.isActivatingDrillableBlock = nil
+                end
             end
         else
             self:handleJump()
