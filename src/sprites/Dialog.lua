@@ -14,6 +14,7 @@ local spSpeech <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.sp
 local defaultSize <const> = 16
 local textMarginX <const>, textMarginY <const> = 10, 8
 local textMarginSpacing <const> = 4
+local distanceAboveSprite <const> = 11
 local durationDialog <const> = 3000
 local collideRectSize <const> = 90
 local yOffset <const> = 16
@@ -206,7 +207,7 @@ function Dialog:updateDialog()
         -- Set size and position
         local width, height = dialog.width + textMarginX * 2, dialog.height + textMarginY * 2 + 8
         self.spriteBubble:setSize(width, height)
-        self.spriteBubble:moveTo(self.x, self.y - 8)
+        self.spriteBubble:moveTo(self.x, self.y - distanceAboveSprite)
     else
         self.spriteBubble:remove()
         self:changeState(ANIMATION_STATES.Idle)
