@@ -87,6 +87,21 @@ local function getPositionChildIdeal(self, x, y, isMovingDown)
   return idealX, idealY
 end
 
+local function getDistanceToNearestTile(self)
+  local adjustmentDown = self.displacement % TILE_SIZE
+  local adjustmentUp = TILE_SIZE - (self.displacement % TILE_SIZE)
+
+  if adjustmentDown == 0 then
+    return 0
+  elseif adjustmentDown < adjustmentUp then
+    -- Move downwards
+    return -adjustmentDown
+  else
+    -- Move upwards
+    return adjustmentUp
+  end
+end
+
 --- If elevator is within `tileAdjustmentPx` of tile, then returns
 --- the adjustment to be exactly on that tile.
 local function getAdjustmentToTile(self)
@@ -107,6 +122,11 @@ local function getAdjustmentToTile(self)
   end
 end
 
+function math.round(num, numDecimalPlaces)
+  local mult = 10 ^ (numDecimalPlaces or 0)
+  return math.floor(num * mult + 0.5) / mult
+end
+
 --- Convenience method to get the X & Y position based on a displacement.
 local function getPositionFromDisplacement(self, displacement)
   if self.fields.orientation == ORIENTATION.Horizontal then
@@ -117,6 +137,8 @@ local function getPositionFromDisplacement(self, displacement)
 end
 
 local function setDisplacement(self, displacement)
+  displacement = math.round(displacement, 2)
+
   self.displacement = displacement
   self.fields.displacement = displacement
 
@@ -129,6 +151,10 @@ local function updateMovement(self, movement)
   -- Get new position using displacement
 
   local x, y = getPositionFromDisplacement(self, self.displacement + movement)
+
+  -- Round x and y values to avoid tiny floating point errors
+
+  x, y = math.round(x, 2), math.round(y, 2)
 
   -- Check collisions for self
 
@@ -200,7 +226,8 @@ function Elevator:init(entity)
 
   -- Elevator-specific fields
 
-  self.speed = 5                    -- Constant, but could be modified on a per-elevator basis in the future.
+  self.deactivatedSpeed = 3.5
+  self.speed = 7                    -- Constant, but could be modified on a per-elevator basis in the future.
   self.movement = 0                 -- Update scalar for movement.
   self.didActivationSuccess = false -- Update value for checking if activation was successful
 
@@ -297,13 +324,31 @@ function Elevator:update()
   if movement == 0 then
     -- If not active, adjust for pixel-perfect tile position
 
+    local adjustmentRemaining = getDistanceToNearestTile(self)
+
+    if adjustmentRemaining ~= 0 then
+      if adjustmentRemaining > 0 then
+        adjustmentRemaining = math.min(self.deactivatedSpeed, adjustmentRemaining)
+      else
+        adjustmentRemaining = math.max(-self.deactivatedSpeed, adjustmentRemaining)
+      end
+
+      -- If movement is very small, don't multiply by delta_time.
+      if not (math.abs(adjustmentRemaining) < 0.1) then
+        adjustmentRemaining = adjustmentRemaining * _G.delta_time
+      end
+
+      updateMovement(self, adjustmentRemaining)
+    end
+
+    --[[
     movement = getAdjustmentToTile(self)
 
     if movement ~= 0 then
       -- Call without delta_time to avoid very small, inconsequential movements
 
       updateMovement(self, movement)
-    end
+    end]]
   else
     -- If any movement occurs, update elevator position based on movement * delta_time
 
