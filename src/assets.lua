@@ -71,7 +71,7 @@ _G.assets = {
         drill = "assets/sfx/drill",
     },
     music = {
-        game = "assets/music/world_1",
-        menu = "assets/music/03_Factory"
+        game = "assets/music/playtester-theme",
+        menu = "assets/music/menu-theme"
     }
 }

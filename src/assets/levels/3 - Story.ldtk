@@ -3138,7 +3138,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Welcome to the QUARRY, DRLBOT...\nWe're having quite a few problems/with cave-in's these days\nWe've identified 2 bots to be rescued./I hope you're ready to dig.\nGood luck.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Welcome to the QUARRY, DRLBOT...\\nWe're having quite a few problems/with cave-in's these days\\nWe've identified 2 bots to be rescued./I hope you're ready to dig.\\nGood luck."
+										"Welcome to the QUARRY, DRLBOT...\nWe're having quite a few problems/with cave-in's these days\nWe've identified 2 bots to be rescued./I hope you're ready to dig.\nGood luck."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
@@ -6845,7 +6845,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "The entire room caved in on/the elevator shaft, but thankfully...\nthere's a backup elevator above/on the right.\nIf only you could find a/way there....", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"The entire room caved in on/the elevator shaft, but thankfully...\nthere's a backup elevator above/on the right.\nIf only you could find a/way there...."
+										"The entire room caved in on/the elevator shaft, but thankfully...\\nthere's a backup elevator above/on the right.\\nIf only you could find a/way there...."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
@@ -7122,22 +7122,6 @@
 							"px": [160,64],
 							"fieldInstances": [],
 							"__worldX": 1408,
-							"__worldY": 256
-						},
-						{
-							"__identifier": "DrillableBlock",
-							"__grid": [6,2],
-							"__pivot": [0,0],
-							"__tags": [],
-							"__tile": null,
-							"__smartColor": "#BE4A2F",
-							"iid": "e7f80df0-9b00-11ef-898c-552271c2fbe8",
-							"width": 32,
-							"height": 32,
-							"defUid": 67,
-							"px": [192,64],
-							"fieldInstances": [],
-							"__worldX": 1440,
 							"__worldY": 256
 						},
 						{
@@ -8143,7 +8127,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Wooo!!\nWe're free, boys!\nThanks for digging us out,/DRLBOT!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Wooo!!\\nWe're free, boys!\\nThanks for digging us out,/DRLBOT!"]
+									"params": ["Wooo!!\nWe're free, boys!\nThanks for digging us out,/DRLBOT!"]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] },
@@ -8167,7 +8151,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Phew...\nI thought I was stuck forever/with these guys down here...", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Phew...\\nI thought I was stuck forever/with these guys down here..."]
+									"params": ["Phew...\nI thought I was stuck forever/with these guys down here..."]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] },
@@ -8194,7 +8178,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "So happy to have been saved...\nI hope we haven't missed/anyone else!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["So happy to have been saved...\\nI hope we haven't missed/anyone else!"]
+									"params": ["So happy to have been saved...\nI hope we haven't missed/anyone else!"]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] },
@@ -10471,7 +10455,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "My day couldn't get any worse.\nSpent all my energy finding this/down arrow...\nBut I don't even have a drill.\nTake it if you want.\nI'm sure you can figure/out how to use it.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"My day couldn't get any worse.\\nSpent all my energy finding this/down arrow...\\nBut I don't even have a drill.\\nTake it if you want.\\nI'm sure you can figure/out how to use it."
+										"My day couldn't get any worse.\nSpent all my energy finding this/down arrow...\nBut I don't even have a drill.\nTake it if you want.\nI'm sure you can figure/out how to use it."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
@@ -13801,7 +13785,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Nice.\n...\n...\nGreat job getting down here.\n...\n...\nIs this funny to you?\n...\n...\nAt least you can/warp out of here.\nNot all of us have/that special ability.\nNow go save some dumb bots.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Nice.\\n...\\n...\\nGreat job getting down here.\\n...\\n...\\nIs this funny to you?\\n...\\n...\\nAt least you can/warp out of here.\\nNot all of us have/that special ability.\\nNow go save some dumb bots."
+										"Nice.\n...\n...\nGreat job getting down here.\n...\n...\nIs this funny to you?\n...\n...\nAt least you can/warp out of here.\nNot all of us have/that special ability.\nNow go save some dumb bots."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
@@ -14615,7 +14599,7 @@
 							"px": [160,192],
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": null, "__tile": null, "defUid": 205, "realEditorValues": [] },
-								{ "__identifier": "saveNumber", "__type": "Int", "__value": 3, "__tile": null, "defUid": 427, "realEditorValues": [{ "id": "V_Int", "params": [3] }] },
+								{ "__identifier": "saveNumber", "__type": "Int", "__value": 2, "__tile": null, "defUid": 427, "realEditorValues": [{ "id": "V_Int", "params": [2] }] },
 								{ "__identifier": "save", "__type": "Bool", "__value": true, "__tile": null, "defUid": 428, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ true ]

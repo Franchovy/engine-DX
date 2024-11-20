@@ -11,7 +11,7 @@
 	"iid": "b12745f0-d7b0-11ee-9f72-7bc5a2cd12f0",
 	"jsonVersion": "1.5.3",
 	"appBuildId": 473703,
-	"nextUid": 454,
+	"nextUid": 455,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": "Free",
@@ -2697,6 +2697,43 @@
 					"allowedRefsEntityUid": null,
 					"allowedRefTags": [],
 					"tilesetUid": null
+				},
+				{
+					"identifier": "flip",
+					"doc": null,
+					"__type": "Bool",
+					"uid": 454,
+					"type": "F_Bool",
+					"isArray": false,
+					"canBeNull": false,
+					"arrayMinLength": null,
+					"arrayMaxLength": null,
+					"editorDisplayMode": "Hidden",
+					"editorDisplayScale": 1,
+					"editorDisplayPos": "Above",
+					"editorLinkStyle": "StraightArrow",
+					"editorDisplayColor": null,
+					"editorAlwaysShow": false,
+					"editorShowInWorld": true,
+					"editorCutLongValues": true,
+					"editorTextSuffix": null,
+					"editorTextPrefix": null,
+					"useForSmartColor": false,
+					"exportToToc": false,
+					"searchable": false,
+					"min": null,
+					"max": null,
+					"regex": null,
+					"acceptFileTypes": null,
+					"defaultOverride": null,
+					"textLanguageMode": null,
+					"symmetricalRef": false,
+					"autoChainRef": true,
+					"allowOutOfLevelRef": true,
+					"allowedRefs": "OnlySame",
+					"allowedRefsEntityUid": null,
+					"allowedRefTags": [],
+					"tilesetUid": null
 				}
 			]
 		},
@@ -3050,14 +3087,15 @@
 							"defUid": 204,
 							"px": [224,128],
 							"fieldInstances": [
-								{ "__identifier": "text", "__type": "String", "__value": "Welcome to your next/mission, DRLBOT. We lost\n5 bots that you/need to rescue.\nBe careful of what keys/you pick up out here.\nWe wouldn't want you/to get stuck.\nGood luck.", "__tile": null, "defUid": 205, "realEditorValues": [{
+								{ "__identifier": "text", "__type": "String", "__value": "Welcome to your next/mission, DRLBOT. We lost\n3 more bots that you/need to rescue.\nBe careful of what keys/you pick up out here.\nWe wouldn't want you/to get stuck.\nGood luck.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Welcome to your next/mission, DRLBOT. We lost\n5 bots that you/need to rescue.\nBe careful of what keys/you pick up out here.\nWe wouldn't want you/to get stuck.\nGood luck."
+										"Welcome to your next/mission, DRLBOT. We lost\\n3 more bots that you/need to rescue.\\nBe careful of what keys/you pick up out here.\\nWe wouldn't want you/to get stuck.\\nGood luck."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] }
+								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] },
+								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 454, "realEditorValues": [] }
 							],
 							"__worldX": -1440,
 							"__worldY": -864
@@ -3331,7 +3369,8 @@
 								{ "__identifier": "save", "__type": "Bool", "__value": true, "__tile": null, "defUid": 428, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ true ]
-								}] }
+								}] },
+								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 454, "realEditorValues": [] }
 							],
 							"__worldX": -736,
 							"__worldY": -640
@@ -3794,12 +3833,13 @@
 							"defUid": 204,
 							"px": [96,160],
 							"fieldInstances": [
-								{ "__identifier": "text", "__type": "String", "__value": "I think you have some/bots to save, ma'am.", "__tile": null, "defUid": 205, "realEditorValues": [{
+								{ "__identifier": "text", "__type": "String", "__value": "I think you have some/bots to go save.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["I think you have some/bots to save, ma'am."]
+									"params": ["I think you have some/bots to go save."]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] }
+								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] },
+								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 454, "realEditorValues": [] }
 							],
 							"__worldX": -1856,
 							"__worldY": -576
@@ -3822,7 +3862,11 @@
 									"params": ["Who told you/to come here??"]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] }
+								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] },
+								{ "__identifier": "flip", "__type": "Bool", "__value": true, "__tile": null, "defUid": 454, "realEditorValues": [{
+									"id": "V_Bool",
+									"params": [ true ]
+								}] }
 							],
 							"__worldX": -1792,
 							"__worldY": -576
@@ -3845,7 +3889,8 @@
 								{ "__identifier": "save", "__type": "Bool", "__value": true, "__tile": null, "defUid": 428, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ true ]
-								}] }
+								}] },
+								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 454, "realEditorValues": [] }
 							],
 							"__worldX": -1600,
 							"__worldY": -448
@@ -4953,11 +4998,12 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Stuck? I think there's/another way.\nGo see the quarry/to the right./I think they need your help.\n...\nNot Stuck? Well, luck you./Hip-hip hooray.\nGo do something useful/for everyone else.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Stuck? I think there's/another way.\nGo see the quarry/to the right./I think they need your help.\n...\nNot Stuck? Well, luck you./Hip-hip hooray.\nGo do something useful/for everyone else."
+										"Stuck? I think there's/another way.\\nGo see the quarry/to the right./I think they need your help.\\n...\\nNot Stuck? Well, luck you./Hip-hip hooray.\\nGo do something useful/for everyone else."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] }
+								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] },
+								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 454, "realEditorValues": [] }
 							],
 							"__worldX": -800,
 							"__worldY": -208
@@ -5349,11 +5395,12 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Thank goodness you're/here. The quarry just...\nrecently caved in. Thankfully/there were no bots...\njust an UP arrow.\nOh, and B.O.B.\nBut nobody likes B.O.B. anyways.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Thank goodness you're/here. The quarry just...\nrecently caved in. Thankfully/there were no bots...\njust an UP arrow.\nOh, and B.O.B.\nBut nobody likes B.O.B. anyways."
+										"Thank goodness you're/here. The quarry just...\\nrecently caved in. Thankfully/there were no bots...\\njust an UP arrow.\\nOh, and B.O.B.\\nBut nobody likes B.O.B. anyways."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] }
+								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] },
+								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 454, "realEditorValues": [] }
 							],
 							"__worldX": -192,
 							"__worldY": 64
@@ -5421,10 +5468,11 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Help! I'm stuck!\nStuck without any friends,/that is.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Help! I'm stuck!\nStuck without any friends,/that is."]
+									"params": ["Help! I'm stuck!\\nStuck without any friends,/that is."]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] }
+								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] },
+								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 454, "realEditorValues": [] }
 							],
 							"__worldX": -224,
 							"__worldY": 352
@@ -6292,11 +6340,12 @@
 								{ "__identifier": "text", "__type": "String", "__value": "B.O.B.?\nDon't worry about him,/he can get out alone.\nHe just wants attention,/that's all.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"B.O.B.?\nDon't worry about him,/he can get out alone.\nHe just wants attention,/that's all."
+										"B.O.B.?\\nDon't worry about him,/he can get out alone.\\nHe just wants attention,/that's all."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] }
+								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] },
+								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 454, "realEditorValues": [] }
 							],
 							"__worldX": 384,
 							"__worldY": -64
@@ -6882,7 +6931,8 @@
 								{ "__identifier": "save", "__type": "Bool", "__value": true, "__tile": null, "defUid": 428, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ true ]
-								}] }
+								}] },
+								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 454, "realEditorValues": [] }
 							],
 							"__worldX": -2048,
 							"__worldY": -174
@@ -6902,10 +6952,11 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "You see that bot?\nThat's the last one you/need to get. \nGo get 'em.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["You see that bot?\nThat's the last one you/need to get. \nGo get 'em."]
+									"params": ["You see that bot?\\nThat's the last one you/need to get. \\nGo get 'em."]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] }
+								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] },
+								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 454, "realEditorValues": [] }
 							],
 							"__worldX": -1888,
 							"__worldY": -110
