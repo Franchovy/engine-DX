@@ -222,7 +222,9 @@ function Dialog:showNextLine()
     self.currentLine += 1
 
     -- Reset timer
-    self.timer:reset()
+    if self.timer then
+        self.timer:reset()
+    end
 end
 
 --- Called from the player class on collide.

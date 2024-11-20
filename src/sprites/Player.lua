@@ -372,7 +372,7 @@ function Player:update()
 
                 -- Cancel any digging if jumping
                 if self.isActivatingDrillableBlock then
-                    self.isActivatingDrillableBlock:endAnimation()
+                    self.particlesDrilling:endAnimation()
 
                     self.isActivatingDrillableBlock = nil
                 end
