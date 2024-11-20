@@ -306,6 +306,8 @@ function Player:handleCollision(collisionData)
                     -- If so, mark as activating elevator
                     self.isActivatingElevator = other
                 end
+            else
+                self.elevator = other
             end
         end
     end
@@ -368,6 +370,8 @@ function Player:update()
                 -- jump / moving elevator up collisions glitch.
                 if self.isActivatingElevator then
                     self.isActivatingElevator:disableCollisionsForFrame()
+                elseif self.elevator then
+                    self.elevator:disableCollisionsForFrame()
                 end
 
                 -- Cancel any digging if jumping
@@ -412,6 +416,7 @@ function Player:update()
 
         self.isActivatingElevator = false
         self.isActivatingDrillableBlock = false
+        self.elevator = false
 
         -- RigidBody update
 

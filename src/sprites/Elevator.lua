@@ -184,10 +184,14 @@ local function updateMovement(self, movement)
     end
 
     -- Update child position
-    self.spriteChild:moveTo(
-      childX,
-      childY
-    )
+    if isMovingDown then
+      self.spriteChild:moveTo(childX, childY)
+    else
+      self.spriteChild:moveWithCollisions(
+        childX,
+        childY
+      )
+    end
   end
 
   -- Move to new displacement
