@@ -185,7 +185,16 @@ local function updateMovement(self, movement)
 
     -- Update child position
     if isMovingDown then
-      self.spriteChild:moveTo(childX, childY)
+      local isMovingHorizontally = self.spriteChild.x ~= childX
+
+      if isMovingHorizontally and self.movement == 0 then
+        self.spriteChild:moveWithCollisions(
+          childX,
+          childY
+        )
+      else
+        self.spriteChild:moveTo(childX, childY)
+      end
     else
       self.spriteChild:moveWithCollisions(
         childX,
@@ -344,15 +353,6 @@ function Elevator:update()
 
       updateMovement(self, adjustmentRemaining)
     end
-
-    --[[
-    movement = getAdjustmentToTile(self)
-
-    if movement ~= 0 then
-      -- Call without delta_time to avoid very small, inconsequential movements
-
-      updateMovement(self, movement)
-    end]]
   else
     -- If any movement occurs, update elevator position based on movement * delta_time
 
