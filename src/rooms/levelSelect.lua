@@ -61,8 +61,7 @@ function LevelSelect:AButtonDown()
   if level then
     spButton:play(1)
 
-    LDtk.load(assets.path.levels .. level .. ".ldtk")
-    MemoryCard.setLastPlayed(level)
+    Loader.load(level)
 
     sceneManager.scenes.currentGame = Game()
     sceneManager:enter(sceneManager.scenes.currentGame, { isInitialLoad = true })

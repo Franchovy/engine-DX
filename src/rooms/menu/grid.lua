@@ -19,11 +19,12 @@ class("MenuGridView").extends()
 ---
 
 local function resetAnimator(self)
-  local section, row = self.gridView:getSelection()
-  local total, rescued = MemoryCard.getLevelCompletion(levels[row]);
+  -- local section, row = self.gridView:getSelection()
+  -- level data: section[row]
 
   -- TODO: total/rescued not tracked currently, remove this for dynamic width
-  rescued = total
+  local total = 3
+  local rescued = 3
 
   local width = (rescued / total) * CELL_WIDTH
   self.animatorGridCell = gfx.animator.new(CELL_FILL_ANIM_SPEED, 0, width, pd.easingFunctions.inOutQuad)
@@ -66,9 +67,9 @@ end
 -- Draw Methods
 
 local function drawSectionHeader(self, _, _, x, y, width, height)
-	local fontHeight = gfx.getSystemFont():getHeight()
+  local fontHeight = gfx.getSystemFont():getHeight()
   gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-	gfx.drawTextAligned("*LEVEL SELECT*", x + width / 2, y + (height/2 - fontHeight/2) + 2, kTextAlignment.center)
+  gfx.drawTextAligned("*LEVEL SELECT*", x + width / 2, y + (height / 2 - fontHeight / 2) + 2, kTextAlignment.center)
 end
 
 local function drawCell(self, _, _, row, _, selected, x, y, width, height)
@@ -81,10 +82,10 @@ local function drawCell(self, _, _, row, _, selected, x, y, width, height)
     gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
     gfx.setLineWidth(1)
   end
-	local fontHeight = 50
+  local fontHeight = 50
 
   local filename = levels[row]
-	gfx.drawTextAligned(filename, x + width / 2, y + (height/2 - fontHeight/2) + 2, kTextAlignment.center)
+  gfx.drawTextAligned(filename, x + width / 2, y + (height / 2 - fontHeight / 2) + 2, kTextAlignment.center)
   gfx.setColor(gfx.kColorWhite)
   gfx.drawRoundRect(x, y, width, height, 10)
 end

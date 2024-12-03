@@ -6,5 +6,6 @@ EVENTS = {
     CheckpointRevert = 'checkpointRevert',
     CheckpointIncrement = 'checkpointIncrement',
     HideOrShowGUI = 'hideOrShowGui',
-    BotRescued = 'botRescued'
+    BotRescued = 'botRescued',
+    SavePointSet = 'savePointSet'
 }

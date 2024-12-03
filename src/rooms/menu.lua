@@ -101,14 +101,12 @@ function Menu:AButtonDown()
   end
 
   if levelFile then
-    local filepathLevel = assets.path.levels .. levelFile .. ".ldtk"
-
     spButton:play(1)
 
-    LDtk.load(filepathLevel)
-    MemoryCard.setLastPlayed(levelFile)
-
     sceneManager.scenes.currentGame = Game()
+
+    Game.loadWorld(levelFile)
+
     sceneManager:enter(sceneManager.scenes.currentGame, { isInitialLoad = true })
   end
 end

@@ -12,9 +12,12 @@ local spWarpAction <const> = playdate.sound.sampleplayer.new(assets.sounds.warpA
 
 local fileplayer
 
+local worldName
+
 -- LDtk current level name
 
 local initialLevelName <const> = "Level_0"
+local initialLevelNameSaveProgress
 local currentLevelName
 local checkpointPlayerStart
 
@@ -28,6 +31,40 @@ local botsToRescueCountDefault <const> = 3
 local spriteGuiRescueCounter
 
 -- Static methods
+
+function Game.loadWorld(fileName)
+    -- Load LDtk file
+
+    local filepathLevel = assets.path.levels .. fileName .. ".ldtk"
+
+    LDtk.load(filepathLevel)
+
+    -- Check if save data exists
+
+    local fileLevelProgress = MemoryCard.levelProgressToLoad(fileName)
+
+    if fileLevelProgress then
+        -- Replace entities data in LDtk loaded levels with save progress
+
+        LDtk.loadLevelEntitiesData(fileLevelProgress)
+    end
+
+    -- Get last progress of level
+
+    local dataProgress = MemoryCard.getLevelCompletion(fileName)
+
+    if dataProgress.currentLevel then
+        initialLevelNameSaveProgress = dataProgress.currentLevel
+    end
+
+    --
+
+    MemoryCard.setLastPlayed(fileName)
+
+    -- Set world name
+
+    worldName = fileName
+end
 
 function Game.getLevelName()
     return currentLevelName
@@ -60,6 +97,8 @@ function Game:init()
 end
 
 function Game:enter(previous, data)
+    assert(worldName, "No world has been loaded!")
+
     data = data or {}
     local direction = data.direction
     local level = data.level
@@ -74,7 +113,7 @@ function Game:enter(previous, data)
 
     -- Get current level
 
-    currentLevelName = level and level.name or initialLevelName
+    currentLevelName = level and level.name or initialLevelNameSaveProgress or initialLevelName
     local levelBounds = level and level.bounds or LDtk.get_rect(currentLevelName)
 
     -- Initial Load - only run once per world
@@ -82,7 +121,7 @@ function Game:enter(previous, data)
     if data.isInitialLoad then
         -- Load level fields (used only on the initial level)
 
-        local levelData = LDtk.get_custom_data(currentLevelName) or {}
+        local levelData = LDtk.get_custom_data(initialLevelName) or {}
 
         -- Set up GUI
 
@@ -198,6 +237,11 @@ function Game:leave(next, ...)
     --
 
     if next.super.class == Menu or next.super.class == LevelSelect then
+        -- Reset load data
+
+        initialLevelNameSaveProgress = nil
+        worldName = nil
+
         -- Remove end timer
 
         if timerEndSceneTransition then
@@ -277,7 +321,8 @@ function Game:botRescued(bot, botNumber)
 
         -- Set level complete in data
 
-        MemoryCard.setLevelComplete()
+        MemoryCard.setLevelComplete(worldName)
+        MemoryCard.clearLevelCheckpoint(worldName)
     end
 end
 
@@ -288,6 +333,16 @@ end
 
 function Game:checkpointIncrement()
     Checkpoint.increment()
+end
+
+function Game:savePointSet()
+    local levelData = LDtk.getAllLevels()
+
+    MemoryCard.saveLevelCheckpoint(worldName, levelData)
+
+    MemoryCard.setLevelCompletion(worldName, { currentLevel = currentLevelName })
+
+    Checkpoint.clearAllPrevious()
 end
 
 function Game:checkpointRevert()

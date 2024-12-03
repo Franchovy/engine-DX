@@ -73,7 +73,7 @@ function SavePoint:activate()
 
         self:updateImage()
 
-        Checkpoint.clearAllPrevious()
+        Manager.emitEvent(EVENTS.SavePointSet)
     else
         self.blueprintsCurrentError = blueprintsPlayer
 

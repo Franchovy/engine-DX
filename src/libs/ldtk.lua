@@ -67,6 +67,33 @@ local _use_lua_levels = false
 
 local _ = {} -- for private functions
 
+--- ADDITIONAL FUNCTIONS - BY FRANCHOVY
+---
+---
+
+function LDtk.getAllLevels()
+    return _levels
+end
+
+function LDtk.loadLevelEntitiesData(filePath)
+    if not filePath then
+        error("Must pass in a valid JSON file with level data")
+    end
+
+    local data = json.decodeFile(filePath)
+
+    if not data then
+        error("Must pass in a valid JSON file with level data")
+    end
+
+    -- Replace level entities
+    for name, level in pairs(data) do
+        if level.layers and level.layers.Entities and level.layers.Entities.entities then
+            _levels[name].layers.Entities.entities = level.layers.Entities.entities
+        end
+    end
+end
+
 -- @use_lua_levels(optional)
 --	true: will load lua precomputed levels
 --	false: will load .ldtk files (slower)

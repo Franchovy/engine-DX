@@ -1,5 +1,6 @@
 local pd <const> = playdate
 local ds <const> = pd.datastore
+local fi <const> = pd.file
 
 class("MemoryCard").extends()
 
@@ -10,6 +11,10 @@ local function saveData(data, saveFile)
   assert(data, "No data was passed in to save.")
 
   ds.write(data, saveFile);
+end
+
+local function clearData(saveFile)
+  ds.delete(saveFile)
 end
 
 local function loadData(saveFile)
@@ -26,10 +31,10 @@ end
 
 -- static functions, to be called by other classes
 
-function MemoryCard.setLevelComplete()
-  local data = loadData()
+function MemoryCard.setLevelComplete(levelName)
+  local data = loadData(SAVE_FILE.GameData)
 
-  if data == nil or data.lastPlayed == nil then
+  if not data == nil then
     return
   end
 
@@ -37,7 +42,7 @@ function MemoryCard.setLevelComplete()
     data.levels = {}
   end
 
-  data.levels[data.lastPlayed] = { complete = true }
+  data.levels[levelName] = { complete = true }
 
   saveData(data, SAVE_FILE.GameData)
 end
@@ -75,16 +80,34 @@ function MemoryCard.getLastPlayed()
   return data.lastPlayed
 end
 
--- returns total, rescued representing
--- the player's progress in a level
-function MemoryCard.getLevelCompletion(level)
-  local data = loadData(SAVE_FILE.GameData)
+function MemoryCard.setLevelCompletion(levelName, data)
+  local fileData = loadData(SAVE_FILE.GameData)
 
-  if data[level] then
-    return 3, data[level].rescued or 0
+  if not fileData.levels then
+    fileData.levels = {}
   end
 
-  return 3, 0
+  if not fileData.levels[levelName] then
+    fileData.levels[levelName] = {}
+  end
+
+  local fileDataLevel = fileData.levels[levelName]
+
+  if data.currentLevel then
+    -- Set current level name
+
+    fileDataLevel.currentLevel = data.currentLevel
+  end
+
+  saveData(fileData, SAVE_FILE.GameData)
+end
+
+function MemoryCard.getLevelCompletion(levelName)
+  local fileData = loadData(SAVE_FILE.GameData)
+
+  if fileData.levels and fileData.levels[levelName] then
+    return fileData.levels[levelName]
+  end
 end
 
 function MemoryCard.resetProgress()
@@ -107,4 +130,25 @@ function MemoryCard.getShouldEnableMusic()
   end
 
   return true
+end
+
+-- LEVEL PROGRESS
+
+function MemoryCard.clearLevelCheckpoint(levelName)
+  clearData(SAVE_FILE.LevelSave .. "_" .. levelName)
+end
+
+function MemoryCard.saveLevelCheckpoint(levelName, levelData)
+  saveData(levelData, SAVE_FILE.LevelSave .. "_" .. levelName)
+end
+
+function MemoryCard.levelProgressToLoad(levelName)
+  local filePath = SAVE_FILE.LevelSave .. "_" .. levelName .. ".json"
+  local shouldLoad = fi.exists(filePath)
+
+  if shouldLoad then
+    return filePath
+  end
+
+  return nil
 end
