@@ -53,8 +53,10 @@ function Game.loadWorld(fileName)
 
     local dataProgress = MemoryCard.getLevelCompletion(fileName)
 
-    if dataProgress.currentLevel then
-        initialLevelNameSaveProgress = dataProgress.currentLevel
+    if dataProgress then
+        if dataProgress.currentLevel then
+            initialLevelNameSaveProgress = dataProgress.currentLevel
+        end
     end
 
     --
