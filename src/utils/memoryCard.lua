@@ -3,18 +3,24 @@ local ds <const> = pd.datastore
 
 class("MemoryCard").extends()
 
-local FILE_NAME <const> = "discontrolled_save_data"
-
 -- local functions, actual data access
 
-local function saveData(data)
-  assert(data, "tried to save nil data")
-  ds.write(data, FILE_NAME);
+local function saveData(data, saveFile)
+  assert(saveFile, "No save file path was provided.")
+  assert(data, "No data was passed in to save.")
+
+  ds.write(data, saveFile);
 end
 
-local function loadData()
-  local data = ds.read(FILE_NAME)
-  if (data) then return data end
+local function loadData(saveFile)
+  assert(saveFile, "No save file path was provided.")
+
+  local data = ds.read(saveFile)
+
+  if (data) then
+    return data
+  end
+
   return {}
 end
 
@@ -33,11 +39,11 @@ function MemoryCard.setLevelComplete()
 
   data.levels[data.lastPlayed] = { complete = true }
 
-  saveData(data)
+  saveData(data, SAVE_FILE.GameData)
 end
 
 function MemoryCard.getLevelCompleted(level)
-  local data = loadData()
+  local data = loadData(SAVE_FILE.GameData)
 
   if data.levels == nil or data.levels[level] == nil then
     return false
@@ -47,15 +53,15 @@ function MemoryCard.getLevelCompleted(level)
 end
 
 function MemoryCard.setLastPlayed(level)
-  local data = loadData()
+  local data = loadData(SAVE_FILE.GameData)
   data.lastPlayed = level
-  saveData(data)
+  saveData(data, SAVE_FILE.GameData)
 end
 
 -- returns world, level representing
 -- the last level the player played
 function MemoryCard.getLastPlayed()
-  local data = loadData()
+  local data = loadData(SAVE_FILE.GameData)
 
   if not data.lastPlayed then
     return nil
@@ -72,7 +78,7 @@ end
 -- returns total, rescued representing
 -- the player's progress in a level
 function MemoryCard.getLevelCompletion(level)
-  local data = loadData()
+  local data = loadData(SAVE_FILE.GameData)
 
   if data[level] then
     return 3, data[level].rescued or 0
@@ -82,19 +88,19 @@ function MemoryCard.getLevelCompletion(level)
 end
 
 function MemoryCard.resetProgress()
-  saveData({})
+  saveData({}, SAVE_FILE.GameData)
 end
 
 -- User Preferences
 
 function MemoryCard.setShouldEnableMusic(shouldEnableMusic)
-  local data = loadData()
+  local data = loadData(SAVE_FILE.GameData)
   data.shouldEnableMusic = shouldEnableMusic
-  saveData(data)
+  saveData(data, SAVE_FILE.GameData)
 end
 
 function MemoryCard.getShouldEnableMusic()
-  local data = loadData()
+  local data = loadData(SAVE_FILE.GameData)
 
   if data.shouldEnableMusic ~= nil then
     return data.shouldEnableMusic
