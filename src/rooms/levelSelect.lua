@@ -61,9 +61,10 @@ function LevelSelect:AButtonDown()
   if level then
     spButton:play(1)
 
-    Loader.load(level)
-
     sceneManager.scenes.currentGame = Game()
+
+    Game.loadWorld(level)
+
     sceneManager:enter(sceneManager.scenes.currentGame, { isInitialLoad = true })
   end
 end
