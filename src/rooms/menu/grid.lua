@@ -29,6 +29,7 @@ local FONT_MEDIUM = assert(gfx.font.new(assets.fonts.menu.medium))
 local FONT_LARGE = assert(gfx.font.new(assets.fonts.menu.large))
 local FONT_GIANT = assert(gfx.font.new(assets.fonts.menu.giant))
 
+local sections
 local levels
 
 class("MenuGridView").extends()
@@ -66,7 +67,7 @@ local function drawSectionHeader(self, _, _, x, y, width, height)
   gfx.drawTextAligned("*LEVEL SELECT*", x + width / 2, y + (height / 2 - fontHeight / 2) + 2, kTextAlignment.center)
 end
 
-local function drawCell(self, _, _, row, _, selected, x, y, width, height)
+local function drawCell(self, gridView, section, row, column, selected, x, y, width, height)
   -- Unselected appearance
 
   if not selected then
@@ -135,11 +136,11 @@ local function drawCell(self, _, _, row, _, selected, x, y, width, height)
 
     -- Draw Level Number & Name
 
-    gfx.setFont(FONT_GIANT)
-    gfx.drawTextAligned("4", x + CELL_WIDTH / 2, y + 8, kTextAlignment.center)
-
     gfx.setFont(FONT_LARGE)
-    gfx.drawTextAligned("LEVEL NAME", x + CELL_WIDTH / 2, y + 36, kTextAlignment.center)
+    gfx.drawTextAligned(row, x + CELL_WIDTH / 2, y + 8, kTextAlignment.center)
+
+    gfx.setFont(FONT_GIANT)
+    gfx.drawTextAligned(levels[row], x + CELL_WIDTH / 2, y + 36, kTextAlignment.center)
   end
 end
 
@@ -156,7 +157,7 @@ function MenuGridView:init()
 
   -- Get levels
 
-  levels = ReadFile.getLevelFiles()
+  sections, levels = ReadFile.getLevelFiles()
 
   -- Set number of sections & rows
 
