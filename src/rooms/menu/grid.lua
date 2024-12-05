@@ -1,15 +1,34 @@
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 local ui <const> = pd.ui
+local gmt <const> = pd.geometry
 
 local CELL_HEIGHT <const> = 110
 local CELL_INSETS <const> = 5
 local CELL_PADDING_V <const> = 8
 local CELL_PADDING_H <const> = 5
-local CELL_FILL_ANIM_SPEED <const> = 800
 local CELL_WIDTH <const> = 400 - (CELL_INSETS * 2) - (CELL_PADDING_H * 2)
 
-local animatorGridCell
+local RECT_HEIGHT <const> = 28
+local RECT_SIDE_MARGIN <const> = 48
+local RECT_BOTTOM_MARGIN <const> = 12
+local RECT_PROGRESS_BAR <const> = gmt.rect.new(
+  RECT_SIDE_MARGIN,
+  CELL_HEIGHT - RECT_HEIGHT - RECT_BOTTOM_MARGIN,
+  CELL_WIDTH - RECT_SIDE_MARGIN * 2,
+  RECT_HEIGHT
+)
+
+local DURATION_ANIMATION_PROGRESS_BAR_FILL <const> = 800
+
+local ANIMATOR_PROGRESS_BAR <const> = gfx.animator.new(DURATION_ANIMATION_PROGRESS_BAR_FILL, 0, 1,
+  pd.easingFunctions.inOutQuad)
+
+local FONT_SMALL = assert(gfx.font.new(assets.fonts.menu.small))
+local FONT_MEDIUM = assert(gfx.font.new(assets.fonts.menu.medium))
+local FONT_LARGE = assert(gfx.font.new(assets.fonts.menu.large))
+local FONT_GIANT = assert(gfx.font.new(assets.fonts.menu.giant))
+
 local levels
 
 class("MenuGridView").extends()
@@ -22,24 +41,7 @@ local function resetAnimator(self)
   -- local section, row = self.gridView:getSelection()
   -- level data: section[row]
 
-  -- TODO: total/rescued not tracked currently, remove this for dynamic width
-  local total = 3
-  local rescued = 3
-
-  local width = (rescued / total) * CELL_WIDTH
-  self.animatorGridCell = gfx.animator.new(CELL_FILL_ANIM_SPEED, 0, width, pd.easingFunctions.inOutQuad)
-end
-
-local function isFirstOrLastCell(self, section, row)
-  if row == 1 then
-    -- is First cell
-    return true
-  elseif row == #levels then
-    -- is last cell
-    return true
-  end
-
-  return false
+  ANIMATOR_PROGRESS_BAR:reset()
 end
 
 local function animateSelectionChange(self, callback, ...)
@@ -50,15 +52,7 @@ local function animateSelectionChange(self, callback, ...)
   local _, row = self.gridView:getSelection()
 
   if rowPrevious ~= row then
-    -- [Franch] NOTE: There seems to be a bug where scrolling first or last cell to center
-    -- blocks scrolling indefinitely. Not sure what's causing it.
-    -- Work-around is to disable scrolling to center on those cells.
-
     self.gridView:scrollCellToCenter(1, row, 1)
-    --[[if isFirstOrLastCell(self, 1, row) then
-    else
-      self.gridView:scrollCellToCenter(1, row, 1)
-    end]]
 
     resetAnimator(self)
   end
@@ -73,21 +67,80 @@ local function drawSectionHeader(self, _, _, x, y, width, height)
 end
 
 local function drawCell(self, _, _, row, _, selected, x, y, width, height)
-  gfx.setDitherPattern(0.1, gfx.image.kDitherTypeDiagonalLine)
-  if selected then
-    gfx.fillRoundRect(x, y, self.animatorGridCell:currentValue(), CELL_HEIGHT, 10)
-    gfx.setImageDrawMode(gfx.kDrawModeFillBlack)
-    gfx.setLineWidth(3)
-  else
-    gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-    gfx.setLineWidth(1)
-  end
-  local fontHeight = 50
+  -- Unselected appearance
 
-  local filename = levels[row]
-  gfx.drawTextAligned(filename, x + width / 2, y + (height / 2 - fontHeight / 2) + 2, kTextAlignment.center)
-  gfx.setColor(gfx.kColorWhite)
-  gfx.drawRoundRect(x, y, width, height, 10)
+  if not selected then
+    -- Draw Frame
+
+    gfx.setLineWidth(3)
+    gfx.setColor(gfx.kColorWhite)
+    gfx.setDitherPattern(0.7, gfx.image.kDitherTypeDiagonalLine)
+
+    gfx.drawRoundRect(x, y, width, height, 10)
+
+    -- Draw Fill
+
+    gfx.setDitherPattern(0.5, gfx.image.kDitherTypeDiagonalLine)
+    gfx.fillRoundRect(x, y, width, height, 10)
+  else
+    -- Draw Frame
+
+    gfx.setLineWidth(3)
+    gfx.setColor(gfx.kColorWhite)
+    gfx.drawRoundRect(x, y, width, height, 10)
+
+    -- Draw Fill
+
+    gfx.setDitherPattern(0.2, gfx.image.kDitherTypeDiagonalLine)
+    gfx.fillRoundRect(x, y, width, height, 10)
+
+    -- Progress Bar
+
+    local rectProgressBar = RECT_PROGRESS_BAR:offsetBy(x, y)
+
+    -- Draw Progress Bar Rect
+
+    gfx.setColor(gfx.kColorBlack)
+    gfx.fillRoundRect(rectProgressBar, 10)
+
+    gfx.setColor(gfx.kColorWhite)
+    gfx.drawRoundRect(rectProgressBar, 10)
+
+    gfx.setColor(gfx.kColorBlack)
+    gfx.drawRoundRect(rectProgressBar:insetBy(-3, -3), 13)
+
+    -- Draw Progress Bar Fill
+
+    local fillValue = selected and ANIMATOR_PROGRESS_BAR:currentValue() * rectProgressBar.width or rectProgressBar.width
+
+    gfx.setColor(gfx.kColorWhite)
+    gfx.fillRoundRect(rectProgressBar.x, rectProgressBar.y, fillValue,
+      rectProgressBar.height, 10)
+
+    -- Draw Progress Bar Text
+
+    gfx.setFont(FONT_MEDIUM)
+
+    local fontHeight = gfx.getFont():getHeight()
+
+    gfx.setImageDrawMode(gfx.kDrawModeFillBlack)
+
+    -- TODO: Progress bar & text
+    -- progress bar pct
+    -- progress bar text
+
+    gfx.drawTextAligned("PROGRESS", rectProgressBar.x + rectProgressBar.width / 2,
+      rectProgressBar.y + rectProgressBar.height / 2 - fontHeight / 2,
+      kTextAlignment.center)
+
+    -- Draw Level Number & Name
+
+    gfx.setFont(FONT_GIANT)
+    gfx.drawTextAligned("4", x + CELL_WIDTH / 2, y + 8, kTextAlignment.center)
+
+    gfx.setFont(FONT_LARGE)
+    gfx.drawTextAligned("LEVEL NAME", x + CELL_WIDTH / 2, y + 36, kTextAlignment.center)
+  end
 end
 
 ---
@@ -116,10 +169,6 @@ function MenuGridView:init()
   self.gridView:setSectionHeaderHeight(48)
   self.gridView:setNumberOfColumns(1)
   self.gridView.scrollCellsToCenter = true -- [Franch] NOTE: See note in `animateSelectionChange()`.
-
-  -- Set animator
-
-  self.animatorGridCell = gfx.animator.new(CELL_FILL_ANIM_SPEED, 0, CELL_WIDTH, pd.easingFunctions.inOutQuad)
 
   -- Local gridview function overrides
 

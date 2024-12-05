@@ -4,7 +4,14 @@ _G.assets = {
     },
     fonts = {
         dialog = "assets/fonts/diamond_12",
-        menu = "assets/fonts/m42.TTF-7"
+        menu = {
+            tiny = "assets/fonts/m42/m42-7",
+            small = "assets/fonts/m42/m42-8",
+            medium = "assets/fonts/m42/m42-10",
+            large = "assets/fonts/m42/m42-12",
+            huge = "assets/fonts/m42/m42-14",
+            giant = "assets/fonts/m42/m42-16",
+        },
     },
     images = {
         tileset = "assets/images/tileset",
