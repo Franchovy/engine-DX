@@ -30,6 +30,7 @@ local FONT_LARGE = assert(gfx.font.new(assets.fonts.menu.large))
 local FONT_GIANT = assert(gfx.font.new(assets.fonts.menu.giant))
 
 local sections
+local sectionsR
 local levels
 
 class("MenuGridView").extends()
@@ -46,14 +47,14 @@ local function resetAnimator(self)
 end
 
 local function animateSelectionChange(self, callback, ...)
-  local _, rowPrevious = self.gridView:getSelection()
+  local sectionPrevious, rowPrevious = self.gridView:getSelection()
 
   callback(self.gridView, ...)
 
-  local _, row = self.gridView:getSelection()
+  local section, row = self.gridView:getSelection()
 
-  if rowPrevious ~= row then
-    self.gridView:scrollCellToCenter(1, row, 1)
+  if section ~= sectionPrevious or rowPrevious ~= row then
+    self.gridView:scrollCellToCenter(section, row, 1)
 
     resetAnimator(self)
   end
@@ -61,10 +62,10 @@ end
 
 -- Draw Methods
 
-local function drawSectionHeader(self, _, _, x, y, width, height)
+local function drawSectionHeader(self, gridView, section, x, y, width, height)
   local fontHeight = gfx.getSystemFont():getHeight()
   gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-  gfx.drawTextAligned("*LEVEL SELECT*", x + width / 2, y + (height / 2 - fontHeight / 2) + 2, kTextAlignment.center)
+  gfx.drawTextAligned(sections[section], x + width / 2, y + (height / 2 - fontHeight / 2) + 2, kTextAlignment.center)
 end
 
 local function drawCell(self, gridView, section, row, column, selected, x, y, width, height)
@@ -140,7 +141,7 @@ local function drawCell(self, gridView, section, row, column, selected, x, y, wi
     gfx.drawTextAligned(row, x + CELL_WIDTH / 2, y + 8, kTextAlignment.center)
 
     gfx.setFont(FONT_GIANT)
-    gfx.drawTextAligned(levels[row], x + CELL_WIDTH / 2, y + 36, kTextAlignment.center)
+    gfx.drawTextAligned(levels[sections[section]][row], x + CELL_WIDTH / 2, y + 36, kTextAlignment.center)
   end
 end
 
@@ -158,11 +159,16 @@ function MenuGridView:init()
   -- Get levels
 
   sections, levels = ReadFile.getLevelFiles()
+  sectionsR = reverseLookup(sections)
 
   -- Set number of sections & rows
 
-  self.gridView:setNumberOfSections(1)
-  self.gridView:setNumberOfRowsInSection(1, #levels)
+  self.gridView:setNumberOfSections(#sections)
+
+  for section, levelsForSection in pairs(levels) do
+    local indexSection = sectionsR[section]
+    self.gridView:setNumberOfRowsInSection(indexSection, #levelsForSection)
+  end
 
   -- Set gridview config
   self.gridView:setCellPadding(CELL_PADDING_H, CELL_PADDING_H, CELL_PADDING_V, CELL_PADDING_V)
@@ -207,11 +213,11 @@ function MenuGridView:selectPreviousRow()
   )
 end
 
-function MenuGridView:setSelection(row)
+function MenuGridView:setSelection(section, row)
   animateSelectionChange(
     self,
     self.gridView.setSelection,
-    1,
+    section,
     row,
     1
   )
@@ -223,10 +229,12 @@ function MenuGridView:getSelectedLevel()
 end
 
 function MenuGridView:setSelectionNextLevel()
-  for i, level in ipairs(levels) do
-    if not MemoryCard.getLevelCompleted(level) then
-      self:setSelection(i)
-      return
+  for indexSection, section in ipairs(levels) do
+    for indexLevel, level in ipairs(levels[section]) do
+      if not MemoryCard.getLevelCompleted(level) then
+        self:setSelection(indexSection, indexLevel)
+        return
+      end
     end
   end
 
