@@ -25,6 +25,8 @@ local spriteLevelCompleteText
 local spriteLevelCompleteHintText
 local blinkerLevelComplete
 
+local spriteGUILevelComplete
+
 -- Sprites
 
 local botsToRescueCountDefault <const> = 3
@@ -83,19 +85,7 @@ end
 function Game:init()
     self.checkpointHandler = CheckpointHandler.getOrCreate("game", self)
 
-    spriteLevelCompleteText = gfx.sprite.spriteWithText("Level Complete", 200, 80, nil, nil, nil, kTextAlignment.center)
-    spriteLevelCompleteText:setScale(1.5)
-    spriteLevelCompleteText:getImage():setInverted(true)
-    spriteLevelCompleteText:moveTo(200, 60)
-    spriteLevelCompleteText:setIgnoresDrawOffset(true)
-
-    spriteLevelCompleteHintText = gfx.sprite.spriteWithText("Crank to Finish", 200, 80, nil, nil, nil,
-        kTextAlignment.center)
-    spriteLevelCompleteHintText:getImage():setInverted(true)
-    spriteLevelCompleteHintText:moveTo(200, 90)
-    spriteLevelCompleteHintText:setIgnoresDrawOffset(true)
-
-    blinkerLevelComplete = gfx.animation.blinker.new(700, 300, true)
+    spriteGUILevelComplete = GUILevelComplete()
 end
 
 function Game:enter(previous, data)
@@ -217,18 +207,7 @@ function Game:enter(previous, data)
 end
 
 function Game:update()
-    -- update entities
-    if self.hintCrank then
-        pd.ui.crankIndicator:draw()
-    end
 
-    if SpriteRescueCounter.getInstance():isAllSpritesRescued() then
-        spriteLevelCompleteText:add()
-        spriteLevelCompleteHintText:add()
-    end
-
-    spriteLevelCompleteText:setVisible(blinkerLevelComplete.on)
-    spriteLevelCompleteHintText:setVisible(blinkerLevelComplete.on)
 end
 
 function Game:leave(next, ...)
@@ -312,8 +291,7 @@ function Game:botRescued(bot, botNumber)
     if spriteRescueCounter:isAllSpritesRescued() then
         -- Add on-screen text
 
-        spriteLevelCompleteText:add()
-        spriteLevelCompleteHintText:add()
+        spriteGUILevelComplete:add()
 
         blinkerLevelComplete:startLoop()
 

@@ -24,11 +24,6 @@ local DURATION_ANIMATION_PROGRESS_BAR_FILL <const> = 800
 local ANIMATOR_PROGRESS_BAR <const> = gfx.animator.new(DURATION_ANIMATION_PROGRESS_BAR_FILL, 0, 1,
   pd.easingFunctions.inOutQuad)
 
-local FONT_SMALL = assert(gfx.font.new(assets.fonts.menu.small))
-local FONT_MEDIUM = assert(gfx.font.new(assets.fonts.menu.medium))
-local FONT_LARGE = assert(gfx.font.new(assets.fonts.menu.large))
-local FONT_GIANT = assert(gfx.font.new(assets.fonts.menu.giant))
-
 local sections
 local sectionsR
 local levels
