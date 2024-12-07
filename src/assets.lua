@@ -1,7 +1,4 @@
 _G.assets = {
-    path = {
-        levels = "assets/levels/",
-    },
     fonts = {
         dialog = "assets/fonts/diamond_12",
         menu = {

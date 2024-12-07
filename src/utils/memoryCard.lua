@@ -2,7 +2,9 @@ local pd <const> = playdate
 local ds <const> = pd.datastore
 local fi <const> = pd.file
 
-class("MemoryCard").extends()
+local _ = {}
+
+MemoryCard = Class("MemoryCard")
 
 -- local functions, actual data access
 
@@ -31,7 +33,7 @@ end
 
 -- static functions, to be called by other classes
 
-function MemoryCard.setLevelComplete(levelName)
+function MemoryCard.setLevelComplete(area, world)
   local data = loadData(SAVE_FILE.GameData)
 
   if not data == nil then
@@ -42,24 +44,31 @@ function MemoryCard.setLevelComplete(levelName)
     data.levels = {}
   end
 
-  data.levels[levelName] = { complete = true }
+  local aliasWorld = _.makeWorldAlias(area, world)
+
+  data.levels[aliasWorld] = { complete = true }
 
   saveData(data, SAVE_FILE.GameData)
 end
 
-function MemoryCard.getLevelCompleted(level)
+function MemoryCard.getLevelCompleted(area, world)
   local data = loadData(SAVE_FILE.GameData)
 
-  if data.levels == nil or data.levels[level] == nil then
+  local worldAlias = _.buildWorldAlias(area, world)
+
+  if data.levels == nil or data.levels[worldAlias] == nil then
     return false
   end
 
-  return data.levels[level].complete or false
+  return data.levels[worldAlias].complete or false
 end
 
-function MemoryCard.setLastPlayed(level)
+function MemoryCard.setLastPlayed(area, world)
   local data = loadData(SAVE_FILE.GameData)
-  data.lastPlayed = level
+
+  local worldAlias = _.buildWorldAlias(area, world)
+  data.lastPlayed = worldAlias
+
   saveData(data, SAVE_FILE.GameData)
 end
 
@@ -72,26 +81,23 @@ function MemoryCard.getLastPlayed()
     return nil
   end
 
-  -- For backwards-compatibility
-  if data.lastPlayed.world and data.lastPlayed.level then
-    return nil
-  end
-
   return data.lastPlayed
 end
 
-function MemoryCard.setLevelCompletion(levelName, data)
+function MemoryCard.setLevelCompletion(area, world, data)
   local fileData = loadData(SAVE_FILE.GameData)
 
   if not fileData.levels then
     fileData.levels = {}
   end
 
-  if not fileData.levels[levelName] then
-    fileData.levels[levelName] = {}
+  local worldAlias = _.buildWorldAlias(area, world)
+
+  if not fileData.levels[worldAlias] then
+    fileData.levels[worldAlias] = {}
   end
 
-  local fileDataLevel = fileData.levels[levelName]
+  local fileDataLevel = fileData.levels[worldAlias]
 
   if data.currentLevel then
     -- Set current level name
@@ -102,11 +108,12 @@ function MemoryCard.setLevelCompletion(levelName, data)
   saveData(fileData, SAVE_FILE.GameData)
 end
 
-function MemoryCard.getLevelCompletion(levelName)
+function MemoryCard.getLevelCompletion(area, world)
   local fileData = loadData(SAVE_FILE.GameData)
+  local worldAlias = _.buildWorldAlias(area, world)
 
-  if fileData.levels and fileData.levels[levelName] then
-    return fileData.levels[levelName]
+  if fileData.levels and fileData.levels[worldAlias] then
+    return fileData.levels[worldAlias]
   end
 end
 
@@ -134,16 +141,16 @@ end
 
 -- LEVEL PROGRESS
 
-function MemoryCard.clearLevelCheckpoint(levelName)
-  clearData(SAVE_FILE.LevelSave .. "_" .. levelName)
+function MemoryCard.clearLevelCheckpoint(area, world)
+  clearData(_.buildProgressSaveFilePath(area, world, true))
 end
 
-function MemoryCard.saveLevelCheckpoint(levelName, levelData)
-  saveData(levelData, SAVE_FILE.LevelSave .. "_" .. levelName)
+function MemoryCard.saveLevelCheckpoint(area, world, data)
+  saveData(data, _.buildProgressSaveFilePath(area, world))
 end
 
-function MemoryCard.levelProgressToLoad(levelName)
-  local filePath = SAVE_FILE.LevelSave .. "_" .. levelName .. ".json"
+function MemoryCard.levelProgressToLoad(area, world)
+  local filePath = _.buildProgressSaveFilePath(area, world, true)
   local shouldLoad = fi.exists(filePath)
 
   if shouldLoad then
@@ -151,4 +158,15 @@ function MemoryCard.levelProgressToLoad(levelName)
   end
 
   return nil
+end
+
+-- PRIVATE METHODS
+
+function _.buildWorldAlias(area, world)
+  return area .. "/" .. world
+end
+
+function _.buildProgressSaveFilePath(area, world, includeExtension)
+  local extension = includeExtension and ".json" or ""
+  return SAVE_FILE.LevelSave .. "_" .. area .. "_" .. world .. extension
 end

@@ -5,7 +5,7 @@ local systemMenu <const> = playdate.getSystemMenu()
 
 local spButton <const> = playdate.sound.sampleplayer.new(assets.sounds.menuSelect)
 
-class("LevelSelect").extends(Room)
+LevelSelect = Class("LevelSelect", Room)
 
 local sceneManager
 
@@ -33,8 +33,6 @@ function LevelSelect:enter(previous, data)
   end
 
   systemMenu:addMenuItem("reset", MemoryCard.resetProgress)
-
-  self.gridView:setSelectionNextLevel()
 end
 
 function LevelSelect:leave()
@@ -52,13 +50,16 @@ end
 function LevelSelect:AButtonDown()
   FilePlayer.stop()
 
-  local level = self.gridView:getSelectedLevel()
-  if level then
+  local indexArea, indexWorld = self.gridView:getSelection()
+  local nameArea = ReadFile.getAreaName(indexArea)
+  local nameWorld = ReadFile.getWorldName(indexArea, indexWorld)
+
+  if nameArea and nameWorld then
     spButton:play(1)
 
     sceneManager.scenes.currentGame = Game()
 
-    Game.loadWorld(level)
+    Game.loadWorld(nameArea, nameWorld)
 
     sceneManager:enter(sceneManager.scenes.currentGame, { isInitialLoad = true })
   end

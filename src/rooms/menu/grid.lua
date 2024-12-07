@@ -24,11 +24,7 @@ local DURATION_ANIMATION_PROGRESS_BAR_FILL <const> = 800
 local ANIMATOR_PROGRESS_BAR <const> = gfx.animator.new(DURATION_ANIMATION_PROGRESS_BAR_FILL, 0, 1,
   pd.easingFunctions.inOutQuad)
 
-local sections
-local sectionsR
-local levels
-
-class("MenuGridView").extends()
+MenuGridView = Class("MenuGridView")
 
 ---
 --- Local convenience functions
@@ -60,7 +56,9 @@ end
 local function drawSectionHeader(self, gridView, section, x, y, width, height)
   local fontHeight = gfx.getSystemFont():getHeight()
   gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-  gfx.drawTextAligned(sections[section], x + width / 2, y + (height / 2 - fontHeight / 2) + 2, kTextAlignment.center)
+
+  local nameArea = ReadFile.getAreaName(section)
+  gfx.drawTextAligned(nameArea, x + width / 2, y + (height / 2 - fontHeight / 2) + 2, kTextAlignment.center)
 end
 
 local function drawCell(self, gridView, section, row, column, selected, x, y, width, height)
@@ -116,8 +114,6 @@ local function drawCell(self, gridView, section, row, column, selected, x, y, wi
 
     -- Draw Progress Bar Text
 
-    gfx.setFont(FONT_MEDIUM)
-
     local fontHeight = gfx.getFont():getHeight()
 
     gfx.setImageDrawMode(gfx.kDrawModeFillBlack)
@@ -132,11 +128,11 @@ local function drawCell(self, gridView, section, row, column, selected, x, y, wi
 
     -- Draw Level Number & Name
 
-    gfx.setFont(FONT_LARGE)
     gfx.drawTextAligned(row, x + CELL_WIDTH / 2, y + 8, kTextAlignment.center)
 
-    gfx.setFont(FONT_GIANT)
-    gfx.drawTextAligned(levels[sections[section]][row], x + CELL_WIDTH / 2, y + 36, kTextAlignment.center)
+    local nameWorld = ReadFile.getWorldName(section, row)
+
+    gfx.drawTextAligned(nameWorld, x + CELL_WIDTH / 2, y + 36, kTextAlignment.center)
   end
 end
 
@@ -151,18 +147,14 @@ end
 function MenuGridView:init()
   self.gridView = ui.gridview.new(0, CELL_HEIGHT)
 
-  -- Get levels
-
-  sections, levels = ReadFile.getLevelFiles()
-  sectionsR = reverseLookup(sections)
-
   -- Set number of sections & rows
 
-  self.gridView:setNumberOfSections(#sections)
+  local sectionsCount = ReadFile.getAreasCount()
+  self.gridView:setNumberOfSections(sectionsCount)
 
-  for section, levelsForSection in pairs(levels) do
-    local indexSection = sectionsR[section]
-    self.gridView:setNumberOfRowsInSection(indexSection, #levelsForSection)
+  for indexArea = 1, sectionsCount do
+    local worldsCount = ReadFile.getWorldsCount(indexArea)
+    self.gridView:setNumberOfRowsInSection(indexArea, worldsCount)
   end
 
   -- Set gridview config
@@ -218,20 +210,7 @@ function MenuGridView:setSelection(section, row)
   )
 end
 
-function MenuGridView:getSelectedLevel()
-  local _, row = self.gridView:getSelection()
-  return levels[row]
-end
-
-function MenuGridView:setSelectionNextLevel()
-  for indexSection, section in ipairs(levels) do
-    for indexLevel, level in ipairs(levels[section]) do
-      if not MemoryCard.getLevelCompleted(level) then
-        self:setSelection(indexSection, indexLevel)
-        return
-      end
-    end
-  end
-
-  self.gridView:setSelectedRow(1)
+function MenuGridView:getSelection()
+  local indexSection, indexRow = self.gridView:getSelection()
+  return indexSection, indexRow
 end

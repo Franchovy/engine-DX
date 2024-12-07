@@ -22,7 +22,7 @@ local blinkerPressStart
 
 -- Level Selection
 
-class("Menu").extends(Room)
+Menu = Class("Menu", Room)
 
 function Menu:enter(previous)
   -- Set sceneManager reference
@@ -82,30 +82,32 @@ function Menu:leave(next, ...)
 end
 
 function Menu:AButtonDown()
-  local levelFile = MemoryCard.getLastPlayed()
+  local area, world = MemoryCard.getLastPlayed()
 
-  if levelFile then
+  if area and world then
     -- Check if level file exists (useful while game is WIP)
-    local filepathLevel = assets.path.levels .. levelFile .. ".ldtk"
+    local worldFileExists = ReadFile.worldFileExists(area, world)
 
-    if not playdate.file.exists(filepathLevel) then
-      levelFile = nil
+    if not worldFileExists then
+      -- If doesn't exist, reset the last played.
+
+      area, world = nil, nil
     end
   end
 
-  if not levelFile then
+  if not (area and world) then
     -- Start with first level
-    local levels = ReadFile.getLevelFiles()
 
-    levelFile = levels[1]
+    area = ReadFile.getAreaName(1)
+    world = ReadFile.getWorldName(1, 1)
   end
 
-  if levelFile then
+  if area and world then
     spButton:play(1)
 
     sceneManager.scenes.currentGame = Game()
 
-    Game.loadWorld(levelFile)
+    Game.loadWorld(area, world)
 
     sceneManager:enter(sceneManager.scenes.currentGame, { isInitialLoad = true })
   end

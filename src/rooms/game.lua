@@ -2,7 +2,7 @@ local pd <const> = playdate
 local gfx <const> = pd.graphics
 local sound <const> = pd.sound
 
-class("Game").extends(Room)
+Game = Class("Game", Room)
 
 local sceneManager
 local systemMenu <const> = pd.getSystemMenu()
@@ -13,6 +13,7 @@ local spWarpAction <const> = playdate.sound.sampleplayer.new(assets.sounds.warpA
 local fileplayer
 
 local worldName
+local areaName
 
 -- LDtk current level name
 
@@ -34,16 +35,18 @@ local spriteGuiRescueCounter
 
 -- Static methods
 
-function Game.loadWorld(fileName)
+--- @param area string
+--- @param world string
+function Game.loadWorld(area, world)
     -- Load LDtk file
 
-    local filepathLevel = assets.path.levels .. fileName .. ".ldtk"
+    local filepathLevel = ReadFile.getWorldFilepath(area, world)
 
     LDtk.load(filepathLevel)
 
     -- Check if save data exists
 
-    local fileLevelProgress = MemoryCard.levelProgressToLoad(fileName)
+    local fileLevelProgress = MemoryCard.levelProgressToLoad(area, world)
 
     if fileLevelProgress then
         -- Replace entities data in LDtk loaded levels with save progress
@@ -53,7 +56,7 @@ function Game.loadWorld(fileName)
 
     -- Get last progress of level
 
-    local dataProgress = MemoryCard.getLevelCompletion(fileName)
+    local dataProgress = MemoryCard.getLevelCompletion(area, world)
 
     if dataProgress then
         if dataProgress.currentLevel then
@@ -63,11 +66,12 @@ function Game.loadWorld(fileName)
 
     --
 
-    MemoryCard.setLastPlayed(fileName)
+    MemoryCard.setLastPlayed(area, world)
 
     -- Set world name
 
-    worldName = fileName
+    worldName = world
+    areaName = area
 end
 
 function Game.getLevelName()
@@ -301,8 +305,8 @@ function Game:botRescued(bot, botNumber)
 
         -- Set level complete in data
 
-        MemoryCard.setLevelComplete(worldName)
-        MemoryCard.clearLevelCheckpoint(worldName)
+        MemoryCard.setLevelComplete(areaName, worldName)
+        MemoryCard.clearLevelCheckpoint(areaName, worldName)
     end
 end
 
@@ -318,9 +322,9 @@ end
 function Game:savePointSet()
     local levelData = LDtk.getAllLevels()
 
-    MemoryCard.saveLevelCheckpoint(worldName, levelData)
+    MemoryCard.saveLevelCheckpoint(areaName, worldName, levelData)
 
-    MemoryCard.setLevelCompletion(worldName, { currentLevel = currentLevelName })
+    MemoryCard.setLevelCompletion(areaName, worldName, { currentLevel = currentLevelName })
 
     Checkpoint.clearAllPrevious()
 end

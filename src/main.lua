@@ -19,6 +19,10 @@ gfx.setFont(fontDefault)
 gfx.setBackgroundColor(0)
 gfx.clear(0)
 
+-- Read file paths
+
+ReadFile.initialize()
+
 -- Set up Scene Manager (Roomy)
 
 local manager = Manager()
