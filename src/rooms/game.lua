@@ -297,8 +297,6 @@ function Game:botRescued(bot, botNumber)
 
         spriteGUILevelComplete:add()
 
-        blinkerLevelComplete:startLoop()
-
         -- Set player state to game end
 
         Player.getInstance():setLevelEndReady()
@@ -306,6 +304,8 @@ function Game:botRescued(bot, botNumber)
         -- Set level complete in data
 
         MemoryCard.setLevelComplete(areaName, worldName)
+
+        -- Remove progress file
         MemoryCard.clearLevelCheckpoint(areaName, worldName)
     end
 end

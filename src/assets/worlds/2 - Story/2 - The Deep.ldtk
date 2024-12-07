@@ -3090,7 +3090,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Welcome to your next/mission, DRLBOT. We lost\n3 more bots that you/need to rescue.\nBe careful of what keys/you pick up out here.\nWe wouldn't want you/to get stuck.\nGood luck.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Welcome to your next/mission, DRLBOT. We lost\\n3 more bots that you/need to rescue.\\nBe careful of what keys/you pick up out here.\\nWe wouldn't want you/to get stuck.\\nGood luck."
+										"Welcome to your next/mission, DRLBOT. We lost\n3 more bots that you/need to rescue.\nBe careful of what keys/you pick up out here.\nWe wouldn't want you/to get stuck.\nGood luck."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
@@ -3414,7 +3414,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Go see the quarry/towards the right.\nI think they need/your help.\nStuck?\nI'm sure there's another/way, CRANK TO WARP and try again!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Go see the quarry/towards the right.\\nI think they need/your help.\\nStuck?\\nI'm sure there's another/way, CRANK TO WARP and try again!"
+										"Go see the quarry/towards the right.\nI think they need/your help.\nStuck?\nI'm sure there's another/way, CRANK TO WARP and try again!"
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
@@ -5528,7 +5528,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Thank goodness you're/here. The quarry just...\nrecently caved in. Thankfully/there were no bots...\njust an UP arrow.\nOh, and B.O.B.\nBut nobody likes B.O.B. anyways.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Thank goodness you're/here. The quarry just...\\nrecently caved in. Thankfully/there were no bots...\\njust an UP arrow.\\nOh, and B.O.B.\\nBut nobody likes B.O.B. anyways."
+										"Thank goodness you're/here. The quarry just...\nrecently caved in. Thankfully/there were no bots...\njust an UP arrow.\nOh, and B.O.B.\nBut nobody likes B.O.B. anyways."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
@@ -5601,7 +5601,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Help! I'm stuck!\nStuck without any friends,/that is.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Help! I'm stuck!\\nStuck without any friends,/that is."]
+									"params": ["Help! I'm stuck!\nStuck without any friends,/that is."]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 428, "realEditorValues": [] },
@@ -6473,7 +6473,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "B.O.B.?\nDon't worry about him,/he can get out alone.\nHe just wants attention,/that's all.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"B.O.B.?\\nDon't worry about him,/he can get out alone.\\nHe just wants attention,/that's all."
+										"B.O.B.?\nDon't worry about him,/he can get out alone.\nHe just wants attention,/that's all."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 427, "realEditorValues": [] },
@@ -7147,7 +7147,7 @@
 						},
 						{
 							"__identifier": "Elevator",
-							"__grid": [10,10],
+							"__grid": [10,11],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -7156,17 +7156,17 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [320,320],
+							"px": [320,352],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
 									"params": ["Vertical"]
 								}] },
-								{ "__identifier": "distance", "__type": "Int", "__value": 5, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [5] }] },
-								{ "__identifier": "initialDistance", "__type": "Int", "__value": 5, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [5] }] }
+								{ "__identifier": "distance", "__type": "Int", "__value": 6, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [6] }] },
+								{ "__identifier": "initialDistance", "__type": "Int", "__value": 6, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [6] }] }
 							],
 							"__worldX": -1984,
-							"__worldY": 50
+							"__worldY": 82
 						},
 						{
 							"__identifier": "ButtonPickup",

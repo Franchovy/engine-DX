@@ -1,6 +1,6 @@
 local gfx <const> = playdate.graphics
 
-local SPRITE_WIDTH <const> = 200
+local SPRITE_WIDTH <const> = 300
 local SPRITE_HEIGHT <const> = 120
 
 -- Local functions
@@ -13,7 +13,8 @@ function GUILevelComplete:init()
     GUILevelComplete.super.init(self)
 
     self:setIgnoresDrawOffset(true)
-    self:moveTo((400 - SPRITE_WIDTH) / 2, (240 - SPRITE_HEIGHT) / 2)
+    self:setZIndex(Z_INDEX.HUD.Background)
+    self:moveTo(400 / 2, 240 / 2)
 
     -- Build & Set image with text
 
@@ -47,6 +48,7 @@ function _.createTextImage()
 
     gfx.pushContext(image)
 
+    gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
     gfx.setFont(Fonts.Menu.Large)
     local fontHeightTitle = Fonts.Menu.Large:getHeight()
 

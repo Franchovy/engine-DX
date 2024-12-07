@@ -24,6 +24,9 @@ local DURATION_ANIMATION_PROGRESS_BAR_FILL <const> = 800
 local ANIMATOR_PROGRESS_BAR <const> = gfx.animator.new(DURATION_ANIMATION_PROGRESS_BAR_FILL, 0, 1,
   pd.easingFunctions.inOutQuad)
 
+local _ = {}
+local levelsCompleted
+
 MenuGridView = Class("MenuGridView")
 
 ---
@@ -54,7 +57,7 @@ end
 -- Draw Methods
 
 local function drawSectionHeader(self, gridView, section, x, y, width, height)
-  local fontHeight = gfx.getSystemFont():getHeight()
+  local fontHeight = gfx.getFont():getHeight()
   gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
 
   local nameArea = ReadFile.getAreaName(section)
@@ -118,20 +121,36 @@ local function drawCell(self, gridView, section, row, column, selected, x, y, wi
 
     gfx.setImageDrawMode(gfx.kDrawModeFillBlack)
 
-    -- TODO: Progress bar & text
-    -- progress bar pct
-    -- progress bar text
+    -- Progress bar text
 
-    gfx.drawTextAligned("PROGRESS", rectProgressBar.x + rectProgressBar.width / 2,
+    local sectionPrevious, rowPrevious = _.getIndexPrevious(gridView, section, row)
+    local completionPrevious
+    if sectionPrevious and rowPrevious then
+      local nameAreaPrevious = ReadFile.getAreaName(sectionPrevious)
+      local nameWorldPrevious = ReadFile.getWorldName(sectionPrevious, rowPrevious)
+      completionPrevious = MemoryCard.getLevelCompletion(nameAreaPrevious, nameWorldPrevious)
+    else
+      completionPrevious = { complete = true }
+    end
+
+    local nameArea = ReadFile.getAreaName(section)
+    local nameWorld = ReadFile.getWorldName(section, row)
+    local completion = MemoryCard.getLevelCompletion(nameArea, nameWorld)
+
+    local textProgressBar = not (completionPrevious and completionPrevious.complete) and "Locked" or
+        completion and (completion.complete and "Complete" or
+          "In Progress") or "New"
+
+    -- TODO: Locked texture
+    -- TODO: Progress bar pct
+
+    gfx.drawTextAligned(textProgressBar, rectProgressBar.x + rectProgressBar.width / 2,
       rectProgressBar.y + rectProgressBar.height / 2 - fontHeight / 2,
       kTextAlignment.center)
 
     -- Draw Level Number & Name
 
     gfx.drawTextAligned(row, x + CELL_WIDTH / 2, y + 8, kTextAlignment.center)
-
-    local nameWorld = ReadFile.getWorldName(section, row)
-
     gfx.drawTextAligned(nameWorld, x + CELL_WIDTH / 2, y + 36, kTextAlignment.center)
   end
 end
@@ -213,4 +232,20 @@ end
 function MenuGridView:getSelection()
   local indexSection, indexRow = self.gridView:getSelection()
   return indexSection, indexRow
+end
+
+--- Return previous section / row in the gridview. Returns nil otherwise.
+function _.getIndexPrevious(gridView, section, row)
+  if row == 1 then
+    if section > 1 then
+      section -= 1
+      row = gridView:getNumberOfRowsInSection(section)
+    else
+      return nil
+    end
+  else
+    row -= 1
+  end
+
+  return section, row
 end

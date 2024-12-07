@@ -16,6 +16,9 @@ local sceneManager
 function LevelSelect:enter(previous, data)
   local data = data or {}
 
+  local font = gfx.font.new(assets.fonts.menu.small)
+  gfx.setFont(font)
+
   -- Set Music
 
   local shouldEnableMusic = MemoryCard.getShouldEnableMusic()

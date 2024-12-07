@@ -30,8 +30,8 @@ function Menu:enter(previous)
 
   -- Set font
 
-  local fontDefault = gfx.font.new(assets.fonts.menu.small)
-  gfx.setFont(fontDefault)
+  local font = gfx.font.new(assets.fonts.menu.small)
+  gfx.setFont(font)
 
   -- Set Music
 

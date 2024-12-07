@@ -44,7 +44,7 @@ function MemoryCard.setLevelComplete(area, world)
     data.levels = {}
   end
 
-  local aliasWorld = _.makeWorldAlias(area, world)
+  local aliasWorld = _.buildWorldAlias(area, world)
 
   data.levels[aliasWorld] = { complete = true }
 
@@ -142,7 +142,7 @@ end
 -- LEVEL PROGRESS
 
 function MemoryCard.clearLevelCheckpoint(area, world)
-  clearData(_.buildProgressSaveFilePath(area, world, true))
+  clearData(_.buildProgressSaveFilePath(area, world))
 end
 
 function MemoryCard.saveLevelCheckpoint(area, world, data)
@@ -166,7 +166,6 @@ function _.buildWorldAlias(area, world)
   return area .. "/" .. world
 end
 
-function _.buildProgressSaveFilePath(area, world, includeExtension)
-  local extension = includeExtension and ".json" or ""
-  return SAVE_FILE.LevelSave .. "_" .. area .. "_" .. world .. extension
+function _.buildProgressSaveFilePath(area, world)
+  return SAVE_FILE.LevelSave .. "_" .. area .. "_" .. world
 end
