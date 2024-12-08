@@ -32,7 +32,7 @@ local STATE_PROGRESS_WORLD <const> = {
 }
 
 local _ = {}
-local levelsCompleted
+local statesWorld = {}
 
 MenuGridView = Class("MenuGridView")
 
@@ -243,6 +243,16 @@ function MenuGridView:getSelection()
   return indexSection, indexRow
 end
 
+function MenuGridView:getSelectionIsLocked()
+  local indexSection, indexRow = self.gridView:getSelection()
+
+  local state = _.getWorldProgressStatus(self.gridView, indexSection, indexRow)
+
+  return state == STATE_PROGRESS_WORLD.Locked
+end
+
+-- Private methods
+
 function _.getProgressBarText(status)
   if status == STATE_PROGRESS_WORLD.Complete then
     return "Complete"
@@ -256,6 +266,14 @@ function _.getProgressBarText(status)
 end
 
 function _.getWorldProgressStatus(gridView, section, row)
+  -- If cached value is present, simply return it.
+
+  if statesWorld[section] and statesWorld[section][row] then
+    return statesWorld[section][row]
+  end
+
+  -- Calculate whether level is unlocked based on previous
+
   local sectionPrevious, rowPrevious = _.getIndexPrevious(gridView, section, row)
   local completionPrevious
 
@@ -272,15 +290,26 @@ function _.getWorldProgressStatus(gridView, section, row)
   local nameWorld = ReadFile.getWorldName(section, row)
   local completion = MemoryCard.getLevelCompletion(nameArea, nameWorld)
 
+  local state
+
   if completion and completion.complete then
-    return STATE_PROGRESS_WORLD.Complete
+    state = STATE_PROGRESS_WORLD.Complete
   elseif completion then
-    return STATE_PROGRESS_WORLD.InProgress
+    state = STATE_PROGRESS_WORLD.InProgress
   elseif not (completionPrevious and completionPrevious.complete) then
-    return STATE_PROGRESS_WORLD.Locked
+    state = STATE_PROGRESS_WORLD.Locked
   else
-    return STATE_PROGRESS_WORLD.New
+    state = STATE_PROGRESS_WORLD.New
   end
+
+  -- Cache value
+  if not statesWorld[section] then
+    statesWorld[section] = {}
+  end
+
+  statesWorld[section][row] = state
+
+  return state
 end
 
 --- Return previous section / row in the gridview. Returns nil otherwise.
