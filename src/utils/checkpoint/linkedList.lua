@@ -8,7 +8,7 @@
 --     [7] = { state3, prev = 3 }
 -- }
 
-class("LinkedList").extends()
+LinkedList = Class("LinkedList")
 
 function LinkedList:init(state, index)
     self[index] = {

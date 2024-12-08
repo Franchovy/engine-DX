@@ -1,8 +1,6 @@
 import "sprites/Player"
 import "sprites/ButtonPickup"
 import "sprites/AbilityPanel"
-import "sprites/ConveyorBelt"
-import "sprites/Box"
 import "sprites/DrillableBlock"
 import "sprites/Elevator"
 import "sprites/Dialog"

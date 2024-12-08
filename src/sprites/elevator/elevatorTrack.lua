@@ -19,7 +19,7 @@ local TILE_ID <const> = {
 
 -- Class definition
 
-class("ElevatorTrack").extends(gfx.sprite)
+ElevatorTrack = Class("ElevatorTrack", gfx.sprite)
 
 function ElevatorTrack:init(trackLengthInTiles, orientation)
     ElevatorTrack.super.init(self)

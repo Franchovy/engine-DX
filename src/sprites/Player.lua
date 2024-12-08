@@ -66,7 +66,7 @@ local jumpHoldTimeInTicks <const> = 4
 
 -- Setup
 
-class("Player").extends(AnimatedSprite)
+Player = Class("Player", AnimatedSprite)
 
 -- Static Reference
 

@@ -25,7 +25,7 @@ local DEBUG_PRINT <const> = false
 --- >> function MySprite:handleCheckpointRevert(state)
 --- >>     -- Handle state update here
 --- >> end
-class("Checkpoint").extends()
+Checkpoint = Class("Checkpoint")
 
 local checkpointNumber = 1
 local checkpointHandlers = table.create(32, 0)
@@ -81,7 +81,7 @@ end
 
 -- Instance methods - individual sprite methods for managing state
 
-class("CheckpointHandler").extends()
+CheckpointHandler = Class("CheckpointHandler")
 
 function CheckpointHandler.getOrCreate(id, sprite, initialState)
     local checkpointHandlerExisting = checkpointHandlers[id]

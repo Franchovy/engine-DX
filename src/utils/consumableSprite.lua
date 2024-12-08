@@ -18,7 +18,7 @@ local checkpointStateConsumed <const> = {
 
 --
 
-class("ConsumableSprite").extends(gfx.sprite)
+ConsumableSprite = Class("ConsumableSprite", gfx.sprite)
 
 function ConsumableSprite:init(entity)
     ConsumableSprite.super.init(self)

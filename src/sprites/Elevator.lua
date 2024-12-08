@@ -219,7 +219,7 @@ end
 --- Private Static methods
 ---
 
-class("Elevator").extends(gfx.sprite)
+Elevator = Class("Elevator", gfx.sprite)
 
 function Elevator:init(entity)
   Elevator.super.init(self, imageElevator)

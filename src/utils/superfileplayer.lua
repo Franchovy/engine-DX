@@ -4,7 +4,7 @@
 
 local fileplayer <const> = playdate.sound.fileplayer
 
-class("SuperFilePlayer").extends()
+SuperFilePlayer = Class("SuperFilePlayer")
 
 local function finishedCallback(self, i)
     local nextIndex = #self.fileplayers < i + 1 and 1 or i + 1

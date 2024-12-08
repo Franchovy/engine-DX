@@ -12,7 +12,7 @@ local imageTableIndexes <const> = {
   [KEYNAMES.B] = 6,
 }
 
-class('ButtonPickup').extends(ConsumableSprite)
+ButtonPickup = Class('ButtonPickup', ConsumableSprite)
 
 function ButtonPickup:init(entity)
   ButtonPickup.super.init(self, entity)

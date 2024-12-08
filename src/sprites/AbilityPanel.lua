@@ -2,9 +2,9 @@ local pd <const> = playdate
 local gfx <const> = pd.graphics
 local gmt <const> = pd.geometry
 
-class("AbilityPanel").extends(pd.graphics.sprite)
-
 local imagePanel <const> = gfx.image.new(assets.images.hudPanel)
+
+AbilityPanel = Class("AbilityPanel", gfx.sprite)
 
 -- Button images (from imagetable)
 

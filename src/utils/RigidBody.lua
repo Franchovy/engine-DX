@@ -2,7 +2,7 @@ local pd <const> = playdate
 local gmt <const> = pd.geometry
 local gfx <const> = pd.graphics
 
-class("RigidBody").extends()
+RigidBody = Class("RigidBody")
 
 local gravity <const> = 8
 local airFrictionCoefficient <const> = -0.2
@@ -51,7 +51,7 @@ function RigidBody:update()
     local collisionType = c.type
 
     if collisionType == gfx.sprite.kCollisionTypeSlide then
-    -- Detect if ground collision
+      -- Detect if ground collision
 
       if normal.y == -1 and PROPS.Ground[tag] then
         self.onGround = true

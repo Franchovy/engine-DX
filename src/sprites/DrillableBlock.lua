@@ -8,7 +8,7 @@ local spListBlockCrush = {
     [4] = playdate.sound.sampleplayer.new(assets.sounds.blockCrush[4])
 }
 
-class("DrillableBlock").extends(ConsumableSprite)
+DrillableBlock = Class("DrillableBlock", ConsumableSprite)
 
 local maxTicksToDrill = 15
 
