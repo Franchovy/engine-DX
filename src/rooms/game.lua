@@ -17,7 +17,7 @@ local areaName
 
 -- LDtk current level name
 
-local initialLevelName <const> = "Level_0"
+local LEVEL_NAME_INITIAL <const> = "Level_0"
 local initialLevelNameSaveProgress
 local currentLevelName
 local checkpointPlayerStart
@@ -109,7 +109,7 @@ function Game:enter(previous, data)
 
     -- Get current level
 
-    currentLevelName = level and level.name or initialLevelNameSaveProgress or initialLevelName
+    currentLevelName = level and level.name or initialLevelNameSaveProgress or LEVEL_NAME_INITIAL
     local levelBounds = level and level.bounds or LDtk.get_rect(currentLevelName)
 
     -- Initial Load - only run once per world
@@ -117,7 +117,7 @@ function Game:enter(previous, data)
     if data.isInitialLoad then
         -- Load level fields (used only on the initial level)
 
-        local levelData = LDtk.get_custom_data(initialLevelName) or {}
+        local levelData = LDtk.get_custom_data(LEVEL_NAME_INITIAL) or {}
 
         -- Set up GUI
 
@@ -292,6 +292,10 @@ function Game:botRescued(bot, botNumber)
     local spriteRescueCounter = SpriteRescueCounter.getInstance()
     spriteRescueCounter:setSpriteRescued(botNumber, bot.fields.spriteNumber)
 
+    -- Save the rescued sprite list
+    local rescuedSprites = spriteRescueCounter:getRescuedSprites()
+    MemoryCard.setLevelCompletion(areaName, worldName, { rescuedSprites = rescuedSprites })
+
     if spriteRescueCounter:isAllSpritesRescued() then
         -- Add on-screen text
 
@@ -303,7 +307,8 @@ function Game:botRescued(bot, botNumber)
 
         -- Set level complete in data
 
-        MemoryCard.setLevelComplete(areaName, worldName)
+        local saveData = { complete = true, currentLevel = LEVEL_NAME_INITIAL }
+        MemoryCard.setLevelCompletion(areaName, worldName, saveData)
 
         -- Remove progress file
         MemoryCard.clearLevelCheckpoint(areaName, worldName)

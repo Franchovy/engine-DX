@@ -33,24 +33,6 @@ end
 
 -- static functions, to be called by other classes
 
-function MemoryCard.setLevelComplete(area, world)
-  local data = loadData(SAVE_FILE.GameData)
-
-  if not data == nil then
-    return
-  end
-
-  if data.levels == nil then
-    data.levels = {}
-  end
-
-  local aliasWorld = _.buildWorldAlias(area, world)
-
-  data.levels[aliasWorld] = { complete = true }
-
-  saveData(data, SAVE_FILE.GameData)
-end
-
 function MemoryCard.getLevelCompleted(area, world)
   local data = loadData(SAVE_FILE.GameData)
 
@@ -103,6 +85,14 @@ function MemoryCard.setLevelCompletion(area, world, data)
     -- Set current level name
 
     fileDataLevel.currentLevel = data.currentLevel
+  end
+
+  if data.rescuedSprites then
+    fileDataLevel.rescuedSprites = data.rescuedSprites
+  end
+
+  if data.complete then
+    fileDataLevel.complete = data.complete
   end
 
   saveData(fileData, SAVE_FILE.GameData)

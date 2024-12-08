@@ -16,12 +16,9 @@ local padding <const> = 3
 
 local maxSpriteCounters <const> = 16
 local spriteCounters <const> = {}
+local stateSpriteCounters <const> = {}
 
-local function isSet(self)
-    return self:getImage() ~= imagetableSprite[1]
-end
-
----@class CrankWarpController: playdate.graphics.sprite
+---@class SpriteRescueCounter: playdate.graphics.sprite
 SpriteRescueCounter = Class("SpriteRescueCounter", gfx.sprite)
 
 local _instance
@@ -46,9 +43,6 @@ function SpriteRescueCounter:init()
         spriteCounter:moveTo(400 - i * (spriteWidth + padding), padding)
         spriteCounter:setIgnoresDrawOffset(true)
         spriteCounter:setZIndex(Z_INDEX.HUD.Main)
-
-        -- Provide helper function for checking if state set or not set
-        spriteCounter.isSet = isSet
 
         table.insert(spriteCounters, spriteCounter)
     end
@@ -78,24 +72,43 @@ function SpriteRescueCounter:setRescueSpriteCount(count)
     self.rescueSpriteCount = count
 
     for i, spriteCounter in ipairs(spriteCounters) do
+        -- Reset image state
         spriteCounter:setImage(imagetableSprite[1])
 
         if i <= count then
+            -- Set rescuable
+            stateSpriteCounters[i] = false
+
             spriteCounter:add()
         else
+            -- Set not rescuable
+            stateSpriteCounters[i] = nil
+
             spriteCounter:remove()
         end
     end
 end
 
 function SpriteRescueCounter:setSpriteRescued(number, spriteImageIndex)
+    local indexSpriteCounter = self.rescueSpriteCount - number + 1
+
+    -- Set state
+    stateSpriteCounters[indexSpriteCounter] = true
+
+    local spriteCounter = spriteCounters[indexSpriteCounter]
+
+    -- Set image
     local imageRescued = imageSpriteRescued[spriteImageIndex]
-    spriteCounters[self.rescueSpriteCount - number + 1]:setImage(imageRescued)
+    spriteCounter:setImage(imageRescued)
+end
+
+function SpriteRescueCounter:getRescuedSprites()
+    return stateSpriteCounters
 end
 
 function SpriteRescueCounter:isAllSpritesRescued()
-    for i = 1, self.rescueSpriteCount do
-        if not spriteCounters[i]:isSet() then
+    for _, state in ipairs(stateSpriteCounters) do
+        if state == false then
             return false
         end
     end
