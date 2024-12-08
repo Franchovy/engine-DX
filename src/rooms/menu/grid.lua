@@ -24,6 +24,13 @@ local DURATION_ANIMATION_PROGRESS_BAR_FILL <const> = 800
 local ANIMATOR_PROGRESS_BAR <const> = gfx.animator.new(DURATION_ANIMATION_PROGRESS_BAR_FILL, 0, 1,
   pd.easingFunctions.inOutQuad)
 
+local STATE_PROGRESS_WORLD <const> = {
+  Complete = "complete",
+  InProgress = "in progress",
+  New = "new",
+  Locked = "locked"
+}
+
 local _ = {}
 local levelsCompleted
 
@@ -81,6 +88,18 @@ local function drawCell(self, gridView, section, row, column, selected, x, y, wi
     gfx.setDitherPattern(0.5, gfx.image.kDitherTypeDiagonalLine)
     gfx.fillRoundRect(x, y, width, height, 10)
   else
+    -- Progress Bar
+
+    local rectProgressBar = RECT_PROGRESS_BAR:offsetBy(x, y)
+
+    local statusWorld = _.getWorldProgressStatus(gridView, section, row)
+
+    local completion = statusWorld == STATE_PROGRESS_WORLD.InProgress and 0.5 or
+        statusWorld == STATE_PROGRESS_WORLD.Complete and 1.0 or 0.0
+
+    local fillValue = selected and ANIMATOR_PROGRESS_BAR:currentValue() * rectProgressBar.width * completion or
+        rectProgressBar.width
+
     -- Draw Frame
 
     gfx.setLineWidth(3)
@@ -89,19 +108,20 @@ local function drawCell(self, gridView, section, row, column, selected, x, y, wi
 
     -- Draw Fill
 
-    gfx.setDitherPattern(0.2, gfx.image.kDitherTypeDiagonalLine)
+    local opacityFillBackground = (statusWorld == STATE_PROGRESS_WORLD.Locked and 0.2 or 0.8)
+
+    gfx.setDitherPattern(1 - opacityFillBackground, gfx.image.kDitherTypeDiagonalLine)
     gfx.fillRoundRect(x, y, width, height, 10)
-
-    -- Progress Bar
-
-    local rectProgressBar = RECT_PROGRESS_BAR:offsetBy(x, y)
 
     -- Draw Progress Bar Rect
 
     gfx.setColor(gfx.kColorBlack)
     gfx.fillRoundRect(rectProgressBar, 10)
 
+    local opacityFillBorder = (statusWorld == STATE_PROGRESS_WORLD.Locked and 0.5 or 1.0)
+
     gfx.setColor(gfx.kColorWhite)
+    gfx.setDitherPattern(1 - opacityFillBorder, gfx.image.kDitherTypeDiagonalLine)
     gfx.drawRoundRect(rectProgressBar, 10)
 
     gfx.setColor(gfx.kColorBlack)
@@ -109,49 +129,38 @@ local function drawCell(self, gridView, section, row, column, selected, x, y, wi
 
     -- Draw Progress Bar Fill
 
-    local fillValue = selected and ANIMATOR_PROGRESS_BAR:currentValue() * rectProgressBar.width or rectProgressBar.width
-
     gfx.setColor(gfx.kColorWhite)
     gfx.fillRoundRect(rectProgressBar.x, rectProgressBar.y, fillValue,
       rectProgressBar.height, 10)
 
-    -- Draw Progress Bar Text
+    -- Draw Level Number & Name
 
-    local fontHeight = gfx.getFont():getHeight()
+    local nameWorld = ReadFile.getWorldName(section, row)
 
     gfx.setImageDrawMode(gfx.kDrawModeFillBlack)
 
+    gfx.setFont(Fonts.Menu.Large)
+
+    gfx.drawTextAligned(row, x + CELL_WIDTH / 2, y + 8, kTextAlignment.center)
+
+    gfx.setFont(Fonts.Menu.Medium)
+
+    gfx.drawTextAligned(nameWorld, x + CELL_WIDTH / 2, y + 36, kTextAlignment.center)
+
     -- Progress bar text
 
-    local sectionPrevious, rowPrevious = _.getIndexPrevious(gridView, section, row)
-    local completionPrevious
-    if sectionPrevious and rowPrevious then
-      local nameAreaPrevious = ReadFile.getAreaName(sectionPrevious)
-      local nameWorldPrevious = ReadFile.getWorldName(sectionPrevious, rowPrevious)
-      completionPrevious = MemoryCard.getLevelCompletion(nameAreaPrevious, nameWorldPrevious)
-    else
-      completionPrevious = { complete = true }
-    end
+    gfx.setFont(Fonts.Menu.Small)
+    local fontHeight = gfx.getFont():getHeight()
 
-    local nameArea = ReadFile.getAreaName(section)
-    local nameWorld = ReadFile.getWorldName(section, row)
-    local completion = MemoryCard.getLevelCompletion(nameArea, nameWorld)
+    gfx.setImageDrawMode(gfx.kDrawModeNXOR)
 
-    local textProgressBar = not (completionPrevious and completionPrevious.complete) and "Locked" or
-        completion and (completion.complete and "Complete" or
-          "In Progress") or "New"
-
-    -- TODO: Locked texture
-    -- TODO: Progress bar pct
+    local textProgressBar = _.getProgressBarText(statusWorld)
 
     gfx.drawTextAligned(textProgressBar, rectProgressBar.x + rectProgressBar.width / 2,
       rectProgressBar.y + rectProgressBar.height / 2 - fontHeight / 2,
       kTextAlignment.center)
 
-    -- Draw Level Number & Name
-
-    gfx.drawTextAligned(row, x + CELL_WIDTH / 2, y + 8, kTextAlignment.center)
-    gfx.drawTextAligned(nameWorld, x + CELL_WIDTH / 2, y + 36, kTextAlignment.center)
+    gfx.setFont(Fonts.Menu.Large)
   end
 end
 
@@ -232,6 +241,46 @@ end
 function MenuGridView:getSelection()
   local indexSection, indexRow = self.gridView:getSelection()
   return indexSection, indexRow
+end
+
+function _.getProgressBarText(status)
+  if status == STATE_PROGRESS_WORLD.Complete then
+    return "Complete"
+  elseif status == STATE_PROGRESS_WORLD.InProgress then
+    return "In Progress"
+  elseif status == STATE_PROGRESS_WORLD.New then
+    return "New"
+  elseif status == STATE_PROGRESS_WORLD.Locked then
+    return "Locked"
+  end
+end
+
+function _.getWorldProgressStatus(gridView, section, row)
+  local sectionPrevious, rowPrevious = _.getIndexPrevious(gridView, section, row)
+  local completionPrevious
+
+  if sectionPrevious and rowPrevious then
+    local nameAreaPrevious = ReadFile.getAreaName(sectionPrevious)
+    local nameWorldPrevious = ReadFile.getWorldName(sectionPrevious, rowPrevious)
+    completionPrevious = MemoryCard.getLevelCompletion(nameAreaPrevious, nameWorldPrevious)
+  else
+    -- If first level, act like the "previous level" is complete.
+    completionPrevious = { complete = true }
+  end
+
+  local nameArea = ReadFile.getAreaName(section)
+  local nameWorld = ReadFile.getWorldName(section, row)
+  local completion = MemoryCard.getLevelCompletion(nameArea, nameWorld)
+
+  if completion and completion.complete then
+    return STATE_PROGRESS_WORLD.Complete
+  elseif completion then
+    return STATE_PROGRESS_WORLD.InProgress
+  elseif not (completionPrevious and completionPrevious.complete) then
+    return STATE_PROGRESS_WORLD.Locked
+  else
+    return STATE_PROGRESS_WORLD.New
+  end
 end
 
 --- Return previous section / row in the gridview. Returns nil otherwise.
