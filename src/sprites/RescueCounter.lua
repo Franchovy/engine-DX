@@ -14,8 +14,10 @@ local imageSpriteRescued <const> = {
 }
 local padding <const> = 3
 
-local maxSpriteCounters <const> = 16
+local maxSpriteCounters <const> = 7
 local spriteCounters <const> = {}
+
+---@class {number:{value:bool?, indexSpriteImage:number}}
 local stateSpriteCounters <const> = {}
 
 ---@class SpriteRescueCounter: playdate.graphics.sprite
@@ -33,18 +35,16 @@ function SpriteRescueCounter:init()
     _instance = self
 
     local image = imagetableSprite[1]
-    local spriteWidth = image:getSize()
     for i = 1, maxSpriteCounters do
         local spriteCounter = gfx.sprite.new(image)
 
-        -- Sprite config for
+        -- Sprite config for each rescuable sprite
 
         spriteCounter:setCenter(0, 0)
-        spriteCounter:moveTo(400 - i * (spriteWidth + padding), padding)
         spriteCounter:setIgnoresDrawOffset(true)
         spriteCounter:setZIndex(Z_INDEX.HUD.Main)
 
-        table.insert(spriteCounters, spriteCounter)
+        table.insert(spriteCounters, i, spriteCounter)
     end
 
     self.rescueSpriteCount = 1
@@ -67,9 +67,12 @@ function SpriteRescueCounter:remove()
 end
 
 function SpriteRescueCounter:setRescueSpriteCount(count)
-    assert(count < maxSpriteCounters, "max rescuable sprites does not support a number higher than 7.")
+    assert(count < maxSpriteCounters,
+        "max rescuable sprites does not support a number higher than " .. maxSpriteCounters .. ".")
 
     self.rescueSpriteCount = count
+
+    self:setPositionsSpriteCounter()
 
     for i, spriteCounter in ipairs(spriteCounters) do
         -- Reset image state
@@ -77,7 +80,7 @@ function SpriteRescueCounter:setRescueSpriteCount(count)
 
         if i <= count then
             -- Set rescuable
-            stateSpriteCounters[i] = false
+            stateSpriteCounters[i] = { value = false }
 
             spriteCounter:add()
         else
@@ -89,11 +92,27 @@ function SpriteRescueCounter:setRescueSpriteCount(count)
     end
 end
 
-function SpriteRescueCounter:setSpriteRescued(number, spriteImageIndex)
-    local indexSpriteCounter = self.rescueSpriteCount - number + 1
+function SpriteRescueCounter:setPositionsSpriteCounter()
+    local spriteWidth = imagetableSprite[1]:getSize()
+    local startX = 400 - self.rescueSpriteCount * (spriteWidth + padding)
+    for i = 1, self.rescueSpriteCount do
+        local spriteCounter = spriteCounters[i]
 
-    -- Set state
-    stateSpriteCounters[indexSpriteCounter] = true
+        spriteCounter:moveTo(startX + (i - 1) * (spriteWidth + padding), padding)
+    end
+end
+
+function SpriteRescueCounter:setSpriteRescued(number, spriteImageIndex)
+    local indexSpriteCounter = number
+
+    -- Create state table if not exists
+    if not stateSpriteCounters[indexSpriteCounter] then
+        stateSpriteCounters[indexSpriteCounter] = {}
+    end
+
+    -- Set states
+    stateSpriteCounters[indexSpriteCounter].value = true
+    stateSpriteCounters[indexSpriteCounter].indexSpriteImage = spriteImageIndex
 
     local spriteCounter = spriteCounters[indexSpriteCounter]
 
@@ -102,13 +121,24 @@ function SpriteRescueCounter:setSpriteRescued(number, spriteImageIndex)
     spriteCounter:setImage(imageRescued)
 end
 
+function SpriteRescueCounter:loadRescuedSprites(rescuedSprites)
+    -- Clear current rescue states
+    for i = 1, #stateSpriteCounters do
+        stateSpriteCounters[i] = nil
+    end
+    -- Set new rescue states
+    for i, state in pairs(rescuedSprites) do
+        self:setSpriteRescued(i, state)
+    end
+end
+
 function SpriteRescueCounter:getRescuedSprites()
     return stateSpriteCounters
 end
 
 function SpriteRescueCounter:isAllSpritesRescued()
     for _, state in ipairs(stateSpriteCounters) do
-        if state == false then
+        if not state or state.value == false then
             return false
         end
     end

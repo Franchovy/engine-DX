@@ -31,7 +31,6 @@ local spriteGUILevelComplete
 -- Sprites
 
 local botsToRescueCountDefault <const> = 3
-local spriteGuiRescueCounter
 
 -- Static methods
 
@@ -62,6 +61,11 @@ function Game.loadWorld(area, world)
         if dataProgress.currentLevel then
             initialLevelNameSaveProgress = dataProgress.currentLevel
         end
+
+        if dataProgress.rescuedSprites then
+            local spriteRescueCounter = SpriteRescueCounter.getInstance()
+            spriteRescueCounter:loadRescuedSprites(dataProgress.rescuedSprites)
+        end
     end
 
     --
@@ -90,6 +94,8 @@ function Game:init()
     self.checkpointHandler = CheckpointHandler.getOrCreate("game", self)
 
     spriteGUILevelComplete = GUILevelComplete()
+
+    SpriteRescueCounter()
 end
 
 function Game:enter(previous, data)
@@ -122,10 +128,6 @@ function Game:enter(previous, data)
         -- Set up GUI
 
         local spriteRescueCounter = SpriteRescueCounter.getInstance()
-
-        if not spriteRescueCounter then
-            spriteRescueCounter = SpriteRescueCounter()
-        end
 
         -- Set Save count
 
