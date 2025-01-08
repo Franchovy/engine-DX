@@ -46,7 +46,8 @@ local ANIMATION_STATES = {
     Drilling = 4,
     Falling = 5,
     PreFalling = 6,
-    Unsure = 7
+    Unsure = 7,
+    Land = 8
 }
 
 KEYS = {
@@ -97,8 +98,9 @@ function Player:init(entity)
     self:addState(ANIMATION_STATES.Moving, 9, 12, { tickStep = 2 })
     self:addState(ANIMATION_STATES.Drilling, 12, 16, { tickStep = 2 })
     self:addState(ANIMATION_STATES.Falling, 18, 20, { tickStep = 2 }) --thanks filigrani!
-    self:addState(ANIMATION_STATES.PreFalling, 17) --needs fix
-    self:addState(ANIMATION_STATES.Unsure, 24, 30, { tickStep = 2 })
+    self:addState(ANIMATION_STATES.PreFalling, 17, 17, { tickStep = 1, loopCount = 3 })
+    self:addState(ANIMATION_STATES.Unsure, 24, 30, { tickStep = 2 }) --needs fix
+    self:addState(ANIMATION_STATES.Impact, 21, 23, { tickStep = 2, loopCount = 3 }) --needs fix
 
     self:playAnimation()
 
@@ -597,12 +599,19 @@ function Player:updateAnimationState()
         else
             animationState = ANIMATION_STATES.Idle
         end
+
+        if self:IsFalling() and not self.hasLanded then
+            animationState = ANIMATION_STATES.Impact
+            self.hasLanded = true  -- Set flag to prevent multiple impact animations
+        end
     else
-        if self:IsFalling() then
+        if self:IsPreFalling() then
+            animationState = ANIMATION_STATES.PreFalling
+        elseif self:IsFalling() then
             animationState = ANIMATION_STATES.Falling
         else
-            animationState = ANIMATION_STATES.Jumping
-        end   --thanks so much for the code filigrani!
+            animationState = ANIMATION_STATES.Jumping -- Thanks filigrani!
+        end
     end
 
     -- Handle direction (flip)
@@ -683,6 +692,10 @@ function Player:IsFalling()
         return true
     end
     return false
+end
+
+function Player:IsPreFalling()
+    return math.abs(self.rigidBody.velocity.y) < 1 and not self.rigidBody:getIsTouchingGround()
 end
 
 function Player:isMovingRight()
