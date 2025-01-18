@@ -42,6 +42,10 @@ _G.assets = {
         warp = "assets/images/warp",
         guiRescueBots = "assets/images/gui-rescued-bots",
         particlesDrilling = "assets/images/particles-drilling",
+        transition = {
+            right = "assets/images/transition-right",
+            bottom = "assets/images/transition-bottom",
+        },
         bots = {
             helper = "assets/images/bots/A",
             [1] = "assets/images/bots/B",
@@ -73,6 +77,7 @@ _G.assets = {
             [4] = "assets/sfx/block-crush-4",
         },
         drill = "assets/sfx/drill",
+        swoosh = "assets/sfx/swoosh"
     },
     music = {
         game = "assets/music/playtester-theme",

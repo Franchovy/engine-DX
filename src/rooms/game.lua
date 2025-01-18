@@ -10,8 +10,6 @@ local systemMenu <const> = pd.getSystemMenu()
 local spCheckpointRevert <const> = sound.sampleplayer.new("assets/sfx/checkpoint-revert")
 local spWarpAction <const> = playdate.sound.sampleplayer.new(assets.sounds.warpAction)
 
-local fileplayer
-
 local worldName
 local areaName
 
@@ -20,11 +18,8 @@ local areaName
 local LEVEL_NAME_INITIAL <const> = "Level_0"
 local initialLevelNameSaveProgress
 local currentLevelName
-local checkpointPlayerStart
 
-local spriteLevelCompleteText
-local spriteLevelCompleteHintText
-local blinkerLevelComplete
+local spriteTransition
 
 local spriteGUILevelComplete
 
@@ -96,6 +91,8 @@ function Game:init()
     spriteGUILevelComplete = GUILevelComplete()
 
     SpriteRescueCounter()
+
+    spriteTransition = Transition()
 end
 
 function Game:enter(previous, data)
@@ -290,6 +287,8 @@ function Game:levelComplete(data)
 
     sceneManager:enter(sceneManager.scenes.currentGame,
         { direction = direction, level = { name = nextLevel, bounds = nextLevelBounds } })
+
+    spriteTransition:start()
 end
 
 function Game:botRescued(bot, botNumber)
