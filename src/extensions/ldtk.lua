@@ -2,14 +2,15 @@ local pd <const> = playdate
 local gfx <const> = pd.graphics
 -- Add all layers as tilemaps
 
-function LDtk.loadAllLayersAsSprites(levelName, levelX, levelY)
+function LDtk.loadAllLayersAsSprites(levelName)
+    local levelBounds = LDtk.get_rect(levelName)
     for layerName, layer in pairs(LDtk.get_layers(levelName)) do
         if layer.tiles then
             local tilemap = LDtk.create_tilemap(levelName, layerName)
             local sprite = gfx.sprite.new()
             sprite:setTilemap(tilemap)
             sprite:setCenter(0, 0)
-            sprite:moveTo(0, 0)
+            sprite:moveTo(levelBounds.x, levelBounds.y)
             sprite:setZIndex(Z_INDEX.Level.Walls)
             sprite:add()
 
@@ -18,6 +19,7 @@ function LDtk.loadAllLayersAsSprites(levelName, levelX, levelY)
                 local stiles = gfx.sprite.addWallSprites(tilemap, solidTiles)
                 for _, lsprite in ipairs(stiles) do
                     lsprite:setTag(TAGS.Wall)
+                    lsprite:moveBy(levelBounds.x, levelBounds.y)
                 end
             end
         end
@@ -25,6 +27,7 @@ function LDtk.loadAllLayersAsSprites(levelName, levelX, levelY)
 end
 
 function LDtk.loadAllEntitiesAsSprites(levelName)
+    local levelBounds = LDtk.get_rect(levelName)
     for _, entity in ipairs(LDtk.get_entities(levelName)) do
         if not _G[entity.name] then
             print("WARNING: No sprite class for entity with name: " .. entity.name)
@@ -58,7 +61,8 @@ function LDtk.loadAllEntitiesAsSprites(levelName)
         else
             sprite:setCollideRect(0, 0, entity.size.width, entity.size.height)
         end
-        sprite:moveTo(tileCenterX, tileCenterY)
+
+        sprite:moveTo(levelBounds.x + tileCenterX, levelBounds.y + tileCenterY)
         sprite:setZIndex(Z_INDEX.Level.Active)
         sprite:add()
 

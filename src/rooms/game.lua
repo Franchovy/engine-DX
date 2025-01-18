@@ -279,6 +279,8 @@ end
 -- Event-based methods
 
 function Game:levelComplete(data)
+    Player.getInstance():remove()
+
     local direction = data.direction
     local coordinates = data.coordinates
 

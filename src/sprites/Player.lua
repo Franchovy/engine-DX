@@ -15,15 +15,7 @@ local spCollect <const> = sound.sampleplayer.new("assets/sfx/Collect")
 
 -- Level Bounds for camera movement (X,Y coords areas in global (world) coordinates)
 
-local levelGX
-local levelGY
-local levelWidth
-local levelHeight
-
--- Level offset for drawing levels smaller than screen size
-
-local levelOffsetX
-local levelOffsetY
+local levelBounds
 
 -- Timer for handling cooldown on checkpoint revert
 
@@ -165,46 +157,23 @@ end
 
 -- Enter Level
 
-function Player:enterLevel(direction, levelBounds)
-    local levelGXPrevious = levelGX
-    local levelGYPrevious = levelGY
-    local levelWidthPrevious = levelWidth
-    local levelHeightPrevious = levelHeight
+function Player:enterLevel(direction, levelBoundsNew)
+    levelBounds = levelBoundsNew
 
-    -- Set persisted variables
-
-    levelGX = levelBounds.x
-    levelGY = levelBounds.y
-    levelWidth = levelBounds.width
-    levelHeight = levelBounds.height
-
-    -- Set level draw offset
-
-    levelOffsetX = levelWidth < 400 and (400 - levelWidth) / 2 or 0
-    levelOffsetY = levelHeight < 240 and (240 - levelBounds.height) / 2 or 0
+    -- For convenience, add "right" and "bottom" accessors to bounds
+    levelBounds.right = levelBounds.x + levelBounds.width
+    levelBounds.bottom = levelBounds.y + levelBounds.height
 
     -- Position player based on direction of entry
 
     if direction == DIRECTION.RIGHT then
-        local x = (levelGXPrevious + levelWidthPrevious) - levelGX + 15
-        local y = self.y + (levelGYPrevious - levelGY)
-
-        self:moveTo(x, y)
+        self:moveTo(levelBounds.x + 15, self.y)
     elseif direction == DIRECTION.LEFT then
-        local x = levelWidth - 15
-        local y = self.y + (levelGYPrevious - levelGY)
-
-        self:moveTo(x, y)
+        self:moveTo(levelBounds.right - 15, self.y)
     elseif direction == DIRECTION.BOTTOM then
-        local x = self.x - (levelGX - levelGXPrevious)
-        local y = (levelGYPrevious + levelHeightPrevious) - levelGY + 15
-
-        self:moveTo(x, y)
+        self:moveTo(self.x, levelBounds.y + 15)
     elseif direction == DIRECTION.TOP then
-        local x = self.x + (levelGXPrevious - levelGX)
-        local y = levelHeight - 15
-
-        self:moveTo(x, y)
+        self:moveTo(self.x, levelBounds.bottom - 15)
     end
 
     -- Bring any parents with player (for elevator)
@@ -220,6 +189,7 @@ function Player:enterLevel(direction, levelBounds)
         blueprints = table.deepcopy(self.blueprints)
     })
 
+    -- TODO: - Can this code be removed?
     -- Set a cooldown timer to prevent key presses on enter
 
     timerCooldownCheckpoint = playdate.timer.new(50)
@@ -492,21 +462,21 @@ function Player:update()
 
     local direction
 
-    if self.x > levelWidth then
+    if self.x > levelBounds.right then
         direction = DIRECTION.RIGHT
-    elseif self.x < 0 then
+    elseif self.x < levelBounds.x then
         direction = DIRECTION.LEFT
     end
 
-    if self.y > levelHeight then
+    if self.y > levelBounds.bottom then
         direction = DIRECTION.BOTTOM
-    elseif self.y < 0 then -- Add a margin to not trigger level change so easily.
+    elseif self.y < levelBounds.y then
         direction = DIRECTION.TOP
     end
 
     if direction then
         Manager.emitEvent(EVENTS.LevelComplete,
-            { direction = direction, coordinates = { x = self.x + levelGX, y = self.y + levelGY } })
+            { direction = direction, coordinates = { x = self.x, y = self.y } })
     end
 end
 
@@ -518,10 +488,16 @@ function Player:updateCamera()
 
     -- Positon camera within level bounds
 
-    local cameraOffsetX = math.max(math.min(idealX, levelWidth - 400), 0)
-    local cameraOffsetY = math.max(math.min(idealY, levelHeight - 240), 0)
+    local cameraOffsetX = math.max(math.min(idealX, levelBounds.right - 400), levelBounds.x)
+    local cameraOffsetY = math.max(math.min(idealY, levelBounds.bottom - 240), levelBounds.y)
 
-    gfx.setDrawOffset(-cameraOffsetX + levelOffsetX, -cameraOffsetY + levelOffsetY)
+    -- Set level draw offset
+
+    local levelOffsetX = levelBounds.width < 400 and (400 - levelBounds.width) / 2 or 0
+    local levelOffsetY = levelBounds.height < 240 and (240 - levelBounds.height) / 2 or 0
+
+    gfx.setDrawOffset(-cameraOffsetX, -cameraOffsetY)
+    --gfx.setDrawOffset(-self.x + 200, -self.y + 120)
 end
 
 function Player:revertCheckpoint()
