@@ -38,6 +38,7 @@ _G.assets = {
         buttons = "assets/images/buttons",
         menuArrows = "assets/images/menu-arrows",
         player = "assets/images/player",
+        playerDarkness = "assets/images/player-darkness",
         elevatorTrack = "assets/images/elevator-track",
         warp = "assets/images/warp",
         guiRescueBots = "assets/images/gui-rescued-bots",

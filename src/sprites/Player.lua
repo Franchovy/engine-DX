@@ -8,6 +8,7 @@ local gmt <const> = pd.geometry
 local gfx <const> = pd.graphics
 
 local imagetablePlayer <const> = gfx.imagetable.new(assets.imageTables.player)
+local imagetablePlayerDarkness <const> = gfx.imagetable.new(assets.imageTables.playerDarkness)
 local spJump <const> = sound.sampleplayer.new("assets/sfx/Jump")
 local spError <const> = sound.sampleplayer.new(assets.sounds.errorAction)
 local spDrill <const> = sound.sampleplayer.new(assets.sounds.drill)
@@ -71,7 +72,8 @@ function Player.destroy() _instance = nil end
 function Player:init(entity)
     _instance = self
 
-    Player.super.init(self, imagetablePlayer)
+    local imagetable = CONFIG.ADD_SUPER_DARKNESS_EFFECT and imagetablePlayerDarkness or imagetablePlayer
+    Player.super.init(self, imagetable)
 
     entity.isOriginalPlayerSpawn = true
 
@@ -127,6 +129,10 @@ function Player:postInit()
     -- Add Checkpoint handling
 
     self.checkpointHandler = CheckpointHandler.getOrCreate(self.id, self)
+
+    if CONFIG.ADD_SUPER_DARKNESS_EFFECT then
+        self:setZIndex(Z_INDEX.HUD.Main)
+    end
 end
 
 function Player:add()

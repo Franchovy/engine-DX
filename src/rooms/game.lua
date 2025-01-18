@@ -215,7 +215,9 @@ function Game:enter(previous, data)
         spriteTransition:add()
     end
 
-    spriteGUILightingEffect:add()
+    if CONFIG.ADD_DARKNESS_EFFECT or CONFIG.ADD_SUPER_DARKNESS_EFFECT then
+        spriteGUILightingEffect:add()
+    end
 end
 
 function Game:update()
