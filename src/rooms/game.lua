@@ -20,7 +20,7 @@ local initialLevelNameSaveProgress
 local currentLevelName
 
 local spriteTransition
-
+local spriteGUILightingEffect
 local spriteGUILevelComplete
 
 -- Sprites
@@ -93,6 +93,8 @@ function Game:init()
     SpriteRescueCounter()
 
     spriteTransition = Transition()
+
+    spriteGUILightingEffect = GUILightingEffect()
 end
 
 function Game:enter(previous, data)
@@ -212,6 +214,8 @@ function Game:enter(previous, data)
         -- Add Transition Sprite to finish transition
         spriteTransition:add()
     end
+
+    spriteGUILightingEffect:add()
 end
 
 function Game:update()
