@@ -145,6 +145,14 @@ function Player:remove()
     end
 end
 
+function Player:freeze()
+    self.isFrozen = true
+end
+
+function Player:unfreeze()
+    self.isFrozen = false
+end
+
 function Player:handleCheckpointRevert(state)
     self:moveTo(state.x, state.y)
 
@@ -305,6 +313,10 @@ function Player:update()
     -- Sprite update
 
     Player.super.update(self)
+
+    if self.isFrozen then
+        return
+    end
 
     -- Update question mark
 

@@ -207,6 +207,11 @@ function Game:enter(previous, data)
     if rescueCounter then
         rescueCounter:add()
     end
+
+    if getmetatable(previous).class == Game then
+        -- Add Transition Sprite to finish transition
+        spriteTransition:add()
+    end
 end
 
 function Game:update()
@@ -276,19 +281,21 @@ end
 -- Event-based methods
 
 function Game:levelComplete(data)
-    Player.getInstance():remove()
-
     local direction = data.direction
     local coordinates = data.coordinates
 
-    -- Load next level
+    Player.getInstance():freeze()
 
-    local nextLevel, nextLevelBounds = LDtk.getNeighborLevelForPos(currentLevelName, direction, coordinates)
+    spriteTransition:startTransition(direction, function()
+        -- Load next level
 
-    sceneManager:enter(sceneManager.scenes.currentGame,
-        { direction = direction, level = { name = nextLevel, bounds = nextLevelBounds } })
+        local nextLevel, nextLevelBounds = LDtk.getNeighborLevelForPos(currentLevelName, direction, coordinates)
 
-    spriteTransition:start()
+        sceneManager:enter(sceneManager.scenes.currentGame,
+            { direction = direction, level = { name = nextLevel, bounds = nextLevelBounds } })
+
+        Player.getInstance():unfreeze()
+    end)
 end
 
 function Game:botRescued(bot, botNumber)
