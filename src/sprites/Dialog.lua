@@ -57,23 +57,22 @@ Dialog = Class("Dialog", AnimatedSprite)
 function Dialog:init(entity)
     -- Load image based on rescuable & entity ID
 
-    local imagetable
     local botAnimationSpeed = 2
+    local imagetable
 
-    if entity.fields.save then
-        -- Get or create the sprite to use
-        local spriteNumber = entity.fields.spriteNumber or math.random(1, 7)
+    if entity.fields.save and not entity.fields.spriteNumber then
+        -- Set a random sprite number for rescuable bots without a spriteNumber
+        entity.fields.spriteNumber = math.random(1, 7)
+    end
 
+    if entity.fields.spriteNumber then
         -- Set the rate at which the bot should animate
-        botAnimationSpeed = botAnimationSpeeds[spriteNumber]
-
-        -- Set the sprite number on the LDtk entity
-        entity.fields.spriteNumber = spriteNumber
+        botAnimationSpeed = botAnimationSpeeds[entity.fields.spriteNumber]
 
         -- Grab the imagetable corresponding to this sprite
-        imagetable = assert(gfx.imagetable.new(assets.imageTables.bots[spriteNumber]))
+        imagetable = assert(gfx.imagetable.new(assets.imageTables.bots[entity.fields.spriteNumber]))
     else
-        -- Helper bots have a set imagetable.
+        -- Set imagetable to Helper Bot
         imagetable = assert(gfx.imagetable.new(assets.imageTables.bots.helper))
     end
 
