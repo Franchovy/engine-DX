@@ -572,7 +572,7 @@ function Player:pickUpBlueprint(blueprint)
 
     -- Update checkpoints
 
-    Manager.emitEvent(EVENTS.CheckpointIncrement)
+    --Manager.emitEvent(EVENTS.CheckpointIncrement)
 end
 
 -- Animation Handling
