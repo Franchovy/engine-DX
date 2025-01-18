@@ -11,7 +11,12 @@ function LDtk.loadAllLayersAsSprites(levelName)
             sprite:setTilemap(tilemap)
             sprite:setCenter(0, 0)
             sprite:moveTo(levelBounds.x, levelBounds.y)
-            sprite:setZIndex(Z_INDEX.Level.Walls)
+
+            if layerName == "Level" then
+                sprite:setZIndex(Z_INDEX.Level.Walls)
+            else
+                sprite:setZIndex(Z_INDEX.Level.Decor)
+            end
             sprite:add()
 
             local solidTiles = LDtk.get_empty_tileIDs(levelName, "Solid", layerName)

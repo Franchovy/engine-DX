@@ -4,7 +4,8 @@ Z_INDEX = {
         Main = 100
     },
     Level = {
-        Walls = -1,
+        Walls = -2,
+        Decor = -1,
         Background = 0,
         Active = 1,
         Overlay = 2
