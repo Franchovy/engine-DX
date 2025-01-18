@@ -2,4 +2,4 @@
 *.pdx.zip
 .luarc.json
 .DS_Store
-src/assets/levels/**/backups
+src/assets/worlds/**/backups
