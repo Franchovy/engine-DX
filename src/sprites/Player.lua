@@ -503,12 +503,12 @@ function Player:updateCamera()
     local cameraOffsetX = math.max(math.min(idealX, levelBounds.right - 400), levelBounds.x)
     local cameraOffsetY = math.max(math.min(idealY, levelBounds.bottom - 240), levelBounds.y)
 
-    -- Set level draw offset
+    -- Center offset for small levels
 
-    local levelOffsetX = levelBounds.width < 400 and (400 - levelBounds.width) / 2 or 0
-    local levelOffsetY = levelBounds.height < 240 and (240 - levelBounds.height) / 2 or 0
+    local centerOffsetX = levelBounds.width < 400 and (400 - levelBounds.width) / 2 or 0
+    local centerOffsetY = levelBounds.height < 240 and (240 - levelBounds.height) / 2 or 0
 
-    gfx.setDrawOffset(-cameraOffsetX, -cameraOffsetY)
+    gfx.setDrawOffset(-cameraOffsetX + centerOffsetX, -cameraOffsetY + centerOffsetY)
     --gfx.setDrawOffset(-self.x + 200, -self.y + 120)
 end
 
