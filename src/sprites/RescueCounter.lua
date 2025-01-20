@@ -102,6 +102,23 @@ function SpriteRescueCounter:setPositionsSpriteCounter()
     end
 end
 
+function SpriteRescueCounter:resetSpriteRescued(indexSpriteCounter)
+    -- Create state table if not exists
+    if not stateSpriteCounters[indexSpriteCounter] then
+        stateSpriteCounters[indexSpriteCounter] = {}
+    end
+
+    -- Reset states
+    stateSpriteCounters[indexSpriteCounter].value = false
+    stateSpriteCounters[indexSpriteCounter].indexSpriteImage = nil
+
+    local spriteCounter = spriteCounters[indexSpriteCounter]
+
+    -- Reset image
+
+    spriteCounter:setImage(imagetableSprite[1])
+end
+
 function SpriteRescueCounter:setSpriteRescued(number, spriteImageIndex)
     local indexSpriteCounter = number
 
@@ -128,7 +145,11 @@ function SpriteRescueCounter:loadRescuedSprites(rescuedSprites)
     end
     -- Set new rescue states
     for i, state in pairs(rescuedSprites) do
-        self:setSpriteRescued(i, state)
+        if state.value then
+            self:setSpriteRescued(i, state.indexSpriteImage)
+        else
+            self:resetSpriteRescued(i)
+        end
     end
 end
 
