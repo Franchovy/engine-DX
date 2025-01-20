@@ -22,6 +22,7 @@ local currentLevelName
 local spriteTransition
 local spriteGUILightingEffect
 local spriteGUILevelComplete
+local spriteBackground
 
 -- Sprites
 
@@ -95,6 +96,8 @@ function Game:init()
     spriteTransition = Transition()
 
     spriteGUILightingEffect = GUILightingEffect()
+
+    spriteBackground = Background()
 end
 
 function Game:enter(previous, data)
@@ -218,6 +221,8 @@ function Game:enter(previous, data)
     if CONFIG.ADD_DARKNESS_EFFECT or CONFIG.ADD_SUPER_DARKNESS_EFFECT then
         spriteGUILightingEffect:add()
     end
+
+    spriteBackground:add()
 end
 
 function Game:update()

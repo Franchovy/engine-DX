@@ -3707,9 +3707,9 @@
 							"defUid": 204,
 							"px": [416,64],
 							"fieldInstances": [
-								{ "__identifier": "text", "__type": "String", "__value": "That's right,/Daniel Hogg.\nSuck my dick.", "__tile": null, "defUid": 205, "realEditorValues": [{
+								{ "__identifier": "text", "__type": "String", "__value": "You're doing great.\nJust two more/to go!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["That's right,/Daniel Hogg.\\nSuck my dick."]
+									"params": ["You're doing great.\\nJust two more/to go!"]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },

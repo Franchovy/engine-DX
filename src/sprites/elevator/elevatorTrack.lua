@@ -54,7 +54,7 @@ function ElevatorTrack:init(trackLengthInTiles, orientation)
         self:setSize(TILE_SIZE * numberOfTiles, TILE_SIZE)
     end
 
-    self:setZIndex(Z_INDEX.Level.Background)
+    self:setZIndex(Z_INDEX.Level.Neutral)
 end
 
 function ElevatorTrack:setInitialPosition(initialPosition)

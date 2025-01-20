@@ -17,6 +17,7 @@ _G.assets = {
         speechBButton = "assets/images/speech-b-button",
         elevator = "assets/images/elevator",
         box = "assets/images/box",
+        background = "assets/images/background",
         menu = {
             buttonAStart = "assets/images/menu/A-Start",
             buttonAContinue = "assets/images/menu/A-Continue",

@@ -29,7 +29,7 @@ function SavePoint:init(entity)
 end
 
 function SavePoint:postInit()
-    self:setZIndex(Z_INDEX.Level.Background)
+    self:setZIndex(Z_INDEX.Level.Neutral)
 
     -- Update
 

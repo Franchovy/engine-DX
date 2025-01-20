@@ -464,8 +464,9 @@ function Player:update()
     -- Check if player is in top-left of level (overlap with GUI)
 
     local isOverlappingWithGUIPrevious = isOverlappingWithGUI
+    local screenOffsetX, screenOffsetY = gfx.getDrawOffset()
 
-    if self.x < 116 and self.y < 56 then
+    if self.x + screenOffsetX < 116 and self.y + screenOffsetY < 56 then
         isOverlappingWithGUI = true
     else
         isOverlappingWithGUI = false
