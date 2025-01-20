@@ -11,7 +11,7 @@
 	"iid": "b12745f0-d7b0-11ee-9f72-7bc5a2cd12f0",
 	"jsonVersion": "1.5.3",
 	"appBuildId": 473703,
-	"nextUid": 475,
+	"nextUid": 476,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": "Free",
@@ -3308,6 +3308,43 @@
 			"allowedRefsEntityUid": null,
 			"allowedRefTags": [],
 			"tilesetUid": null
+		},
+		{
+			"identifier": "parallax",
+			"doc": null,
+			"__type": "Bool",
+			"uid": 475,
+			"type": "F_Bool",
+			"isArray": false,
+			"canBeNull": false,
+			"arrayMinLength": null,
+			"arrayMaxLength": null,
+			"editorDisplayMode": "Hidden",
+			"editorDisplayScale": 1,
+			"editorDisplayPos": "Above",
+			"editorLinkStyle": "StraightArrow",
+			"editorDisplayColor": null,
+			"editorAlwaysShow": false,
+			"editorShowInWorld": true,
+			"editorCutLongValues": true,
+			"editorTextSuffix": null,
+			"editorTextPrefix": null,
+			"useForSmartColor": false,
+			"exportToToc": false,
+			"searchable": false,
+			"min": null,
+			"max": null,
+			"regex": null,
+			"acceptFileTypes": null,
+			"defaultOverride": null,
+			"textLanguageMode": null,
+			"symmetricalRef": false,
+			"autoChainRef": true,
+			"allowOutOfLevelRef": true,
+			"allowedRefs": "OnlySame",
+			"allowedRefsEntityUid": null,
+			"allowedRefTags": [],
+			"tilesetUid": null
 		}
 	] },
 	"levels": [
@@ -3332,7 +3369,8 @@
 			"externalRelPath": null,
 			"fieldInstances": [
 				{ "__identifier": "HintCrank", "__type": "Bool", "__value": false, "__tile": null, "defUid": 60, "realEditorValues": [] },
-				{ "__identifier": "saveCount", "__type": "Int", "__value": 1, "__tile": null, "defUid": 431, "realEditorValues": [{ "id": "V_Int", "params": [1] }] }
+				{ "__identifier": "saveCount", "__type": "Int", "__value": 1, "__tile": null, "defUid": 431, "realEditorValues": [{ "id": "V_Int", "params": [1] }] },
+				{ "__identifier": "parallax", "__type": "Bool", "__value": false, "__tile": null, "defUid": 475, "realEditorValues": [] }
 			],
 			"layerInstances": [
 				{
@@ -3399,7 +3437,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Welcome to the tileset/decoration test level...\nEnjoy the scenery.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Welcome to the tileset/decoration test level...\\nEnjoy the scenery."]
+									"params": ["Welcome to the tileset/decoration test level...\nEnjoy the scenery."]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -4093,7 +4131,11 @@
 			"externalRelPath": null,
 			"fieldInstances": [
 				{ "__identifier": "HintCrank", "__type": "Bool", "__value": false, "__tile": null, "defUid": 60, "realEditorValues": [] },
-				{ "__identifier": "saveCount", "__type": "Int", "__value": 0, "__tile": null, "defUid": 431, "realEditorValues": [] }
+				{ "__identifier": "saveCount", "__type": "Int", "__value": 0, "__tile": null, "defUid": 431, "realEditorValues": [] },
+				{ "__identifier": "parallax", "__type": "Bool", "__value": true, "__tile": null, "defUid": 475, "realEditorValues": [{
+					"id": "V_Bool",
+					"params": [ true ]
+				}] }
 			],
 			"layerInstances": [
 				{
@@ -4672,7 +4714,8 @@
 			"externalRelPath": null,
 			"fieldInstances": [
 				{ "__identifier": "HintCrank", "__type": "Bool", "__value": false, "__tile": null, "defUid": 60, "realEditorValues": [] },
-				{ "__identifier": "saveCount", "__type": "Int", "__value": 0, "__tile": null, "defUid": 431, "realEditorValues": [] }
+				{ "__identifier": "saveCount", "__type": "Int", "__value": 0, "__tile": null, "defUid": 431, "realEditorValues": [] },
+				{ "__identifier": "parallax", "__type": "Bool", "__value": false, "__tile": null, "defUid": 475, "realEditorValues": [] }
 			],
 			"layerInstances": [
 				{
@@ -4764,7 +4807,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "The best part is...\nThis isn't even/a real puzzle!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["The best part is...\\nThis isn't even/a real puzzle!"]
+									"params": ["The best part is...\nThis isn't even/a real puzzle!"]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 6, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [6] }] },
@@ -5841,7 +5884,8 @@
 			"externalRelPath": null,
 			"fieldInstances": [
 				{ "__identifier": "HintCrank", "__type": "Bool", "__value": false, "__tile": null, "defUid": 60, "realEditorValues": [] },
-				{ "__identifier": "saveCount", "__type": "Int", "__value": 0, "__tile": null, "defUid": 431, "realEditorValues": [] }
+				{ "__identifier": "saveCount", "__type": "Int", "__value": 0, "__tile": null, "defUid": 431, "realEditorValues": [] },
+				{ "__identifier": "parallax", "__type": "Bool", "__value": false, "__tile": null, "defUid": 475, "realEditorValues": [] }
 			],
 			"layerInstances": [
 				{
@@ -5883,7 +5927,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Flowers!! ...\nCooool!!!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Flowers!! ...\\nCooool!!!"]
+									"params": ["Flowers!! ...\nCooool!!!"]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },

@@ -118,15 +118,18 @@ function Game:enter(previous, data)
     -- Get current level
 
     currentLevelName = level and level.name or initialLevelNameSaveProgress or LEVEL_NAME_INITIAL
+
+    -- Load level bounds
+
     local levelBounds = level and level.bounds or LDtk.get_rect(currentLevelName)
+
+    -- Load level fields
+
+    local levelData = LDtk.get_custom_data(currentLevelName) or {}
 
     -- Initial Load - only run once per world
 
     if data.isInitialLoad then
-        -- Load level fields (used only on the initial level)
-
-        local levelData = LDtk.get_custom_data(LEVEL_NAME_INITIAL) or {}
-
         -- Set up GUI
 
         local spriteRescueCounter = SpriteRescueCounter.getInstance()
@@ -134,6 +137,12 @@ function Game:enter(previous, data)
         -- Set Save count
 
         spriteRescueCounter:setRescueSpriteCount(levelData.saveCount or botsToRescueCountDefault)
+    end
+
+    -- Add Parallax if required
+
+    if levelData.parallax or CONFIG.PARALLAX_BG then
+        spriteBackground:add()
     end
 
     -- This should run only once to initialize the game instance.
@@ -221,8 +230,6 @@ function Game:enter(previous, data)
     if CONFIG.ADD_DARKNESS_EFFECT or CONFIG.ADD_SUPER_DARKNESS_EFFECT then
         spriteGUILightingEffect:add()
     end
-
-    spriteBackground:add()
 end
 
 function Game:update()
