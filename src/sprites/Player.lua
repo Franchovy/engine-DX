@@ -56,6 +56,7 @@ local groundAcceleration <const> = 3.5
 local airAcceleration <const> = 1.4
 local jumpSpeed <const> = 27
 local jumpHoldTimeInTicks <const> = 4
+local VELOCITY_FALL_ANIMATION <const> = 8
 
 -- TODO: [Franch]
 -- Set timer to pause movement when doing checkpoint resets (0.5s probably)
@@ -83,16 +84,13 @@ function Player:init(entity)
 
     -- AnimatedSprite states
 
-    local function pauseAnimation()
-        self:pauseAnimation()
-    end
-
     self:addState(ANIMATION_STATES.Idle, 1, 4, { tickStep = 3 }).asDefault()
-    self:addState(ANIMATION_STATES.Jumping, 5, 8, { tickStep = 1, onLoopFinishedEvent = pauseAnimation })
+    self:addState(ANIMATION_STATES.Jumping, 5, 8, { tickStep = 1 })
     self:addState(ANIMATION_STATES.Moving, 9, 12, { tickStep = 2 })
     self:addState(ANIMATION_STATES.Drilling, 12, 16, { tickStep = 2 })
     self:addState(ANIMATION_STATES.Falling, 18, 20, { tickStep = 2 }) --thanks filigrani!
-    self:addState(ANIMATION_STATES.PreFalling, 17, 17, { tickStep = 1, loopCount = 3 })
+    self:addState(ANIMATION_STATES.PreFalling, 17, 17,
+        { tickStep = 1, loopCount = 3 })
     --self:addState(ANIMATION_STATES.Unsure, 24, 30, { tickStep = 2 }) --needs fix
     --self:addState(ANIMATION_STATES.Impact, 21, 23, { tickStep = 2, loopCount = 3 }) --needs fix
 
@@ -594,15 +592,16 @@ function Player:updateAnimationState()
         else
             animationState = ANIMATION_STATES.Idle
         end
-
-
     else
-        if self:IsPreFalling() then
-            animationState = ANIMATION_STATES.PreFalling
-        elseif self:IsFalling() then
+        if velocity.y > VELOCITY_FALL_ANIMATION then
+            -- When falling past a certain speed
             animationState = ANIMATION_STATES.Falling
+        elseif math.abs(velocity.y) <= VELOCITY_FALL_ANIMATION then
+            -- When floating in the air (not jumping)
+            animationState = ANIMATION_STATES.PreFalling
         else
-            animationState = ANIMATION_STATES.Jumping -- Thanks filigrani!
+            -- When moving upwards in the air (jumping)
+            animationState = ANIMATION_STATES.Jumping
         end
     end
 
@@ -677,17 +676,6 @@ end
 
 function Player:isJumping()
     return self:isKeyPressedGated(KEYNAMES.A)
-end
-
-function Player:IsFalling()
-    if self.rigidBody.velocity.y > 0 and not self.rigidBody.onGround then
-        return true
-    end
-    return false
-end
-
-function Player:IsPreFalling()
-    return math.abs(self.rigidBody.velocity.y) < 1 and not self.rigidBody:getIsTouchingGround()
 end
 
 function Player:isMovingRight()
