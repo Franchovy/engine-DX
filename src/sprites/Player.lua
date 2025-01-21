@@ -39,8 +39,8 @@ local ANIMATION_STATES = {
     Drilling = 4,
     Falling = 5,
     PreFalling = 6,
-    --Unsure = 7,
-    --Land = 8
+    Unsure = 7,
+    Impact = 8
 }
 
 KEYS = {
@@ -91,8 +91,8 @@ function Player:init(entity)
     self:addState(ANIMATION_STATES.Falling, 18, 20, { tickStep = 2 }) --thanks filigrani!
     self:addState(ANIMATION_STATES.PreFalling, 17, 17,
         { tickStep = 1, loopCount = 3 })
-    --self:addState(ANIMATION_STATES.Unsure, 24, 30, { tickStep = 2 }) --needs fix
-    --self:addState(ANIMATION_STATES.Impact, 21, 23, { tickStep = 2, loopCount = 3 }) --needs fix
+    self:addState(ANIMATION_STATES.Unsure, 24, 30, { tickStep = 2, nextAnimation = ANIMATION_STATES.Idle })
+    self:addState(ANIMATION_STATES.Impact, 21, 23, { tickStep = 1, nextAnimation = ANIMATION_STATES.Idle })
 
     self:playAnimation()
 
@@ -407,11 +407,16 @@ function Player:update()
             end
         end
 
+        -- Record previous "is touching ground" for impact animation
+
+        self.isTouchingGroundPrevious = self.rigidBody:getIsTouchingGround()
+
         -- Reset update variables before update
 
         self.isActivatingElevator = false
         self.isActivatingDrillableBlock = false
         self.elevator = false
+
 
         -- RigidBody update
 
@@ -584,11 +589,21 @@ function Player:updateAnimationState()
     local velocity = self.rigidBody:getCurrentVelocity()
     local isMoving = math.floor(math.abs(velocity.dx)) > 0
 
+    -- "Skip" states
+
+    if self.currentState == ANIMATION_STATES.Impact
+        or self.currentState == ANIMATION_STATES.Unsure then
+        return
+    end
+
     if self.rigidBody:getIsTouchingGround() then
         if self.isActivatingDrillableBlock then
             animationState = ANIMATION_STATES.Drilling
         elseif isMoving and not self.isActivatingElevator then
             animationState = ANIMATION_STATES.Moving
+        elseif not self.isTouchingGroundPrevious then
+            -- Impact animation
+            animationState = ANIMATION_STATES.Impact
         else
             animationState = ANIMATION_STATES.Idle
         end
@@ -603,6 +618,10 @@ function Player:updateAnimationState()
             -- When moving upwards in the air (jumping)
             animationState = ANIMATION_STATES.Jumping
         end
+    end
+
+    if not animationState then
+        return
     end
 
     -- Handle direction (flip)
@@ -711,7 +730,8 @@ function Player:isKeyPressedGated(key)
     if pd.buttonJustPressed(key) then
         self.questionMark:play()
         screenShake(3, 1)
-        --animationState = ANIMATION_STATES.Unsure
+
+        self:changeState(ANIMATION_STATES.Unsure)
 
         spError:play(1)
     end
