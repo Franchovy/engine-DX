@@ -46,8 +46,8 @@ local ANIMATION_STATES = {
     Drilling = 4,
     Falling = 5,
     PreFalling = 6,
-    Unsure = 7,
-    Land = 8
+    --Unsure = 7,
+    --Land = 8
 }
 
 KEYS = {
@@ -99,8 +99,8 @@ function Player:init(entity)
     self:addState(ANIMATION_STATES.Drilling, 12, 16, { tickStep = 2 })
     self:addState(ANIMATION_STATES.Falling, 18, 20, { tickStep = 2 }) --thanks filigrani!
     self:addState(ANIMATION_STATES.PreFalling, 17, 17, { tickStep = 1, loopCount = 3 })
-    self:addState(ANIMATION_STATES.Unsure, 24, 30, { tickStep = 2 }) --needs fix
-    self:addState(ANIMATION_STATES.Impact, 21, 23, { tickStep = 2, loopCount = 3 }) --needs fix
+    --self:addState(ANIMATION_STATES.Unsure, 24, 30, { tickStep = 2 }) --needs fix
+    --self:addState(ANIMATION_STATES.Impact, 21, 23, { tickStep = 2, loopCount = 3 }) --needs fix
 
     self:playAnimation()
 
@@ -600,10 +600,7 @@ function Player:updateAnimationState()
             animationState = ANIMATION_STATES.Idle
         end
 
-        if self:IsFalling() and not self.hasLanded then
-            animationState = ANIMATION_STATES.Impact
-            self.hasLanded = true  -- Set flag to prevent multiple impact animations
-        end
+
     else
         if self:IsPreFalling() then
             animationState = ANIMATION_STATES.PreFalling
@@ -731,7 +728,7 @@ function Player:isKeyPressedGated(key)
     if pd.buttonJustPressed(key) then
         self.questionMark:play()
         screenShake(3, 1)
-        animationState = ANIMATION_STATES.Unsure
+        --animationState = ANIMATION_STATES.Unsure
 
         spError:play(1)
     end
