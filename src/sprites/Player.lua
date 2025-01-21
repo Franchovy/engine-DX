@@ -36,7 +36,11 @@ local ANIMATION_STATES = {
     Idle = 1,
     Moving = 2,
     Jumping = 3,
-    Drilling = 4
+    Drilling = 4,
+    Falling = 5,
+    PreFalling = 6,
+    --Unsure = 7,
+    --Land = 8
 }
 
 KEYS = {
@@ -87,6 +91,11 @@ function Player:init(entity)
     self:addState(ANIMATION_STATES.Jumping, 5, 8, { tickStep = 1, onLoopFinishedEvent = pauseAnimation })
     self:addState(ANIMATION_STATES.Moving, 9, 12, { tickStep = 2 })
     self:addState(ANIMATION_STATES.Drilling, 12, 16, { tickStep = 2 })
+    self:addState(ANIMATION_STATES.Falling, 18, 20, { tickStep = 2 }) --thanks filigrani!
+    self:addState(ANIMATION_STATES.PreFalling, 17, 17, { tickStep = 1, loopCount = 3 })
+    --self:addState(ANIMATION_STATES.Unsure, 24, 30, { tickStep = 2 }) --needs fix
+    --self:addState(ANIMATION_STATES.Impact, 21, 23, { tickStep = 2, loopCount = 3 }) --needs fix
+
     self:playAnimation()
 
     self:setTag(TAGS.Player)
@@ -585,8 +594,16 @@ function Player:updateAnimationState()
         else
             animationState = ANIMATION_STATES.Idle
         end
+
+
     else
-        animationState = ANIMATION_STATES.Jumping
+        if self:IsPreFalling() then
+            animationState = ANIMATION_STATES.PreFalling
+        elseif self:IsFalling() then
+            animationState = ANIMATION_STATES.Falling
+        else
+            animationState = ANIMATION_STATES.Jumping -- Thanks filigrani!
+        end
     end
 
     -- Handle direction (flip)
@@ -662,6 +679,17 @@ function Player:isJumping()
     return self:isKeyPressedGated(KEYNAMES.A)
 end
 
+function Player:IsFalling()
+    if self.rigidBody.velocity.y > 0 and not self.rigidBody.onGround then
+        return true
+    end
+    return false
+end
+
+function Player:IsPreFalling()
+    return math.abs(self.rigidBody.velocity.y) < 1 and not self.rigidBody:getIsTouchingGround()
+end
+
 function Player:isMovingRight()
     return self:isKeyPressedGated(KEYNAMES.Right)
 end
@@ -695,6 +723,7 @@ function Player:isKeyPressedGated(key)
     if pd.buttonJustPressed(key) then
         self.questionMark:play()
         screenShake(3, 1)
+        --animationState = ANIMATION_STATES.Unsure
 
         spError:play(1)
     end
