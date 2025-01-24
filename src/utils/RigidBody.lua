@@ -56,11 +56,11 @@ function RigidBody:update()
       if normal.y == -1 and PROPS.Ground[tag] then
         self.onGround = true
       elseif normal.y == 1 then
-        self.velocity.y = 0
+        self.velocity.dy = 0
       end
 
       if normal.x ~= 0 then
-        self.velocity.x = 0
+        self.velocity.dx = 0
       end
     end
   end
@@ -75,21 +75,21 @@ function RigidBody:update()
 
     -- Apply Ground Friction to x-axis movement
 
-    self.velocity.x = self.velocity.x + (self.velocity.x * groundFrictionCoefficient * _G.delta_time)
+    self.velocity.dx = self.velocity.dx + (self.velocity.dx * groundFrictionCoefficient * _G.delta_time)
   else
     -- Adds gravity vector to current velocity
 
-    self.velocity.y = self.velocity.y + (gravity * _G.delta_time)
+    self.velocity.dy = self.velocity.dy + (gravity * _G.delta_time)
 
     -- Apply Air Friction
 
-    self.velocity.x = self.velocity.x + (self.velocity.x * airFrictionCoefficient * _G.delta_time)
-    self.velocity.y = self.velocity.y + (self.velocity.y * airFrictionCoefficient * _G.delta_time)
+    self.velocity.dx = self.velocity.dx + (self.velocity.dx * airFrictionCoefficient * _G.delta_time)
+    self.velocity.dy = self.velocity.dy + (self.velocity.dy * airFrictionCoefficient * _G.delta_time)
   end
 
   -- If x velocity is very small, reduce to zero.
-  if math.abs(self.velocity.x) < 0.1 then
-    self.velocity.x = 0
+  if math.abs(self.velocity.dx) < 0.1 then
+    self.velocity.dx = 0
   end
 
   return sdkCollisions

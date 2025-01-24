@@ -40,7 +40,9 @@ local ANIMATION_STATES = {
     Falling = 5,
     PreFalling = 6,
     Unsure = 7,
-    Impact = 8
+    UnsureRun = 8,
+    Impact = 9,
+    ImpactRun = 10,
 }
 
 KEYS = {
@@ -85,14 +87,20 @@ function Player:init(entity)
     -- AnimatedSprite states
 
     self:addState(ANIMATION_STATES.Idle, 1, 4, { tickStep = 3 }).asDefault()
-    self:addState(ANIMATION_STATES.Jumping, 5, 8, { tickStep = 1 })
+    self:addState(ANIMATION_STATES.Jumping, 5, 8, { tickStep = 2 })
     self:addState(ANIMATION_STATES.Moving, 9, 12, { tickStep = 2 })
     self:addState(ANIMATION_STATES.Drilling, 12, 16, { tickStep = 2 })
     self:addState(ANIMATION_STATES.Falling, 18, 20, { tickStep = 2 }) --thanks filigrani!
     self:addState(ANIMATION_STATES.PreFalling, 17, 17,
         { tickStep = 1, loopCount = 3 })
     self:addState(ANIMATION_STATES.Unsure, 24, 30, { tickStep = 2, nextAnimation = ANIMATION_STATES.Idle })
-    self:addState(ANIMATION_STATES.Impact, 21, 23, { tickStep = 1, nextAnimation = ANIMATION_STATES.Idle })
+    self:addState(ANIMATION_STATES.UnsureRun, 44, 47,
+        { tickStep = 2, nextAnimation = ANIMATION_STATES.Idle, loopCount = 3 })
+    self:addState(ANIMATION_STATES.Impact, 21, 23, { tickStep = 2, nextAnimation = ANIMATION_STATES.Idle })
+    self:addState(ANIMATION_STATES.ImpactRun, 42, 43, { tickStep = 2, nextAnimation = ANIMATION_STATES.Idle })
+
+    self.isAnimationFlip = 0
+    self.didPressedInvalidKey = false
 
     self:playAnimation()
 
@@ -465,6 +473,9 @@ function Player:update()
 
     self:updateAnimationState()
 
+    -- Reset animation unsure state trigger
+    self.didPressedInvalidKey = false
+
     -- Update warp overlay
 
     if self.crankWarpController then
@@ -588,52 +599,71 @@ function Player:updateAnimationState()
     local animationState
     local velocity = self.rigidBody:getCurrentVelocity()
     local isMoving = math.floor(math.abs(velocity.dx)) > 0
+    local isMovingActive = self:isMovingRight() or self:isMovingLeft()
 
     -- "Skip" states
 
-    if self.currentState == ANIMATION_STATES.Impact
-        or self.currentState == ANIMATION_STATES.Unsure then
-        return
-    end
+    local shouldSkipStateCheck = self.states[self.currentState].nextAnimation == ANIMATION_STATES.Idle
 
-    if self.rigidBody:getIsTouchingGround() then
-        if self.isActivatingDrillableBlock then
-            animationState = ANIMATION_STATES.Drilling
-        elseif isMoving and not self.isActivatingElevator then
-            animationState = ANIMATION_STATES.Moving
-        elseif not self.isTouchingGroundPrevious then
-            -- Impact animation
-            animationState = ANIMATION_STATES.Impact
+    if not shouldSkipStateCheck then
+        if self.rigidBody:getIsTouchingGround() then
+            if self.isActivatingDrillableBlock then
+                animationState = ANIMATION_STATES.Drilling
+            elseif self.didPressedInvalidKey then
+                if isMoving and isMovingActive then
+                    -- Moving Unsure
+                    animationState = ANIMATION_STATES.UnsureRun
+                else
+                    -- Static Unsure
+                    animationState = ANIMATION_STATES.Unsure
+                end
+            elseif not self.isTouchingGroundPrevious then
+                if isMoving and isMovingActive then
+                    -- Moving Impact
+                    animationState = ANIMATION_STATES.ImpactRun
+                else
+                    -- Static Impact
+                    animationState = ANIMATION_STATES.Impact
+                end
+            elseif isMoving and not self.isActivatingElevator then
+                animationState = ANIMATION_STATES.Moving
+            else
+                animationState = ANIMATION_STATES.Idle
+            end
         else
-            animationState = ANIMATION_STATES.Idle
-        end
-    else
-        if velocity.y > VELOCITY_FALL_ANIMATION then
-            -- When falling past a certain speed
-            animationState = ANIMATION_STATES.Falling
-        elseif math.abs(velocity.y) <= VELOCITY_FALL_ANIMATION then
-            -- When floating in the air (not jumping)
-            animationState = ANIMATION_STATES.PreFalling
-        else
-            -- When moving upwards in the air (jumping)
-            animationState = ANIMATION_STATES.Jumping
+            if velocity.dy > VELOCITY_FALL_ANIMATION then
+                -- When falling past a certain speed
+                animationState = ANIMATION_STATES.Falling
+            elseif math.abs(velocity.dy) <= VELOCITY_FALL_ANIMATION then
+                -- When floating in the air (not jumping)
+                animationState = ANIMATION_STATES.PreFalling
+            else
+                -- When moving upwards in the air (jumping)
+                animationState = ANIMATION_STATES.Jumping
+            end
         end
     end
 
     if not animationState then
-        return
+        animationState = self.currentState
     end
 
     -- Handle direction (flip)
 
     if velocity.dx < 0 then
-        isFlipAnimation = 1
+        self.isAnimationFlip = 1
     elseif velocity.dx > 0 then
-        isFlipAnimation = 0
+        self.isAnimationFlip = 0
     end
 
-    self.states[animationState].flip = isFlipAnimation
+    self.states[animationState].flip = self.isAnimationFlip
 
+    local nextAnimation = self.states[animationState].nextAnimation
+    if nextAnimation then
+        self.states[nextAnimation].flip = self.isAnimationFlip
+    end
+
+    -- Change State
     self:changeState(animationState)
 end
 
@@ -731,7 +761,7 @@ function Player:isKeyPressedGated(key)
         self.questionMark:play()
         screenShake(3, 1)
 
-        self:changeState(ANIMATION_STATES.Unsure)
+        self.didPressedInvalidKey = true
 
         spError:play(1)
     end
