@@ -58,7 +58,7 @@ local groundAcceleration <const> = 3.5
 local airAcceleration <const> = 1.4
 local jumpSpeed <const> = 27
 local jumpHoldTimeInTicks <const> = 4
-local VELOCITY_FALL_ANIMATION <const> = 8
+local VELOCITY_FALL_ANIMATION <const> = 6
 
 -- TODO: [Franch]
 -- Set timer to pause movement when doing checkpoint resets (0.5s probably)
@@ -90,9 +90,9 @@ function Player:init(entity)
     self:addState(ANIMATION_STATES.Jumping, 5, 8, { tickStep = 2 })
     self:addState(ANIMATION_STATES.Moving, 9, 12, { tickStep = 2 })
     self:addState(ANIMATION_STATES.Drilling, 12, 16, { tickStep = 2 })
-    self:addState(ANIMATION_STATES.Falling, 18, 20, { tickStep = 2 }) --thanks filigrani!
-    self:addState(ANIMATION_STATES.PreFalling, 17, 17,
-        { tickStep = 1, loopCount = 3 })
+    self:addState(ANIMATION_STATES.Falling, 19, 20, { tickStep = 2 }) --thanks filigrani!
+    self:addState(ANIMATION_STATES.PreFalling, 17, 18,
+        { tickStep = 3 })
     self:addState(ANIMATION_STATES.Unsure, 24, 30, { tickStep = 2, nextAnimation = ANIMATION_STATES.Idle })
     self:addState(ANIMATION_STATES.UnsureRun, 46, 49,
         { tickStep = 3, nextAnimation = ANIMATION_STATES.Idle })
