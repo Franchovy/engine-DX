@@ -64,4 +64,6 @@ function playdate.update()
   manager:emit(EVENTS.Update)
 
   manager:emit(EVENTS.Draw)
+
+  Camera.update()
 end

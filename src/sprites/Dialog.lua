@@ -212,6 +212,12 @@ function Dialog:updateDialog()
         self.spriteBubble:setSize(width, height)
         self.spriteBubble:moveTo(self.x, self.y - distanceAboveSprite)
     else
+        -- If line is last one, send event
+        if #self.dialogs < self.currentLine and self.fields.levelEnd then
+            -- If level end sprite, show level end prompt
+            Manager.emitEvent(EVENTS.LevelComplete)
+        end
+
         self.spriteBubble:remove()
         self:changeState(ANIMATION_STATES.Idle)
     end

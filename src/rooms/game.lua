@@ -208,6 +208,8 @@ function Game:enter(previous, data)
         end
 
         player:enterLevel(direction, levelBounds)
+
+        Camera.enterLevel(currentLevelName)
     end
 
     local abilityPanel = AbilityPanel.getInstance()

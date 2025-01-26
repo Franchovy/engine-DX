@@ -231,10 +231,6 @@ function Player:enterLevel(direction, levelBoundsNew)
             timerCooldownCheckpoint = nil
         end
     end
-
-    -- Update Camera
-
-    self:updateCamera()
 end
 
 function Player:setBlueprints(blueprints)
@@ -493,8 +489,6 @@ function Player:update()
         self.crankWarpController:moveTo(self.x, self.y)
     end
 
-    self:updateCamera()
-
     -- Check if player is in top-left of level (overlap with GUI)
 
     local isOverlappingWithGUIPrevious = isOverlappingWithGUI
@@ -531,26 +525,6 @@ function Player:update()
         Manager.emitEvent(EVENTS.LevelComplete,
             { direction = direction, coordinates = { x = self.x, y = self.y } })
     end
-end
-
-function Player:updateCamera()
-    -- Camera Movement
-
-    local playerX, playerY = self.x, self.y
-    local idealX, idealY = playerX - 200, playerY - 100
-
-    -- Positon camera within level bounds
-
-    local cameraOffsetX = math.max(math.min(idealX, levelBounds.right - 400), levelBounds.x)
-    local cameraOffsetY = math.max(math.min(idealY, levelBounds.bottom - 240), levelBounds.y)
-
-    -- Center offset for small levels
-
-    local centerOffsetX = levelBounds.width < 400 and (400 - levelBounds.width) / 2 or 0
-    local centerOffsetY = levelBounds.height < 240 and (240 - levelBounds.height) / 2 or 0
-
-    gfx.setDrawOffset(-cameraOffsetX + centerOffsetX, -cameraOffsetY + centerOffsetY)
-    --gfx.setDrawOffset(-self.x + 200, -self.y + 120)
 end
 
 function Player:revertCheckpoint()
