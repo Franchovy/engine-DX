@@ -317,7 +317,9 @@ function Player:handleCollision(collisionData)
         -- But it's also useful for debugging.
 
         if not timerCooldownCheckpoint then
-            self:pickUpBlueprint(other)
+            other:updateStatePickedUp()
+
+            self:pickUpBlueprint(other.abilityName)
         end
     end
 
@@ -435,12 +437,21 @@ function Player:update()
         end
     end
 
+    -- B Button interaction
+
+    if activeDialog then
+        if self:isInteracting() and activeDialog:hasKey() then
+            -- Get key
+            self:pickUpBlueprint(activeDialog:getKey())
+        end
+    end
+
     -- Update dialog
 
     if activeDialog then
         activeDialog:activate()
 
-        if playdate:buttonJustPressed(playdate.kButtonB) then
+        if self:isInteracting() then
             activeDialog:showNextLine()
         end
 
@@ -564,7 +575,6 @@ end
 function Player:pickUpBlueprint(blueprint)
     -- Emit pickup event for abilty panel
 
-    blueprint:updateStatePickedUp()
     spCollect:play(1)
 
     -- Update blueprints list
@@ -576,7 +586,7 @@ function Player:pickUpBlueprint(blueprint)
         table.remove(blueprintsNew, 1)
     end
 
-    table.insert(blueprintsNew, blueprint.abilityName)
+    table.insert(blueprintsNew, blueprint)
 
     self.blueprints = blueprintsNew
 
@@ -741,6 +751,10 @@ end
 
 function Player:isMovingDown()
     return self:isKeyPressedGated(KEYNAMES.Down)
+end
+
+function Player:isInteracting()
+    return playdate.buttonJustPressed(KEYNAMES.B)
 end
 
 -- Generic gated input handler

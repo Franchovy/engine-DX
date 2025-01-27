@@ -305,3 +305,11 @@ function Dialog:update()
         self.currentLinePrevious = self.currentLine
     end
 end
+
+function Dialog:hasKey()
+    return self.fields.button ~= nil
+end
+
+function Dialog:getKey()
+    return self.fields.button
+end
