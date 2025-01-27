@@ -315,5 +315,8 @@ function Dialog:hasKey()
 end
 
 function Dialog:getKey()
-    return self.fields.button
+    local key = self.fields.button
+    self.fields.button = nil
+
+    return key
 end
