@@ -60,6 +60,10 @@ function Dialog:init(entity)
     local botAnimationSpeed = 2
     local imagetable
 
+    if entity.fields.noSprite then
+        self:setVisible(false)
+    end
+
     if entity.fields.save and not entity.fields.spriteNumber then
         -- Set a random sprite number for rescuable bots without a spriteNumber
         entity.fields.spriteNumber = math.random(1, 7)
