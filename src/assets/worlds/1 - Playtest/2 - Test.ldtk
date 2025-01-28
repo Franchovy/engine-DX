@@ -3495,6 +3495,42 @@
 							"fieldInstances": [],
 							"__worldX": -352,
 							"__worldY": -64
+						},
+						{
+							"__identifier": "Dialog",
+							"__grid": [12,7],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#FFFFFF",
+							"iid": "30e932b0-c210-11ef-a4a5-f34fb80db3ca",
+							"width": 16,
+							"height": 16,
+							"defUid": 204,
+							"px": [384,224],
+							"fieldInstances": [
+								{ "__identifier": "text", "__type": "String", "__value": "Talk to me and you'll/finish the level!\nEasy peasy!\nJust like 1...\n2...\n3... !", "__tile": null, "defUid": 205, "realEditorValues": [{
+									"id": "V_String",
+									"params": [
+										"Talk to me and you'll/finish the level!\\nEasy peasy!\\nJust like 1...\\n2...\\n3... !"
+									]
+								}] },
+								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
+								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [null] },
+								{ "__identifier": "spriteNumber", "__type": "Int", "__value": 5, "__tile": null, "defUid": 417, "realEditorValues": [{ "id": "V_Int", "params": [5] }] },
+								{ "__identifier": "flip", "__type": "Bool", "__value": true, "__tile": null, "defUid": 432, "realEditorValues": [{
+									"id": "V_Bool",
+									"params": [ true ]
+								}] },
+								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
+								{ "__identifier": "levelEnd", "__type": "Bool", "__value": true, "__tile": null, "defUid": 508, "realEditorValues": [{
+									"id": "V_Bool",
+									"params": [ true ]
+								}] }
+							],
+							"__worldX": -480,
+							"__worldY": -96
 						}
 					]
 				},

@@ -215,7 +215,7 @@ function Dialog:updateDialog()
         -- If line is last one, send event
         if #self.dialogs < self.currentLine and self.fields.levelEnd then
             -- If level end sprite, show level end prompt
-            Manager.emitEvent(EVENTS.LevelComplete)
+            Manager.emitEvent(EVENTS.LevelEnd)
         end
 
         self.spriteBubble:remove()
@@ -252,7 +252,7 @@ function Dialog:activate()
         self.isRescued = true
         self.fields.isRescued = true
 
-        Manager.emitEvent(EVENTS.BotRescued, self, self.rescueNumber)
+        Manager.emitEvent(EVENTS.BotRescued, self, self.rescueNumber, self.fields.levelEnd)
     end
 end
 
