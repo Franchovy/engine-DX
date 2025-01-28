@@ -363,7 +363,7 @@ function Player:update()
 
         -- Velocity Y
 
-        if self.rigidBody:getIsTouchingGround() then
+        if self.rigidBody:getIsTouchingGround() or CONFIG.INFINITE_JUMP then
             local isJumpStart = self:handleJumpStart()
 
             if isJumpStart then

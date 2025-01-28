@@ -142,6 +142,8 @@ function Game:enter(previous, data)
     -- Add Parallax if required
 
     if levelData.parallax or CONFIG.PARALLAX_BG then
+        spriteBackground.enterLevel(currentLevelName)
+
         spriteBackground:add()
     end
 

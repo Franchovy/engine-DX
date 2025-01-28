@@ -380,6 +380,8 @@ end
 
 function Elevator:enterLevel()
   self:add()
+
+  self.spriteElevatorTrack:add()
 end
 
 --- Used specifically for when jumping while moving up with elevator.

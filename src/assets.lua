@@ -18,6 +18,7 @@ _G.assets = {
         elevator = "assets/images/elevator",
         box = "assets/images/box",
         background = "assets/images/background",
+        background2 = "assets/images/background-2",
         menu = {
             buttonAStart = "assets/images/menu/A-Start",
             buttonAContinue = "assets/images/menu/A-Continue",

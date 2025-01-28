@@ -11,7 +11,7 @@
 	"iid": "b12745f0-d7b0-11ee-9f72-7bc5a2cd12f0",
 	"jsonVersion": "1.5.3",
 	"appBuildId": 473703,
-	"nextUid": 418,
+	"nextUid": 419,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": "Free",
@@ -2659,6 +2659,41 @@
 					"tilesetUid": null
 				}
 			]
+		},
+		{
+			"identifier": "CameraPoint",
+			"uid": 418,
+			"tags": [],
+			"exportToToc": false,
+			"allowOutOfBounds": false,
+			"doc": null,
+			"width": 16,
+			"height": 16,
+			"resizableX": false,
+			"resizableY": false,
+			"minWidth": null,
+			"maxWidth": null,
+			"minHeight": null,
+			"maxHeight": null,
+			"keepAspectRatio": false,
+			"tileOpacity": 1,
+			"fillOpacity": 1,
+			"lineOpacity": 1,
+			"hollow": false,
+			"color": "#EAD4AA",
+			"renderMode": "Rectangle",
+			"showName": true,
+			"tilesetId": null,
+			"tileRenderMode": "FitInside",
+			"tileRect": null,
+			"uiTileRect": null,
+			"nineSliceBorders": [],
+			"maxCount": 0,
+			"limitScope": "PerLevel",
+			"limitBehavior": "MoveLastOne",
+			"pivotX": 0,
+			"pivotY": 0,
+			"fieldDefs": []
 		}
 	], "tilesets": [
 		{
@@ -3618,6 +3653,22 @@
 							}] }],
 							"__worldX": -322,
 							"__worldY": 62
+						},
+						{
+							"__identifier": "CameraPoint",
+							"__grid": [9,8],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#EAD4AA",
+							"iid": "1e6ae270-c210-11ef-80e7-5ddb4587c6af",
+							"width": 16,
+							"height": 16,
+							"defUid": 418,
+							"px": [288,256],
+							"fieldInstances": [],
+							"__worldX": -288,
+							"__worldY": -64
 						}
 					]
 				},
