@@ -56,7 +56,7 @@ function LevelSelect:AButtonDown()
   local indexArea, indexWorld = self.gridView:getSelection()
   local isWorldLocked = self.gridView:getSelectionIsLocked()
 
-  if isWorldLocked and not CONFIG.DEBUG_LOCKED_LEVELS_PLAYABLE then
+  if isWorldLocked then
     return
   end
 

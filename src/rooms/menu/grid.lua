@@ -266,6 +266,10 @@ function _.getProgressBarText(status)
 end
 
 function _.getWorldProgressStatus(gridView, section, row)
+  if CONFIG.ALL_LEVELS_UNLOCKED then
+    return STATE_PROGRESS_WORLD.Complete
+  end
+
   -- If cached value is present, simply return it.
 
   if statesWorld[section] and statesWorld[section][row] then
