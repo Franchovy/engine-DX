@@ -350,6 +350,7 @@ function Player:update()
     end
 
     -- Skip movement handling if timer cooldown is active
+
     if not self.crankWarpController:isActive() then
         -- Movement handling (update velocity X and Y)
 

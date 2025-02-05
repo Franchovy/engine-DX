@@ -88,11 +88,6 @@ function Dialog:init(entity)
     self:addState(ANIMATION_STATES.Idle, 1, 4, { tickStep = botAnimationSpeed }).asDefault()
     self:addState(ANIMATION_STATES.Talking, 5, 8, { tickStep = botAnimationSpeed })
 
-    if entity.fields.flip then
-        self.states[ANIMATION_STATES.Idle].flip = 1
-        self.states[ANIMATION_STATES.Talking].flip = 1
-    end
-
     -- Set up animation states (Sad / Happy) if needs rescue
 
     if entity.fields.save then
@@ -103,6 +98,16 @@ function Dialog:init(entity)
             self:changeState(ANIMATION_STATES.Rescued)
         else
             self:changeState(ANIMATION_STATES.NeedsRescue)
+        end
+    end
+
+    if entity.fields.flip then
+        self.states[ANIMATION_STATES.Idle].flip = 1
+        self.states[ANIMATION_STATES.Talking].flip = 1
+
+        if entity.fields.save then
+            self.states[ANIMATION_STATES.NeedsRescue].flip = 1
+            self.states[ANIMATION_STATES.Rescued].flip = 1
         end
     end
 
@@ -256,6 +261,10 @@ function Dialog:activate()
     end
 end
 
+function Dialog:getShouldFreeze()
+    return self.fields.freeze == true
+end
+
 function Dialog:expand()
     if self.isStateExpanded then
         return
@@ -269,9 +278,7 @@ function Dialog:expand()
     spSpeech:play(1)
 
     -- Play speaking animation if not a rescue bot
-    if not self.isRescuable then
-        self:changeState(ANIMATION_STATES.Talking)
-    end
+    self:changeState(ANIMATION_STATES.Talking)
 end
 
 function Dialog:collapse()
@@ -294,7 +301,7 @@ end
 function Dialog:update()
     Dialog.super.update(self)
 
-    if (not self.isRescuable) and self.dialogs then
+    if self.dialogs then
         if self.isActivated then
             -- Consume update variable
             self.isActivated = false
