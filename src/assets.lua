@@ -11,6 +11,7 @@ _G.assets = {
         },
     },
     images = {
+        logo = "assets/images/logo",
         tileset = "assets/images/tileset",
         hudPanel = "assets/images/hud-panel",
         speech = "assets/images/speech",
