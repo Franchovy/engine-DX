@@ -57,6 +57,10 @@ local function init()
   -- Hide logo
 
   showLogo = false
+
+  -- DEBUG: - Memory Clear
+
+  MemoryCard.clearAll()
 end
 
 function playdate.update()

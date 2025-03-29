@@ -359,6 +359,8 @@ function Player:update()
         if self.isActivatingElevator and self.isActivatingElevator:wasActivationSuccessful() then
             -- Skip horizontal movement
         elseif not self.isActivatingDrillableBlock then
+            -- Handle Horizontal Movement
+
             self:handleHorizontalMovement()
         end
 

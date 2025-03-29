@@ -150,6 +150,15 @@ function MemoryCard.levelProgressToLoad(area, world)
   return nil
 end
 
+-- Clear All
+
+function MemoryCard.clearAll()
+  -- Clear all files in folder
+  for _, file in pairs(fi.listFiles(".")) do
+    fi.delete(file)
+  end
+end
+
 -- PRIVATE METHODS
 
 function _.buildWorldAlias(area, world)
