@@ -57,7 +57,7 @@ function LDtk.loadAllEntitiesAsSprites(levelName)
             -- Create sprite using LDtk naming
             sprite = _G[entity.name](entity)
         end
-        local tileCenterX, tileCenterY = entity.position.x + 16, entity.position.y + 16
+        local tileCenterX, tileCenterY = entity.position.x, entity.position.y
 
         if entity.name == "Player" then
             -- Reduce hitbox sizes

@@ -326,6 +326,10 @@ function Player:handleCollision(collisionData)
     if tag == TAGS.SavePoint then
         other:activate()
     end
+
+    if tag == TAGS.Powerwall then
+        self.isTouchingPower = true
+    end
 end
 
 function Player:update()
@@ -425,7 +429,7 @@ function Player:update()
         self.isActivatingElevator = false
         self.isActivatingDrillableBlock = false
         self.elevator = false
-
+        self.isTouchingPower = false
 
         -- RigidBody update
 
@@ -736,10 +740,11 @@ end
 
 -- Generic gated input handler
 
+-- Debug value
 local shouldSkipKeyGate = false
+
 function Player:isKeyPressedGated(key)
-    --debug
-    if shouldSkipKeyGate then
+    if shouldSkipKeyGate or self.isTouchingPower then
         return pd.buttonIsPressed(key)
     end
 

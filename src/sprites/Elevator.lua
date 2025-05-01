@@ -81,8 +81,8 @@ local function getPositionChildIdeal(self, x, y, isMovingDown)
   local offsetY = isMovingDown and 2 or 0
 
   -- Center the child on the elevator
-  local idealX = x + self.width / 2 - self.spriteChild.width / 2
-  local idealY = y - self.spriteChild.height + offsetY
+  local idealX = x - self.childPositionOffsetX + self.width / 2 - self.spriteChild.width / 2
+  local idealY = y + self.childPositionOffsetY - self.spriteChild.height + offsetY
 
   return idealX, idealY
 end
@@ -225,7 +225,6 @@ function Elevator:init(entity)
   Elevator.super.init(self, imageElevator)
 
   self:setTag(TAGS.Elevator)
-  self:setCenter(0.5, 1)
 
   -- Set Displacement initial, start and end scalars (1D) based on entity fields
 
@@ -243,6 +242,12 @@ function Elevator:init(entity)
   self.speed = 7                    -- Constant, but could be modified on a per-elevator basis in the future.
   self.movement = 0                 -- Update scalar for movement.
   self.didActivationSuccess = false -- Update value for checking if activation was successful
+
+  -- Offset parameters for placing child when moving
+
+  local centerPoint = self:getCenterPoint()
+  self.childPositionOffsetX = 0 -- self.width * self.center.x
+  self.childPositionOffsetY = self.height * centerPoint.y
 
   -- Create elevator track
 
@@ -285,7 +290,8 @@ function Elevator:postInit()
 end
 
 function Elevator:collisionResponse(other)
-  if other:getTag() == TAGS.Dialog or other:getTag() == TAGS.SavePoint or other:getTag() == TAGS.Ability then
+  local tag = other:getTag()
+  if tag == TAGS.Dialog or tag == TAGS.SavePoint or tag == TAGS.Ability or tag == TAGS.Powerwall then
     return gfx.sprite.kCollisionTypeOverlap
   end
 
