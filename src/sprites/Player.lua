@@ -282,15 +282,21 @@ function Player:handleCollision(collisionData)
         if collisionData.normal.y == -1 then
             other:setChild(self)
 
+            local direction = other:getDirection()
+
             local key
-            if self:isMovingDown() then
-                key = KEYNAMES.Down
-            elseif self:isMovingUp() then
-                key = KEYNAMES.Up
-            elseif self:isMovingLeft() then
-                key = KEYNAMES.Left
-            elseif self:isMovingRight() then
-                key = KEYNAMES.Right
+            if direction == ORIENTATION.Horizontal then
+                if self:isMovingLeft() then
+                    key = KEYNAMES.Left
+                elseif self:isMovingRight() then
+                    key = KEYNAMES.Right
+                end
+            elseif direction == ORIENTATION.Vertical then
+                if self:isMovingDown() then
+                    key = KEYNAMES.Down
+                elseif self:isMovingUp() then
+                    key = KEYNAMES.Up
+                end
             end
 
             if key then

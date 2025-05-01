@@ -303,6 +303,10 @@ end
 --- Public class Methods
 ---
 
+function Elevator:getDirection()
+  return self.fields.orientation
+end
+
 --- Sets movement to be executed in the next update() call using vector.
 --- *param* key - the player input key direction (KEYNAMES)
 --- *returns* the distance covered in the activation.
