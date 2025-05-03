@@ -3441,7 +3441,7 @@
 							"width": 20,
 							"height": 24,
 							"defUid": 19,
-							"px": [80,208],
+							"px": [80,204],
 							"fieldInstances": [{ "__identifier": "blueprints", "__type": "Array<LocalEnum.ObjectEnum>", "__value": [ "Left", "Right", "A" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
 								"id": "V_String",
 								"params": ["Left"]
@@ -3453,7 +3453,7 @@
 								"params": ["A"]
 							} ] }],
 							"__worldX": 7408,
-							"__worldY": 1488
+							"__worldY": 1484
 						},
 						{
 							"__identifier": "ButtonPickup",

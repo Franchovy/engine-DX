@@ -593,11 +593,9 @@ function Player:updateMovement()
     if self.coyoteFramesRemaining > 0 and not self.rigidBody:getIsTouchingGround() then
         -- Reduce coyote frames remaining
         self.coyoteFramesRemaining -= 1
-        print("COYOTE! ", self.coyoteFramesRemaining)
     elseif self.rigidBody:getIsTouchingGround() then
         -- Reset coyote frames
         self.coyoteFramesRemaining = coyoteFrames
-        print("reset")
     end
 
     -- Handle Vertical Movement
