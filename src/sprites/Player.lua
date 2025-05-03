@@ -459,11 +459,12 @@ function Player:updateActivations()
             local direction = otherSprite:getDirection()
 
             if direction == ORIENTATION.Horizontal then
-                -- If horizontal, then the player must be fully on the elevator to start.
+                -- If horizontal, then the player must be near the center for the elevator to start.
+                local marginWithinCenterRange <const> = 12
 
-                if self:isHoldingLeftKey() and isBelowCenter then
+                if self:isHoldingLeftKey() and self:centerX() < otherSprite:right() - marginWithinCenterRange then
                     key = KEYNAMES.Left
-                elseif self:isHoldingRightKey() and isBelowCenter then
+                elseif self:isHoldingRightKey() and self:centerX() > otherSprite:left() + marginWithinCenterRange then
                     key = KEYNAMES.Right
                 end
             elseif direction == ORIENTATION.Vertical then
@@ -547,6 +548,7 @@ function Player:updateMovement()
 
     if self.isActivatingDrillableBlock or didActivateElevatorSuccess then
         -- Skip horizontal movement if activating a bottom block
+        self.rigidBody:setVelocityX(0.0)
     elseif self.isActivatingElevator and self.isActivatingElevator:getDirection() == ORIENTATION.Horizontal
         and (pd.buttonJustPressed(pd.kButtonLeft) or pd.buttonJustPressed(pd.kButtonRight)) then
         -- Skip upon pressing left or right to give collisions a frame to calculate horizontal elevator movement.
