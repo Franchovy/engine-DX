@@ -5,7 +5,7 @@ local gmt <const> = playdate.geometry
 
 local imageElevator <const> = gfx.image.new(assets.images.elevator)
 
-local tileAdjustmentPx <const> = 4
+local downwardsOffsetMax <const> = 2
 
 ---
 ---
@@ -73,18 +73,15 @@ local function checkIfCollides(spriteToCheck, idealX, idealY, spritesToIgnore)
   return isCollisionCheckPassed, idealX, idealY
 end
 
-local function getPositionChildIdeal(self, x, y, isMovingDown)
+local function getPositionChildIdeal(self, x, y, downwardsOffset)
   x = x or self.x
   y = y or self.y
-
-  -- We push the player into the elevator if moving down for better collision handling.
-  local offsetY = isMovingDown and 2 or 0
 
   -- Center the child on the elevator
   local childPositionOffsetX = self.spriteChild.x - self.x
   local idealX = x + childPositionOffsetX
   local idealY = self.fields.orientation == ORIENTATION.Vertical and
-      y + self.childPositionOffsetY - self.spriteChild.height + offsetY or self.spriteChild.y
+      y + self.childPositionOffsetY - self.spriteChild.height + downwardsOffset or self.spriteChild.y
 
   return idealX, idealY
 end
@@ -102,31 +99,6 @@ local function getDistanceToNearestTile(self)
     -- Move upwards
     return adjustmentUp
   end
-end
-
---- If elevator is within `tileAdjustmentPx` of tile, then returns
---- the adjustment to be exactly on that tile.
-local function getAdjustmentToTile(self)
-  -- Get adjustment from tiles both above and below.
-
-  local adjustmentDown = self.displacement % TILE_SIZE
-  local adjustmentUp = TILE_SIZE - (self.displacement % TILE_SIZE)
-
-  if adjustmentDown > 0 and adjustmentDown < tileAdjustmentPx then
-    -- Adjust downwards
-    return -adjustmentDown
-  elseif adjustmentUp > 0 and adjustmentUp < tileAdjustmentPx then
-    -- Adjust upwards
-    return adjustmentUp
-  else
-    -- No adjustment made
-    return 0
-  end
-end
-
-function math.round(num, numDecimalPlaces)
-  local mult = 10 ^ (numDecimalPlaces or 0)
-  return math.floor(num * mult + 0.5) / mult
 end
 
 --- Convenience method to get the X & Y position based on a displacement.
@@ -149,7 +121,7 @@ local function setDisplacement(self, displacement)
 end
 
 --- Update method for movement
-local function updateMovement(self, movement)
+local function updateMovement(self, movement, downwardsOffset)
   -- Get new position using displacement
 
   local x, y = getPositionFromDisplacement(self, self.displacement + movement)
@@ -171,8 +143,8 @@ local function updateMovement(self, movement)
 
   if self.spriteChild then
     -- Calculate ideal X & Y for child
-    local isMovingDown = movement > 0 and self.fields.orientation == ORIENTATION.Vertical
-    local childX, childY = getPositionChildIdeal(self, x, y, isMovingDown)
+
+    local childX, childY = getPositionChildIdeal(self, x, y, downwardsOffset)
 
     if not skipCollisionCheck then
       -- Check collisions for child
@@ -186,7 +158,7 @@ local function updateMovement(self, movement)
     end
 
     -- Update child position
-    if isMovingDown then
+    if downwardsOffset > 0 then
       local isMovingHorizontally = self.spriteChild.x ~= childX
 
       if isMovingHorizontally and self.movement == 0 then
@@ -377,7 +349,11 @@ function Elevator:update()
         adjustmentRemaining = adjustmentRemaining * _G.delta_time
       end
 
-      self.didMoveRemaining = updateMovement(self, adjustmentRemaining)
+      -- We push the player into the elevator if moving down for better collision handling.
+      local downwardsOffset = self.fields.orientation == ORIENTATION.Vertical and
+          math.max(0, math.min(adjustmentRemaining, downwardsOffsetMax)) or 0
+
+      self.didMoveRemaining = updateMovement(self, adjustmentRemaining, downwardsOffset)
     end
   else
     -- If any movement occurs, update elevator position based on movement * delta_time
@@ -387,7 +363,11 @@ function Elevator:update()
       movement = movement * _G.delta_time
     end
 
-    self.didActivationSuccess = updateMovement(self, movement)
+    -- We push the player into the elevator if moving down for better collision handling.
+    local downwardsOffset = (self.fields.orientation == ORIENTATION.Vertical and movement > 0) and
+        downwardsOffsetMax or 0
+
+    self.didActivationSuccess = updateMovement(self, movement, downwardsOffset)
   end
 
   -- Reset collisions if disabled

@@ -427,6 +427,11 @@ function Player:updateActivations()
         local tag = otherSprite:getTag()
         local isBelowCenter = self:centerX() < otherSprite:right() and self:centerX() > otherSprite:left()
 
+        -- If there are two bottom activations, choose only the one that is directly below the player.
+        if #self.activationsBottom > 1 and not isBelowCenter then
+            goto continue
+        end
+
         -- If Drilling
         if tag == TAGS.DrillableBlock then
             if self:isHoldingDownKey() and isBelowCenter then
@@ -500,6 +505,8 @@ function Player:updateActivations()
                 end
             end
         end
+
+        ::continue::
     end
 
     for i, otherSprite in ipairs(self.activations) do
