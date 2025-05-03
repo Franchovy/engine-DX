@@ -21,7 +21,7 @@ function PlayerParticlesDrilling:init(player)
 end
 
 function PlayerParticlesDrilling:startAnimation()
-    self.index = 1
+    self:setIndex(1)
 
     self.isPlaying = true
 
@@ -38,18 +38,21 @@ end
 
 function PlayerParticlesDrilling:stop()
     self.isPlaying = false
-    self.index = 1
+    self:setIndex(1)
     self:remove()
+end
+
+function PlayerParticlesDrilling:setIndex(index)
+    self.index = index
+    self:setImage(imagetableParticles[index])
 end
 
 function PlayerParticlesDrilling:update()
     if self.isPlaying then
         if self.index <= #imagetableParticles then
-            self.index += 1
+            self:setIndex(self.index + 1)
         else
             self:stop()
         end
-
-        self:setImage(imagetableParticles[self.index])
     end
 end

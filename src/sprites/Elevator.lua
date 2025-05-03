@@ -317,6 +317,14 @@ end
 --- *param* key - the player input key direction (KEYNAMES)
 --- *returns* the distance covered in the activation.
 function Elevator:activate(sprite, key)
+  -- Set child sprite
+
+  self.spriteChild = sprite
+
+  -- Return if no key is passed in
+
+  if not key then return end
+
   -- Gets applied movement using key, self.speed and self.orientation
   local activationMovement = getActivationMovement(self, key)
 
@@ -415,8 +423,4 @@ function Elevator:handleCheckpointRevert(state)
   self.movement = 0
 
   setDisplacement(self, state.displacement)
-end
-
-function Elevator:setChild(sprite)
-  self.spriteChild = sprite
 end

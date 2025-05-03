@@ -90,29 +90,15 @@ function Player:init(entity)
 
     -- AnimatedSprite states
 
-    self:addState(ANIMATION_STATES.Idle, 1, 4, { tickStep = 3 }).asDefault()
-    self:addState(ANIMATION_STATES.Jumping, 5, 8, { tickStep = 2 })
-    self:addState(ANIMATION_STATES.Moving, 9, 12, { tickStep = 2 })
-    self:addState(ANIMATION_STATES.Drilling, 12, 16, { tickStep = 2 })
-    self:addState(ANIMATION_STATES.Falling, 19, 20, { tickStep = 2 }) --thanks filigrani!
-    self:addState(ANIMATION_STATES.PreFalling, 17, 18,
-        { tickStep = 3 })
-    self:addState(ANIMATION_STATES.Unsure, 24, 30, { tickStep = 2, nextAnimation = ANIMATION_STATES.Idle })
-    self:addState(ANIMATION_STATES.UnsureRun, 46, 49,
-        { tickStep = 3, nextAnimation = ANIMATION_STATES.Idle })
-    self:addState(ANIMATION_STATES.Impact, 21, 23, { tickStep = 2, nextAnimation = ANIMATION_STATES.Idle })
-    self:addState(ANIMATION_STATES.ImpactRun, 43, 45, { tickStep = 2, nextAnimation = ANIMATION_STATES.Idle })
-
-    self.isAnimationFlip = 0
-    self.didPressedInvalidKey = false
-
-    self:playAnimation()
+    self:setupAnimationStates()
 
     self:setTag(TAGS.Player)
 
-    self.isDroppingItem = false
-    self.isActivatingDrillableBlock = false
-    self.isActivatingElevator = false
+    self.activeDialog = false
+    self.didPressedInvalidKey = false
+    self.activations = {}
+    self.activationsBottom = {}
+    self.activationsPrevious = {}
 
     -- Setup keys array and starting keys
 
@@ -137,7 +123,7 @@ function Player:init(entity)
 
     self.latestCheckpointPosition = gmt.point.new(self.x, self.y)
 
-    -- Add child animation sprites
+    -- Create child sprites
 
     self.crankWarpController = PlayerCrankWarpController()
     self.questionMark = PlayerQuestionMark(self)
@@ -184,6 +170,25 @@ function Player:remove()
     if self.questionMark then
         self.questionMark:remove()
     end
+end
+
+function Player:setupAnimationStates()
+    self:addState(ANIMATION_STATES.Idle, 1, 4, { tickStep = 3 }).asDefault()
+    self:addState(ANIMATION_STATES.Jumping, 5, 8, { tickStep = 2 })
+    self:addState(ANIMATION_STATES.Moving, 9, 12, { tickStep = 2 })
+    self:addState(ANIMATION_STATES.Drilling, 12, 16, { tickStep = 2 })
+    self:addState(ANIMATION_STATES.Falling, 19, 20, { tickStep = 2 }) --thanks filigrani!
+    self:addState(ANIMATION_STATES.PreFalling, 17, 18,
+        { tickStep = 3 })
+    self:addState(ANIMATION_STATES.Unsure, 24, 30, { tickStep = 2, nextAnimation = ANIMATION_STATES.Idle })
+    self:addState(ANIMATION_STATES.UnsureRun, 46, 49,
+        { tickStep = 3, nextAnimation = ANIMATION_STATES.Idle })
+    self:addState(ANIMATION_STATES.Impact, 21, 23, { tickStep = 2, nextAnimation = ANIMATION_STATES.Idle })
+    self:addState(ANIMATION_STATES.ImpactRun, 43, 45, { tickStep = 2, nextAnimation = ANIMATION_STATES.Idle })
+
+    self.isAnimationFlip = 0
+
+    self:playAnimation()
 end
 
 --------------------
@@ -339,7 +344,6 @@ end
 -- Update Method
 
 local jumpTimeLeftInTicks = jumpHoldTimeInTicks
-local activeDialog
 
 function Player:update()
     -- Sprite update
@@ -354,6 +358,12 @@ function Player:update()
 
     self:updateWarp()
 
+    -- Activatable sprite interactions
+
+    self.isActivatingElevator = false
+    self.isActivatingDrillableBlock = false
+    self.activeDialog = false
+
     self:updateActivations()
 
     -- Skip movement handling if timer cooldown is active
@@ -363,10 +373,10 @@ function Player:update()
     -- Update variables set by collisions
 
     self.isTouchingGroundPrevious = self.rigidBody:getIsTouchingGround()
-    self.isActivatingElevator = false
-    self.isActivatingDrillableBlock = false
     self.isTouchingPower = false
     self.didPressedInvalidKey = false
+    self.activationsBottom = {}
+    self.activations = {}
 
     -- RigidBody update
 
@@ -408,56 +418,112 @@ function Player:updateWarp()
 end
 
 function Player:updateActivations()
+    for i, otherSprite in ipairs(self.activationsBottom) do
+        local tag = otherSprite:getTag()
+        local isBelowCenter = self:centerX() < otherSprite:right() and self:centerX() > otherSprite:left()
+
+        -- If Drilling
+        if tag == TAGS.DrillableBlock then
+            if self:isHoldingDownKey() and isBelowCenter then
+                -- Play drilling sound
+                if not spDrill:isPlaying() then
+                    spDrill:play(1)
+
+                    self.particlesDrilling:startAnimation()
+                end
+
+                self.isActivatingDrillableBlock = otherSprite
+
+                -- Activate block drilling
+
+                otherSprite:activate()
+
+                -- If consumed or player stopped pressing, end animation.
+                if otherSprite:isConsumed() or pd.buttonJustReleased(pd.kButtonDown) then
+                    spDrill:stop()
+                    self.particlesDrilling:endAnimation()
+                end
+
+                -- Move particles to same location
+
+                self.particlesDrilling:moveTo(self:centerX(), self:bottom())
+            elseif pd.buttonJustReleased(pd.kButtonDown) then
+                spDrill:stop()
+
+                self.particlesDrilling:endAnimation()
+            end
+        end
+
+        if tag == TAGS.Elevator then
+            local key
+            local direction = otherSprite:getDirection()
+            if direction == ORIENTATION.Horizontal then
+                if self:isHoldingLeftKey() then
+                    key = KEYNAMES.Left
+                elseif self:isHoldingRightKey() then
+                    key = KEYNAMES.Right
+                end
+            elseif direction == ORIENTATION.Vertical then
+                if self:isHoldingDownKey() then
+                    key = KEYNAMES.Down
+                elseif self:isHoldingUpKey() then
+                    key = KEYNAMES.Up
+                end
+            end
+
+            otherSprite:activate(self, key)
+            self.isActivatingElevator = otherSprite
+        end
+    end
+
+    for i, otherSprite in ipairs(self.activations) do
+        local tag = otherSprite:getTag()
+
+        if tag == TAGS.Ability then
+            -- [FRANCH] This condition is useful in case there is more than one blueprint being picked up. However
+            -- we should be handling the multiple blueprints as a single checkpoint.
+            -- But it's also useful for debugging.
+
+            if not timerCooldownCheckpoint then
+                otherSprite:updateStatePickedUp()
+
+                self:pickUpBlueprint(otherSprite.abilityName)
+            end
+        end
+
+        if tag == TAGS.Dialog and not self.activeDialog then
+            self.activeDialog = otherSprite
+
+            self.activeDialog:activate()
+
+            if self:justPressedInteractionKey() then
+                self.activeDialog:showNextLine()
+
+                if self.activeDialog:hasKey() then
+                    -- Get key
+                    self:pickUpBlueprint(self.activeDialog:getKey())
+                end
+            end
+        end
+
+        if tag == TAGS.SavePoint then
+            otherSprite:activate()
+        end
+    end
+
     if self:didJumpStart() then
         -- Disable collisions with elevator for this frame to avoid
         -- jump / moving elevator up collisions glitch.
         if self.isActivatingElevator then
             self.isActivatingElevator:disableCollisionsForFrame()
         end
-
-        -- Cancel any digging if jumping
-        if self.isActivatingDrillableBlock then
-            self.particlesDrilling:endAnimation()
-
-            self.isActivatingDrillableBlock = nil
-        end
     end
 
-    -- Drilling
+    -- Cancel any digging if jumping or releasing dig key
+    if self.isActivatingDrillableBlock and (self:didJumpStart() or pd.buttonJustReleased(pd.kButtonDown)) then
+        self.particlesDrilling:endAnimation()
 
-    local block = self.isActivatingDrillableBlock
-    if block then
-        -- Activate block drilling
-
-        local isConsumed = block:activate()
-
-        -- If consumed or player stopped pressing, end animation.
-        if isConsumed or (not isConsumed and playdate.buttonJustReleased(playdate.kButtonDown)) then
-            spDrill:stop()
-            self.particlesDrilling:endAnimation()
-        end
-
-        -- Move particles to same location
-
-        self.particlesDrilling:moveTo(self:centerX(), self:bottom())
-    end
-
-    -- Dialog / B button activation
-
-    if activeDialog then
-        activeDialog:activate()
-
-        if self:justPressedInteractionKey() then
-            activeDialog:showNextLine()
-
-            if activeDialog:hasKey() then
-                -- Get key
-                self:pickUpBlueprint(activeDialog:getKey())
-            end
-        end
-
-        -- Consume variable
-        activeDialog = nil
+        self.isActivatingDrillableBlock = nil
     end
 end
 
@@ -478,9 +544,12 @@ function Player:updateMovement()
     if not self.isActivatingDrillableBlock and not isActivatingElevator then
         local acceleration = self.rigidBody:getIsTouchingGround() and groundAcceleration or airAcceleration
 
-        if self:isHoldingLeftKey() then
+        local isHoldingLeft = self:isHoldingLeftKey()
+        local isHoldingRight = self:isHoldingRightKey()
+
+        if isHoldingLeft and not isHoldingRight then
             self.rigidBody:addVelocityX(-acceleration)
-        elseif self:isHoldingRightKey() then
+        elseif isHoldingRight and not isHoldingLeft then
             self.rigidBody:addVelocityX(acceleration)
         end
     end
@@ -518,69 +587,20 @@ function Player:updateCollisions()
     for _, collisionData in pairs(self.collisions) do
         local other = collisionData.other
         local tag = other:getTag()
+        local normal = collisionData.normal
 
-        -- If Drilling
-        if tag == TAGS.DrillableBlock and self:isHoldingDownKey() and collisionData.normal.y == -1 then
-            -- Play drilling sound
-            if not spDrill:isPlaying() then
-                spDrill:play(1)
-
-                self.particlesDrilling:startAnimation()
-            end
-
-            self.isActivatingDrillableBlock = other
+        -- Bottom activations
+        if normal.y == -1 and (tag == TAGS.DrillableBlock or tag == TAGS.Elevator) then
+            -- If colliding with bottom, activate
+            table.insert(self.activationsBottom, other)
         end
 
-        if tag == TAGS.Elevator then
-            if collisionData.normal.y == -1 then
-                other:setChild(self)
-
-                local direction = other:getDirection()
-
-                local key
-                if direction == ORIENTATION.Horizontal then
-                    if self:isHoldingLeftKey() then
-                        key = KEYNAMES.Left
-                    elseif self:isHoldingRightKey() then
-                        key = KEYNAMES.Right
-                    end
-                elseif direction == ORIENTATION.Vertical then
-                    if self:isHoldingDownKey() then
-                        key = KEYNAMES.Down
-                    elseif self:isHoldingUpKey() then
-                        key = KEYNAMES.Up
-                    end
-                end
-
-                self.isActivatingElevator = other
-
-                if key then
-                    -- Elevator checks if it makes sense to activate
-                    other:activate(self, key)
-                end
-            end
+        -- Other activations
+        if tag == TAGS.SavePoint or tag == TAGS.Dialog or tag == TAGS.Ability then
+            table.insert(self.activations, other)
         end
 
-        if tag == TAGS.Ability then
-            -- [FRANCH] This condition is useful in case there is more than one blueprint being picked up. However
-            -- we should be handling the multiple blueprints as a single checkpoint.
-            -- But it's also useful for debugging.
-
-            if not timerCooldownCheckpoint then
-                other:updateStatePickedUp()
-
-                self:pickUpBlueprint(other.abilityName)
-            end
-        end
-
-        if tag == TAGS.Dialog and not activeDialog then
-            activeDialog = other
-        end
-
-        if tag == TAGS.SavePoint then
-            other:activate()
-        end
-
+        -- Other (passive)
         if tag == TAGS.Powerwall then
             self.isTouchingPower = true
         end
@@ -620,7 +640,7 @@ function Player:updateAnimationState()
 
     if not shouldSkipStateCheck then
         if self.rigidBody:getIsTouchingGround() then
-            if self.isActivatingDrillableBlock then
+            if self.isActivatingDrillableBlock and self:isHoldingDownKey() then
                 animationState = ANIMATION_STATES.Drilling
             elseif self.didPressedInvalidKey then
                 if isMoving and isMovingActive then
@@ -728,6 +748,9 @@ function Player:didJumpStart()
 end
 
 -- Input Handlers
+
+-- TODO: Replace implementation of button & blueprints check with blueprint check using button mask + playdate.getButtonState()
+-- Replace didPressedInvalidKey with stateless check
 
 function Player:isHoldingJumpKey()
     return self:isKeyPressedGated(KEYNAMES.A)

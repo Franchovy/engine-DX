@@ -43,6 +43,10 @@ function ConsumableSprite:consume()
     self:remove()
 end
 
+function ConsumableSprite:isConsumed()
+    return self.fields.consumed
+end
+
 function ConsumableSprite:handleCheckpointRevert(state)
     if state.consumed then
         self:remove()

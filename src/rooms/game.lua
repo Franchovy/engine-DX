@@ -340,7 +340,7 @@ function Game:levelEnd()
 
     -- Set player state to game end
 
-    Player.getInstance():setLevelEndReady() -- TODO: Some issue here.
+    Player.getInstance():setLevelEndReady()
 
     -- Set level complete in data
 
