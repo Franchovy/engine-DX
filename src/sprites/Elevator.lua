@@ -355,6 +355,7 @@ function Elevator:update()
   -- Reset update variables (Pre-update)
 
   self.didActivationSuccess = false
+  self.didMoveRemaining = false
 
   -- Get if elevator has been activated
   local movement = self.movement
@@ -411,6 +412,13 @@ function Elevator:enterLevel()
   self:add()
 
   self.spriteElevatorTrack:add()
+
+  -- Offset elevator to be centered underneath player (horizontal only)
+
+  if self.fields.orientation == ORIENTATION.Horizontal then
+    local player = Player.getInstance()
+    self:moveTo(player:centerX(), self.y)
+  end
 end
 
 --- Used specifically for when jumping while moving up with elevator.

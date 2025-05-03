@@ -494,7 +494,7 @@ function Player:updateActivations()
                 -- Otherwise, activate elevator (set self as child)
                 otherSprite:activate(self, key)
 
-                if key or (self.isActivatingElevator == nil and otherSprite:hasMovedRemaining()) then
+                if key or (not self.isActivatingElevator and otherSprite:hasMovedRemaining()) then
                     -- If activation happened or elevator is still moving with player
                     self.isActivatingElevator = otherSprite
                 end
