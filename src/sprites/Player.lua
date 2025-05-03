@@ -57,6 +57,7 @@ KEYS = {
 local groundAcceleration <const> = 3.5
 local airAcceleration <const> = 1.4
 local jumpSpeed <const> = 27
+local jumpSpeedDrilledBlock <const> = -14
 local jumpHoldTimeInTicks <const> = 4
 local VELOCITY_FALL_ANIMATION <const> = 6
 
@@ -439,15 +440,21 @@ function Player:updateActivations()
                 otherSprite:activate()
 
                 -- If consumed or player stopped pressing, end animation.
-                if otherSprite:isConsumed() or pd.buttonJustReleased(pd.kButtonDown) then
+                if otherSprite:isConsumed() then
                     spDrill:stop()
+
                     self.particlesDrilling:endAnimation()
+
+                    self.rigidBody:setVelocityY(jumpSpeedDrilledBlock)
                 end
 
                 -- Move particles to same location
 
                 self.particlesDrilling:moveTo(self:centerX(), self:bottom())
-            elseif pd.buttonJustReleased(pd.kButtonDown) then
+            end
+
+            -- Handle releasing the down key
+            if pd.buttonJustReleased(pd.kButtonDown) then
                 spDrill:stop()
 
                 self.particlesDrilling:endAnimation()
