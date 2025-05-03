@@ -54,6 +54,7 @@ KEYS = {
     [KEYNAMES.B] = pd.kButtonB
 }
 
+local coyoteFrames <const> = 5
 local groundAcceleration <const> = 3.5
 local airAcceleration <const> = 1.4
 local jumpSpeed <const> = 27
@@ -100,6 +101,11 @@ function Player:init(entity)
     self.activations = {}
     self.activationsBottom = {}
     self.activationsPrevious = {}
+
+    -- Jumping mechanic variables
+
+    self.jumpTimeLeftInTicks = jumpHoldTimeInTicks
+    self.coyoteFramesRemaining = coyoteFrames
 
     -- Setup keys array and starting keys
 
@@ -344,8 +350,6 @@ end
 
 -- Update Method
 
-local jumpTimeLeftInTicks = jumpHoldTimeInTicks
-
 function Player:update()
     -- Sprite update
 
@@ -577,9 +581,21 @@ function Player:updateMovement()
         end
     end
 
+    -- Handle coyote frames
+
+    if self.coyoteFramesRemaining > 0 and not self.rigidBody:getIsTouchingGround() then
+        -- Reduce coyote frames remaining
+        self.coyoteFramesRemaining -= 1
+        print("COYOTE! ", self.coyoteFramesRemaining)
+    elseif self.rigidBody:getIsTouchingGround() then
+        -- Reset coyote frames
+        self.coyoteFramesRemaining = coyoteFrames
+        print("reset")
+    end
+
     -- Handle Vertical Movement
 
-    if self.rigidBody:getIsTouchingGround() or CONFIG.INFINITE_JUMP then
+    if self.rigidBody:getIsTouchingGround() or self.coyoteFramesRemaining > 0 or CONFIG.INFINITE_JUMP then
         -- Handle jump start
 
         if self:didJumpStart() then
@@ -587,18 +603,20 @@ function Player:updateMovement()
 
             self.rigidBody:setVelocityY(-jumpSpeed)
 
-            jumpTimeLeftInTicks -= 1
+            self.jumpTimeLeftInTicks -= 1
+
+            self.coyoteFramesRemaining = 0
         end
-    elseif self:isHoldingJumpKey() and jumpTimeLeftInTicks > 0 then
+    elseif self:isHoldingJumpKey() and self.jumpTimeLeftInTicks > 0 then
         -- Handle Jump Hold
 
         self.rigidBody:setVelocityY(-jumpSpeed)
 
-        jumpTimeLeftInTicks -= 1
-    elseif pd.buttonJustReleased(KEYNAMES.A) or jumpTimeLeftInTicks > 0 then
+        self.jumpTimeLeftInTicks -= 1
+    elseif pd.buttonJustReleased(KEYNAMES.A) or self.jumpTimeLeftInTicks > 0 then
         -- Handle Jump Release
 
-        jumpTimeLeftInTicks = 0
+        self.jumpTimeLeftInTicks = 0
     end
 end
 
