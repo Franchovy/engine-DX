@@ -81,8 +81,10 @@ local function getPositionChildIdeal(self, x, y, isMovingDown)
   local offsetY = isMovingDown and 2 or 0
 
   -- Center the child on the elevator
-  local idealX = x - self.childPositionOffsetX + self.width / 2 - self.spriteChild.width / 2
-  local idealY = y + self.childPositionOffsetY - self.spriteChild.height + offsetY
+  local idealX = self.fields.orientation == ORIENTATION.Horizontal and
+      x - self.childPositionOffsetX + self.width / 2 - self.spriteChild.width / 2 or self.spriteChild.x
+  local idealY = self.fields.orientation == ORIENTATION.Vertical and
+      y + self.childPositionOffsetY - self.spriteChild.height + offsetY or self.spriteChild.y
 
   return idealX, idealY
 end

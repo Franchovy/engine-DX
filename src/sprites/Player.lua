@@ -299,16 +299,11 @@ function Player:handleCollision(collisionData)
                 end
             end
 
+            self.isActivatingElevator = other
+
             if key then
                 -- Elevator checks if it makes sense to activate
-                local activationDistance = other:activate(self, key)
-
-                if activationDistance and math.abs(activationDistance) ~= 0 then
-                    -- If so, mark as activating elevator
-                    self.isActivatingElevator = other
-                end
-            else
-                self.elevator = other
+                other:activate(self, key)
             end
         end
     end
@@ -384,8 +379,6 @@ function Player:update()
                 -- jump / moving elevator up collisions glitch.
                 if self.isActivatingElevator then
                     self.isActivatingElevator:disableCollisionsForFrame()
-                elseif self.elevator then
-                    self.elevator:disableCollisionsForFrame()
                 end
 
                 -- Cancel any digging if jumping
@@ -432,7 +425,6 @@ function Player:update()
 
         self.isActivatingElevator = false
         self.isActivatingDrillableBlock = false
-        self.elevator = false
         self.isTouchingPower = false
 
         -- RigidBody update
@@ -620,7 +612,7 @@ function Player:updateAnimationState()
                     -- Static Impact
                     animationState = ANIMATION_STATES.Impact
                 end
-            elseif isMoving and not self.isActivatingElevator then
+            elseif isMoving and not (self.isActivatingElevator and self.isActivatingElevator:wasActivationSuccessful()) then
                 animationState = ANIMATION_STATES.Moving
             else
                 animationState = ANIMATION_STATES.Idle
