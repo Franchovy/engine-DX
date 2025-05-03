@@ -376,7 +376,7 @@ function Elevator:update()
         adjustmentRemaining = adjustmentRemaining * _G.delta_time
       end
 
-self.didMoveRemaining =       updateMovement(self, adjustmentRemaining)
+      self.didMoveRemaining = updateMovement(self, adjustmentRemaining)
     end
   else
     -- If any movement occurs, update elevator position based on movement * delta_time

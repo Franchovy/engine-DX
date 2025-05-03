@@ -474,11 +474,18 @@ function Player:updateActivations()
                 end
             end
 
-            otherSprite:activate(self, key)
+            if self:didJumpStart() then
+                -- Disable collisions with elevator for this frame to avoid
+                -- jump / moving into elevator collision glitch.
+                otherSprite:disableCollisionsForFrame()
+            else
+                -- Otherwise, activate elevator (set self as child)
+                otherSprite:activate(self, key)
 
-            if key or (self.isActivatingElevator == nil and otherSprite:hasMovedRemaining()) then
-                -- If activation happened or elevator is still moving with player
-                self.isActivatingElevator = otherSprite
+                if key or (self.isActivatingElevator == nil and otherSprite:hasMovedRemaining()) then
+                    -- If activation happened or elevator is still moving with player
+                    self.isActivatingElevator = otherSprite
+                end
             end
         end
     end
@@ -515,14 +522,6 @@ function Player:updateActivations()
 
         if tag == TAGS.SavePoint then
             otherSprite:activate()
-        end
-    end
-
-    if self:didJumpStart() then
-        -- Disable collisions with elevator for this frame to avoid
-        -- jump / moving elevator up collisions glitch.
-        if self.isActivatingElevator then
-            self.isActivatingElevator:disableCollisionsForFrame()
         end
     end
 
