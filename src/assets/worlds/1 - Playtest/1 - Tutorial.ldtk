@@ -13433,7 +13433,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Hey! Nice job getting rescued!\nLooks like you're able/to move by yourself...\n...see if you can drill DOWN on/those blocks over there.\n$X\nTry pressing DOWN/while on top of those blocks.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hey! Nice job getting rescued!\\nLooks like you're able/to move by yourself...\\n...see if you can drill DOWN on/those blocks over there.\\n$X\\nTry pressing DOWN/while on top of those blocks."
+										"Hey! Nice job getting rescued!\nLooks like you're able/to move by yourself...\n...see if you can drill DOWN on/those blocks over there.\n$X\nTry pressing DOWN/while on top of those blocks."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -13800,7 +13800,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Hey there! Looks like/you're able to move...\n...see if you can use/that elevator to go DOWN.\n$X\nStand on top of the/elevator and press DOWN.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hey there! Looks like/you're able to move...\\n...see if you can use/that elevator to go DOWN.\\n$X\\nStand on top of the/elevator and press DOWN."
+										"Hey there! Looks like/you're able to move...\n...see if you can use/that elevator to go DOWN.\n$X\nStand on top of the/elevator and press DOWN."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -15400,7 +15400,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [369,96],
+							"px": [368,96],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -15409,7 +15409,7 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 1, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [1] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 1, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [1] }] }
 							],
-							"__worldX": 7313,
+							"__worldX": 7312,
 							"__worldY": 512
 						},
 						{
@@ -16561,7 +16561,7 @@
 						},
 						{
 							"__identifier": "ButtonPickup",
-							"__grid": [12,2],
+							"__grid": [13,3],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
@@ -16570,17 +16570,17 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [414,94],
+							"px": [432,112],
 							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Left"]
 							}] }],
-							"__worldX": 7038,
-							"__worldY": -258
+							"__worldX": 7056,
+							"__worldY": -240
 						},
 						{
 							"__identifier": "ButtonPickup",
-							"__grid": [9,3],
+							"__grid": [10,4],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
@@ -16589,13 +16589,13 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [318,126],
+							"px": [336,144],
 							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Down", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Down"]
 							}] }],
-							"__worldX": 6942,
-							"__worldY": -226
+							"__worldX": 6960,
+							"__worldY": -208
 						}
 					]
 				},
@@ -16816,7 +16816,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [145,128],
+							"px": [144,128],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Horizontal", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -16825,7 +16825,7 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 2, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [2] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 2, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [2] }] }
 							],
-							"__worldX": 7089,
+							"__worldX": 7088,
 							"__worldY": 1024
 						},
 						{
