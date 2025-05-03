@@ -32,10 +32,10 @@ local function setState(self, state)
 end
 
 ---@class CrankWarpController: playdate.graphics.sprite
-CrankWarpController = Class("CrankWarpController", gfx.sprite)
+PlayerCrankWarpController = Class("PlayerCrankWarpController", gfx.sprite)
 
-function CrankWarpController:init()
-    CrankWarpController.super.init(self, imageTableWarp[1])
+function PlayerCrankWarpController:init()
+    PlayerCrankWarpController.super.init(self, imageTableWarp[1])
 
     self:setScale(2)
     self:add()
@@ -47,17 +47,17 @@ function CrankWarpController:init()
     self.isLoopingMode = false
 end
 
-function CrankWarpController:remove()
-    CrankWarpController.super.remove(self)
+function PlayerCrankWarpController:remove()
+    PlayerCrankWarpController.super.remove(self)
 
     spWarpAmbient:stop()
 end
 
-function CrankWarpController:isActive()
+function PlayerCrankWarpController:isActive()
     return self.state == animationStates.loop
 end
 
-function CrankWarpController:handleCrankChange()
+function PlayerCrankWarpController:update()
     if self.isLoopingMode and self.state == animationStates.loop then
         -- In looping mode, we keep crank momentum constant
 
@@ -145,13 +145,21 @@ function CrankWarpController:handleCrankChange()
 
     -- Return whether a warp has happened
 
-    return self.index == indexesImageTableWarp[animationStates.loop]
+    self.hasWarped = self.index == indexesImageTableWarp[animationStates.loop]
 end
 
-function CrankWarpController:updateImage()
+function PlayerCrankWarpController:hasTriggeredWarp()
+    return self.hasWarped
+end
+
+function PlayerCrankWarpController:resetWarp()
+    self.hasWarped = false
+end
+
+function PlayerCrankWarpController:updateImage()
     self:setImage(imageTableWarp[self.index])
 end
 
-function CrankWarpController:setEndGameLoop()
+function PlayerCrankWarpController:setEndGameLoop()
     self.isLoopingMode = true
 end

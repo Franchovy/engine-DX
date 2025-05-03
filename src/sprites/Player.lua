@@ -1,6 +1,6 @@
-import "player/crank"
-import "player/questionMark"
-import "player/particlesDrilling"
+import "player/PlayerCrankWarpController"
+import "player/PlayerQuestionMark"
+import "player/PlayerParticlesDrilling"
 
 local pd <const> = playdate
 local sound <const> = pd.sound
@@ -135,7 +135,7 @@ function Player:init(entity)
 
     -- Add child animation sprites
 
-    self.crankWarpController = CrankWarpController()
+    self.crankWarpController = PlayerCrankWarpController()
     self.questionMark = PlayerQuestionMark(self)
     self.particlesDrilling = PlayerParticlesDrilling(self)
 end
@@ -342,16 +342,20 @@ function Player:update()
         return
     end
 
-    -- Update question mark
+    -- Update child sprites
 
     self.questionMark:update()
+    self.crankWarpController:update()
+    -- crank warp controller
+    -- drilling animation
+
 
     -- Checkpoint Handling
 
-    local hasWarped = self.crankWarpController:handleCrankChange()
-
-    if hasWarped then
+    if self.crankWarpController:hasTriggeredWarp() then
         self:revertCheckpoint()
+
+        self.crankWarpController:resetWarp()
     end
 
     -- Skip movement handling if timer cooldown is active
