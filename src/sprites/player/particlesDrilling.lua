@@ -12,7 +12,7 @@ function PlayerParticlesDrilling:init(player)
     PlayerParticlesDrilling.super.init(self)
 
     self:setSize(imagetableParticles[1]:getSize())
-    self:setCenter(0.5, 0.5 - (20 / self.height)) -- Move slightly down proportionally to the size of the sprite
+    self:setCenter(0.5, 0.5)
     self:setZIndex(Z_INDEX.Level.Overlay)
 
     self.player = player
@@ -20,9 +20,7 @@ function PlayerParticlesDrilling:init(player)
     self.isPlaying = false
 end
 
-function PlayerParticlesDrilling:startAnimation(x, y)
-    self:moveTo(x, y)
-
+function PlayerParticlesDrilling:startAnimation()
     self.index = 1
 
     self.isPlaying = true

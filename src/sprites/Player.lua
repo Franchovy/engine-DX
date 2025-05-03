@@ -272,7 +272,7 @@ function Player:handleCollision(collisionData)
         if not spDrill:isPlaying() then
             spDrill:play(1)
 
-            self.particlesDrilling:startAnimation(self.x, self.y)
+            self.particlesDrilling:startAnimation()
         end
 
         self.isActivatingDrillableBlock = other
@@ -414,12 +414,9 @@ function Player:update()
             end
 
             -- Move player to Center on top of the drilled block
-            local centerX, centerY = block:getCenter()
-            local centerOffsetX, centerOffsetY = centerX * block.width, centerY * block.height
-
             self:moveTo(
-                block.x - centerOffsetX + block.width / 2,
-                block.y - centerOffsetY + block.height / 2 - TILE_SIZE
+                block:centerX(),
+                block:top() - self:centerOffsetY()
             )
 
             -- Move particles to same location
