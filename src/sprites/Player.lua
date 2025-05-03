@@ -472,6 +472,7 @@ function Player:updateActivations()
             end
 
             otherSprite:activate(self, key)
+
             self.isActivatingElevator = otherSprite
         end
     end
@@ -537,11 +538,14 @@ function Player:updateMovement()
 
     -- Handle Horizontal Movement
 
-    local isActivatingElevator = self.isActivatingElevator and self.isActivatingElevator:wasActivationSuccessful()
+    local didActivateElevatorSuccess = self.isActivatingElevator and self.isActivatingElevator:wasActivationSuccessful()
 
-    -- Skip horizontal movement if activating a bottom block
-
-    if not self.isActivatingDrillableBlock and not isActivatingElevator then
+    if self.isActivatingDrillableBlock or didActivateElevatorSuccess then
+        -- Skip horizontal movement if activating a bottom block
+    elseif self.isActivatingElevator and self.isActivatingElevator:getDirection() == ORIENTATION.Horizontal
+        and (pd.buttonJustPressed(pd.kButtonLeft) or pd.buttonJustPressed(pd.kButtonRight)) then
+        -- Skip upon pressing left or right to give collisions a frame to calculate horizontal elevator movement.
+    else
         local acceleration = self.rigidBody:getIsTouchingGround() and groundAcceleration or airAcceleration
 
         local isHoldingLeft = self:isHoldingLeftKey()
