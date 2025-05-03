@@ -244,6 +244,7 @@ function Elevator:init(entity)
   self.speed = 7                    -- Constant, but could be modified on a per-elevator basis in the future.
   self.movement = 0                 -- Update scalar for movement.
   self.didActivationSuccess = false -- Update value for checking if activation was successful
+  self.didMoveRemaining = false     -- Update value for checking if remaining/adjustment movement occurred
 
   -- Offset parameters for placing child when moving
 
@@ -375,7 +376,7 @@ function Elevator:update()
         adjustmentRemaining = adjustmentRemaining * _G.delta_time
       end
 
-      updateMovement(self, adjustmentRemaining)
+self.didMoveRemaining =       updateMovement(self, adjustmentRemaining)
     end
   else
     -- If any movement occurs, update elevator position based on movement * delta_time
@@ -400,6 +401,10 @@ function Elevator:update()
 
   self.movement = 0
   self.spriteChild = nil
+end
+
+function Elevator:hasMovedRemaining()
+  return self.didMoveRemaining
 end
 
 function Elevator:enterLevel()

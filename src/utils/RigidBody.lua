@@ -29,6 +29,10 @@ function RigidBody:addVelocityX(dX)
   self.velocity.dx += dX
 end
 
+function RigidBody:setVelocityX(dX)
+  self.velocity.dx = dX
+end
+
 function RigidBody:setVelocityY(dY)
   self.velocity.dy = dY
 end

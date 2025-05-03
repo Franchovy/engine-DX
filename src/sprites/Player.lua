@@ -457,10 +457,13 @@ function Player:updateActivations()
         if tag == TAGS.Elevator then
             local key
             local direction = otherSprite:getDirection()
+
             if direction == ORIENTATION.Horizontal then
-                if self:isHoldingLeftKey() then
+                -- If horizontal, then the player must be fully on the elevator to start.
+
+                if self:isHoldingLeftKey() and isBelowCenter then
                     key = KEYNAMES.Left
-                elseif self:isHoldingRightKey() then
+                elseif self:isHoldingRightKey() and isBelowCenter then
                     key = KEYNAMES.Right
                 end
             elseif direction == ORIENTATION.Vertical then
@@ -473,7 +476,10 @@ function Player:updateActivations()
 
             otherSprite:activate(self, key)
 
-            self.isActivatingElevator = otherSprite
+            if key or (self.isActivatingElevator == nil and otherSprite:hasMovedRemaining()) then
+                -- If activation happened or elevator is still moving with player
+                self.isActivatingElevator = otherSprite
+            end
         end
     end
 
@@ -545,6 +551,11 @@ function Player:updateMovement()
     elseif self.isActivatingElevator and self.isActivatingElevator:getDirection() == ORIENTATION.Horizontal
         and (pd.buttonJustPressed(pd.kButtonLeft) or pd.buttonJustPressed(pd.kButtonRight)) then
         -- Skip upon pressing left or right to give collisions a frame to calculate horizontal elevator movement.
+        self.rigidBody:setVelocityX(0.0)
+    elseif self.isActivatingElevator and self.isActivatingElevator:getDirection() == ORIENTATION.Horizontal
+        and (not self.isTouchingGroundPrevious and self.rigidBody:getIsTouchingGround()) then
+        -- Skip upon landing on a horizontal elevator
+        self.rigidBody:setVelocityX(0.0)
     else
         local acceleration = self.rigidBody:getIsTouchingGround() and groundAcceleration or airAcceleration
 
