@@ -1,3 +1,7 @@
+# Version 0.1.0a2
+
+- Restarting LDtk Changelog since a lot of undocumented changes have happened.
+
 # Version 0.0.7
 
 Dialog:

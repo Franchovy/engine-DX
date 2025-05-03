@@ -2233,8 +2233,8 @@
 			"maxCount": 1,
 			"limitScope": "PerLevel",
 			"limitBehavior": "MoveLastOne",
-			"pivotX": -0.3,
-			"pivotY": -0.333,
+			"pivotX": 0.5,
+			"pivotY": 0.5,
 			"fieldDefs": [
 				{
 					"identifier": "blueprints",
@@ -2306,8 +2306,8 @@
 			"maxCount": 0,
 			"limitScope": "PerLevel",
 			"limitBehavior": "MoveLastOne",
-			"pivotX": -0.071,
-			"pivotY": -0.071,
+			"pivotX": 0.5,
+			"pivotY": 0.5,
 			"fieldDefs": [
 				{
 					"identifier": "blueprint",
@@ -2349,41 +2349,6 @@
 			]
 		},
 		{
-			"identifier": "Door",
-			"uid": 39,
-			"tags": [],
-			"exportToToc": false,
-			"allowOutOfBounds": false,
-			"doc": null,
-			"width": 32,
-			"height": 32,
-			"resizableX": false,
-			"resizableY": false,
-			"minWidth": null,
-			"maxWidth": null,
-			"minHeight": null,
-			"maxHeight": null,
-			"keepAspectRatio": false,
-			"tileOpacity": 1,
-			"fillOpacity": 1,
-			"lineOpacity": 1,
-			"hollow": false,
-			"color": "#D77643",
-			"renderMode": "Rectangle",
-			"showName": true,
-			"tilesetId": null,
-			"tileRenderMode": "FitInside",
-			"tileRect": null,
-			"uiTileRect": null,
-			"nineSliceBorders": [],
-			"maxCount": 0,
-			"limitScope": "PerLevel",
-			"limitBehavior": "MoveLastOne",
-			"pivotX": 0,
-			"pivotY": 0,
-			"fieldDefs": []
-		},
-		{
 			"identifier": "DrillableBlock",
 			"uid": 67,
 			"tags": [],
@@ -2419,188 +2384,6 @@
 			"fieldDefs": []
 		},
 		{
-			"identifier": "Box",
-			"uid": 74,
-			"tags": [],
-			"exportToToc": false,
-			"allowOutOfBounds": false,
-			"doc": null,
-			"width": 32,
-			"height": 32,
-			"resizableX": false,
-			"resizableY": false,
-			"minWidth": null,
-			"maxWidth": null,
-			"minHeight": null,
-			"maxHeight": null,
-			"keepAspectRatio": false,
-			"tileOpacity": 1,
-			"fillOpacity": 1,
-			"lineOpacity": 1,
-			"hollow": false,
-			"color": "#AE14F4",
-			"renderMode": "Rectangle",
-			"showName": true,
-			"tilesetId": null,
-			"tileRenderMode": "FitInside",
-			"tileRect": null,
-			"uiTileRect": null,
-			"nineSliceBorders": [],
-			"maxCount": 0,
-			"limitScope": "PerLevel",
-			"limitBehavior": "MoveLastOne",
-			"pivotX": 0,
-			"pivotY": 0,
-			"fieldDefs": []
-		},
-		{
-			"identifier": "ConveyorBelt",
-			"uid": 75,
-			"tags": [],
-			"exportToToc": false,
-			"allowOutOfBounds": false,
-			"doc": null,
-			"width": 16,
-			"height": 16,
-			"resizableX": true,
-			"resizableY": false,
-			"minWidth": 16,
-			"maxWidth": null,
-			"minHeight": null,
-			"maxHeight": null,
-			"keepAspectRatio": false,
-			"tileOpacity": 1,
-			"fillOpacity": 0.08,
-			"lineOpacity": 0,
-			"hollow": false,
-			"color": "#FF0044",
-			"renderMode": "Rectangle",
-			"showName": true,
-			"tilesetId": null,
-			"tileRenderMode": "Repeat",
-			"tileRect": { "tilesetUid": 24, "x": 96, "y": 128, "w": 32, "h": 32 },
-			"uiTileRect": null,
-			"nineSliceBorders": [],
-			"maxCount": 0,
-			"limitScope": "PerLevel",
-			"limitBehavior": "MoveLastOne",
-			"pivotX": 0,
-			"pivotY": 0,
-			"fieldDefs": [
-				{
-					"identifier": "direction",
-					"doc": null,
-					"__type": "LocalEnum.ConveyorDirection",
-					"uid": 78,
-					"type": "F_Enum(77)",
-					"isArray": false,
-					"canBeNull": false,
-					"arrayMinLength": null,
-					"arrayMaxLength": null,
-					"editorDisplayMode": "Hidden",
-					"editorDisplayScale": 1,
-					"editorDisplayPos": "Above",
-					"editorLinkStyle": "StraightArrow",
-					"editorDisplayColor": null,
-					"editorAlwaysShow": false,
-					"editorShowInWorld": true,
-					"editorCutLongValues": true,
-					"editorTextSuffix": null,
-					"editorTextPrefix": null,
-					"useForSmartColor": false,
-					"exportToToc": false,
-					"searchable": false,
-					"min": null,
-					"max": null,
-					"regex": null,
-					"acceptFileTypes": null,
-					"defaultOverride": null,
-					"textLanguageMode": null,
-					"symmetricalRef": false,
-					"autoChainRef": true,
-					"allowOutOfLevelRef": true,
-					"allowedRefs": "OnlySame",
-					"allowedRefsEntityUid": null,
-					"allowedRefTags": [],
-					"tilesetUid": null
-				},
-				{
-					"identifier": "distance",
-					"doc": null,
-					"__type": "Int",
-					"uid": 243,
-					"type": "F_Int",
-					"isArray": false,
-					"canBeNull": false,
-					"arrayMinLength": null,
-					"arrayMaxLength": null,
-					"editorDisplayMode": "Hidden",
-					"editorDisplayScale": 1,
-					"editorDisplayPos": "Above",
-					"editorLinkStyle": "StraightArrow",
-					"editorDisplayColor": null,
-					"editorAlwaysShow": false,
-					"editorShowInWorld": true,
-					"editorCutLongValues": true,
-					"editorTextSuffix": null,
-					"editorTextPrefix": null,
-					"useForSmartColor": false,
-					"exportToToc": false,
-					"searchable": false,
-					"min": null,
-					"max": null,
-					"regex": null,
-					"acceptFileTypes": null,
-					"defaultOverride": { "id": "V_Int", "params": [1] },
-					"textLanguageMode": null,
-					"symmetricalRef": false,
-					"autoChainRef": true,
-					"allowOutOfLevelRef": true,
-					"allowedRefs": "OnlySame",
-					"allowedRefsEntityUid": null,
-					"allowedRefTags": [],
-					"tilesetUid": null
-				},
-				{
-					"identifier": "initialDistance",
-					"doc": null,
-					"__type": "Int",
-					"uid": 244,
-					"type": "F_Int",
-					"isArray": false,
-					"canBeNull": false,
-					"arrayMinLength": null,
-					"arrayMaxLength": null,
-					"editorDisplayMode": "Hidden",
-					"editorDisplayScale": 1,
-					"editorDisplayPos": "Above",
-					"editorLinkStyle": "StraightArrow",
-					"editorDisplayColor": null,
-					"editorAlwaysShow": false,
-					"editorShowInWorld": true,
-					"editorCutLongValues": true,
-					"editorTextSuffix": null,
-					"editorTextPrefix": null,
-					"useForSmartColor": false,
-					"exportToToc": false,
-					"searchable": false,
-					"min": null,
-					"max": null,
-					"regex": null,
-					"acceptFileTypes": null,
-					"defaultOverride": { "id": "V_Int", "params": [1] },
-					"textLanguageMode": null,
-					"symmetricalRef": false,
-					"autoChainRef": true,
-					"allowOutOfLevelRef": true,
-					"allowedRefs": "OnlySame",
-					"allowedRefsEntityUid": null,
-					"allowedRefTags": [],
-					"tilesetUid": null
-				}
-			]
-		},
-		{
 			"identifier": "Dialog",
 			"uid": 204,
 			"tags": [],
@@ -2631,8 +2414,8 @@
 			"maxCount": 0,
 			"limitScope": "PerLevel",
 			"limitBehavior": "MoveLastOne",
-			"pivotX": 0,
-			"pivotY": 0,
+			"pivotX": 0.5,
+			"pivotY": 0.5,
 			"fieldDefs": [
 				{
 					"identifier": "text",
@@ -3000,7 +2783,7 @@
 			"maxCount": 0,
 			"limitScope": "PerLevel",
 			"limitBehavior": "MoveLastOne",
-			"pivotX": 0,
+			"pivotX": 0.5,
 			"pivotY": 0,
 			"fieldDefs": [
 				{
@@ -3147,8 +2930,8 @@
 			"maxCount": 0,
 			"limitScope": "PerLevel",
 			"limitBehavior": "MoveLastOne",
-			"pivotX": 0,
-			"pivotY": 0,
+			"pivotX": 0.5,
+			"pivotY": 0.5,
 			"fieldDefs": []
 		},
 		{
@@ -3182,8 +2965,8 @@
 			"maxCount": 0,
 			"limitScope": "PerLevel",
 			"limitBehavior": "MoveLastOne",
-			"pivotX": 0,
-			"pivotY": 0,
+			"pivotX": 0.5,
+			"pivotY": 0.5,
 			"fieldDefs": [
 				{
 					"identifier": "id",
@@ -3514,8 +3297,8 @@
 					"entityInstances": [
 						{
 							"__identifier": "Player",
-							"__grid": [6,7],
-							"__pivot": [-0.3,-0.333],
+							"__grid": [6,8],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#275FFC",
@@ -3523,7 +3306,7 @@
 							"width": 20,
 							"height": 24,
 							"defUid": 19,
-							"px": [214,245],
+							"px": [209,268],
 							"fieldInstances": [{ "__identifier": "blueprints", "__type": "Array<LocalEnum.ObjectEnum>", "__value": [ "A", "Down", "Left" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
 								"id": "V_String",
 								"params": ["A"]
@@ -3534,13 +3317,13 @@
 								"id": "V_String",
 								"params": ["Left"]
 							} ] }],
-							"__worldX": 8726,
-							"__worldY": -299
+							"__worldX": 8721,
+							"__worldY": -276
 						},
 						{
 							"__identifier": "Dialog",
 							"__grid": [4,8],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -3548,12 +3331,12 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 204,
-							"px": [128,256],
+							"px": [144,273],
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Hey!...\nI can't believe it...\n...I'VE...\n...JUST...\n...RESCUED!!!...\nYou can thank me. Your/new life now begins.\n...\nOk, I'm gonna need some/assistance to get out of here.\nBut it looks like you/can go LEFT.\nSo go ahead and spread the word that...\n...RB-401...\n...IS...\n...KING!!!\n(jokes aside you'll/meet the team.)\n$X\nHead LEFT to meet my team!!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hey!...\\nI can't believe it...\\n...I'VE...\\n...JUST...\\n...RESCUED!!!...\\nYou can thank me. Your/new life now begins.\\n...\\nOk, I'm gonna need some/assistance to get out of here.\\nBut it looks like you/can go LEFT.\\nSo go ahead and spread the word that...\\n...RB-401...\\n...IS...\\n...KING!!!\\n(jokes aside you'll/meet the team.)\\n$X\\nHead LEFT to meet my team!!"
+										"Hey!...\nI can't believe it...\n...I'VE...\n...JUST...\n...RESCUED!!!...\nYou can thank me. Your/new life now begins.\n...\nOk, I'm gonna need some/assistance to get out of here.\nBut it looks like you/can go LEFT.\nSo go ahead and spread the word that...\n...RB-401...\n...IS...\n...KING!!!\n(jokes aside you'll/meet the team.)\n$X\nHead LEFT to meet my team!!"
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -3565,8 +3348,8 @@
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
 							],
-							"__worldX": 8640,
-							"__worldY": -288
+							"__worldX": 8656,
+							"__worldY": -271
 						}
 					]
 				},
@@ -3819,7 +3602,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [37,7],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -4364,7 +4147,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [24,2],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -4393,7 +4176,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [5,21],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -4422,7 +4205,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [6,7],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -4434,7 +4217,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "The best part is...\nThis isn't even/a real puzzle!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["The best part is...\\nThis isn't even/a real puzzle!"]
+									"params": ["The best part is...\nThis isn't even/a real puzzle!"]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 6, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [6] }] },
@@ -5501,7 +5284,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [7,3],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -5513,7 +5296,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Flowers!! ...\nCooool!!!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Flowers!! ...\\nCooool!!!"]
+									"params": ["Flowers!! ...\nCooool!!!"]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -5530,7 +5313,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [7,3],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -5814,7 +5597,7 @@
 						{
 							"__identifier": "Elevator",
 							"__grid": [13,11],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -5837,7 +5620,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [4,9],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -5849,7 +5632,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "...\n...Where am I?...", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["...\\n...Where am I?..."]
+									"params": ["...\n...Where am I?..."]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -5869,7 +5652,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [9,10],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -5882,7 +5665,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Hey... boss? I think/I found one!\nTake this button from me/and hop on that elevator.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hey... boss? I think/I found one!\\nTake this button from me/and hop on that elevator."
+										"Hey... boss? I think/I found one!\nTake this button from me/and hop on that elevator."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -5903,7 +5686,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [11,5],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -5915,7 +5698,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "You're gonna need/this A button...\nTake it and make that leap there.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["You're gonna need/this A button...\\nTake it and make that leap there."]
+									"params": ["You're gonna need/this A button...\nTake it and make that leap there."]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -5935,7 +5718,7 @@
 						{
 							"__identifier": "ButtonPickup",
 							"__grid": [5,0],
-							"__pivot": [-0.071,-0.071],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -5954,7 +5737,7 @@
 						{
 							"__identifier": "ButtonPickup",
 							"__grid": [4,0],
-							"__pivot": [-0.071,-0.071],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -5973,7 +5756,7 @@
 						{
 							"__identifier": "Player",
 							"__grid": [7,0],
-							"__pivot": [-0.3,-0.333],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#275FFC",
@@ -5998,7 +5781,7 @@
 						{
 							"__identifier": "ButtonPickup",
 							"__grid": [12,9],
-							"__pivot": [-0.071,-0.071],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -6017,7 +5800,7 @@
 						{
 							"__identifier": "ButtonPickup",
 							"__grid": [8,4],
-							"__pivot": [-0.071,-0.071],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -6425,7 +6208,7 @@
 						{
 							"__identifier": "Elevator",
 							"__grid": [0,11],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -6448,7 +6231,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [2,5],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -6460,7 +6243,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "You're gonna need/this A button...\nTake it and make that leap there.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["You're gonna need/this A button...\\nTake it and make that leap there."]
+									"params": ["You're gonna need/this A button...\nTake it and make that leap there."]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -6695,7 +6478,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [3,4],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -6707,7 +6490,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Hey, get down/over there.\nYou'll find help/down below.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Hey, get down/over there.\\nYou'll find help/down below."]
+									"params": ["Hey, get down/over there.\nYou'll find help/down below."]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -8185,7 +7968,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [11,8],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -8198,7 +7981,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "...[Transmission Incoming]...\nHey! New guy!\nGet over to the front/of the ship. I'm gonna explain/what you need to do.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"...[Transmission Incoming]...\\nHey! New guy!\\nGet over to the front/of the ship. I'm gonna explain/what you need to do."
+										"...[Transmission Incoming]...\nHey! New guy!\nGet over to the front/of the ship. I'm gonna explain/what you need to do."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -8219,7 +8002,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [19,5],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -8232,7 +8015,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "You're one of the newer models,/so you better get back...\n...to the headquarters/fast. Do you remember how to move?\n...\nDo I have to explain.../the thing?\nYou don't seem to know what I'm/talking about. I'll put you on/the course.\nTake this left arrow and/go as far as you can.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"You're one of the newer models,/so you better get back...\\n...to the headquarters/fast. Do you remember how to move?\\n...\\nDo I have to explain.../the thing?\\nYou don't seem to know what I'm/talking about. I'll put you on/the course.\\nTake this left arrow and/go as far as you can."
+										"You're one of the newer models,/so you better get back...\n...to the headquarters/fast. Do you remember how to move?\n...\nDo I have to explain.../the thing?\nYou don't seem to know what I'm/talking about. I'll put you on/the course.\nTake this left arrow and/go as far as you can."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -8253,7 +8036,7 @@
 						{
 							"__identifier": "ButtonPickup",
 							"__grid": [21,5],
-							"__pivot": [-0.071,-0.071],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -9347,7 +9130,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [28,4],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -9359,7 +9142,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "...I don't know what/just happened.\nThe whole thing just/exploded!!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["...I don't know what/just happened.\\nThe whole thing just/exploded!!"]
+									"params": ["...I don't know what/just happened.\nThe whole thing just/exploded!!"]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -9376,7 +9159,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [19,4],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -9408,7 +9191,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [17,4],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -9437,7 +9220,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [15,4],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -9929,7 +9712,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [29,4],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -9941,7 +9724,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "...I... don't know what happened!\nThe whole thing just/exploded!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["...I... don't know what happened!\\nThe whole thing just/exploded!"]
+									"params": ["...I... don't know what happened!\nThe whole thing just/exploded!"]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -10490,7 +10273,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [13,6],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -10502,7 +10285,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "...Help me!...\n...I can't get out!...", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["...Help me!...\\n...I can't get out!..."]
+									"params": ["...Help me!...\n...I can't get out!..."]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": true, "__tile": null, "defUid": 411, "realEditorValues": [{
 									"id": "V_Bool",
@@ -10522,7 +10305,7 @@
 						{
 							"__identifier": "ButtonPickup",
 							"__grid": [3,3],
-							"__pivot": [-0.071,-0.071],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -10541,7 +10324,7 @@
 						{
 							"__identifier": "CameraPoint",
 							"__grid": [12,6],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#EAD4AA",
@@ -10940,7 +10723,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [2,7],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -10953,7 +10736,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "...Hey! How did you/get down there?\nYou gotta move, we just/lost a bot we need to rescue!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"...Hey! How did you/get down there?\\nYou gotta move, we just/lost a bot we need to rescue!"
+										"...Hey! How did you/get down there?\nYou gotta move, we just/lost a bot we need to rescue!"
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -11237,7 +11020,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [5,5],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -11250,7 +11033,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Looks like you're one of/the new ones.\nDon't know what happened in/there, but it's not looking good.\nYou're... wait.\n...You're not like the others.\nYou've got a special power, you./You're one of the lucky ones.\nI'll explain later. Get back to/HQ and get yourself cleaned up.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Looks like you're one of/the new ones.\\nDon't know what happened in/there, but it's not looking good.\\nYou're... wait.\\n...You're not like the others.\\nYou've got a special power, you./You're one of the lucky ones.\\nI'll explain later. Get back to/HQ and get yourself cleaned up."
+										"Looks like you're one of/the new ones.\nDon't know what happened in/there, but it's not looking good.\nYou're... wait.\n...You're not like the others.\nYou've got a special power, you./You're one of the lucky ones.\nI'll explain later. Get back to/HQ and get yourself cleaned up."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -11598,7 +11381,7 @@
 						{
 							"__identifier": "CameraPoint",
 							"__grid": [16,5],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#EAD4AA",
@@ -11614,7 +11397,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [17,6],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -11646,7 +11429,7 @@
 						{
 							"__identifier": "ButtonPickup",
 							"__grid": [16,10],
-							"__pivot": [-0.071,-0.071],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -11665,7 +11448,7 @@
 						{
 							"__identifier": "ButtonPickup",
 							"__grid": [10,10],
-							"__pivot": [-0.071,-0.071],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -11684,7 +11467,7 @@
 						{
 							"__identifier": "ButtonPickup",
 							"__grid": [23,5],
-							"__pivot": [-0.071,-0.071],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -11703,7 +11486,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [10,11],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -11732,7 +11515,7 @@
 						{
 							"__identifier": "ButtonPickup",
 							"__grid": [8,10],
-							"__pivot": [-0.071,-0.071],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -12029,7 +11812,7 @@
 						{
 							"__identifier": "Elevator",
 							"__grid": [4,2],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -12049,7 +11832,7 @@
 						{
 							"__identifier": "ButtonPickup",
 							"__grid": [3,0],
-							"__pivot": [-0.071,-0.071],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -12068,7 +11851,7 @@
 						{
 							"__identifier": "ButtonPickup",
 							"__grid": [3,5],
-							"__pivot": [-0.071,-0.071],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -12087,7 +11870,7 @@
 						{
 							"__identifier": "ButtonPickup",
 							"__grid": [3,9],
-							"__pivot": [-0.071,-0.071],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -12222,7 +12005,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [6,6],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -12230,12 +12013,12 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 204,
-							"px": [192,192],
+							"px": [209,209],
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "$ADL\nHey! Nice to see you/made it to us.\nI see you're equipped with/a LEFT arrow.\nWe need your help to reach/a bot on the left.\nIf you drill those blocks,/you can activate the elevator...\n...and reach the room on the left.\nSee if you can come back with the bot!\n$RLD\nNice job!...\n...\n...Did you bring them back?...\n...\n...Ok. Head down that elevator and/make your way back to the hub.\nWe'll take care of that bot.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"$ADL\\nHey! Nice to see you/made it to us.\\nI see you're equipped with/a LEFT arrow.\\nWe need your help to reach/a bot on the left.\\nIf you drill those blocks,/you can activate the elevator...\\n...and reach the room on the left.\\nSee if you can come back with the bot!\\n$RLD\\nNice job!...\\n...\\n...Did you bring them back?...\\n...\\n...Ok. Head down that elevator and/make your way back to the hub.\\nWe'll take care of that bot."
+										"$ADL\nHey! Nice to see you/made it to us.\nI see you're equipped with/a LEFT arrow.\nWe need your help to reach/a bot on the left.\nIf you drill those blocks,/you can activate the elevator...\n...and reach the room on the left.\nSee if you can come back with the bot!\n$RLD\nNice job!...\n...\n...Did you bring them back?...\n...\n...Ok. Head down that elevator and/make your way back to the hub.\nWe'll take care of that bot."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -12247,13 +12030,13 @@
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
 							],
-							"__worldX": 6816,
-							"__worldY": 32
+							"__worldX": 6833,
+							"__worldY": 49
 						},
 						{
 							"__identifier": "Dialog",
 							"__grid": [11,4],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -12261,7 +12044,7 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 204,
-							"px": [352,128],
+							"px": [368,144],
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Woohoo! Another bot saved!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
@@ -12279,13 +12062,13 @@
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
 							],
-							"__worldX": 6976,
-							"__worldY": -32
+							"__worldX": 6992,
+							"__worldY": -16
 						},
 						{
 							"__identifier": "Dialog",
 							"__grid": [13,3],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -12293,12 +12076,12 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 204,
-							"px": [416,96],
+							"px": [433,113],
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Hey! Saved bot found!\nGo talk to the boss/over there.\nHe'll tell you/what to do next.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hey! Saved bot found!\\nGo talk to the boss/over there.\\nHe'll tell you/what to do next."
+										"Hey! Saved bot found!\nGo talk to the boss/over there.\nHe'll tell you/what to do next."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -12313,13 +12096,13 @@
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
 							],
-							"__worldX": 7040,
-							"__worldY": -64
+							"__worldX": 7057,
+							"__worldY": -47
 						},
 						{
 							"__identifier": "Elevator",
 							"__grid": [3,8],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -12327,7 +12110,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [96,256],
+							"px": [112,256],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -12336,7 +12119,7 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 4, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [4] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 4, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [4] }] }
 							],
-							"__worldX": 6720,
+							"__worldX": 6736,
 							"__worldY": 96
 						},
 						{
@@ -12357,8 +12140,8 @@
 						},
 						{
 							"__identifier": "ButtonPickup",
-							"__grid": [2,6],
-							"__pivot": [-0.071,-0.071],
+							"__grid": [3,7],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -12366,18 +12149,18 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [94,222],
+							"px": [112,238],
 							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Up"]
 							}] }],
-							"__worldX": 6718,
-							"__worldY": 62
+							"__worldX": 6736,
+							"__worldY": 78
 						},
 						{
 							"__identifier": "Elevator",
 							"__grid": [18,4],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -12385,7 +12168,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [576,128],
+							"px": [592,128],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -12394,13 +12177,13 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 2, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [2] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 0, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [0] }] }
 							],
-							"__worldX": 7200,
+							"__worldX": 7216,
 							"__worldY": -32
 						},
 						{
 							"__identifier": "Player",
-							"__grid": [8,3],
-							"__pivot": [-0.3,-0.333],
+							"__grid": [8,4],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#275FFC",
@@ -12408,7 +12191,7 @@
 							"width": 20,
 							"height": 24,
 							"defUid": 19,
-							"px": [278,117],
+							"px": [273,139],
 							"fieldInstances": [{ "__identifier": "blueprints", "__type": "Array<LocalEnum.ObjectEnum>", "__value": [ "A", "Down", "Left" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
 								"id": "V_String",
 								"params": ["A"]
@@ -12419,13 +12202,13 @@
 								"id": "V_String",
 								"params": ["Left"]
 							} ] }],
-							"__worldX": 6902,
-							"__worldY": -43
+							"__worldX": 6897,
+							"__worldY": -21
 						},
 						{
 							"__identifier": "Elevator",
 							"__grid": [9,7],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -12433,7 +12216,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [288,224],
+							"px": [304,224],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -12442,7 +12225,7 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 7, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [7] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 0, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [0] }] }
 							],
-							"__worldX": 6912,
+							"__worldX": 6928,
 							"__worldY": 64
 						}
 					]
@@ -12795,7 +12578,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [8,9],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -12803,12 +12586,12 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 204,
-							"px": [256,288],
+							"px": [272,306],
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "...My savior!!!\nThank you for having/come here.\n...\n...I am weak. But I must/tell you this...\nYou have a special power...\n...and not all will recognize it.\nI can explain to you/more later.\nYou need to help me...\n&R\n...take this RIGHT/arrow from me.\nNow USE THE CRANK to/help me get out of here.\nTurn it TOWARDS YOU/and you'll see.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"...My savior!!!\\nThank you for having/come here.\\n...\\n...I am weak. But I must/tell you this...\\nYou have a special power...\\n...and not all will recognize it.\\nI can explain to you/more later.\\nYou need to help me...\\n&R\\n...take this RIGHT/arrow from me.\\nNow USE THE CRANK to/help me get out of here.\\nTurn it TOWARDS YOU/and you'll see."
+										"...My savior!!!\nThank you for having/come here.\n...\n...I am weak. But I must/tell you this...\nYou have a special power...\n...and not all will recognize it.\nI can explain to you/more later.\nYou need to help me...\n&R\n...take this RIGHT/arrow from me.\nNow USE THE CRANK to/help me get out of here.\nTurn it TOWARDS YOU/and you'll see."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": true, "__tile": null, "defUid": 411, "realEditorValues": [{
@@ -12832,8 +12615,8 @@
 									"params": [ true ]
 								}] }
 							],
-							"__worldX": 5696,
-							"__worldY": -64
+							"__worldX": 5712,
+							"__worldY": -46
 						}
 					]
 				},
@@ -13222,7 +13005,7 @@
 						{
 							"__identifier": "Elevator",
 							"__grid": [13,8],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -13230,7 +13013,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [416,256],
+							"px": [432,256],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -13239,7 +13022,7 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 4, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [4] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 4, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [4] }] }
 							],
-							"__worldX": 6432,
+							"__worldX": 6448,
 							"__worldY": 0
 						},
 						{
@@ -13277,7 +13060,7 @@
 						{
 							"__identifier": "Elevator",
 							"__grid": [7,7],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -13285,7 +13068,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [224,224],
+							"px": [240,224],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Horizontal", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -13294,7 +13077,7 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 3, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [3] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 3, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [3] }] }
 							],
-							"__worldX": 6240,
+							"__worldX": 6256,
 							"__worldY": -32
 						},
 						{
@@ -13315,8 +13098,8 @@
 						},
 						{
 							"__identifier": "ButtonPickup",
-							"__grid": [2,5],
-							"__pivot": [-0.071,-0.071],
+							"__grid": [3,6],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -13324,13 +13107,13 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [94,190],
+							"px": [112,208],
 							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "A", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["A"]
 							}] }],
-							"__worldX": 6110,
-							"__worldY": -66
+							"__worldX": 6128,
+							"__worldY": -48
 						}
 					]
 				},
@@ -13637,7 +13420,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [10,5],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -13645,7 +13428,7 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 204,
-							"px": [320,160],
+							"px": [336,176],
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Hey! Nice job getting rescued!\nLooks like you're able/to move by yourself...\n...see if you can drill DOWN on/those blocks over there.\n$X\nTry pressing DOWN/while on top of those blocks.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
@@ -13665,13 +13448,13 @@
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
 							],
-							"__worldX": 8032,
-							"__worldY": -288
+							"__worldX": 8048,
+							"__worldY": -272
 						},
 						{
 							"__identifier": "Elevator",
 							"__grid": [4,6],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -13679,7 +13462,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [128,192],
+							"px": [144,192],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Horizontal", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -13688,7 +13471,7 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 2, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [2] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 2, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [2] }] }
 							],
-							"__worldX": 7840,
+							"__worldX": 7856,
 							"__worldY": -256
 						},
 						{
@@ -13981,7 +13764,7 @@
 						{
 							"__identifier": "Elevator",
 							"__grid": [3,4],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -13989,7 +13772,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [96,128],
+							"px": [112,128],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -13998,13 +13781,13 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 7, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [7] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 0, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [0] }] }
 							],
-							"__worldX": 7392,
+							"__worldX": 7408,
 							"__worldY": -256
 						},
 						{
 							"__identifier": "Dialog",
 							"__grid": [7,5],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -14012,7 +13795,7 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 204,
-							"px": [224,160],
+							"px": [240,177],
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Hey there! Looks like/you're able to move...\n...see if you can use/that elevator to go DOWN.\n$X\nStand on top of the/elevator and press DOWN.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
@@ -14029,8 +13812,8 @@
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
 							],
-							"__worldX": 7520,
-							"__worldY": -224
+							"__worldX": 7536,
+							"__worldY": -207
 						}
 					]
 				},
@@ -14472,8 +14255,8 @@
 					"entityInstances": [
 						{
 							"__identifier": "ButtonPickup",
-							"__grid": [11,1],
-							"__pivot": [-0.071,-0.071],
+							"__grid": [12,2],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -14481,13 +14264,13 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [382,62],
+							"px": [399,79],
 							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Right"]
 							}] }],
-							"__worldX": 7006,
-							"__worldY": 222
+							"__worldX": 7023,
+							"__worldY": 239
 						}
 					]
 				},
@@ -14738,8 +14521,8 @@
 					"entityInstances": [
 						{
 							"__identifier": "Player",
-							"__grid": [4,3],
-							"__pivot": [-0.3,-0.333],
+							"__grid": [5,4],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#275FFC",
@@ -14747,7 +14530,7 @@
 							"width": 20,
 							"height": 24,
 							"defUid": 19,
-							"px": [150,117],
+							"px": [176,142],
 							"fieldInstances": [{ "__identifier": "blueprints", "__type": "Array<LocalEnum.ObjectEnum>", "__value": [ "Right", "Left", "Down" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
 								"id": "V_String",
 								"params": ["Right"]
@@ -14758,13 +14541,13 @@
 								"id": "V_String",
 								"params": ["Down"]
 							} ] }],
-							"__worldX": 6710,
-							"__worldY": 533
+							"__worldX": 6736,
+							"__worldY": 558
 						},
 						{
 							"__identifier": "Dialog",
 							"__grid": [6,4],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -14772,12 +14555,12 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 204,
-							"px": [192,128],
+							"px": [208,146],
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Hey... We got a problem./Elevator's broke.\nThere's a tunnel on the RIGHT/that can get you back to HQ.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hey... We got a problem./Elevator's broke.\\nThere's a tunnel on the RIGHT/that can get you back to HQ."
+										"Hey... We got a problem./Elevator's broke.\nThere's a tunnel on the RIGHT/that can get you back to HQ."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -14792,8 +14575,8 @@
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
 							],
-							"__worldX": 6752,
-							"__worldY": 544
+							"__worldX": 6768,
+							"__worldY": 562
 						}
 					]
 				},
@@ -15051,8 +14834,8 @@
 					"entityInstances": [
 						{
 							"__identifier": "ButtonPickup",
-							"__grid": [9,9],
-							"__pivot": [-0.071,-0.071],
+							"__grid": [10,10],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -15060,18 +14843,18 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [318,318],
+							"px": [336,336],
 							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Up"]
 							}] }],
-							"__worldX": 6334,
-							"__worldY": 702
+							"__worldX": 6352,
+							"__worldY": 720
 						},
 						{
 							"__identifier": "ButtonPickup",
-							"__grid": [3,6],
-							"__pivot": [-0.071,-0.071],
+							"__grid": [4,7],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -15079,18 +14862,18 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [126,222],
+							"px": [145,241],
 							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Right"]
 							}] }],
-							"__worldX": 6142,
-							"__worldY": 606
+							"__worldX": 6161,
+							"__worldY": 625
 						},
 						{
 							"__identifier": "Elevator",
 							"__grid": [6,6],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -15098,7 +14881,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [192,192],
+							"px": [208,192],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -15107,13 +14890,13 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 2, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [2] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 0, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [0] }] }
 							],
-							"__worldX": 6208,
+							"__worldX": 6224,
 							"__worldY": 576
 						},
 						{
 							"__identifier": "Elevator",
 							"__grid": [13,9],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -15121,7 +14904,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [416,288],
+							"px": [432,288],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -15130,13 +14913,13 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 3, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [3] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 3, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [3] }] }
 							],
-							"__worldX": 6432,
+							"__worldX": 6448,
 							"__worldY": 672
 						},
 						{
 							"__identifier": "Elevator",
 							"__grid": [10,9],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -15144,7 +14927,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [320,288],
+							"px": [336,288],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -15153,7 +14936,7 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 5, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [5] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 3, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [3] }] }
 							],
-							"__worldX": 6336,
+							"__worldX": 6352,
 							"__worldY": 672
 						}
 					]
@@ -15504,7 +15287,7 @@
 						{
 							"__identifier": "Elevator",
 							"__grid": [2,5],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -15512,7 +15295,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [64,160],
+							"px": [80,160],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -15521,7 +15304,7 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 2, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [2] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 2, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [2] }] }
 							],
-							"__worldX": 7008,
+							"__worldX": 7024,
 							"__worldY": 576
 						},
 						{
@@ -15543,7 +15326,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [6,2],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -15551,12 +15334,12 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 204,
-							"px": [192,64],
+							"px": [208,83],
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "The HQ is DOWN that tunnel.\nHowever, I heard sounds coming above...\nMight be worth checking out.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"The HQ is DOWN that tunnel.\\nHowever, I heard sounds coming above...\\nMight be worth checking out."
+										"The HQ is DOWN that tunnel.\nHowever, I heard sounds coming above...\nMight be worth checking out."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -15568,13 +15351,13 @@
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
 							],
-							"__worldX": 7136,
-							"__worldY": 480
+							"__worldX": 7152,
+							"__worldY": 499
 						},
 						{
 							"__identifier": "ButtonPickup",
-							"__grid": [10,4],
-							"__pivot": [-0.071,-0.071],
+							"__grid": [11,5],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -15582,13 +15365,13 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [350,158],
+							"px": [369,176],
 							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Left"]
 							}] }],
-							"__worldX": 7294,
-							"__worldY": 574
+							"__worldX": 7313,
+							"__worldY": 592
 						},
 						{
 							"__identifier": "DrillableBlock",
@@ -15609,7 +15392,7 @@
 						{
 							"__identifier": "Elevator",
 							"__grid": [11,3],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -15617,7 +15400,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [352,96],
+							"px": [369,96],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -15626,7 +15409,7 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 1, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [1] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 1, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [1] }] }
 							],
-							"__worldX": 7296,
+							"__worldX": 7313,
 							"__worldY": 512
 						},
 						{
@@ -15679,8 +15462,8 @@
 						},
 						{
 							"__identifier": "Player",
-							"__grid": [0,3],
-							"__pivot": [-0.3,-0.333],
+							"__grid": [1,4],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#275FFC",
@@ -15688,7 +15471,7 @@
 							"width": 20,
 							"height": 24,
 							"defUid": 19,
-							"px": [22,117],
+							"px": [34,133],
 							"fieldInstances": [{ "__identifier": "blueprints", "__type": "Array<LocalEnum.ObjectEnum>", "__value": [ "Down", "Up", "Right" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
 								"id": "V_String",
 								"params": ["Down"]
@@ -15699,8 +15482,8 @@
 								"id": "V_String",
 								"params": ["Right"]
 							} ] }],
-							"__worldX": 6966,
-							"__worldY": 533
+							"__worldX": 6978,
+							"__worldY": 549
 						},
 						{
 							"__identifier": "DrillableBlock",
@@ -16046,7 +15829,7 @@
 						{
 							"__identifier": "Elevator",
 							"__grid": [3,9],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -16054,7 +15837,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [96,288],
+							"px": [112,288],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -16063,13 +15846,13 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 5, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [5] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 5, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [5] }] }
 							],
-							"__worldX": 7520,
+							"__worldX": 7536,
 							"__worldY": 512
 						},
 						{
 							"__identifier": "ButtonPickup",
-							"__grid": [7,6],
-							"__pivot": [-0.071,-0.071],
+							"__grid": [8,7],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -16077,18 +15860,18 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [254,222],
+							"px": [272,240],
 							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Left"]
 							}] }],
-							"__worldX": 7678,
-							"__worldY": 446
+							"__worldX": 7696,
+							"__worldY": 464
 						},
 						{
 							"__identifier": "ButtonPickup",
-							"__grid": [6,1],
-							"__pivot": [-0.071,-0.071],
+							"__grid": [7,2],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -16096,18 +15879,18 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [222,62],
+							"px": [240,82],
 							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "A", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["A"]
 							}] }],
-							"__worldX": 7646,
-							"__worldY": 286
+							"__worldX": 7664,
+							"__worldY": 306
 						},
 						{
 							"__identifier": "ButtonPickup",
-							"__grid": [9,3],
-							"__pivot": [-0.071,-0.071],
+							"__grid": [10,4],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -16115,13 +15898,13 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [318,126],
+							"px": [336,143],
 							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Left"]
 							}] }],
-							"__worldX": 7742,
-							"__worldY": 350
+							"__worldX": 7760,
+							"__worldY": 367
 						},
 						{
 							"__identifier": "DrillableBlock",
@@ -16142,7 +15925,7 @@
 						{
 							"__identifier": "Elevator",
 							"__grid": [5,5],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -16150,7 +15933,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [160,160],
+							"px": [176,160],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -16159,7 +15942,7 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 2, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [2] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 2, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [2] }] }
 							],
-							"__worldX": 7584,
+							"__worldX": 7600,
 							"__worldY": 384
 						}
 					]
@@ -16419,7 +16202,7 @@
 						{
 							"__identifier": "Elevator",
 							"__grid": [8,7],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -16427,7 +16210,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [256,224],
+							"px": [272,224],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -16436,13 +16219,13 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 3, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [3] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 3, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [3] }] }
 							],
-							"__worldX": 7328,
+							"__worldX": 7344,
 							"__worldY": 384
 						},
 						{
 							"__identifier": "Dialog",
 							"__grid": [1,2],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -16450,7 +16233,7 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 204,
-							"px": [32,64],
+							"px": [48,83],
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "...Thank you!!!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
@@ -16471,13 +16254,13 @@
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
 							],
-							"__worldX": 7104,
-							"__worldY": 224
+							"__worldX": 7120,
+							"__worldY": 243
 						},
 						{
 							"__identifier": "ButtonPickup",
-							"__grid": [2,6],
-							"__pivot": [-0.071,-0.071],
+							"__grid": [3,7],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -16485,18 +16268,18 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [94,222],
+							"px": [112,239],
 							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Right"]
 							}] }],
-							"__worldX": 7166,
-							"__worldY": 382
+							"__worldX": 7184,
+							"__worldY": 399
 						},
 						{
 							"__identifier": "ButtonPickup",
-							"__grid": [2,5],
-							"__pivot": [-0.071,-0.071],
+							"__grid": [3,6],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -16504,18 +16287,18 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [94,190],
+							"px": [113,208],
 							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Down", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Down"]
 							}] }],
-							"__worldX": 7166,
-							"__worldY": 350
+							"__worldX": 7185,
+							"__worldY": 368
 						},
 						{
 							"__identifier": "ButtonPickup",
-							"__grid": [7,5],
-							"__pivot": [-0.071,-0.071],
+							"__grid": [8,6],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -16523,13 +16306,13 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [254,190],
+							"px": [272,209],
 							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Up"]
 							}] }],
-							"__worldX": 7326,
-							"__worldY": 350
+							"__worldX": 7344,
+							"__worldY": 369
 						}
 					]
 				},
@@ -16779,7 +16562,7 @@
 						{
 							"__identifier": "ButtonPickup",
 							"__grid": [12,2],
-							"__pivot": [-0.071,-0.071],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -16798,7 +16581,7 @@
 						{
 							"__identifier": "ButtonPickup",
 							"__grid": [9,3],
-							"__pivot": [-0.071,-0.071],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -17025,7 +16808,7 @@
 						{
 							"__identifier": "Elevator",
 							"__grid": [4,4],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -17033,7 +16816,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [128,128],
+							"px": [145,128],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Horizontal", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -17042,7 +16825,7 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 2, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [2] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 2, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [2] }] }
 							],
-							"__worldX": 7072,
+							"__worldX": 7089,
 							"__worldY": 1024
 						},
 						{
@@ -17215,7 +16998,7 @@
 						{
 							"__identifier": "Elevator",
 							"__grid": [1,10],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -17223,7 +17006,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [32,320],
+							"px": [48,320],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -17232,7 +17015,7 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 10, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [10] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 8, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [8] }] }
 							],
-							"__worldX": 6560,
+							"__worldX": 6576,
 							"__worldY": 1248
 						}
 					]
@@ -18398,7 +18181,7 @@
 						{
 							"__identifier": "Elevator",
 							"__grid": [2,3],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -18406,7 +18189,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [64,96],
+							"px": [80,96],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Horizontal", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -18415,7 +18198,7 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 12, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [12] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 12, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [12] }] }
 							],
-							"__worldX": 7008,
+							"__worldX": 7024,
 							"__worldY": 1216
 						},
 						{
@@ -18436,8 +18219,8 @@
 						},
 						{
 							"__identifier": "ButtonPickup",
-							"__grid": [3,1],
-							"__pivot": [-0.071,-0.071],
+							"__grid": [4,2],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -18445,18 +18228,18 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [126,62],
+							"px": [144,80],
 							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Up"]
 							}] }],
-							"__worldX": 7070,
-							"__worldY": 1182
+							"__worldX": 7088,
+							"__worldY": 1200
 						},
 						{
 							"__identifier": "Elevator",
 							"__grid": [4,3],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -18464,7 +18247,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [128,96],
+							"px": [144,96],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -18473,7 +18256,7 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 2, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [2] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 2, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [2] }] }
 							],
-							"__worldX": 7072,
+							"__worldX": 7088,
 							"__worldY": 1216
 						},
 						{
@@ -18644,7 +18427,7 @@
 						{
 							"__identifier": "Elevator",
 							"__grid": [1,7],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#D572E4",
@@ -18652,7 +18435,7 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [32,224],
+							"px": [48,224],
 							"fieldInstances": [
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
@@ -18661,7 +18444,7 @@
 								{ "__identifier": "distance", "__type": "Int", "__value": 5, "__tile": null, "defUid": 210, "realEditorValues": [{ "id": "V_Int", "params": [5] }] },
 								{ "__identifier": "initialDistance", "__type": "Int", "__value": 5, "__tile": null, "defUid": 245, "realEditorValues": [{ "id": "V_Int", "params": [5] }] }
 							],
-							"__worldX": 6400,
+							"__worldX": 6416,
 							"__worldY": 1024
 						}
 					]
@@ -18833,7 +18616,7 @@
 						{
 							"__identifier": "Collectible",
 							"__grid": [3,3],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FEF461",
@@ -18841,18 +18624,18 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 540,
-							"px": [96,96],
+							"px": [112,112],
 							"fieldInstances": [{ "__identifier": "id", "__type": "String", "__value": "disk-1", "__tile": null, "defUid": 541, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["disk-1"]
 							}] }],
-							"__worldX": 6624,
-							"__worldY": 864
+							"__worldX": 6640,
+							"__worldY": 880
 						},
 						{
 							"__identifier": "ButtonPickup",
-							"__grid": [0,2],
-							"__pivot": [-0.071,-0.071],
+							"__grid": [1,3],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#15F1D3",
@@ -18860,13 +18643,13 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [30,94],
+							"px": [48,112],
 							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Down", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Down"]
 							}] }],
-							"__worldX": 6558,
-							"__worldY": 862
+							"__worldX": 6576,
+							"__worldY": 880
 						}
 					]
 				},
@@ -19022,7 +18805,7 @@
 						{
 							"__identifier": "Collectible",
 							"__grid": [4,5],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FEF461",
@@ -19030,13 +18813,13 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 540,
-							"px": [128,160],
+							"px": [144,176],
 							"fieldInstances": [{ "__identifier": "id", "__type": "String", "__value": "2", "__tile": null, "defUid": 541, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["2"]
 							}] }],
-							"__worldX": 5824,
-							"__worldY": 576
+							"__worldX": 5840,
+							"__worldY": 592
 						}
 					]
 				},
@@ -19287,7 +19070,7 @@
 						{
 							"__identifier": "Dialog",
 							"__grid": [2,2],
-							"__pivot": [0,0],
+							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
@@ -19295,11 +19078,11 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 204,
-							"px": [64,64],
+							"px": [80,80],
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Looks like Franch hasn't/implemented Level End yet.\nSo just crank to finish.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Looks like Franch hasn't/implemented Level End yet.\\nSo just crank to finish."]
+									"params": ["Looks like Franch hasn't/implemented Level End yet.\nSo just crank to finish."]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -19313,8 +19096,8 @@
 								}] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
 							],
-							"__worldX": 6656,
-							"__worldY": 2624
+							"__worldX": 6672,
+							"__worldY": 2640
 						}
 					]
 				},

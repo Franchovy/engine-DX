@@ -247,7 +247,7 @@ function Elevator:init(entity)
 
   local centerPoint = self:getCenterPoint()
   self.childPositionOffsetX = 0 -- self.width * self.center.x
-  self.childPositionOffsetY = self.height * centerPoint.y
+  self.childPositionOffsetY = self.height
 
   -- Create elevator track
 
@@ -255,7 +255,11 @@ function Elevator:init(entity)
 end
 
 function Elevator:postInit()
+  -- Set collideRect to bottom half of sprite
   self:setCollideRect(0, 16, 32, 16)
+
+  -- Offset upwards to occupy upper portion of tile
+  self:moveBy(0, -TILE_SIZE / 2)
 
   -- Save initial position
 

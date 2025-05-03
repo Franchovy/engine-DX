@@ -272,7 +272,7 @@ function Player:handleCollision(collisionData)
         if not spDrill:isPlaying() then
             spDrill:play(1)
 
-            self.particlesDrilling:play(other.x, other.y)
+            self.particlesDrilling:startAnimation(self.x, self.y)
         end
 
         self.isActivatingDrillableBlock = other
@@ -401,29 +401,30 @@ function Player:update()
 
         -- Drilling
 
-        if self.isActivatingDrillableBlock then
+        local block = self.isActivatingDrillableBlock
+        if block then
             -- Activate block drilling
 
-            local isConsumed = self.isActivatingDrillableBlock:activate()
+            local isConsumed = block:activate()
 
-            if isConsumed then
+            -- If consumed or player stopped pressing, end animation.
+            if isConsumed or (not isConsumed and playdate.buttonJustReleased(playdate.kButtonDown)) then
                 spDrill:stop()
                 self.particlesDrilling:endAnimation()
             end
 
             -- Move player to Center on top of the drilled block
-
-            local centerBlockX = self.isActivatingDrillableBlock.x + self.isActivatingDrillableBlock.width / 2
+            local centerX, centerY = block:getCenter()
+            local centerOffsetX, centerOffsetY = centerX * block.width, centerY * block.height
 
             self:moveTo(
-                centerBlockX - self.width / 2,
-                self.isActivatingDrillableBlock.y - self.height
+                block.x - centerOffsetX + block.width / 2,
+                block.y - centerOffsetY + block.height / 2 - TILE_SIZE
             )
 
-            if not isConsumed and playdate.buttonJustReleased(playdate.kButtonDown) then
-                spDrill:stop()
-                self.particlesDrilling:endAnimation()
-            end
+            -- Move particles to same location
+
+            self.particlesDrilling:moveTo(block:centerX(), block:top())
         end
 
         -- Record previous "is touching ground" for impact animation

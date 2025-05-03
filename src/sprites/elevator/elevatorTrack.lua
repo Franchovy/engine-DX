@@ -59,9 +59,9 @@ end
 
 function ElevatorTrack:setInitialPosition(initialPosition)
     if self.orientation == ORIENTATION.Vertical then
-        self:moveTo(initialPosition.x, initialPosition.y)
+        self:moveTo(initialPosition.x, initialPosition.y + TILE_SIZE / 2)
     else
-        self:moveTo(initialPosition.x - TILE_SIZE / 2, initialPosition.y + TILE_SIZE / 2)
+        self:moveTo(initialPosition.x - TILE_SIZE / 2, initialPosition.y + TILE_SIZE)
     end
 end
 
