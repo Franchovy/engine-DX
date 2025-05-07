@@ -11,7 +11,7 @@
 	"iid": "b12745f0-d7b0-11ee-9f72-7bc5a2cd12f0",
 	"jsonVersion": "1.5.3",
 	"appBuildId": 473703,
-	"nextUid": 580,
+	"nextUid": 585,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": "Free",
@@ -2787,6 +2787,43 @@
 			"pivotY": 0,
 			"fieldDefs": [
 				{
+					"identifier": "trackId",
+					"doc": null,
+					"__type": "String",
+					"uid": 584,
+					"type": "F_String",
+					"isArray": false,
+					"canBeNull": true,
+					"arrayMinLength": null,
+					"arrayMaxLength": null,
+					"editorDisplayMode": "Hidden",
+					"editorDisplayScale": 1,
+					"editorDisplayPos": "Above",
+					"editorLinkStyle": "StraightArrow",
+					"editorDisplayColor": null,
+					"editorAlwaysShow": false,
+					"editorShowInWorld": true,
+					"editorCutLongValues": true,
+					"editorTextSuffix": null,
+					"editorTextPrefix": null,
+					"useForSmartColor": false,
+					"exportToToc": false,
+					"searchable": false,
+					"min": null,
+					"max": null,
+					"regex": null,
+					"acceptFileTypes": null,
+					"defaultOverride": null,
+					"textLanguageMode": null,
+					"symmetricalRef": false,
+					"autoChainRef": true,
+					"allowOutOfLevelRef": true,
+					"allowedRefs": "OnlySame",
+					"allowedRefsEntityUid": null,
+					"allowedRefTags": [],
+					"tilesetUid": null
+				},
+				{
 					"identifier": "orientation",
 					"doc": null,
 					"__type": "LocalEnum.ElevatorOrientation",
@@ -3117,6 +3154,152 @@
 					"tilesetUid": null
 				}
 			]
+		},
+		{
+			"identifier": "ElevatorTrackV",
+			"uid": 580,
+			"tags": [],
+			"exportToToc": false,
+			"allowOutOfBounds": true,
+			"doc": null,
+			"width": 16,
+			"height": 16,
+			"resizableX": false,
+			"resizableY": true,
+			"minWidth": null,
+			"maxWidth": null,
+			"minHeight": 16,
+			"maxHeight": null,
+			"keepAspectRatio": false,
+			"tileOpacity": 1,
+			"fillOpacity": 1,
+			"lineOpacity": 1,
+			"hollow": false,
+			"color": "#0099DB",
+			"renderMode": "Rectangle",
+			"showName": true,
+			"tilesetId": null,
+			"tileRenderMode": "FitInside",
+			"tileRect": null,
+			"uiTileRect": null,
+			"nineSliceBorders": [],
+			"maxCount": 0,
+			"limitScope": "PerLevel",
+			"limitBehavior": "MoveLastOne",
+			"pivotX": 0.5,
+			"pivotY": 0,
+			"fieldDefs": [
+				{
+					"identifier": "uid",
+					"doc": null,
+					"__type": "String",
+					"uid": 582,
+					"type": "F_String",
+					"isArray": false,
+					"canBeNull": true,
+					"arrayMinLength": null,
+					"arrayMaxLength": null,
+					"editorDisplayMode": "Hidden",
+					"editorDisplayScale": 1,
+					"editorDisplayPos": "Above",
+					"editorLinkStyle": "StraightArrow",
+					"editorDisplayColor": null,
+					"editorAlwaysShow": false,
+					"editorShowInWorld": true,
+					"editorCutLongValues": true,
+					"editorTextSuffix": null,
+					"editorTextPrefix": null,
+					"useForSmartColor": false,
+					"exportToToc": false,
+					"searchable": false,
+					"min": null,
+					"max": null,
+					"regex": null,
+					"acceptFileTypes": null,
+					"defaultOverride": null,
+					"textLanguageMode": null,
+					"symmetricalRef": false,
+					"autoChainRef": true,
+					"allowOutOfLevelRef": true,
+					"allowedRefs": "OnlySame",
+					"allowedRefsEntityUid": null,
+					"allowedRefTags": [],
+					"tilesetUid": null
+				}
+			]
+		},
+		{
+			"identifier": "ElevatorTrackH",
+			"uid": 581,
+			"tags": [],
+			"exportToToc": false,
+			"allowOutOfBounds": true,
+			"doc": null,
+			"width": 16,
+			"height": 16,
+			"resizableX": true,
+			"resizableY": false,
+			"minWidth": 16,
+			"maxWidth": null,
+			"minHeight": null,
+			"maxHeight": null,
+			"keepAspectRatio": false,
+			"tileOpacity": 1,
+			"fillOpacity": 1,
+			"lineOpacity": 1,
+			"hollow": false,
+			"color": "#0099DB",
+			"renderMode": "Rectangle",
+			"showName": true,
+			"tilesetId": null,
+			"tileRenderMode": "FitInside",
+			"tileRect": null,
+			"uiTileRect": null,
+			"nineSliceBorders": [],
+			"maxCount": 0,
+			"limitScope": "PerLevel",
+			"limitBehavior": "MoveLastOne",
+			"pivotX": 0,
+			"pivotY": 0,
+			"fieldDefs": [
+				{
+					"identifier": "uid",
+					"doc": null,
+					"__type": "String",
+					"uid": 583,
+					"type": "F_String",
+					"isArray": false,
+					"canBeNull": true,
+					"arrayMinLength": null,
+					"arrayMaxLength": null,
+					"editorDisplayMode": "Hidden",
+					"editorDisplayScale": 1,
+					"editorDisplayPos": "Above",
+					"editorLinkStyle": "StraightArrow",
+					"editorDisplayColor": null,
+					"editorAlwaysShow": false,
+					"editorShowInWorld": true,
+					"editorCutLongValues": true,
+					"editorTextSuffix": null,
+					"editorTextPrefix": null,
+					"useForSmartColor": false,
+					"exportToToc": false,
+					"searchable": false,
+					"min": null,
+					"max": null,
+					"regex": null,
+					"acceptFileTypes": null,
+					"defaultOverride": null,
+					"textLanguageMode": null,
+					"symmetricalRef": false,
+					"autoChainRef": true,
+					"allowOutOfLevelRef": true,
+					"allowedRefs": "OnlySame",
+					"allowedRefsEntityUid": null,
+					"allowedRefTags": [],
+					"tilesetUid": null
+				}
+			]
 		}
 	], "tilesets": [
 		{
@@ -3397,6 +3580,10 @@
 							"defUid": 207,
 							"px": [272,320],
 							"fieldInstances": [
+								{ "__identifier": "trackId", "__type": "String", "__value": "v1", "__tile": null, "defUid": 584, "realEditorValues": [{
+								"id": "V_String",
+								"params": ["v1"]
+							}] },
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
 									"params": ["Vertical"]
@@ -3420,6 +3607,7 @@
 							"defUid": 207,
 							"px": [336,320],
 							"fieldInstances": [
+								{ "__identifier": "trackId", "__type": "String", "__value": null, "__tile": null, "defUid": 584, "realEditorValues": [] },
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Horizontal", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
 									"params": ["Horizontal"]
@@ -3500,6 +3688,10 @@
 							"defUid": 207,
 							"px": [304,320],
 							"fieldInstances": [
+								{ "__identifier": "trackId", "__type": "String", "__value": "v2", "__tile": null, "defUid": 584, "realEditorValues": [{
+								"id": "V_String",
+								"params": ["v2"]
+							}] },
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
 									"params": ["Vertical"]
@@ -3523,6 +3715,7 @@
 							"defUid": 207,
 							"px": [240,320],
 							"fieldInstances": [
+								{ "__identifier": "trackId", "__type": "String", "__value": null, "__tile": null, "defUid": 584, "realEditorValues": [] },
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Horizontal", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
 									"params": ["Horizontal"]
@@ -3948,6 +4141,60 @@
 							"fieldInstances": [],
 							"__worldX": 7808,
 							"__worldY": 1632
+						},
+						{
+							"__identifier": "ElevatorTrackV",
+							"__grid": [8,3],
+							"__pivot": [0.5,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#0099DB",
+							"iid": "7d640c00-1030-11f0-ae23-270aae5c374c",
+							"width": 16,
+							"height": 256,
+							"defUid": 580,
+							"px": [272,96],
+							"fieldInstances": [{ "__identifier": "uid", "__type": "String", "__value": "v1", "__tile": null, "defUid": 582, "realEditorValues": [{
+								"id": "V_String",
+								"params": ["v1"]
+							}] }],
+							"__worldX": 7600,
+							"__worldY": 1376
+						},
+						{
+							"__identifier": "ElevatorTrackV",
+							"__grid": [9,5],
+							"__pivot": [0.5,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#0099DB",
+							"iid": "859006e0-1030-11f0-ae23-23217dadfe14",
+							"width": 16,
+							"height": 192,
+							"defUid": 580,
+							"px": [304,160],
+							"fieldInstances": [{ "__identifier": "uid", "__type": "String", "__value": "v2", "__tile": null, "defUid": 582, "realEditorValues": [{
+								"id": "V_String",
+								"params": ["v2"]
+							}] }],
+							"__worldX": 7632,
+							"__worldY": 1440
+						},
+						{
+							"__identifier": "ElevatorTrackH",
+							"__grid": [7,10],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#0099DB",
+							"iid": "8a695450-1030-11f0-ae23-fb13712d56c1",
+							"width": 128,
+							"height": 16,
+							"defUid": 581,
+							"px": [224,320],
+							"fieldInstances": [{ "__identifier": "uid", "__type": "String", "__value": null, "__tile": null, "defUid": 583, "realEditorValues": [] }],
+							"__worldX": 7552,
+							"__worldY": 1600
 						}
 					]
 				},
@@ -4299,6 +4546,7 @@
 							"defUid": 207,
 							"px": [144,192],
 							"fieldInstances": [
+								{ "__identifier": "trackId", "__type": "String", "__value": null, "__tile": null, "defUid": 584, "realEditorValues": [] },
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
 									"params": ["Vertical"]
@@ -4329,31 +4577,6 @@
 							"__worldY": 1584
 						},
 						{
-							"__identifier": "Player",
-							"__grid": [1,3],
-							"__pivot": [0.5,0.5],
-							"__tags": [],
-							"__tile": null,
-							"__smartColor": "#275FFC",
-							"iid": "a80aed00-1030-11f0-a12e-21860f6cdf04",
-							"width": 20,
-							"height": 24,
-							"defUid": 19,
-							"px": [48,112],
-							"fieldInstances": [{ "__identifier": "blueprints", "__type": "Array<LocalEnum.ObjectEnum>", "__value": [ "Left", "Right", "A" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
-								"id": "V_String",
-								"params": ["Left"]
-							}, {
-								"id": "V_String",
-								"params": ["Right"]
-							}, {
-								"id": "V_String",
-								"params": ["A"]
-							} ] }],
-							"__worldX": 7920,
-							"__worldY": 1520
-						},
-						{
 							"__identifier": "Dialog",
 							"__grid": [12,3],
 							"__pivot": [0.5,0.5],
@@ -4381,6 +4604,63 @@
 							],
 							"__worldX": 8272,
 							"__worldY": 1520
+						},
+						{
+							"__identifier": "Player",
+							"__grid": [2,3],
+							"__pivot": [0.5,0.5],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#275FFC",
+							"iid": "a80aed00-1030-11f0-a12e-21860f6cdf04",
+							"width": 20,
+							"height": 24,
+							"defUid": 19,
+							"px": [80,112],
+							"fieldInstances": [{ "__identifier": "blueprints", "__type": "Array<LocalEnum.ObjectEnum>", "__value": [ "Left", "Right", "A" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
+								"id": "V_String",
+								"params": ["Left"]
+							}, {
+								"id": "V_String",
+								"params": ["Right"]
+							}, {
+								"id": "V_String",
+								"params": ["A"]
+							} ] }],
+							"__worldX": 7952,
+							"__worldY": 1520
+						},
+						{
+							"__identifier": "ElevatorTrackV",
+							"__grid": [4,6],
+							"__pivot": [0.5,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#0099DB",
+							"iid": "4222fac0-1030-11f0-ae23-9979480b9021",
+							"width": 16,
+							"height": 96,
+							"defUid": 580,
+							"px": [144,192],
+							"fieldInstances": [{ "__identifier": "uid", "__type": "String", "__value": null, "__tile": null, "defUid": 582, "realEditorValues": [] }],
+							"__worldX": 8016,
+							"__worldY": 1600
+						},
+						{
+							"__identifier": "ElevatorTrackV",
+							"__grid": [11,4],
+							"__pivot": [0.5,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#0099DB",
+							"iid": "5a428440-1030-11f0-ae23-eba14e905c6b",
+							"width": 16,
+							"height": 160,
+							"defUid": 580,
+							"px": [368,128],
+							"fieldInstances": [{ "__identifier": "uid", "__type": "String", "__value": null, "__tile": null, "defUid": 582, "realEditorValues": [] }],
+							"__worldX": 8240,
+							"__worldY": 1536
 						}
 					]
 				},
@@ -4633,6 +4913,7 @@
 							"defUid": 207,
 							"px": [144,96],
 							"fieldInstances": [
+								{ "__identifier": "trackId", "__type": "String", "__value": null, "__tile": null, "defUid": 584, "realEditorValues": [] },
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Horizontal", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
 									"params": ["Horizontal"]
@@ -4680,6 +4961,54 @@
 							}] }],
 							"__worldX": 8048,
 							"__worldY": 1808
+						},
+						{
+							"__identifier": "ElevatorTrackH",
+							"__grid": [4,3],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#0099DB",
+							"iid": "21bff6c0-1030-11f0-ae23-cd5bad9cbf65",
+							"width": 128,
+							"height": 16,
+							"defUid": 581,
+							"px": [128,96],
+							"fieldInstances": [{ "__identifier": "uid", "__type": "String", "__value": null, "__tile": null, "defUid": 583, "realEditorValues": [] }],
+							"__worldX": 8032,
+							"__worldY": 1760
+						},
+						{
+							"__identifier": "ElevatorTrackV",
+							"__grid": [3,-1],
+							"__pivot": [0.5,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#0099DB",
+							"iid": "469262d0-1030-11f0-ae23-a531ae39893e",
+							"width": 16,
+							"height": 96,
+							"defUid": 580,
+							"px": [112,-32],
+							"fieldInstances": [{ "__identifier": "uid", "__type": "String", "__value": null, "__tile": null, "defUid": 582, "realEditorValues": [] }],
+							"__worldX": 8016,
+							"__worldY": 1632
+						},
+						{
+							"__identifier": "ElevatorTrackH",
+							"__grid": [5,4],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#0099DB",
+							"iid": "751a4ff0-1030-11f0-ae23-83498f7b25b3",
+							"width": 96,
+							"height": 16,
+							"defUid": 581,
+							"px": [160,128],
+							"fieldInstances": [{ "__identifier": "uid", "__type": "String", "__value": null, "__tile": null, "defUid": 583, "realEditorValues": [] }],
+							"__worldX": 8064,
+							"__worldY": 1792
 						}
 					]
 				},
@@ -4912,6 +5241,7 @@
 							"defUid": 207,
 							"px": [112,96],
 							"fieldInstances": [
+								{ "__identifier": "trackId", "__type": "String", "__value": null, "__tile": null, "defUid": 584, "realEditorValues": [] },
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
 									"params": ["Vertical"]
@@ -4935,6 +5265,7 @@
 							"defUid": 207,
 							"px": [48,128],
 							"fieldInstances": [
+								{ "__identifier": "trackId", "__type": "String", "__value": null, "__tile": null, "defUid": 584, "realEditorValues": [] },
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Horizontal", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
 									"params": ["Horizontal"]
@@ -4982,6 +5313,54 @@
 							}] }],
 							"__worldX": 8176,
 							"__worldY": 1744
+						},
+						{
+							"__identifier": "ElevatorTrackH",
+							"__grid": [-1,3],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#0099DB",
+							"iid": "25aaec90-1030-11f0-ae23-356050243818",
+							"width": 128,
+							"height": 16,
+							"defUid": 581,
+							"px": [-32,96],
+							"fieldInstances": [{ "__identifier": "uid", "__type": "String", "__value": null, "__tile": null, "defUid": 583, "realEditorValues": [] }],
+							"__worldX": 8096,
+							"__worldY": 1760
+						},
+						{
+							"__identifier": "ElevatorTrackV",
+							"__grid": [3,-1],
+							"__pivot": [0.5,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#0099DB",
+							"iid": "55abbe10-1030-11f0-ae23-c5c586eb9892",
+							"width": 16,
+							"height": 160,
+							"defUid": 580,
+							"px": [112,-32],
+							"fieldInstances": [{ "__identifier": "uid", "__type": "String", "__value": null, "__tile": null, "defUid": 582, "realEditorValues": [] }],
+							"__worldX": 8240,
+							"__worldY": 1632
+						},
+						{
+							"__identifier": "ElevatorTrackH",
+							"__grid": [-1,4],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#0099DB",
+							"iid": "71d81d40-1030-11f0-ae23-0f880b431b1b",
+							"width": 96,
+							"height": 16,
+							"defUid": 581,
+							"px": [-32,128],
+							"fieldInstances": [{ "__identifier": "uid", "__type": "String", "__value": null, "__tile": null, "defUid": 583, "realEditorValues": [] }],
+							"__worldX": 8096,
+							"__worldY": 1792
 						}
 					]
 				},

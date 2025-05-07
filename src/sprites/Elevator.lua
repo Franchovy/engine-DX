@@ -1,9 +1,7 @@
-import "elevator/elevatorTrack"
-
 local gfx <const> = playdate.graphics
 local gmt <const> = playdate.geometry
 
-local imageElevator <const> = gfx.image.new(assets.images.elevator)
+local imagetableElevator <const> = gfx.imagetable.new(assets.imageTables.elevator)
 
 local downwardsOffsetMax <const> = 2
 
@@ -195,8 +193,13 @@ end
 
 Elevator = Class("Elevator", gfx.sprite)
 
+-- TODO:
+-- Change all instances of displacement to directly refer to position
+-- On init, get the elevator track on tile (with matching id <-> trackId if there are multiple)
+-- When moving, check the elevator track position to see where to move
+
 function Elevator:init(entity)
-  Elevator.super.init(self, imageElevator)
+  Elevator.super.init(self, imagetableElevator[1])
 
   self:setTag(TAGS.Elevator)
 
@@ -220,13 +223,8 @@ function Elevator:init(entity)
 
   -- Offset parameters for placing child when moving
 
-  local centerPoint = self:getCenterPoint()
-  self.childPositionOffsetX = 0 -- self.width * self.center.x
+  self.childPositionOffsetX = 0
   self.childPositionOffsetY = self.height
-
-  -- Create elevator track
-
-  self.spriteElevatorTrack = ElevatorTrack(entity.fields.distance, entity.fields.orientation)
 end
 
 function Elevator:postInit()
@@ -245,11 +243,6 @@ function Elevator:postInit()
     self.initialPosition = gmt.point.new(self.x, self.y - self.displacementInitial)
     self.finalPosition = gmt.point.new(self.x, self.initialPosition.y + self.displacementEnd)
   end
-
-  -- Positon elevator track
-
-  self.spriteElevatorTrack:setInitialPosition(self.initialPosition)
-  self.spriteElevatorTrack:add()
 
   -- Load displacement from previous data or initial LDtk setup
 
@@ -390,7 +383,6 @@ end
 
 function Elevator:enterLevel(levelName, direction)
   self:add()
-  self.spriteElevatorTrack:add()
 
   -- Add elevator to level
 

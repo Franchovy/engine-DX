@@ -35,7 +35,7 @@ function LDtk.loadAllEntitiesAsSprites(levelName)
     local levelBounds = LDtk.get_rect(levelName)
     for _, entity in ipairs(LDtk.get_entities(levelName)) do
         if not _G[entity.name] then
-            print("WARNING: No sprite class for entity with name: " .. entity.name)
+            debugPrint("WARNING: No sprite class for entity with name: " .. entity.name)
 
             goto continue
         end
@@ -43,6 +43,10 @@ function LDtk.loadAllEntitiesAsSprites(levelName)
         local sprite
 
         if entity.name == "Player" and Player.getInstance() then
+            -- TODO: Replace "Player" in LDtk with "PlayerOrSavePoint" and use a global function with this name
+            -- to remove the logic from here and apply the logic below (returning either player or savepoint).
+            -- Also add null-check to sprite and skip if sprite is null.
+
             if entity.isOriginalPlayerSpawn then
                 -- If Player previously spawned here, skip.
                 goto continue
@@ -57,17 +61,11 @@ function LDtk.loadAllEntitiesAsSprites(levelName)
             -- Create sprite using LDtk naming
             sprite = _G[entity.name](entity)
         end
+
         local positionX, positionY = entity.position.x,
             entity.position.y
 
-        if entity.name == "Player" then
-            -- Reduce hitbox sizes
-            local trimWidth, trimTop = 6, 8
-            sprite:setCollideRect(trimWidth, trimTop, sprite.width - trimWidth * 2, sprite.height - trimTop)
-        else
-            sprite:setCollideRect(0, 0, entity.size.width, entity.size.height)
-        end
-
+        sprite:setCollideRect(0, 0, entity.size.width, entity.size.height)
         sprite:setCenter(entity.center.x, entity.center.y)
         sprite:moveTo(levelBounds.x + positionX, levelBounds.y + positionY)
         sprite:setZIndex(Z_INDEX.Level.Active)

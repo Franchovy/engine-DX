@@ -138,9 +138,16 @@ function Player:init(entity)
 end
 
 function Player:postInit()
+    -- Reduce hitbox sizes
+
+    local trimWidth, trimTop = 6, 8
+    self:setCollideRect(trimWidth, trimTop, self.width - trimWidth * 2, self.height - trimTop)
+
     -- Add Checkpoint handling
 
     self.checkpointHandler = CheckpointHandler.getOrCreate(self.id, self)
+
+    -- Adjust for super darkness
 
     if CONFIG.ADD_SUPER_DARKNESS_EFFECT then
         self:setZIndex(Z_INDEX.HUD.Main)

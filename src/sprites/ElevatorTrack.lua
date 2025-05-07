@@ -6,14 +6,14 @@ local imageTableElevatorTrack <const> = gfx.imagetable.new(assets.imageTables.el
 
 local TILE_ID <const> = {
     [ORIENTATION.Vertical] = {
-        BODY = 1,
-        END = 2,
-        START = 3,
+        START = 4,
+        BODY = 7,
+        END = 10,
     },
     [ORIENTATION.Horizontal] = {
-        BODY = 4,
-        START = 5,
-        END = 6
+        START = 1,
+        BODY = 2,
+        END = 3
     }
 }
 
@@ -21,10 +21,21 @@ local TILE_ID <const> = {
 
 ElevatorTrack = Class("ElevatorTrack", gfx.sprite)
 
-function ElevatorTrack:init(trackLengthInTiles, orientation)
+-- Constructors for LDtk name reference
+
+function ElevatorTrackH(entity)
+    return ElevatorTrack(entity, ORIENTATION.Horizontal)
+end
+
+function ElevatorTrackV(entity)
+    return ElevatorTrack(entity, ORIENTATION.Vertical)
+end
+
+function ElevatorTrack:init(entity, orientation)
     ElevatorTrack.super.init(self)
 
-    local numberOfTiles = trackLengthInTiles + 1
+    local numberOfTiles = (orientation == ORIENTATION.Horizontal and entity.size.width or
+        entity.size.height) / TILE_SIZE * 2 - 1
 
     -- Create tilemap data using length
     local dataTilemap = table.create(numberOfTiles, 0)
@@ -43,16 +54,20 @@ function ElevatorTrack:init(trackLengthInTiles, orientation)
 
     self.tilemap = tilemap
     self.orientation = orientation
+end
 
+function ElevatorTrack:postInit()
     -- Sprite config
 
-    if orientation == ORIENTATION.Vertical then
-        self:setCenter(0.5, 0)
-        self:setSize(TILE_SIZE, TILE_SIZE * numberOfTiles)
+    if self.orientation == ORIENTATION.Vertical then
+        self:setSize(self.entity.size.width, self.entity.size.height - TILE_SIZE / 2)
     else
-        self:setCenter(0, 0.75)
-        self:setSize(TILE_SIZE * numberOfTiles, TILE_SIZE)
+        -- Offset horizontal tracks to center of tile
+        self:setSize(self.entity.size.width - TILE_SIZE / 2, self.entity.size.height)
+        self:moveBy(TILE_SIZE / 4, 0)
     end
+
+    self:setCollideRect(0, 0, self:getSize())
 
     self:setZIndex(Z_INDEX.Level.Neutral)
 end
