@@ -222,8 +222,8 @@ end
 
 -- Enter Level
 
-function Player:enterLevel(direction, levelBoundsNew)
-    levelBounds = levelBoundsNew
+function Player:enterLevel(levelName, direction)
+    levelBounds = LDtk.get_rect(levelName)
 
     -- For convenience, add "right" and "bottom" accessors to bounds
     levelBounds.right = levelBounds.x + levelBounds.width
@@ -244,7 +244,7 @@ function Player:enterLevel(direction, levelBoundsNew)
     -- Bring any parents with player (for elevator)
 
     if self.isActivatingElevator then
-        self.isActivatingElevator:enterLevel()
+        self.isActivatingElevator:enterLevel(levelName, direction)
     end
 
     -- Push level position

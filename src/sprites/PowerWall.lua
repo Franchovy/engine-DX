@@ -11,5 +11,5 @@ function Powerwall:init(entity)
 end
 
 function Powerwall:postInit()
-    printTable(self)
+
 end

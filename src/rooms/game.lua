@@ -209,7 +209,7 @@ function Game:enter(previous, data)
             player:moveTo(checkpoint.x, checkpoint.y)
         end
 
-        player:enterLevel(direction, levelBounds)
+        player:enterLevel(currentLevelName, direction)
 
         Camera.enterLevel(currentLevelName)
     end

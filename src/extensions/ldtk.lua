@@ -76,6 +76,7 @@ function LDtk.loadAllEntitiesAsSprites(levelName)
         -- Give sprite references to LDtk data
         sprite.id = entity.iid
         sprite.fields = entity.fields
+        sprite.entity = entity
 
         -- Optional Post-init call for overriding default configurations
         if sprite.postInit then

@@ -388,10 +388,28 @@ function Elevator:hasMovedRemaining()
   return self.didMoveRemaining
 end
 
-function Elevator:enterLevel()
+function Elevator:enterLevel(levelName, direction)
   self:add()
-
   self.spriteElevatorTrack:add()
+
+  -- Add elevator to level
+
+  local layers = LDtk.get_layers(levelName)
+  local levelBounds = LDtk.get_rect(levelName)
+
+  if layers and layers["Entities"] and layers["Entities"].entities and
+      not table.containsWhere(
+        layers["Entities"].entities,
+        function(_, value)
+          return self.id == value.iid
+        end
+      ) then
+    local entity = table.deepcopy(self.entity)
+    entity.position.x = self.x - levelBounds.x
+    entity.position.y = self.y - levelBounds.y
+
+    table.insert(layers["Entities"].entities, entity)
+  end
 
   -- Offset elevator to be centered underneath player (horizontal only)
 
