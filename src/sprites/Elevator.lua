@@ -263,7 +263,7 @@ end
 
 function Elevator:collisionResponse(other)
   local tag = other:getTag()
-  if tag == TAGS.Dialog or tag == TAGS.SavePoint or tag == TAGS.Ability or tag == TAGS.Powerwall then
+  if tag == TAGS.Dialog or tag == TAGS.SavePoint or tag == TAGS.Ability or tag == TAGS.Powerwall or tag == TAGS.ElevatorTrack then
     return gfx.sprite.kCollisionTypeOverlap
   end
 

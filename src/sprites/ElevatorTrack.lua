@@ -19,6 +19,7 @@ local TILE_ID <const> = {
 
 -- Class definition
 
+---@class ElevatorTrack : playdate.graphics.sprite
 ElevatorTrack = Class("ElevatorTrack", gfx.sprite)
 
 -- Constructors for LDtk name reference
@@ -33,6 +34,13 @@ end
 
 function ElevatorTrack:init(entity, orientation)
     ElevatorTrack.super.init(self)
+
+    -- Set tag
+
+    self:setTag(TAGS.ElevatorTrack)
+    self.collisionResponse = gfx.sprite.kCollisionTypeOverlap
+
+    -- Create Tilemap
 
     local numberOfTiles = (orientation == ORIENTATION.Horizontal and entity.size.width or
         entity.size.height) / TILE_SIZE * 2 - 1
