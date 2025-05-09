@@ -181,7 +181,7 @@ local function updateMovement(self, movement, downwardsOffset)
 
   -- Update checkpoint state
 
-  self.checkpointHandler:pushState({ displacement = self.displacement })
+  self.checkpointHandler:pushState({ displacement = self.displacement, levelName = self.levelName })
 
   return true
 end
@@ -231,16 +231,18 @@ function Elevator:postInit()
   -- Set collideRect to bottom half of sprite
   self:setCollideRect(0, 16, 32, 16)
 
-  -- Offset upwards to occupy upper portion of tile
-  self:moveBy(0, -TILE_SIZE / 2)
+  -- Offset upwards to occupy upper portion of tile, if needed.
+  local tileOffsetY = (self.y - TILE_SIZE / 2) % TILE_SIZE
+  self:moveBy(0, -tileOffsetY)
 
   -- Save initial position
 
+  local displacementCurrent = self.fields.displacement ~= nil and self.fields.displacement or self.displacementInitial
   if self.fields.orientation == ORIENTATION.Horizontal then
-    self.initialPosition = gmt.point.new(self.x - self.displacementInitial, self.y)
+    self.initialPosition = gmt.point.new(self.x - displacementCurrent, self.y)
     self.finalPosition = gmt.point.new(self.initialPosition.x + self.displacementEnd, self.y)
   else
-    self.initialPosition = gmt.point.new(self.x, self.y - self.displacementInitial)
+    self.initialPosition = gmt.point.new(self.x, self.y - displacementCurrent)
     self.finalPosition = gmt.point.new(self.x, self.initialPosition.y + self.displacementEnd)
   end
 
@@ -258,7 +260,8 @@ function Elevator:postInit()
 
   -- Checkpoint Handling setup
 
-  self.checkpointHandler = CheckpointHandler.getOrCreate(self.id, self, { displacement = self.displacement })
+  self.checkpointHandler = CheckpointHandler.getOrCreate(self.id, self,
+    { displacement = self.displacement, levelName = self.levelName })
 end
 
 function Elevator:collisionResponse(other)
@@ -382,33 +385,59 @@ function Elevator:hasMovedRemaining()
 end
 
 function Elevator:enterLevel(levelName, direction)
+  local levelNamePrevious = self.levelName
+
   self:add()
 
-  -- Add elevator to level
+  -- Remove elevator from previous level
 
-  local layers = LDtk.get_layers(levelName)
+  local layersPreviousLevel = LDtk.get_layers(levelNamePrevious)
+
+  if layersPreviousLevel and layersPreviousLevel["Entities"] and layersPreviousLevel["Entities"].entities then
+    local index = table.indexWhere(
+      layersPreviousLevel["Entities"].entities,
+      function(value)
+        return self.id == value.iid
+      end
+    )
+
+    if index then
+      layersPreviousLevel["Entities"].entities[index] = nil
+    end
+  end
+
+  -- Add elevator to new level
+
+  local layersNewLevel = LDtk.get_layers(levelName)
   local levelBounds = LDtk.get_rect(levelName)
 
-  if layers and layers["Entities"] and layers["Entities"].entities and
+  if layersNewLevel and layersNewLevel["Entities"] and layersNewLevel["Entities"].entities and
       not table.containsWhere(
-        layers["Entities"].entities,
+        layersNewLevel["Entities"].entities,
         function(_, value)
           return self.id == value.iid
         end
       ) then
     local entity = table.deepcopy(self.entity)
-    entity.position.x = self.x - levelBounds.x
-    entity.position.y = self.y - levelBounds.y
 
-    table.insert(layers["Entities"].entities, entity)
+    -- Set entity position
+    local newX = self.x - levelBounds.x
+    local newY = self.y - levelBounds.y + TILE_SIZE / 2
+    entity.position.x, entity.position.y = newX, newY
+
+    table.insert(layersNewLevel["Entities"].entities, entity)
   end
 
   -- Offset elevator to be centered underneath player (horizontal only)
 
-  if self.fields.orientation == ORIENTATION.Horizontal then
+  if direction and (direction == DIRECTION.LEFT or direction == DIRECTION.RIGHT) and self.fields.orientation == ORIENTATION.Horizontal then
     local player = Player.getInstance()
     self:moveTo(player:centerX(), self.y)
   end
+
+  -- Set state to have new level
+
+  self.checkpointHandler:pushState({ displacement = self.displacement, levelName = self.levelName })
 end
 
 --- Used specifically for when jumping while moving up with elevator.
@@ -426,4 +455,8 @@ function Elevator:handleCheckpointRevert(state)
   self.movement = 0
 
   setDisplacement(self, state.displacement)
+
+  if state.levelName ~= self.levelName then
+    self:enterLevel(state.levelName)
+  end
 end

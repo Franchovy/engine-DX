@@ -17,3 +17,13 @@ function table.containsWhere(t, fn)
 
     return false
 end
+
+function table.indexWhere(t, fn)
+    for i, v in ipairs(t) do
+        if fn(v) then
+            return i
+        end
+    end
+
+    return nil
+end

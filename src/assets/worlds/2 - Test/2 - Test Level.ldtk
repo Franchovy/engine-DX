@@ -3581,9 +3581,9 @@
 							"px": [272,320],
 							"fieldInstances": [
 								{ "__identifier": "trackId", "__type": "String", "__value": "v1", "__tile": null, "defUid": 584, "realEditorValues": [{
-								"id": "V_String",
-								"params": ["v1"]
-							}] },
+									"id": "V_String",
+									"params": ["v1"]
+								}] },
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
 									"params": ["Vertical"]
@@ -3689,9 +3689,9 @@
 							"px": [304,320],
 							"fieldInstances": [
 								{ "__identifier": "trackId", "__type": "String", "__value": "v2", "__tile": null, "defUid": 584, "realEditorValues": [{
-								"id": "V_String",
-								"params": ["v2"]
-							}] },
+									"id": "V_String",
+									"params": ["v2"]
+								}] },
 								{ "__identifier": "orientation", "__type": "LocalEnum.ElevatorOrientation", "__value": "Vertical", "__tile": null, "defUid": 209, "realEditorValues": [{
 									"id": "V_String",
 									"params": ["Vertical"]
@@ -5009,6 +5009,22 @@
 							"fieldInstances": [{ "__identifier": "uid", "__type": "String", "__value": null, "__tile": null, "defUid": 583, "realEditorValues": [] }],
 							"__worldX": 8064,
 							"__worldY": 1792
+						},
+						{
+							"__identifier": "Powerwall",
+							"__grid": [1,1],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#E4A672",
+							"iid": "f14c9920-1030-11f0-ae23-d9e09a12cef8",
+							"width": 192,
+							"height": 192,
+							"defUid": 554,
+							"px": [32,32],
+							"fieldInstances": [{ "__identifier": "isActive", "__type": "Bool", "__value": true, "__tile": null, "defUid": 555, "realEditorValues": [] }],
+							"__worldX": 7936,
+							"__worldY": 1696
 						}
 					]
 				},
@@ -5361,6 +5377,22 @@
 							"fieldInstances": [{ "__identifier": "uid", "__type": "String", "__value": null, "__tile": null, "defUid": 583, "realEditorValues": [] }],
 							"__worldX": 8096,
 							"__worldY": 1792
+						},
+						{
+							"__identifier": "Powerwall",
+							"__grid": [0,1],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#E4A672",
+							"iid": "f5ea6430-1030-11f0-ae23-d9ef0e753ab0",
+							"width": 192,
+							"height": 192,
+							"defUid": 554,
+							"px": [0,32],
+							"fieldInstances": [{ "__identifier": "isActive", "__type": "Bool", "__value": true, "__tile": null, "defUid": 555, "realEditorValues": [] }],
+							"__worldX": 8128,
+							"__worldY": 1696
 						}
 					]
 				},
