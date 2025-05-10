@@ -126,19 +126,24 @@ function Elevator:activate(spriteChild, key)
   if not self.track then return end
 
   local speedX, speedY = 0, 0
+  local orientationMovement
   if key == KEYNAMES.Right then
     speedX = self.speed
+    orientationMovement = ORIENTATION.Horizontal
   elseif key == KEYNAMES.Left then
     speedX = -self.speed
+    orientationMovement = ORIENTATION.Horizontal
   elseif key == KEYNAMES.Down then
     -- Vertical orientation, return positive if Down, negative if Up
     speedY = self.speed
+    orientationMovement = ORIENTATION.Vertical
   elseif key == KEYNAMES.Up then
     speedY = -self.speed
+    orientationMovement = ORIENTATION.Vertical
   end
 
   -- Get destination point
-  local idealX, idealY = self.x + speedX * _G.delta_time, self.y + speedY * _G.delta_time
+  local idealX, idealY = math.round(self.x + speedX * _G.delta_time, 2), math.round(self.y + speedY * _G.delta_time, 2)
 
   -- Clamp point to track bounds
   local destinationX, destinationY = self.track:clampElevatorPoint(idealX, idealY)
@@ -181,7 +186,11 @@ function Elevator:activate(spriteChild, key)
       local finalX = actualChildX - spriteChildPreviousX + self.x
       local finalY = actualChildY - (self.height - spriteChild.height + downwardsOffset)
 
-      self:moveTo(finalX, finalY)
+      if orientationMovement == ORIENTATION.Horizontal then
+        self:moveTo(finalX, self.y)
+      else
+        self:moveTo(self.x, finalY)
+      end
 
       -- Update state
       self.checkpointHandler:pushState({ x = self.x, y = self.y, levelName = self.levelName })
