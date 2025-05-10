@@ -57,6 +57,18 @@ function Elevator:collisionResponse(other)
   return gfx.sprite.kCollisionTypeSlide
 end
 
+function Elevator:updatePosition(x, y)
+  -- Move sprite
+  Elevator.super.moveTo(self, x, y)
+
+  -- Update LDtk fields
+  self.entity.world_position.x = x
+  self.entity.world_position.y = y -- - levelBounds.y + TILE_SIZE / 2
+
+  -- Update checkpoint state
+  self.checkpointHandler:pushState({ x = x, y = y, levelName = self.levelName })
+end
+
 ---
 ---
 --- Public class Methods
@@ -187,13 +199,10 @@ function Elevator:activate(spriteChild, key)
       local finalY = actualChildY - (self.height - spriteChild.height + downwardsOffset)
 
       if orientationMovement == ORIENTATION.Horizontal then
-        self:moveTo(finalX, self.y)
+        self:updatePosition(finalX, self.y)
       else
-        self:moveTo(self.x, finalY)
+        self:updatePosition(self.x, finalY)
       end
-
-      -- Update state
-      self.checkpointHandler:pushState({ x = self.x, y = self.y, levelName = self.levelName })
 
       self.didActivate = true
     end
@@ -233,6 +242,14 @@ function Elevator:enterLevel(levelName, direction)
 
   self:add()
 
+  -- Reset track
+
+  self.track = nil
+
+  -- Update levelName
+
+  self.levelName = levelName
+
   -- Remove elevator from previous level
 
   local layersPreviousLevel = LDtk.get_layers(levelNamePrevious)
@@ -247,6 +264,7 @@ function Elevator:enterLevel(levelName, direction)
 
     if index then
       layersPreviousLevel["Entities"].entities[index] = nil
+      print("Removed " .. self.id .. " from previous level")
     end
   end
 
@@ -262,26 +280,21 @@ function Elevator:enterLevel(levelName, direction)
           return self.id == value.iid
         end
       ) then
-    local entity = table.deepcopy(self.entity)
-
-    -- Set entity position
-    local newX = self.x - levelBounds.x
-    local newY = self.y - levelBounds.y + TILE_SIZE / 2
-    entity.position.x, entity.position.y = newX, newY
-
-    table.insert(layersNewLevel["Entities"].entities, entity)
+    table.insert(layersNewLevel["Entities"].entities, self.entity)
+    print("Added " .. self.id .. " to new level")
   end
 
   -- Offset elevator to be centered underneath player (horizontal only)
 
+  local x
   if direction and (direction == DIRECTION.LEFT or direction == DIRECTION.RIGHT) and self.fields.orientation == ORIENTATION.Horizontal then
     local player = Player.getInstance()
-    self:moveTo(player:centerX(), self.y)
+    x = player:centerX()
+  else
+    x = self.x
   end
 
-  -- Set state to have new level
-
-  self.checkpointHandler:pushState({ x = self.x, y = self.y, levelName = self.levelName })
+  self:updatePosition(x, self.y)
 end
 
 --- Used specifically for when jumping while moving up with elevator.
@@ -298,7 +311,7 @@ end
 function Elevator:handleCheckpointRevert(state)
   self.movement = 0
 
-  self:moveTo(state.x, state.y)
+  self:updatePosition(state.x, state.y)
 
   if state.levelName ~= self.levelName then
     self:enterLevel(state.levelName)

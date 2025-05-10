@@ -62,12 +62,12 @@ function LDtk.loadAllEntitiesAsSprites(levelName)
             sprite = _G[entity.name](entity)
         end
 
-        local positionX, positionY = entity.position.x,
-            entity.position.y
+        local positionX, positionY = entity.world_position.x,
+            entity.world_position.y
 
         sprite:setCollideRect(0, 0, entity.size.width, entity.size.height)
         sprite:setCenter(entity.center.x, entity.center.y)
-        sprite:moveTo(levelBounds.x + positionX, levelBounds.y + positionY)
+        sprite:moveTo(positionX, positionY)
         sprite:setZIndex(Z_INDEX.Level.Active)
         sprite:add()
 
@@ -75,14 +75,12 @@ function LDtk.loadAllEntitiesAsSprites(levelName)
         sprite.id = entity.iid
         sprite.fields = entity.fields
         sprite.entity = entity
+        sprite.levelName = levelName
 
         -- Optional Post-init call for overriding default configurations
         if sprite.postInit then
             sprite:postInit()
         end
-
-        -- Give sprite a reference to its level name.
-        sprite.levelName = levelName
 
         ::continue::
     end
