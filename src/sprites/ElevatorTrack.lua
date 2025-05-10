@@ -91,3 +91,12 @@ end
 function ElevatorTrack:draw(x, y, width, height)
     self.tilemap:draw(0, 0)
 end
+
+function ElevatorTrack:getOrientation()
+    return self.orientation
+end
+
+function ElevatorTrack:clampElevatorPoint(x, y)
+    return math.min(math.max(self:left() + TILE_SIZE / 4, x), self:right() - TILE_SIZE / 4),
+        math.min(math.max(self:top() - TILE_SIZE / 2, y), self:bottom() - TILE_SIZE)
+end
