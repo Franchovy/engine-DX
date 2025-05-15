@@ -253,36 +253,23 @@ function Elevator:enterLevel(levelName, direction)
   -- Remove elevator from previous level
 
   local layersPreviousLevel = LDtk.get_layers(levelNamePrevious)
+  local entitiesPreviousLevel = layersPreviousLevel["Entities"].entities
 
-  if layersPreviousLevel and layersPreviousLevel["Entities"] and layersPreviousLevel["Entities"].entities then
-    local index = table.indexWhere(
-      layersPreviousLevel["Entities"].entities,
-      function(value)
-        return self.id == value.iid
-      end
-    )
 
-    if index then
-      layersPreviousLevel["Entities"].entities[index] = nil
-      print("Removed " .. self.id .. " from previous level")
+  local index = table.indexWhere(
+    entitiesPreviousLevel,
+    function(value)
+      return self.id == value.iid
     end
-  end
+  )
+
+  table.remove(entitiesPreviousLevel, index)
 
   -- Add elevator to new level
 
   local layersNewLevel = LDtk.get_layers(levelName)
-  local levelBounds = LDtk.get_rect(levelName)
-
-  if layersNewLevel and layersNewLevel["Entities"] and layersNewLevel["Entities"].entities and
-      not table.containsWhere(
-        layersNewLevel["Entities"].entities,
-        function(_, value)
-          return self.id == value.iid
-        end
-      ) then
-    table.insert(layersNewLevel["Entities"].entities, self.entity)
-    print("Added " .. self.id .. " to new level")
-  end
+  local entitiesNewLevel = layersNewLevel["Entities"].entities
+  table.insert(entitiesNewLevel, self.entity)
 
   -- Offset elevator to be centered underneath player (horizontal only)
 
