@@ -225,15 +225,15 @@ function Elevator:moveToTarget(targetX, targetY, orientation, spriteChild, downw
   local spriteChildPreviousX = spriteChild.x
 
   if not isCollisionCheckPassedChild then
-    return false
+    --return false
   end
 
   -- If collision check passed, move the child to the new position
-  if downwardsOffset > 0 then
-    spriteChild:moveTo(actualChildX, actualChildY)
-  else
-    spriteChild:moveWithCollisions(actualChildX, actualChildY)
-  end
+  self:setCollisionsEnabled(false)
+
+  spriteChild:moveWithCollisions(actualChildX, actualChildY)
+
+  self:setCollisionsEnabled(true)
 
   -- Interpolate own destination coordinates
 
