@@ -383,7 +383,9 @@ function Elevator:enterLevel(levelName, direction)
     x = self.x
   end
 
-  self:moveToAndSave(x, self.y)
+  self:moveTo(x, self.y)
+
+  self:savePosition()
 end
 
 --- Used specifically for when jumping while moving up with elevator.
