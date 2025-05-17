@@ -71,9 +71,8 @@ function Elevator:getDirection()
   return self.track and self.track:getOrientation() or nil
 end
 
-function Elevator:moveToAndSave(x, y)
-  -- Move sprite
-  self:moveTo(x, y)
+function Elevator:savePosition()
+  local x, y = self:getPosition()
 
   -- Update LDtk fields
   self.entity.world_position.x = x
@@ -209,10 +208,12 @@ function Elevator:moveToTarget(targetX, targetY, orientation, spriteChild, downw
     -- If no sprite child is given, then consider movement successful.
 
     if orientation == ORIENTATION.Horizontal then
-      self:moveToAndSave(actualX, self.y)
+      self:moveTo(actualX, self.y)
     else
-      self:moveToAndSave(self.x, actualY)
+      self:moveTo(self.x, actualY)
     end
+
+    self:savePosition()
 
     return true
   end
@@ -247,10 +248,15 @@ function Elevator:moveToTarget(targetX, targetY, orientation, spriteChild, downw
   -- Move elevator (self)
 
   if orientation == ORIENTATION.Horizontal then
-    self:moveToAndSave(finalX, self.y)
+    -- We move with collisions as a safeguard against moving into other sprites,
+    -- which can happen due to the previous-child-offset
+
+    self:moveWithCollisions(finalX, self.y)
   else
-    self:moveToAndSave(self.x, finalY)
+    self:moveTo(self.x, finalY)
   end
+
+  self:savePosition()
 
   -- Return movement success
   return true
