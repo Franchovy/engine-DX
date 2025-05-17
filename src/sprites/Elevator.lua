@@ -49,6 +49,11 @@ function Elevator:postInit()
 end
 
 function Elevator:collisionResponse(other)
+  if other == self.spriteChild then
+    -- Avoid colliding with player
+    return gfx.sprite.kCollisionTypeOverlap
+  end
+
   local tag = other:getTag()
   if tag == TAGS.Dialog or tag == TAGS.SavePoint or tag == TAGS.Ability or tag == TAGS.Powerwall or tag == TAGS.ElevatorTrack then
     return gfx.sprite.kCollisionTypeOverlap
@@ -170,7 +175,7 @@ function Elevator:updatePosition()
   else
     local targetY = self:getTargetPositionFromOffset(offsetY, self.y)
 
-    local downwardsOffset = targetY > self.y and downwardsOffsetMax or 0
+    local downwardsOffset = targetY > self.y + 1 and downwardsOffsetMax or 0
 
     self:moveToTarget(
       self.x,
@@ -214,9 +219,11 @@ function Elevator:moveToTarget(targetX, targetY, orientation, spriteChild, downw
 
   -- Check collision for any children
 
+  local childOffset = self.y - spriteChild.y
+
   -- Get ideal child position
   local idealChildX = actualX + spriteChild.x - self.x
-  local idealChildY = actualY + self.height - spriteChild.height + downwardsOffset
+  local idealChildY = actualY - childOffset + downwardsOffset
 
   local isCollisionCheckPassedChild, actualChildX, actualChildY = self:isCollisionCheckPassed(spriteChild, idealChildX,
     idealChildY,
@@ -229,16 +236,14 @@ function Elevator:moveToTarget(targetX, targetY, orientation, spriteChild, downw
   end
 
   -- If collision check passed, move the child to the new position
-  self:setCollisionsEnabled(false)
+  -- Disable collisions to allow sprite to move through elevator if needed
 
-  spriteChild:moveWithCollisions(actualChildX, actualChildY)
-
-  self:setCollisionsEnabled(true)
+  spriteChild:moveTo(actualChildX, actualChildY)
 
   -- Interpolate own destination coordinates
 
   local finalX = actualChildX - spriteChildPreviousX + self.x
-  local finalY = actualChildY - (self.height - spriteChild.height + downwardsOffset)
+  local finalY = actualChildY + childOffset - downwardsOffset
 
   if orientation == ORIENTATION.Horizontal then
     self:moveToAndSave(finalX, self.y)
@@ -296,7 +301,18 @@ end
 --- Checks collision for frame, also checking if child collides. Returns a partial movement for itself
 --- if elevator or child collides with another object.
 function Elevator:isCollisionCheckPassed(spriteToCheck, idealX, idealY, spriteToIgnore)
+  if spriteToCheck ~= self then
+    -- Disable collisions with self
+    self:setCollisionsEnabled(false)
+  end
+
   local actualX, actualY, collisions = spriteToCheck:checkCollisions(idealX, idealY)
+
+  if spriteToCheck ~= self then
+    -- Re-enable collisions with self
+    self:setCollisionsEnabled(true)
+  end
+
   local isCollisionCheckPassed = true
 
   for _, collision in pairs(collisions) do
@@ -309,10 +325,7 @@ function Elevator:isCollisionCheckPassed(spriteToCheck, idealX, idealY, spriteTo
     end
   end
 
-  -- [Franch] If collision check passes, we return ideal X & Y to ignore the
-  -- effect of potential collisions from elevator into player and vice versa.
-
-  return isCollisionCheckPassed, idealX, idealY
+  return isCollisionCheckPassed, actualX, actualY
 end
 
 function Elevator:hasMovedRemaining()
