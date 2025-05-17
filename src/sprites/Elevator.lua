@@ -229,21 +229,22 @@ function Elevator:moveToTarget(targetX, targetY, orientation, spriteChild, downw
     idealChildY,
     self)
 
+  -- Track previous X position for horizontal movement
   local spriteChildPreviousX = spriteChild.x
 
-  if not isCollisionCheckPassedChild then
-    --return false
-  end
-
-  -- If collision check passed, move the child to the new position
-  -- Disable collisions to allow sprite to move through elevator if needed
-
-  spriteChild:moveTo(actualChildX, actualChildY)
+  -- Only add downwardsOffset if no collision happened
+  local downwardsOffsetAdjusted = isCollisionCheckPassedChild and downwardsOffset or 0
 
   -- Interpolate own destination coordinates
 
   local finalX = actualChildX - spriteChildPreviousX + self.x
-  local finalY = actualChildY + childOffset - downwardsOffset
+  local finalY = actualChildY + childOffset - downwardsOffsetAdjusted
+
+  -- Move child sprite
+
+  spriteChild:moveTo(actualChildX, actualChildY)
+
+  -- Move elevator (self)
 
   if orientation == ORIENTATION.Horizontal then
     self:moveToAndSave(finalX, self.y)
