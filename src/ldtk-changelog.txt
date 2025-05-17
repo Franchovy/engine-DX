@@ -1,4 +1,22 @@
-# Version 0.1.0a2
+# Version 0.1.1
+
+* Elevators will now use tracks to determine movement.
+* If two tracks intersect where an elevator begins, enter a matching "trackId" and track "uid" to
+* pair an elevator with its track.
+
+- Add sprite named "ElevatorTrackV" with:
+--- Color: #0099DB (Blue)
+--- Size: 16x16, resizable: height, min: _x16, pivot point: top-center, can-be-out-of-level-bounds checked
+--- 1 nullable string field: "uid"
+- Add sprite named "ElevatorTrackH" with:
+--- Color: #0099DB (Blue)
+--- Size: 16x16, resizable: width, min: 16x_, pivot point: top-left, can-be-out-of-level-bounds checked
+--- 1 nullable string field: "uid"
+- Modify sprite "Elevator":
+--- add field: trackId, nullable string
+--- remove fields: orientation, distance, initialDistance
+
+# Version 0.1.0
 
 - Restarting LDtk Changelog since a lot of undocumented changes have happened.
 

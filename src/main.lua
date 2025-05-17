@@ -60,7 +60,7 @@ local function init()
 
   -- DEBUG: - Memory Clear
 
-  MemoryCard.clearAll()
+  --MemoryCard.clearAll()
 end
 
 function playdate.update()
