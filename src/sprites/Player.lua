@@ -649,10 +649,19 @@ function Player:updateRigidBody()
 end
 
 function Player:updateCollisions()
+    -- Check for special case event
+    local horizontalCornerBlock = false
+
     for _, collisionData in pairs(self.collisions) do
         local other = collisionData.other
         local tag = other:getTag()
         local normal = collisionData.normal
+
+        -- Special case/corner check for horizontal collisions
+
+        if collisionData.normal.x ~= 0 and collisionData.otherRect.y == collisionData.spriteRect.y + collisionData.spriteRect.height then
+            horizontalCornerBlock = collisionData.other
+        end
 
         -- Bottom activations
         if normal.y == -1 and (tag == TAGS.DrillableBlock or tag == TAGS.Elevator) then
@@ -668,6 +677,23 @@ function Player:updateCollisions()
         -- Other (passive)
         if tag == TAGS.Powerwall then
             self.isTouchingPower = true
+        end
+    end
+
+    -- Special case move - this may be an SDK bug?
+    -- When player is on top of a block, and x coordinate is exactly on the tile +
+    -- There is a separate "wall" (like drillable block) corner touching drillbot corner
+    -- this appears to make the "slide" fail and no movement occurs.
+
+    if horizontalCornerBlock and self.rigidBody:getIsTouchingGround() then
+        if horizontalCornerBlock:collisionsEnabled() then
+            horizontalCornerBlock:setCollisionsEnabled(false)
+
+            -- Schedule reset for collisions
+            playdate.frameTimer.new(1,
+                function()
+                    horizontalCornerBlock:setCollisionsEnabled(true)
+                end)
         end
     end
 end
