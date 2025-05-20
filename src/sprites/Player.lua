@@ -135,6 +135,10 @@ function Player:init(entity)
     self.crankWarpController = PlayerCrankWarpController()
     self.questionMark = PlayerQuestionMark(self)
     self.particlesDrilling = PlayerParticlesDrilling(self)
+
+    -- Utils
+
+    self.synth = Synth()
 end
 
 function Player:postInit()
@@ -377,6 +381,14 @@ function Player:update()
     self.activeDialog = false
 
     self:updateActivations()
+
+    -- Dialog
+
+    if self:justPressedInteractionKey() then
+        self.synth:play()
+    elseif self:justReleasedInteractionKey() then
+        self.synth:stop()
+    end
 
     -- Skip movement handling if timer cooldown is active
 
@@ -827,6 +839,10 @@ end
 
 function Player:justPressedInteractionKey()
     return playdate.buttonJustPressed(KEYNAMES.B)
+end
+
+function Player:justReleasedInteractionKey()
+    return playdate.buttonJustReleased(KEYNAMES.B)
 end
 
 -- Generic gated input handler
