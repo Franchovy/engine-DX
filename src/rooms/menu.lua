@@ -54,6 +54,31 @@ function Menu:enter(previous)
   -- Reset draw offset
 
   gfx.setDrawOffset(0, 0)
+
+  -- Get collectibles and validate them
+
+  local collectibles = MemoryCard:getCollectibles()
+  self.collectiblesCount = 0
+
+  if collectibles then
+    -- Validate collectibles against images
+    local imagetableCollectibles = gfx.imagetable.new(assets.imageTables.collectibles)
+
+    for k, v in pairs(collectibles) do
+      local image = imagetableCollectibles[k]
+      local imageHash = image:getImageHash()
+
+      if imageHash ~= v then
+        -- Clear invalid collectibles
+
+        collectibles[k] = nil
+      else
+        self.collectiblesCount += 1
+      end
+    end
+  end
+
+  print("Collectibles: " .. self.collectiblesCount)
 end
 
 function Menu:draw()
@@ -66,6 +91,13 @@ function Menu:draw()
   else
     imageButtonAContinue:drawAnchored(30, 216, 0, 1)
     imageButtonBLevelSelect:drawAnchored(370, 216, 1, 1)
+  end
+
+  -- Draw collectibles count
+  if self.collectiblesCount and self.collectiblesCount > 0 then
+    gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
+    gfx.drawTextAligned("Collectibles: " .. self.collectiblesCount, 4, 4, kTextAlignment.left)
+    gfx.setImageDrawMode(gfx.kDrawModeCopy)
   end
 end
 

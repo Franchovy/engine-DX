@@ -42,3 +42,21 @@ end
 function playdate.graphics.sprite:centerY()
     return self.y - self:centerOffsetY() + self.height / 2
 end
+
+function playdate.graphics.image:getImageHash()
+    local width, height = self:getSize()
+    local prime = 16777619 -- A large prime number
+
+    local hash = 0
+    for y = 0, width do
+        for x = 0, height do
+            local pixelValue = self:sample(x, y) + 1
+
+            -- Combine the current hash with the pixel value using bitwise operations and modular arithmetic
+            hash = math.tointeger(hash * prime) ~ math.tointeger(pixelValue * prime)
+            hash %= 100000000 -- Modulo to keep the hash within 32 bits
+        end
+    end
+
+    return hash
+end

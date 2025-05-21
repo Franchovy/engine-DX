@@ -35,6 +35,10 @@ local function init()
   gfx.setBackgroundColor(0)
   gfx.clear(0)
 
+  -- DEBUG: - Memory Clear
+
+  -- MemoryCard.clearAll()
+
   -- Read file paths
 
   ReadFile.initialize()
@@ -57,10 +61,6 @@ local function init()
   -- Hide logo
 
   showLogo = false
-
-  -- DEBUG: - Memory Clear
-
-  --MemoryCard.clearAll()
 end
 
 function playdate.update()

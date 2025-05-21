@@ -125,6 +125,12 @@ function MemoryCard:setCollectiblePickup(collectibleIndex, collectibleHash)
   saveData(fileData, SAVE_FILE.GameData)
 end
 
+function MemoryCard:getCollectibles()
+  local fileData = loadData(SAVE_FILE.GameData)
+
+  return fileData.collectibles
+end
+
 -- User Preferences
 
 function MemoryCard.setShouldEnableMusic(shouldEnableMusic)
