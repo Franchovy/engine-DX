@@ -130,6 +130,10 @@ function Dialog:init(entity)
 
     self:parseTextIntoDialog(text)
 
+    -- Dialog variables
+
+    self.repeatLine = nil
+
     -- Set up child sprite
 
     self.spriteBubble = gfx.sprite.new()
@@ -184,6 +188,16 @@ function Dialog:updateDialog()
                 return
             end
         end
+
+        -- Read props
+        if dialog.props then
+            local props = dialog.props
+
+            if props.repeats then
+                self.repeatLine = self.currentLine
+            end
+        end
+
 
         -- Set timer to handle next line / collapse
         if self.timer then
@@ -270,7 +284,7 @@ function Dialog:collapse()
     self.isStateExpanded = false
 
     -- Reset dialog progress
-    self.currentLine = 1
+    self.currentLine = self.repeatLine or 1
 
     -- Stop any ongoing timers
     self.timer:pause()
@@ -331,8 +345,11 @@ function Dialog:parseTextIntoDialog(text)
 
     -- Condition, if used, is repeated for every line until changed.
     local condition
+    local props
 
     for lineRaw in string.gmatch(text, "([^\n]+)") do
+        -- Dialog Action condition
+
         local conditionRaw = string.match(lineRaw, "%$%u%u%u")
 
         if conditionRaw then
@@ -340,13 +357,34 @@ function Dialog:parseTextIntoDialog(text)
             goto continue
         end
 
+        -- JSON for dynamic properties
+
+        if string.match(lineRaw, "^%{") then
+            local _, data = pcall(json.decode, lineRaw)
+
+            props = data
+
+            goto continue
+        end
+
+        -- Else, create dialog object
+
         local dialog = {
             text = lineRaw,
+            props = props,
             condition = condition,
             lines = {},
             width = 0,
             height = 0
         }
+
+        -- Clear dynamic properties after use
+
+        if props then
+            props = nil
+        end
+
+        -- Calculate width and height of dialog box
 
         for text in string.gmatch(lineRaw, "[^/]+") do
             -- Get dialog width by getting max width of all lines
@@ -356,14 +394,14 @@ function Dialog:parseTextIntoDialog(text)
             end
 
             -- Add line to dialog lines
-            table.insert(dialog.lines, text) -- Unchanged Case
-            -- table.insert(dialog.lines, string.upper(text)) -- UPPERCASE
+            table.insert(dialog.lines, text)
         end
 
         -- Add dialog height based on num. lines
         dialog.height = (font:getHeight() + textMarginSpacing) * #dialog.lines
 
         -- Add dialog to list
+
         table.insert(self.dialogs, dialog)
 
         ::continue::

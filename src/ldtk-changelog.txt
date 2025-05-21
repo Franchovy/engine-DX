@@ -1,3 +1,9 @@
+# Version 0.1.2
+
+* Dialog sprites can now save dynamic properties which can be used in the code. To set dynamic properties,
+* simply write a new line in the dialog text in JSON format, like: {"repeats":true}
+* and this will set the variable "repeats" which will be readable in-code.
+
 # Version 0.1.1
 
 * Elevators will now use tracks to determine movement.
