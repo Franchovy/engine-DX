@@ -111,6 +111,20 @@ function MemoryCard.resetProgress()
   saveData({}, SAVE_FILE.GameData)
 end
 
+-- Collectibles
+
+function MemoryCard:setCollectiblePickup(collectibleIndex, collectibleHash)
+  local fileData = loadData(SAVE_FILE.GameData)
+
+  if not fileData.collectibles then
+    fileData.collectibles = {}
+  end
+
+  fileData.collectibles[collectibleIndex] = collectibleHash
+
+  saveData(fileData, SAVE_FILE.GameData)
+end
+
 -- User Preferences
 
 function MemoryCard.setShouldEnableMusic(shouldEnableMusic)

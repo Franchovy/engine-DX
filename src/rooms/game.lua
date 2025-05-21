@@ -397,3 +397,7 @@ function Game:hideOrShowGui(shouldHide)
         abilityPanel:show()
     end
 end
+
+function Game:collectiblePickup(collectibleIndex, collectibleHash)
+    MemoryCard:setCollectiblePickup(collectibleIndex, collectibleHash)
+end

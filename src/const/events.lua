@@ -8,5 +8,6 @@ EVENTS = {
     HideOrShowGUI = 'hideOrShowGui',
     BotRescued = 'botRescued',
     SavePointSet = 'savePointSet',
-    LevelEnd = 'levelEnd'
+    LevelEnd = 'levelEnd',
+    CollectiblePickup = "collectiblePickup"
 }
