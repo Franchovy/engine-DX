@@ -36,6 +36,7 @@ _G.assets = {
         }
     },
     imageTables = {
+        collectibles = "assets/images/collectibles",
         questionMark = "assets/images/questionmark",
         buttons = "assets/images/buttons",
         menuArrows = "assets/images/menu-arrows",

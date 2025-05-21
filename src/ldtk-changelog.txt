@@ -1,3 +1,11 @@
+# Version 0.1.3
+
+* Collectibles now use a numerical index to determine their appearance / value.
+
+- Change sprite "Collectible" properties:
+--- Remove string property "id"
+--- Add non-nullable (default value 0) integer property "index".
+
 # Version 0.1.2
 
 * Dialog sprites can now save dynamic properties which can be used in the code. To set dynamic properties,

@@ -543,6 +543,10 @@ function Player:updateActivations()
             end
         end
 
+        if tag == TAGS.Collectible then
+            otherSprite:activate()
+        end
+
         if tag == TAGS.Dialog and not self.activeDialog then
             self.activeDialog = otherSprite
 
@@ -670,7 +674,7 @@ function Player:updateCollisions()
         end
 
         -- Other activations
-        if tag == TAGS.SavePoint or tag == TAGS.Dialog or tag == TAGS.Ability then
+        if tag == TAGS.SavePoint or tag == TAGS.Dialog or tag == TAGS.Ability or tag == TAGS.Collectible then
             table.insert(self.activations, other)
         end
 

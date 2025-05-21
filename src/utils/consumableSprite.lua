@@ -18,6 +18,7 @@ local checkpointStateConsumed <const> = {
 
 --
 
+--- @class ConsumableSprite : playdate.graphics.sprite
 ConsumableSprite = Class("ConsumableSprite", gfx.sprite)
 
 function ConsumableSprite:init(entity)
