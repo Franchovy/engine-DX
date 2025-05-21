@@ -1,6 +1,7 @@
 local gfx <const> = playdate.graphics
 
 local imageTableCollectibles <const> = gfx.imagetable.new(assets.imageTables.collectibles)
+local spCollectiblePickup <const> = playdate.sound.sampleplayer.new(assets.sounds.collectiblePickup)
 
 --- @class Collectible : ConsumableSprite
 Collectible = Class("Collectible", ConsumableSprite)
@@ -33,11 +34,11 @@ function Collectible:postInit()
 end
 
 function Collectible:activate()
-    -- TODO:
-
     -- Emit event for collectible pickup
 
     -- Play sound
+
+    spCollectiblePickup:play()
 
     -- Consume / disappear
 
