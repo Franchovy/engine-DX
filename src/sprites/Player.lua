@@ -9,10 +9,13 @@ local gfx <const> = pd.graphics
 
 local imagetablePlayer <const> = gfx.imagetable.new(assets.imageTables.player)
 local imagetablePlayerDarkness <const> = gfx.imagetable.new(assets.imageTables.playerDarkness)
-local spJump <const> = sound.sampleplayer.new("assets/sfx/Jump")
+
+local spJump <const> = sound.sampleplayer.new(assets.sounds.jump)
 local spError <const> = sound.sampleplayer.new(assets.sounds.errorAction)
 local spDrill <const> = sound.sampleplayer.new(assets.sounds.drill)
-local spCollect <const> = sound.sampleplayer.new("assets/sfx/Collect")
+local spCollect <const> = sound.sampleplayer.new(assets.sounds.collect)
+local spPowerUp <const> = sound.sampleplayer.new(assets.sounds.powerUp)
+local spPowerDown <const> = sound.sampleplayer.new(assets.sounds.powerDown)
 
 -- Level Bounds for camera movement (X,Y coords areas in global (world) coordinates)
 
@@ -43,6 +46,8 @@ local ANIMATION_STATES = {
     UnsureRun = 8,
     Impact = 9,
     ImpactRun = 10,
+    IdlePowerUp = 11,
+    MovingPowerUp = 12
 }
 
 KEYS = {
@@ -68,6 +73,7 @@ local VELOCITY_FALL_ANIMATION <const> = 6
 
 -- Setup
 
+--- @class Player : playdate.graphics.sprite
 Player = Class("Player", AnimatedSprite)
 
 -- Static Reference
@@ -204,6 +210,8 @@ function Player:setupAnimationStates()
         { tickStep = 3, nextAnimation = ANIMATION_STATES.Idle })
     self:addState(ANIMATION_STATES.Impact, 21, 23, { tickStep = 2, nextAnimation = ANIMATION_STATES.Idle })
     self:addState(ANIMATION_STATES.ImpactRun, 43, 45, { tickStep = 2, nextAnimation = ANIMATION_STATES.Idle })
+    self:addState(ANIMATION_STATES.IdlePowerUp, 50, 53, { tickStep = 3 })
+    self:addState(ANIMATION_STATES.MovingPowerUp, 54, 57, { tickStep = 2 })
 
     self.isAnimationFlip = 0
 
@@ -400,6 +408,7 @@ function Player:update()
     -- Update variables set by collisions
 
     self.isTouchingGroundPrevious = self.rigidBody:getIsTouchingGround()
+    self.isTouchingPowerPrevious = self.isTouchingPower
     self.isTouchingPower = false
     self.didPressedInvalidKey = false
     self.activationsBottom = {}
@@ -575,6 +584,20 @@ function Player:updateActivations()
         self.particlesDrilling:endAnimation()
 
         self.isActivatingDrillableBlock = nil
+    end
+
+    -- Misc
+
+    if self.isTouchingPower and not self.isTouchingPowerPrevious then
+        -- Enter power area
+
+        spPowerUp:play()
+        spPowerDown:stop()
+    elseif self.isTouchingPowerPrevious and not self.isTouchingPower then
+        -- Exit power area
+
+        spPowerDown:play()
+        spPowerUp:stop()
     end
 end
 
@@ -757,9 +780,17 @@ function Player:updateAnimationState()
                     animationState = ANIMATION_STATES.Impact
                 end
             elseif isMoving and not (self.isActivatingElevator and self.isActivatingElevator:wasActivationSuccessful()) then
-                animationState = ANIMATION_STATES.Moving
+                if self.isTouchingPower then
+                    animationState = ANIMATION_STATES.MovingPowerUp
+                else
+                    animationState = ANIMATION_STATES.Moving
+                end
             else
-                animationState = ANIMATION_STATES.Idle
+                if self.isTouchingPower then
+                    animationState = ANIMATION_STATES.IdlePowerUp
+                else
+                    animationState = ANIMATION_STATES.Idle
+                end
             end
         else
             if velocity.dy > VELOCITY_FALL_ANIMATION then

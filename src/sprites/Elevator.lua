@@ -1,5 +1,4 @@
 local gfx <const> = playdate.graphics
-local gmt <const> = playdate.geometry
 
 local imagetableElevator <const> = gfx.imagetable.new(assets.imageTables.elevator)
 

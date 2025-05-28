@@ -63,6 +63,10 @@ _G.assets = {
         }
     },
     sounds = {
+        collect = "assets/sfx/collect",
+        jump = "assets/sfx/jump",
+        powerUp = "assets/sfx/power-up",
+        powerDown = "assets/sfx/power-down",
         collectiblePickup = "assets/sfx/collectible-pickup",
         speech = "assets/sfx/speech",
         errorAction = "assets/sfx/error-action",
