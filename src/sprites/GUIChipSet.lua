@@ -4,7 +4,7 @@ local gmt <const> = pd.geometry
 
 local imagePanel <const> = gfx.image.new(assets.images.hudPanel)
 
-AbilityPanel = Class("AbilityPanel", gfx.sprite)
+GUIChipSet = Class("GUIChipSet", gfx.sprite)
 
 -- Button images (from imagetable)
 
@@ -19,6 +19,8 @@ local imageTableIndexes = {
 }
 
 local imageButtonDefault = gfx.image.new(1, 1, gfx.kColorWhite)
+local imageButtonMaskDefault
+local imageButtonMaskFaded
 
 local buttonSprites = table.create(3, 0)
 for _ = 1, 3 do
@@ -40,9 +42,9 @@ local timerAnimation = nil
 
 local _instance
 
-function AbilityPanel.getInstance() return _instance end
+function GUIChipSet.getInstance() return _instance end
 
-function AbilityPanel.destroy() _instance = nil end
+function GUIChipSet.destroy() _instance = nil end
 
 --
 
@@ -50,12 +52,12 @@ function AbilityPanel.destroy() _instance = nil end
 
 local _instance
 
-function AbilityPanel.getInstance() return _instance end
+function GUIChipSet.getInstance() return _instance end
 
 --
 
-function AbilityPanel:init()
-  AbilityPanel.super.init(self, imagePanel)
+function GUIChipSet:init()
+  GUIChipSet.super.init(self, imagePanel)
   _instance = self
 
   self:setCenter(0, 0)
@@ -75,28 +77,39 @@ function AbilityPanel:init()
   self:add()
 
   isHidden = true
+
+  -- Image button mask (for disabled chipset)
+
+  imageButtonMaskDefault = imageTableButtons[1]:getMaskImage():copy()
+  imageButtonMaskFaded = imageButtonMaskDefault:copy()
+
+  gfx.pushContext(imageButtonMaskFaded)
+  gfx.setColor(gfx.kColorBlack)
+  gfx.setDitherPattern(0.5, gfx.image.kDitherTypeBayer8x8)
+  gfx.fillRect(0, 0, imageButtonMaskFaded:getSize())
+  gfx.popContext()
 end
 
 -- Playdate Sprite Overrides
 
-function AbilityPanel:add()
-  AbilityPanel.super.add(self)
+function GUIChipSet:add()
+  GUIChipSet.super.add(self)
 
   for _, sprite in ipairs(buttonSprites) do
     sprite:add()
   end
 end
 
-function AbilityPanel:remove()
-  AbilityPanel.super.remove(self)
+function GUIChipSet:remove()
+  GUIChipSet.super.remove(self)
 
   for _, sprite in ipairs(buttonSprites) do
     sprite:remove()
   end
 end
 
-function AbilityPanel:moveTo(x, y)
-  AbilityPanel.super.moveTo(self, x, y)
+function GUIChipSet:moveTo(x, y)
+  GUIChipSet.super.moveTo(self, x, y)
   for i, sprite in ipairs(buttonSprites) do
     local xSprite, ySprite = spritePositions[i]:unpack()
     sprite:moveTo(x + xSprite, y + ySprite)
@@ -105,7 +118,7 @@ end
 
 -- Public Methods
 
-function AbilityPanel:hide()
+function GUIChipSet:hide()
   if isHidden then
     return
   end
@@ -119,7 +132,7 @@ function AbilityPanel:hide()
   end
 end
 
-function AbilityPanel:show()
+function GUIChipSet:show()
   if not isHidden then
     return
   end
@@ -135,15 +148,30 @@ end
 
 -- Update function - reads player blueprints and updates accordingly.
 
-function AbilityPanel:updateBlueprints()
-  local blueprints = Player.getInstance().blueprints
+function GUIChipSet:updateBlueprints()
+  local player = Player.getInstance()
+
+  local blueprints = player.blueprints
   self.blueprints = blueprints
+
+  local showPowerUpAppearance = player.isTouchingPower
 
   for i, sprite in ipairs(buttonSprites) do
     if blueprints[i] then
       sprite:add()
 
       local image = imageTableButtons[imageTableIndexes[blueprints[i]]]
+
+      if showPowerUpAppearance and image:getMaskImage() ~= imageButtonMaskFaded then
+        image:setMaskImage(imageButtonMaskFaded)
+
+        sprite:markDirty()
+      elseif image:getMaskImage() ~= imageButtonMaskDefault then
+        image:setMaskImage(imageButtonMaskDefault)
+
+        sprite:markDirty()
+      end
+
       sprite:setImage(image)
     else
       sprite:remove()

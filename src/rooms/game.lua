@@ -159,7 +159,7 @@ function Game:enter(previous, data)
 
         -- Load Ability Panel
 
-        self.abilityPanel = AbilityPanel()
+        self.abilityPanel = GUIChipSet()
 
         -- Load if music should play:
 
@@ -214,7 +214,7 @@ function Game:enter(previous, data)
         Camera.enterLevel(currentLevelName)
     end
 
-    local abilityPanel = AbilityPanel.getInstance()
+    local abilityPanel = GUIChipSet.getInstance()
 
     if abilityPanel then
         abilityPanel:add()
@@ -262,8 +262,8 @@ function Game:leave(next, ...)
 
         -- Clear ability panel
 
-        AbilityPanel.getInstance():remove()
-        AbilityPanel.destroy()
+        GUIChipSet.getInstance():remove()
+        GUIChipSet.destroy()
 
         -- Clear player data
 
@@ -352,7 +352,7 @@ function Game:levelEnd()
 end
 
 function Game:updateBlueprints()
-    local abilityPanel = AbilityPanel.getInstance()
+    local abilityPanel = GUIChipSet.getInstance()
     abilityPanel:updateBlueprints()
 end
 
@@ -389,7 +389,7 @@ function Game:checkpointRevert()
 end
 
 function Game:hideOrShowGui(shouldHide)
-    local abilityPanel = AbilityPanel.getInstance()
+    local abilityPanel = GUIChipSet.getInstance()
 
     if shouldHide then
         abilityPanel:hide()

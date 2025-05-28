@@ -593,11 +593,19 @@ function Player:updateActivations()
 
         spPowerUp:play()
         spPowerDown:stop()
+
+        -- Update ChipSet GUI
+
+        Manager.emitEvent(EVENTS.UpdateBlueprints)
     elseif self.isTouchingPowerPrevious and not self.isTouchingPower then
         -- Exit power area
 
         spPowerDown:play()
         spPowerUp:stop()
+
+        -- Update ChipSet GUI
+
+        Manager.emitEvent(EVENTS.UpdateBlueprints)
     end
 end
 

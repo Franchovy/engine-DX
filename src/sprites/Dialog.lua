@@ -17,8 +17,8 @@ local textMarginSpacing <const> = 4
 local distanceAboveSprite <const> = 11
 local durationDialog <const> = 3000
 local collideRectSize <const> = 90
-local yOffset <const> = 16
 
+local yOffset <const> = 16
 local botAnimationSpeeds <const> = botAnimationSpeeds
 local ANIMATION_STATES <const> = {
     Idle = 1,

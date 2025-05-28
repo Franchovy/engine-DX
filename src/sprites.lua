@@ -1,6 +1,6 @@
 import "sprites/Player"
 import "sprites/ButtonPickup"
-import "sprites/AbilityPanel"
+import "sprites/GUIChipSet"
 import "sprites/DrillableBlock"
 import "sprites/Elevator"
 import "sprites/ElevatorTrack"
