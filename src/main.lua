@@ -32,6 +32,10 @@ local function init()
   local fontDefault = gfx.font.new(assets.fonts.dialog)
   gfx.setFont(fontDefault)
 
+  pdDialogue.setup({
+    font = fontDefault
+  })
+
   gfx.setBackgroundColor(0)
   gfx.clear(0)
 
@@ -79,6 +83,8 @@ function playdate.update()
     -- Update sprites
     gfx.sprite.update()
   end
+
+  pdDialogue:update()
 
   gfx.animation.blinker.updateAll()
 

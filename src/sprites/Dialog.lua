@@ -14,7 +14,7 @@ local spSpeech <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.sp
 local defaultSize <const> = 16
 local textMarginX <const>, textMarginY <const> = 10, 8
 local textMarginSpacing <const> = 4
-local distanceAboveSprite <const> = 11
+local distanceAboveSprite <const> = 20
 local durationDialog <const> = 3000
 local collideRectSize <const> = 90
 
@@ -26,30 +26,6 @@ local ANIMATION_STATES <const> = {
     NeedsRescue = 3,
     Rescued = 4
 }
-
--- Child class functions
-
-local function drawSpeechBubble(self, x, y, w, h)
-    -- Draw Speech Bubble
-
-    nineSliceSpeech:drawInRect(0, 0, self.width, self.height - 8)
-
-    --
-
-    imageSpeechBButton:drawAnchored(self.width - 6, self.height, 1, 1)
-
-    -- Draw Text
-
-    if self.dialog then
-        local font = gfx.getFont()
-
-        for i, line in ipairs(self.dialog.lines) do
-            font:drawText(line, textMarginX, textMarginY + (i - 1) * (textMarginSpacing + font:getHeight()))
-        end
-    end
-end
-
---
 
 ---@class Dialog: playdate.graphics.sprite
 Dialog = Class("Dialog", AnimatedSprite)
@@ -134,13 +110,6 @@ function Dialog:init(entity)
 
     self.repeatLine = nil
 
-    -- Set up child sprite
-
-    self.spriteBubble = gfx.sprite.new()
-    self.spriteBubble.draw = drawSpeechBubble
-    self.spriteBubble:moveTo(self.x, self.y)
-    self.spriteBubble:setCenter(0.5, 1)
-
     -- Self state
 
     self.isRescued = false
@@ -156,8 +125,6 @@ function Dialog:init(entity)
 end
 
 function Dialog:postInit()
-    self.spriteBubble:setZIndex(Z_INDEX.Level.Overlay)
-
     -- Set collide rect to full size, centered on current center.
     self:setCollideRect(
         (self.width - collideRectSize) / 2,
@@ -211,13 +178,16 @@ function Dialog:updateDialog()
 
         self.timer = playdate.timer.performAfterDelay(durationDialog, self.showNextLine, self)
 
-        -- Update child sprite dialog
-        self.spriteBubble.dialog = dialog
-
         -- Set size and position
         local width, height = dialog.width + textMarginX * 2, dialog.height + textMarginY * 2 + 8
-        self.spriteBubble:setSize(width, height)
-        self.spriteBubble:moveTo(self.x, self.y - distanceAboveSprite)
+
+        self:setupDialogBubble(
+            dialog.text,
+            self.x - width / 2,
+            self.y - distanceAboveSprite - height,
+            width,
+            height
+        )
     else
         -- If line is last one, send event
         if #self.dialogs < self.currentLine and self.fields.levelEnd then
@@ -225,12 +195,22 @@ function Dialog:updateDialog()
             Manager.emitEvent(EVENTS.LevelEnd)
         end
 
-        self.spriteBubble:remove()
         self:changeState(ANIMATION_STATES.Idle)
     end
+end
 
-    -- Mark dirty for redraw
-    self.spriteBubble:markDirty()
+function Dialog:setupDialogBubble(text, x, y, width, height)
+    local config = {
+        x = x,
+        y = y,
+        z = Z_INDEX.Level.Overlay, -- z-index not implemented.
+        width = width,
+        height = height,
+        padding = 4,
+        nineSlice = nineSliceSpeech
+    }
+
+    pdDialogue.say(text, config)
 end
 
 function Dialog:showNextLine()
@@ -273,7 +253,6 @@ function Dialog:expand()
     end
 
     -- Show speech bubble
-    self.spriteBubble:add()
     self.isStateExpanded = true
 
     -- Play SFX
@@ -285,7 +264,6 @@ end
 
 function Dialog:collapse()
     -- Hide speech bubble
-    self.spriteBubble:remove()
     self.isStateExpanded = false
 
     -- Reset dialog progress
@@ -378,7 +356,6 @@ function Dialog:parseTextIntoDialog(text)
             text = lineRaw,
             props = props,
             condition = condition,
-            lines = {},
             width = 0,
             height = 0
         }
@@ -391,19 +368,19 @@ function Dialog:parseTextIntoDialog(text)
 
         -- Calculate width and height of dialog box
 
-        for text in string.gmatch(lineRaw, "[^/]+") do
+        local lineCount = 0
+        for line in string.gmatch(lineRaw, "[^/]+") do
             -- Get dialog width by getting max width of all lines
-            local textWidth = font:getTextWidth(text)
+            local textWidth = font:getTextWidth(line)
             if dialog.width < textWidth then
                 dialog.width = textWidth
             end
 
-            -- Add line to dialog lines
-            table.insert(dialog.lines, text)
+            lineCount += 1
         end
 
         -- Add dialog height based on num. lines
-        dialog.height = (font:getHeight() + textMarginSpacing) * #dialog.lines
+        dialog.height = (font:getHeight() + textMarginSpacing) * lineCount
 
         -- Add dialog to list
 

@@ -6,5 +6,6 @@
   "playdate-debug.productName": "Discontrolled",
   "Lua.diagnostics.globals": [
     "animationState"
-  ]
+  ],
+  "editor.formatOnSave": true
 }
