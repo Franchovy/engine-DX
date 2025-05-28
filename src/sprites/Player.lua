@@ -322,6 +322,16 @@ function Player:revertCheckpoint()
     end
 end
 
+function Player:unlockCrank()
+    -- Create crank warp controller child sprite
+
+    self.crankWarpController = PlayerCrankWarpController()
+
+    -- Save ability to memory card
+
+    MemoryCard.setAbilities({ crankWarp = true })
+end
+
 function Player:pickUpBlueprint(blueprint)
     -- Emit pickup event for abilty panel
 

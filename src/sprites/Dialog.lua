@@ -196,6 +196,11 @@ function Dialog:updateDialog()
             if props.repeats then
                 self.repeatLine = self.currentLine
             end
+
+            if props.unlockCrank then
+                local player = Player.getInstance()
+                player:unlockCrank()
+            end
         end
 
 
