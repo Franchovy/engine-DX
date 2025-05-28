@@ -1,4 +1,4 @@
-import "menu/grid"
+import "levelSelect/grid"
 
 local gfx <const> = playdate.graphics
 local systemMenu <const> = playdate.getSystemMenu()
@@ -43,7 +43,16 @@ function LevelSelect:leave()
 end
 
 function LevelSelect:update()
-  self.gridView:update()
+end
+
+function LevelSelect:draw()
+  -- Clear screen
+
+  gfx.clear()
+
+  -- Redraw gridview
+
+  self.gridView:draw()
 end
 
 ---

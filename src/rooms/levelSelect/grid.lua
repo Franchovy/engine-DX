@@ -202,7 +202,7 @@ end
 --- Public/API methods
 ---
 
-function MenuGridView:update()
+function MenuGridView:draw()
   self.gridView:drawInRect(0, 0, 400, 240)
 end
 
