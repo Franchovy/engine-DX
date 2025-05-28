@@ -120,19 +120,20 @@ function Player:init(entity)
 
     -- RigidBody config
 
-    local rigidBodyConfig = {
-        groundFriction = 2,
-        airFriction = 2,
-        gravity = 5
-    }
-
-    self.rigidBody = RigidBody(self, rigidBodyConfig)
+    self.rigidBody = RigidBody(self, {})
 
     self.latestCheckpointPosition = gmt.point.new(self.x, self.y)
 
+    -- Load abilities
+
+    local abilities = MemoryCard.getAbilities()
+
     -- Create child sprites
 
-    self.crankWarpController = PlayerCrankWarpController()
+    if abilities and abilities.crankWarp then
+        self.crankWarpController = PlayerCrankWarpController()
+    end
+
     self.questionMark = PlayerQuestionMark(self)
     self.particlesDrilling = PlayerParticlesDrilling(self)
 
@@ -285,7 +286,9 @@ function Player:setBlueprints(blueprints)
 end
 
 function Player:setLevelEndReady()
-    self.crankWarpController:setEndGameLoop()
+    if self.crankWarpController then
+       self.crankWarpController:setEndGameLoop()
+    end
 end
 
 --------------------
@@ -434,7 +437,7 @@ function Player:update()
 end
 
 function Player:updateWarp()
-    if self.crankWarpController:hasTriggeredWarp() then
+    if self.crankWarpController and self.crankWarpController:hasTriggeredWarp() then
         self:revertCheckpoint()
 
         self.crankWarpController:resetWarp()
@@ -577,7 +580,7 @@ end
 
 function Player:updateMovement()
     -- If cooldown for warp is active, then skip movement update.
-    if self.crankWarpController:isActive() then
+    if self.crankWarpController and self.crankWarpController:isActive() then
         return
     end
 

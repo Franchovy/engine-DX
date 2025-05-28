@@ -399,5 +399,5 @@ function Game:hideOrShowGui(shouldHide)
 end
 
 function Game:collectiblePickup(collectibleIndex, collectibleHash)
-    MemoryCard:setCollectiblePickup(collectibleIndex, collectibleHash)
+    MemoryCard.setCollectiblePickup(collectibleIndex, collectibleHash)
 end

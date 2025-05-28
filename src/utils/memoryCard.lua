@@ -113,7 +113,7 @@ end
 
 -- Collectibles
 
-function MemoryCard:setCollectiblePickup(collectibleIndex, collectibleHash)
+function MemoryCard.setCollectiblePickup(collectibleIndex, collectibleHash)
   local fileData = loadData(SAVE_FILE.GameData)
 
   if not fileData.collectibles then
@@ -125,10 +125,32 @@ function MemoryCard:setCollectiblePickup(collectibleIndex, collectibleHash)
   saveData(fileData, SAVE_FILE.GameData)
 end
 
-function MemoryCard:getCollectibles()
+function MemoryCard.getCollectibles()
   local fileData = loadData(SAVE_FILE.GameData)
 
   return fileData.collectibles
+end
+
+-- Abilities
+
+function MemoryCard.getAbilities()
+  local fileData = loadData(SAVE_FILE.GameData)
+
+  return fileData.abilities
+end
+
+function MemoryCard.setAbilities(data)
+  local fileData = loadData(SAVE_FILE.GameData)
+
+  if not fileData.abilities then
+    fileData.abilities = {}
+  end
+
+  for k, v in pairs(data) do
+    fileData.abilities[k] = v
+  end
+
+  saveData(fileData.abilities, SAVE_FILE.GameData)
 end
 
 -- User Preferences

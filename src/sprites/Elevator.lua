@@ -13,17 +13,10 @@ local downwardsOffsetMax <const> = 2
 ---@class Elevator : playdate.graphics.sprite
 Elevator = Class("Elevator", gfx.sprite)
 
--- TODO:
--- Change all instances of displacement to directly refer to position
--- On init, get the elevator track on tile (with matching id <-> trackId if there are multiple)
--- When moving, check the elevator track position to see where to move
-
 function Elevator:init(entity)
   Elevator.super.init(self, imagetableElevator[1])
 
   self:setTag(TAGS.Elevator)
-
-  self.rigidBody = RigidBody(self)
 
   -- Elevator-specific fields
 

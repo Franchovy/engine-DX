@@ -57,7 +57,7 @@ function Menu:enter(previous)
 
   -- Get collectibles and validate them
 
-  local collectibles = MemoryCard:getCollectibles()
+  local collectibles = MemoryCard.getCollectibles()
   self.collectiblesCount = 0
 
   if collectibles then
