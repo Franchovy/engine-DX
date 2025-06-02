@@ -3405,10 +3405,10 @@
 							"defUid": 204,
 							"px": [144,273],
 							"fieldInstances": [
-								{ "__identifier": "text", "__type": "String", "__value": "Hey!...\nI can't believe it...\n...I'VE...\n...JUST...\n...RESCUED!!!...\nYou can thank me. Your/new life now begins.\n...\nOk, I'm gonna need some/assistance to get out of here.\nBut it looks like you/can go LEFT.\nSo go ahead and spread the word that...\n...RB-401...\n...IS...\n...KING!!!\n(jokes aside you'll/meet the team.)\n{\"repeats\":true}\nHead LEFT to meet my team!!", "__tile": null, "defUid": 205, "realEditorValues": [{
+								{ "__identifier": "text", "__type": "String", "__value": "{\"bleepCount\":3, \"bleepVoice\":\"BOT_MEDIUM\"}\nHey!...\n{\"bleepCount\":6}\nI can't believe it...\n{\"bleepDuration\":3,\"bleepCount\":1}\n...I'VE...\n...JUST...\n{\"bleepDuration\":2,\"bleepCount\":4}\n...RESCUED!!!...\n{\"bleepDuration\":1,\"bleepCount\":7}\nYou can thank me. Your new life now begins.\n{\"repeats\":true}\nHead LEFT to meet my team!!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hey!...\\nI can't believe it...\\n...I'VE...\\n...JUST...\\n...RESCUED!!!...\\nYou can thank me. Your/new life now begins.\\n...\\nOk, I'm gonna need some/assistance to get out of here.\\nBut it looks like you/can go LEFT.\\nSo go ahead and spread the word that...\\n...RB-401...\\n...IS...\\n...KING!!!\\n(jokes aside you'll/meet the team.)\\n{\"repeats\":true}\\nHead LEFT to meet my team!!"
+										"{\"bleepCount\":3, \"bleepVoice\":\"BOT_MEDIUM\"}\\nHey!...\\n{\"bleepCount\":6}\\nI can't believe it...\\n{\"bleepDuration\":3,\"bleepCount\":1}\\n...I'VE...\\n...JUST...\\n{\"bleepDuration\":2,\"bleepCount\":4}\\n...RESCUED!!!...\\n{\"bleepDuration\":1,\"bleepCount\":7}\\nYou can thank me. Your new life now begins.\\n{\"repeats\":true}\\nHead LEFT to meet my team!!"
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -12069,10 +12069,10 @@
 							"defUid": 204,
 							"px": [209,209],
 							"fieldInstances": [
-								{ "__identifier": "text", "__type": "String", "__value": "$ADL\nHey! Nice to see you/made it to us.\nI see you're equipped with/a LEFT arrow.\nWe need your help to reach/a bot on the left.\nIf you drill those blocks,/you can activate the elevator...\n...and reach the room on the left.\nSee if you can come back with the bot!\n$RLD\nNice job!...\n...\n...Did you bring them back?...\n...\n...Ok. Head down that elevator and/make your way back to the hub.\nWe'll take care of that bot.", "__tile": null, "defUid": 205, "realEditorValues": [{
+								{ "__identifier": "text", "__type": "String", "__value": "$ADL\n{\"bleepVoice\":\"BOT_LOW\"}\nHey! Nice to see you/made it to us.\nI see you're equipped with/a LEFT arrow.\nWe need your help to reach/a bot on the left.\nIf you drill those blocks,/you can activate the elevator...\n...and reach the room on the left.\nSee if you can come back with the bot!\n$RLD\nNice job!...\n...\n...Did you bring them back?...\n...\n...Ok. Head down that elevator and/make your way back to the hub.\nWe'll take care of that bot.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"$ADL\nHey! Nice to see you/made it to us.\nI see you're equipped with/a LEFT arrow.\nWe need your help to reach/a bot on the left.\nIf you drill those blocks,/you can activate the elevator...\n...and reach the room on the left.\nSee if you can come back with the bot!\n$RLD\nNice job!...\n...\n...Did you bring them back?...\n...\n...Ok. Head down that elevator and/make your way back to the hub.\nWe'll take care of that bot."
+										"$ADL\\n{\"bleepVoice\":\"BOT_LOW\"}\\nHey! Nice to see you/made it to us.\\nI see you're equipped with/a LEFT arrow.\\nWe need your help to reach/a bot on the left.\\nIf you drill those blocks,/you can activate the elevator...\\n...and reach the room on the left.\\nSee if you can come back with the bot!\\n$RLD\\nNice job!...\\n...\\n...Did you bring them back?...\\n...\\n...Ok. Head down that elevator and/make your way back to the hub.\\nWe'll take care of that bot."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -12135,7 +12135,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Hey! Saved bot found!\nGo talk to the boss/over there.\nHe'll tell you/what to do next.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hey! Saved bot found!\nGo talk to the boss/over there.\nHe'll tell you/what to do next."
+										"Hey! Saved bot found!\\nGo talk to the boss/over there.\\nHe'll tell you/what to do next."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },

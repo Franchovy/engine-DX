@@ -17,13 +17,17 @@ function Synth:init(scale, bleepsPerSecond)
     self.track:setInstrument(self.synth)
 end
 
+function Synth:setVoice(scale)
+    self.scale = scale or SCALES.DEFAULT
+end
+
 function Synth:play(note)
     local note = note or math.random(1, 12)
 
     self.synth:playNote(self.scale[note], 1.0, 0.1)
 end
 
-function Synth:playNotes(notes)
+function Synth:playNotes(notes, bleepsPerSecond)
     local notesToPlay
     if type(notes) == "number" then
         -- Fill out `notes` number of notes to play.
@@ -39,6 +43,8 @@ function Synth:playNotes(notes)
     -- Clear track, add notes to track
 
     self.track:clearNotes()
+    self.sequence:setTempo(bleepsPerSecond or self.tempo)
+
     for i, note in ipairs(notesToPlay) do
         self.track:addNote(i, self.scale[note], 1)
     end

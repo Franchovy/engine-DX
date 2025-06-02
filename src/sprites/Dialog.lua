@@ -92,13 +92,13 @@ function Dialog:init(entity)
     -- Utils
 
     local num = math.random(3)
-    local scale = {
+    local voices = {
         SCALES.BOT_LOW,
         SCALES.BOT_MEDIUM,
         SCALES.BOT_HIGH,
     }
     self.synth = Synth(
-        scale[num], 6 + num)
+        voices[num], 6 + num)
 
     -- Sprite setup
 
@@ -169,18 +169,8 @@ function Dialog:updateDialog()
 
         -- Read props
         if dialog.props then
-            local props = dialog.props
-
-            if props.repeats then
-                self.repeatLine = self.currentLine
-            end
-
-            if props.unlockCrank then
-                local player = Player.getInstance()
-                player:unlockCrank()
-            end
+            self:parseProps(dialog.props)
         end
-
 
         -- Set timer to handle next line / collapse
         if self.timer then
@@ -197,6 +187,10 @@ function Dialog:updateDialog()
             width,
             height
         )
+
+        -- Speak dialog
+
+        self:playDialogSound()
     else
         -- If line is last one, send event
         if #self.dialogs < self.currentLine and self.fields.levelEnd then
@@ -234,10 +228,13 @@ function Dialog:showNextLine()
     if self.timer then
         self.timer:reset()
     end
+end
 
-    -- Speak dialog
-
-    self.synth:playNotes(6)
+function Dialog:playDialogSound()
+    self.synth:playNotes(
+        self.bleepCount or 6,
+        9 / (self.bleepDuration or 1)
+    )
 end
 
 --- Called from the player class on collide.
@@ -274,7 +271,7 @@ function Dialog:expand()
 
     -- Play SFX
 
-    self.synth:playNotes(6)
+    --self:playDialogSound()
 
     -- Play speaking animation if not a rescue bot
     self:changeState(ANIMATION_STATES.Talking)
@@ -427,4 +424,37 @@ function Dialog:parseConditionIntoActions(conditionRaw)
     end
 
     return actions
+end
+
+function Dialog:parseProps(props)
+    -- Repeating line
+
+    if props.repeats then
+        self.repeatLine = self.currentLine
+    end
+
+    -- Unlockables
+
+    if props.unlockCrank then
+        local player = Player.getInstance()
+        player:unlockCrank()
+    end
+
+    -- Bleeps config
+
+    if props.bleepsPerSecond then
+        self.bleepsPerSecond = props.bleepsPerSecond
+    end
+
+    if props.bleepDuration then
+        self.bleepDuration = props.bleepDuration
+    end
+
+    if props.bleepCount then
+        self.bleepCount = props.bleepCount
+    end
+
+    if props.bleepVoice then
+        self.synth:setVoice(SCALES[props.bleepVoice])
+    end
 end
