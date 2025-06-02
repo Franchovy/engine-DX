@@ -1,0 +1,72 @@
+SCALES = {
+    PLAYER = {
+        [1] = "C5",
+        [2] = "D5",
+        [3] = "Eb5",
+        [4] = "F5",
+        [5] = "Gb5",
+        [6] = "Ab5",
+        [7] = "Bb5",
+        [8] = "C6",
+        [9] = "D6",
+        [10] = "Eb6",
+        [11] = "F6",
+        [12] = "Gb6",
+    },
+    DEFAULT = {
+        [1] = "C#5", -- Minor note
+        [2] = "D5",
+        [3] = "E5",  -- Minor note
+        [4] = "F5",
+        [5] = "G5",  -- Minor note
+        [6] = "A5",
+        [7] = "Bb5",
+        [8] = "C#6", -- Minor note
+        [9] = "D6",
+        [10] = "E6", -- Minor note
+        [11] = "F6",
+        [12] = "G6", -- Minor note
+    },
+    BOT_HIGH = {
+        [1] = "C#5", -- Minor note
+        [2] = "D5",
+        [3] = "E5",  -- Minor note
+        [4] = "F5",
+        [5] = "G5",  -- Minor note
+        [6] = "A5",
+        [7] = "Bb5",
+        [8] = "C#6", -- Minor note
+        [9] = "D6",
+        [10] = "E6", -- Minor note
+        [11] = "F6",
+        [12] = "G6", -- Minor note
+    },
+    BOT_MEDIUM = {
+        [1] = "C#4", -- C#5 down one octave
+        [2] = "D4",
+        [3] = "E4",  -- E5 down one octave
+        [4] = "F4",
+        [5] = "G4",  -- G5 down one octave
+        [6] = "A4",
+        [7] = "Bb4",
+        [8] = "C#5", -- C#6 down one octave
+        [9] = "D5",
+        [10] = "E5", -- E6 down one octave
+        [11] = "F5",
+        [12] = "G5"  -- G6 down one octave
+    },
+    BOT_LOW = {
+        [1] = "C#3", -- C#4 down one octave
+        [2] = "D3",
+        [3] = "E3",  -- E4 down one octave
+        [4] = "F3",
+        [5] = "G3",  -- G4 down one octave
+        [6] = "A3",
+        [7] = "Bb3",
+        [8] = "C#4", -- C#5 down one octave
+        [9] = "D4",
+        [10] = "E4", -- E5 down one octave
+        [11] = "F4",
+        [12] = "G4"  -- G6 down one octave
+    }
+}

@@ -15,7 +15,7 @@ local defaultSize <const> = 16
 local textMarginX <const>, textMarginY <const> = 10, 8
 local textMarginSpacing <const> = 4
 local distanceAboveSprite <const> = 20
-local durationDialog <const> = 3000
+local durationDialog <const> = 2000
 local collideRectSize <const> = 90
 
 local yOffset <const> = 16
@@ -88,6 +88,17 @@ function Dialog:init(entity)
     end
 
     self:playAnimation()
+
+    -- Utils
+
+    local num = math.random(3)
+    local scale = {
+        SCALES.BOT_LOW,
+        SCALES.BOT_MEDIUM,
+        SCALES.BOT_HIGH,
+    }
+    self.synth = Synth(
+        scale[num], 6 + num)
 
     -- Sprite setup
 
@@ -176,8 +187,6 @@ function Dialog:updateDialog()
             self.timer:remove()
         end
 
-        self.timer = playdate.timer.performAfterDelay(durationDialog, self.showNextLine, self)
-
         -- Set size and position
         local width, height = dialog.width + textMarginX * 2, dialog.height + textMarginY * 2 + 8
 
@@ -206,8 +215,12 @@ function Dialog:setupDialogBubble(text, x, y, width, height)
         z = Z_INDEX.Level.Overlay, -- z-index not implemented.
         width = width,
         height = height,
-        padding = 4,
-        nineSlice = nineSliceSpeech
+        padding = 8,
+        nineSlice = nineSliceSpeech,
+        speed = 2,
+        onPageComplete = function()
+            self.timer = playdate.timer.performAfterDelay(durationDialog, self.showNextLine, self)
+        end
     }
 
     pdDialogue.say(text, config)
@@ -221,6 +234,10 @@ function Dialog:showNextLine()
     if self.timer then
         self.timer:reset()
     end
+
+    -- Speak dialog
+
+    self.synth:playNotes(6)
 end
 
 --- Called from the player class on collide.
@@ -256,7 +273,8 @@ function Dialog:expand()
     self.isStateExpanded = true
 
     -- Play SFX
-    spSpeech:play(1)
+
+    self.synth:playNotes(6)
 
     -- Play speaking animation if not a rescue bot
     self:changeState(ANIMATION_STATES.Talking)
@@ -270,7 +288,9 @@ function Dialog:collapse()
     self.currentLine = self.repeatLine or 1
 
     -- Stop any ongoing timers
-    self.timer:pause()
+    if self.timer then
+        self.timer:pause()
+    end
 
     -- Play idle animation if not a rescue bot
     if not self.isRescuable then

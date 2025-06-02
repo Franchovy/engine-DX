@@ -2,7 +2,9 @@
 
 local gfx <const> = playdate.graphics
 
-function pdDialogueBox.buttonPrompt(x, y)
+local function buttonPromptReplacement(x, y)
     gfx.setImageDrawMode(gfx.kDrawModeCopy)
     gfx.getSystemFont():drawText("Ⓑ", x, y)
 end
+
+pdDialogueBox.buttonPrompt = buttonPromptReplacement

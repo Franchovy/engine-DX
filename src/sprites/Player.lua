@@ -145,7 +145,7 @@ function Player:init(entity)
 
     -- Utils
 
-    self.synth = Synth()
+    self.synth = Synth(SCALES.PLAYER)
 end
 
 function Player:postInit()
@@ -295,7 +295,7 @@ end
 
 function Player:setLevelEndReady()
     if self.crankWarpController then
-       self.crankWarpController:setEndGameLoop()
+        self.crankWarpController:setEndGameLoop()
     end
 end
 
@@ -405,7 +405,7 @@ function Player:update()
 
     -- Dialog
 
-    if self:justPressedInteractionKey() then
+    if self:justPressedInteractionKey() and not self.activeDialog then
         self.synth:play()
     elseif self:justReleasedInteractionKey() then
         self.synth:stop()
