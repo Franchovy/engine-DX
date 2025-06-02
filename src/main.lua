@@ -84,8 +84,6 @@ function playdate.update()
     gfx.sprite.update()
   end
 
-  pdDialogue:update()
-
   gfx.animation.blinker.updateAll()
 
   -- Update Scenes using Scene Manager

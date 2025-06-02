@@ -12089,7 +12089,7 @@
 						},
 						{
 							"__identifier": "Dialog",
-							"__grid": [11,4],
+							"__grid": [10,4],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
@@ -12098,7 +12098,7 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 204,
-							"px": [368,144],
+							"px": [336,144],
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Woohoo! Another bot saved!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
@@ -12116,7 +12116,7 @@
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
 							],
-							"__worldX": 6992,
+							"__worldX": 6960,
 							"__worldY": -16
 						},
 						{
@@ -12669,10 +12669,10 @@
 							"defUid": 204,
 							"px": [272,306],
 							"fieldInstances": [
-								{ "__identifier": "text", "__type": "String", "__value": "...My savior!!!\nThank you for having/come here.\n...\n...I am weak. But I must/tell you this...\nYou have a special power...\n...and not all will recognize it.\nI can explain to you/more later.\nYou need to help me...\n&R\n...take this RIGHT/arrow from me.\nNow USE THE CRANK to/help me get out of here.\nTurn it TOWARDS YOU/and you'll see.", "__tile": null, "defUid": 205, "realEditorValues": [{
+								{ "__identifier": "text", "__type": "String", "__value": "...My savior!!!\nThank you for having/come here.\n...\n...I am weak. But I must/tell you this...\nYou have a special power...\n...and not all will recognize it.\nI can explain to you/more later.\nYou need to help me...\n{\"giveChip\":\"Right\"}\n...take this RIGHT/arrow from me.\nNow USE THE CRANK to/help me get out of here.\nTurn it TOWARDS YOU/and you'll see.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"...My savior!!!\nThank you for having/come here.\n...\n...I am weak. But I must/tell you this...\nYou have a special power...\n...and not all will recognize it.\nI can explain to you/more later.\nYou need to help me...\n&R\n...take this RIGHT/arrow from me.\nNow USE THE CRANK to/help me get out of here.\nTurn it TOWARDS YOU/and you'll see."
+										"...My savior!!!\\nThank you for having/come here.\\n...\\n...I am weak. But I must/tell you this...\\nYou have a special power...\\n...and not all will recognize it.\\nI can explain to you/more later.\\nYou need to help me...\\n{\"giveChip\":\"Right\"}\\n...take this RIGHT/arrow from me.\\nNow USE THE CRANK to/help me get out of here.\\nTurn it TOWARDS YOU/and you'll see."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": true, "__tile": null, "defUid": 411, "realEditorValues": [{
@@ -12685,10 +12685,7 @@
 									"id": "V_Bool",
 									"params": [ false ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": "Right", "__tile": null, "defUid": 505, "realEditorValues": [{
-									"id": "V_String",
-									"params": ["Right"]
-								}] },
+								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [null] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": true, "__tile": null, "defUid": 527, "realEditorValues": [{

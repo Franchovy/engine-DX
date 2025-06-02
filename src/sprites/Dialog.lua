@@ -14,7 +14,7 @@ local spSpeech <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.sp
 local defaultSize <const> = 16
 local textMarginX <const>, textMarginY <const> = 10, 8
 local textMarginSpacing <const> = 4
-local distanceAboveSprite <const> = 20
+local distanceAboveSprite <const> = 6
 local durationDialog <const> = 2000
 local collideRectSize <const> = 90
 
@@ -178,14 +178,13 @@ function Dialog:updateDialog()
         end
 
         -- Set size and position
-        local width, height = dialog.width + textMarginX * 2, dialog.height + textMarginY * 2 + 8
+        local width = dialog.width + textMarginX * 2
 
         self:setupDialogBubble(
             dialog.text,
             self.x - width / 2,
-            self.y - distanceAboveSprite - height,
-            width,
-            height
+            self.y - distanceAboveSprite,
+            width
         )
 
         -- Speak dialog
@@ -202,22 +201,35 @@ function Dialog:updateDialog()
     end
 end
 
-function Dialog:setupDialogBubble(text, x, y, width, height)
+function Dialog:setupDialogBubble(text, x, y, width)
     local config = {
         x = x,
         y = y,
         z = Z_INDEX.Level.Overlay, -- z-index not implemented.
         width = width,
-        height = height,
         padding = 8,
         nineSlice = nineSliceSpeech,
-        speed = 2,
+        speed = 4.5,
         onPageComplete = function()
             self.timer = playdate.timer.performAfterDelay(durationDialog, self.showNextLine, self)
         end
     }
 
-    pdDialogue.say(text, config)
+    -- Clear previous dialog sprite
+
+    if self.dialogSprite then
+        self.dialogSprite:remove()
+    end
+
+    -- Create and add new dialog sprite
+
+    local dialogBox = pdDialogue.create(text, config)
+
+    self.dialogSprite = dialogBox:asSprite()
+
+    self.dialogSprite:setCenter(0.5, 1)
+    self.dialogSprite:moveTo(self:centerX(), self:top() - distanceAboveSprite)
+    self.dialogSprite:add()
 end
 
 function Dialog:showNextLine()
@@ -278,6 +290,9 @@ function Dialog:expand()
 end
 
 function Dialog:collapse()
+    self.dialogSprite:remove()
+    self.dialogSprite = nil
+
     -- Hide speech bubble
     self.isStateExpanded = false
 
@@ -374,7 +389,6 @@ function Dialog:parseTextIntoDialog(text)
             props = props,
             condition = condition,
             width = 0,
-            height = 0
         }
 
         -- Clear dynamic properties after use
@@ -385,19 +399,8 @@ function Dialog:parseTextIntoDialog(text)
 
         -- Calculate width and height of dialog box
 
-        local lineCount = 0
-        for line in string.gmatch(lineRaw, "[^/]+") do
-            -- Get dialog width by getting max width of all lines
-            local textWidth = font:getTextWidth(line)
-            if dialog.width < textWidth then
-                dialog.width = textWidth
-            end
-
-            lineCount += 1
-        end
-
-        -- Add dialog height based on num. lines
-        dialog.height = (font:getHeight() + textMarginSpacing) * lineCount
+        local textWidth = font:getTextWidth(lineRaw)
+        dialog.width = math.min(textWidth, 200)
 
         -- Add dialog to list
 
@@ -433,11 +436,16 @@ function Dialog:parseProps(props)
         self.repeatLine = self.currentLine
     end
 
-    -- Unlockables
+    -- Player Interactions
 
     if props.unlockCrank then
         local player = Player.getInstance()
         player:unlockCrank()
+    end
+
+    if props.giveChip then
+        local player = Player.getInstance()
+        player:pickUpBlueprint(props.giveChip)
     end
 
     -- Bleeps config

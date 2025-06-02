@@ -150,7 +150,7 @@ end
 function pdDialogue.getRows(height, font)
   font = font or gfx.getFont()
   local lineHeight = font:getHeight() + font:getLeading()
-  return math.floor(height / lineHeight)
+  return math.ceil(height / lineHeight)
 end
 
 function pdDialogue.getRowsf(height, font)
@@ -229,7 +229,7 @@ function pdDialogueBox:init(text, width, height, font)
     ]] --
 
   pdDialogueBox.super.init(self)
-  self.speed = 0.5   -- char per frame
+  self.speed = 0.5 -- char per frame
   self.padding = 2
   self.width = width
   self.height = height
