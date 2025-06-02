@@ -406,13 +406,9 @@ function Player:update()
 
     self:updateActivations()
 
-    -- Dialog
+    -- Dialog / Interactions
 
-    if self:justPressedInteractionKey() and not self.activeDialog then
-        self.synth:play()
-    elseif self:justReleasedInteractionKey() then
-        self.synth:stop()
-    end
+    self:updateInteractions()
 
     -- Skip movement handling if timer cooldown is active
 
@@ -576,15 +572,6 @@ function Player:updateActivations()
             self.activeDialog = otherSprite
 
             self.activeDialog:activate()
-
-            if self:justPressedInteractionKey() then
-                self.activeDialog:showNextLine()
-
-                if self.activeDialog:hasKey() then
-                    -- Get key
-                    self:pickUpBlueprint(self.activeDialog:getKey())
-                end
-            end
         end
 
         if tag == TAGS.SavePoint then
@@ -692,6 +679,18 @@ function Player:updateMovement()
         -- Handle Jump Release
 
         self.jumpTimeLeftInTicks = 0
+    end
+end
+
+function Player:updateInteractions()
+    if self.activeDialog and self:justPressedInteractionKey() then
+        self.activeDialog:showNextLine()
+    else
+        if self:justPressedInteractionKey() then
+            self.synth:play()
+        elseif self:justReleasedInteractionKey() then
+            self.synth:stop()
+        end
     end
 end
 

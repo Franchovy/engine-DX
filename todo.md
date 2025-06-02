@@ -1,1 +1,4 @@
 - All sprites should use the LDtk "pivot" notion and stop adjusting their own position/center. Remove hard-coded centering in ldtk extension
+- Flip option: Left, Right, Facing player
+- LDtk: Clean up dialog sprite
+- LDtk: Remove "Hint Crank" from levels

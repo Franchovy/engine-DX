@@ -5,6 +5,10 @@ LevelEnd = Class("LevelEnd", gfx.sprite)
 
 function LevelEnd:init(entity)
     LevelEnd.super.init(self)
+
+    -- Collisions
+
+    self:setGroups(GROUPS.Overlap)
 end
 
 function LevelEnd:activate()
