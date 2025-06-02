@@ -18,9 +18,12 @@ function SavePoint:init(entity)
 
     self:setCenter(0, 0.5)
     self:setScale(2)
+
+    -- Collisions
+
     self:setCollideRect(0, 0, self:getSize())
     self:setTag(TAGS.SavePoint)
-    self.collisionResponse = gfx.sprite.kCollisionTypeOverlap
+    self:setGroups(GROUPS.Overlap)
 
     -- State properties
 

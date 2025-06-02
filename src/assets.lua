@@ -19,6 +19,7 @@ _G.assets = {
         box = "assets/images/box",
         background = "assets/images/background",
         background2 = "assets/images/background-2",
+        drillableBlock = "assets/images/drillableblock",
         menu = {
             buttonAStart = "assets/images/menu/A-Start",
             buttonAContinue = "assets/images/menu/A-Continue",

@@ -94,13 +94,21 @@ function Player:init(entity)
     local imagetable = CONFIG.ADD_SUPER_DARKNESS_EFFECT and imagetablePlayerDarkness or imagetablePlayer
     Player.super.init(self, imagetable)
 
+    -- Set original spawn property on LDtk data
+
     entity.isOriginalPlayerSpawn = true
 
     -- AnimatedSprite states
 
     self:setupAnimationStates()
 
+    -- Collisions
+
+    self:setGroups(GROUPS.Player)
+    self:setCollidesWithGroups({ GROUPS.Solid, GROUPS.Overlap })
     self:setTag(TAGS.Player)
+
+    -- "Sub-States"
 
     self.activeDialog = false
     self.didPressedInvalidKey = false
@@ -162,6 +170,14 @@ function Player:postInit()
 
     if CONFIG.ADD_SUPER_DARKNESS_EFFECT then
         self:setZIndex(Z_INDEX.HUD.Main)
+    end
+end
+
+function Player:collisionResponse(other)
+    if other:getGroupMask() & GROUPS.Solid ~= 0 then
+        return gfx.sprite.kCollisionTypeSlide
+    else
+        return gfx.sprite.kCollisionTypeOverlap
     end
 end
 
@@ -366,19 +382,6 @@ end
 --------------------
 -- UPDATE METHODS --
 --------------------
-
-function Player:collisionResponse(other)
-    local tag = other:getTag()
-    if tag == TAGS.Wall or
-        tag == TAGS.ConveyorBelt or
-        tag == TAGS.Box or
-        tag == TAGS.DrillableBlock or
-        tag == TAGS.Elevator then
-        return gfx.sprite.kCollisionTypeSlide
-    else
-        return gfx.sprite.kCollisionTypeOverlap
-    end
-end
 
 -- Update Method
 

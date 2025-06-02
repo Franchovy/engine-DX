@@ -15,7 +15,11 @@ Elevator = Class("Elevator", gfx.sprite)
 function Elevator:init(entity)
   Elevator.super.init(self, imagetableElevator[1])
 
+  -- Collisions
+
   self:setTag(TAGS.Elevator)
+  self:setGroups({ GROUPS.Solid, GROUPS.Ground })
+  self:setCollidesWithGroups(GROUPS.Solid)
 
   -- Elevator-specific fields
 
@@ -41,17 +45,11 @@ function Elevator:postInit()
 end
 
 function Elevator:collisionResponse(other)
-  if other == self.spriteChild then
-    -- Avoid colliding with player
-    return gfx.sprite.kCollisionTypeOverlap
+  if other:getGroupMask() & GROUPS.Solid ~= 0 then
+    return gfx.sprite.kCollisionTypeSlide
   end
 
-  local tag = other:getTag()
-  if tag == TAGS.Dialog or tag == TAGS.SavePoint or tag == TAGS.Ability or tag == TAGS.Powerwall or tag == TAGS.ElevatorTrack then
-    return gfx.sprite.kCollisionTypeOverlap
-  end
-
-  return gfx.sprite.kCollisionTypeSlide
+  return gfx.sprite.kCollisionTypeOverlap
 end
 
 ---

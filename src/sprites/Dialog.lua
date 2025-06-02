@@ -102,6 +102,7 @@ function Dialog:init(entity)
 
     -- Sprite setup
 
+    self:setGroups(GROUPS.Overlap)
     self:setTag(TAGS.Dialog)
 
     -- Set whether is "rescuable"

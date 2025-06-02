@@ -63,7 +63,7 @@ function RigidBody:update()
     if collisionType == gfx.sprite.kCollisionTypeSlide then
       -- Detect if ground collision
 
-      if normal.y == -1 and PROPS.Ground[tag] then
+      if normal.y == -1 then
         self.onGround = true
       elseif normal.y == 1 then
         self.velocity.dy = 0

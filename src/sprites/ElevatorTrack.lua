@@ -38,7 +38,6 @@ function ElevatorTrack:init(entity, orientation)
     -- Set tag
 
     self:setTag(TAGS.ElevatorTrack)
-    self.collisionResponse = gfx.sprite.kCollisionTypeOverlap
 
     -- Create Tilemap
 

@@ -1,6 +1,6 @@
 local gfx <const> = playdate.graphics
 
-local imageSprite = gfx.image.new("assets/images/drillableblock")
+local imageSprite = assert(gfx.image.new(assets.images.drillableBlock))
 local spListBlockCrush = {
     [1] = playdate.sound.sampleplayer.new(assets.sounds.blockCrush[1]),
     [2] = playdate.sound.sampleplayer.new(assets.sounds.blockCrush[2]),
@@ -8,6 +8,7 @@ local spListBlockCrush = {
     [4] = playdate.sound.sampleplayer.new(assets.sounds.blockCrush[4])
 }
 
+--- @class DrillableBlock : ConsumableSprite
 DrillableBlock = Class("DrillableBlock", ConsumableSprite)
 
 local maxTicksToDrill = 15
@@ -16,12 +17,15 @@ function DrillableBlock:init(entity)
     DrillableBlock.super.init(self, entity)
 
     self:setImage(imageSprite)
+
+    -- Collisions
+
+    self:setGroups(GROUPS.Solid)
     self:setTag(TAGS.DrillableBlock)
 
+    -- Sub-state variables
+
     self.ticksToDrill = 0
-
-    -- Update variable to track if block is being actively drilled
-
     self.isActivating = false
 end
 

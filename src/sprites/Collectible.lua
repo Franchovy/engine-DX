@@ -12,7 +12,7 @@ function Collectible:init(entity)
     -- Collision Setup
 
     self:setTag(TAGS.Collectible)
-    self.collisionResponse = gfx.sprite.kCollisionTypeOverlap
+    self:setGroups(GROUPS.Overlap)
 
     -- Setup image using index provided in LDtk
 

@@ -24,6 +24,7 @@ function LDtk.loadAllLayersAsSprites(levelName)
                 local stiles = gfx.sprite.addWallSprites(tilemap, solidTiles)
                 for _, lsprite in ipairs(stiles) do
                     lsprite:setTag(TAGS.Wall)
+                    lsprite:setGroups({ GROUPS.Solid })
                     lsprite:moveBy(levelBounds.x, levelBounds.y)
                 end
             end
