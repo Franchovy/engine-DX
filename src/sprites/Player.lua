@@ -311,7 +311,7 @@ end
 
 function Player:setLevelEndReady()
     if self.crankWarpController then
-        self.crankWarpController:setEndGameLoop()
+        self.crankWarpController:setIsLooping()
     end
 end
 
@@ -439,12 +439,6 @@ function Player:update()
 
     self:updateAnimationState()
 
-    -- Update warp overlay
-
-    if self.crankWarpController then
-        self.crankWarpController:moveTo(self.x, self.y)
-    end
-
     -- Check if player is in top-left of level (overlap with GUI)
 
     self:updateGUIOverlap()
@@ -455,10 +449,50 @@ function Player:update()
 end
 
 function Player:updateWarp()
-    if self.crankWarpController and self.crankWarpController:hasTriggeredWarp() then
-        self:revertCheckpoint()
+    if not self.crankWarpController then
+        return
+    end
 
-        self.crankWarpController:resetWarp()
+    local crankChange = playdate.getCrankChange()
+    local direction = self.crankWarpController:getDirection()
+
+    if (direction == -1 or crankChange < 0) and not self.activeDialog then
+        -- If reverse direction but no dialog active, do nothing
+        return
+    end
+
+    -- Add crank movement
+
+    self.crankWarpController:addCrankMovement(crankChange)
+
+    -- Re-read crank direction
+
+    local directionNew = self.crankWarpController:getDirection()
+
+    if directionNew == 0 then
+        return
+    end
+
+    -- Position warp controller
+
+    if directionNew == -1 then
+        self.crankWarpController:moveTo(self.activeDialog.x, self.activeDialog.y)
+    elseif directionNew == 1 then
+        self.crankWarpController:moveTo(self.x, self.y)
+    end
+
+    -- Handle trigger
+
+    if self.crankWarpController:hasTriggered() then
+        if directionNew == -1 then
+            -- Rescue bot
+            self.activeDialog:activate()
+        elseif directionNew == 1 then
+            -- Revert checkpoint
+            self:revertCheckpoint()
+
+            self.crankWarpController:reset()
+        end
     end
 end
 

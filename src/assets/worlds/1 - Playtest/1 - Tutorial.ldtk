@@ -12072,7 +12072,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "$ADL\n{\"bleepVoice\":\"BOT_LOW\"}\nHey! Nice to see you/made it to us.\nI see you're equipped with/a LEFT arrow.\nWe need your help to reach/a bot on the left.\nIf you drill those blocks,/you can activate the elevator...\n...and reach the room on the left.\nSee if you can come back with the bot!\n$RLD\nNice job!...\n...\n...Did you bring them back?...\n...\n...Ok. Head down that elevator and/make your way back to the hub.\nWe'll take care of that bot.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"$ADL\\n{\"bleepVoice\":\"BOT_LOW\"}\\nHey! Nice to see you/made it to us.\\nI see you're equipped with/a LEFT arrow.\\nWe need your help to reach/a bot on the left.\\nIf you drill those blocks,/you can activate the elevator...\\n...and reach the room on the left.\\nSee if you can come back with the bot!\\n$RLD\\nNice job!...\\n...\\n...Did you bring them back?...\\n...\\n...Ok. Head down that elevator and/make your way back to the hub.\\nWe'll take care of that bot."
+										"$ADL\n{\"bleepVoice\":\"BOT_LOW\"}\nHey! Nice to see you/made it to us.\nI see you're equipped with/a LEFT arrow.\nWe need your help to reach/a bot on the left.\nIf you drill those blocks,/you can activate the elevator...\n...and reach the room on the left.\nSee if you can come back with the bot!\n$RLD\nNice job!...\n...\n...Did you bring them back?...\n...\n...Ok. Head down that elevator and/make your way back to the hub.\nWe'll take care of that bot."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -12135,7 +12135,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Hey! Saved bot found!\nGo talk to the boss/over there.\nHe'll tell you/what to do next.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hey! Saved bot found!\\nGo talk to the boss/over there.\\nHe'll tell you/what to do next."
+										"Hey! Saved bot found!\nGo talk to the boss/over there.\nHe'll tell you/what to do next."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -12672,7 +12672,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "...My savior!!!\nThank you for having/come here.\n...\n...I am weak. But I must/tell you this...\nYou have a special power...\n...and not all will recognize it.\nI can explain to you/more later.\nYou need to help me...\n{\"giveChip\":\"Right\"}\n...take this RIGHT/arrow from me.\nNow USE THE CRANK to/help me get out of here.\nTurn it TOWARDS YOU/and you'll see.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"...My savior!!!\\nThank you for having/come here.\\n...\\n...I am weak. But I must/tell you this...\\nYou have a special power...\\n...and not all will recognize it.\\nI can explain to you/more later.\\nYou need to help me...\\n{\"giveChip\":\"Right\"}\\n...take this RIGHT/arrow from me.\\nNow USE THE CRANK to/help me get out of here.\\nTurn it TOWARDS YOU/and you'll see."
+										"...My savior!!!\nThank you for having/come here.\n...\n...I am weak. But I must/tell you this...\nYou have a special power...\n...and not all will recognize it.\nI can explain to you/more later.\nYou need to help me...\n{\"giveChip\":\"Right\"}\n...take this RIGHT/arrow from me.\nNow USE THE CRANK to/help me get out of here.\nTurn it TOWARDS YOU/and you'll see."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": true, "__tile": null, "defUid": 411, "realEditorValues": [{

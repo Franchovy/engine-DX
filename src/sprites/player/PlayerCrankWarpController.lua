@@ -58,17 +58,31 @@ function PlayerCrankWarpController:isActive()
 end
 
 function PlayerCrankWarpController:update()
+    local crankChange = self.crankChange
+    local crankDirection = (crankChange > 0 and 1) or (crankChange < 0 and -1) or 0
+    local crankChangeAbsolute = math.abs(crankChange)
+
+    -- If crank has not started yet, then set crank direction.
+    if self.state == animationStates.none and self.crankMomentum == 0 then
+        self.crankDirection = crankDirection
+    end
+
+    if self.crankDirection == 0 then
+        return
+    end
+
     if self.isLoopingMode and self.state == animationStates.loop then
         -- In looping mode, we keep crank momentum constant
 
         self.crankMomentum = 90
     elseif self.state ~= animationStates.finish then
-        -- Get crank change
-        local crankChange = pd.getCrankChange()
-
         -- Increment totalCrankAngleToWarp
 
-        self.crankMomentum += crankChange
+        if self.crankDirection ~= crankDirection then
+            self.crankMomentum -= crankChangeAbsolute
+        else
+            self.crankMomentum += crankChangeAbsolute
+        end
 
         -- If in state start, apply resistance backwards.
         local resistanceCrankMomentum = (self.crankMomentum) * coefficientCrankResistance
@@ -91,6 +105,11 @@ function PlayerCrankWarpController:update()
             setState(self, animationStates.loop)
 
             -- Reset momentum - ensure the player is cranking
+            self.crankMomentum = 0
+        elseif self.crankMomentum < 1 then
+            -- Reset
+            setState(self, animationStates.none)
+
             self.crankMomentum = 0
         end
     elseif self.state == animationStates.loop then
@@ -145,21 +164,29 @@ function PlayerCrankWarpController:update()
 
     -- Return whether a warp has happened
 
-    self.hasWarped = self.index == indexesImageTableWarp[animationStates.loop]
+    self.didTrigger = self.index == indexesImageTableWarp[animationStates.loop]
 end
 
-function PlayerCrankWarpController:hasTriggeredWarp()
-    return self.hasWarped
+function PlayerCrankWarpController:addCrankMovement(crankChange)
+    self.crankChange = crankChange
 end
 
-function PlayerCrankWarpController:resetWarp()
-    self.hasWarped = false
+function PlayerCrankWarpController:getDirection()
+    return self.crankDirection
+end
+
+function PlayerCrankWarpController:hasTriggered()
+    return self.didTrigger
+end
+
+function PlayerCrankWarpController:reset()
+    self.didTrigger = false
 end
 
 function PlayerCrankWarpController:updateImage()
     self:setImage(imageTableWarp[self.index])
 end
 
-function PlayerCrankWarpController:setEndGameLoop()
+function PlayerCrankWarpController:setIsLooping()
     self.isLoopingMode = true
 end
