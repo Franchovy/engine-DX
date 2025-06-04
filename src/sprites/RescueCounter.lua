@@ -139,6 +139,8 @@ function SpriteRescueCounter:setSpriteRescued(number, spriteImageIndex)
 end
 
 function SpriteRescueCounter:loadRescuedSprites(rescuedSprites)
+    self:setRescueSpriteCount(#rescuedSprites)
+
     -- Clear current rescue states
     for i = 1, #stateSpriteCounters do
         stateSpriteCounters[i] = nil

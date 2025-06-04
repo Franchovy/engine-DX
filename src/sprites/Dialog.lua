@@ -253,7 +253,13 @@ end
 --- Called from the player class on collide.
 function Dialog:activate()
     self.isActivated = true
+end
 
+function Dialog:getShouldFreeze()
+    return self.fields.freeze == true
+end
+
+function Dialog:setRescued()
     if not self.isRescued and self.isRescuable then
         local indexSfx = math.random(1, #assets.sounds.robotSave)
         local spRescue = playdate.sound.sampleplayer.new(assets.sounds.robotSave[indexSfx])
@@ -270,8 +276,8 @@ function Dialog:activate()
     end
 end
 
-function Dialog:getShouldFreeze()
-    return self.fields.freeze == true
+function Dialog:getIsRescuable()
+    return self.isRescuable
 end
 
 function Dialog:expand()

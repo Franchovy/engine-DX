@@ -140,14 +140,11 @@ function Player:init(entity)
 
     -- Load abilities
 
-    local abilities = MemoryCard.getAbilities()
+    self.abilities = MemoryCard.getAbilities() or {}
 
     -- Create child sprites
 
-    if abilities and abilities.crankWarp then
-        self.crankWarpController = PlayerCrankWarpController()
-    end
-
+    self.crankWarpController = PlayerCrankWarpController()
     self.questionMark = PlayerQuestionMark(self)
     self.particlesDrilling = PlayerParticlesDrilling(self)
 
@@ -449,15 +446,16 @@ function Player:update()
 end
 
 function Player:updateWarp()
-    if not self.crankWarpController then
-        return
-    end
-
     local crankChange = playdate.getCrankChange()
     local direction = self.crankWarpController:getDirection()
 
-    if (direction == -1 or crankChange < 0) and not self.activeDialog then
-        -- If reverse direction but no dialog active, do nothing
+    -- If reverse direction but no dialog active, do nothing
+    if (direction == -1 or crankChange < 0) and not (self.activeDialog and self.activeDialog:getIsRescuable()) then
+        return
+    end
+
+    -- If forward direction but ability is not yet unlocked, do nothing
+    if not self.abilities.crankWarp and (direction == 1 or crankChange > 0) then
         return
     end
 
@@ -486,7 +484,7 @@ function Player:updateWarp()
     if self.crankWarpController:hasTriggered() then
         if directionNew == -1 then
             -- Rescue bot
-            self.activeDialog:activate()
+            self.activeDialog:setRescued()
         elseif directionNew == 1 then
             -- Revert checkpoint
             self:revertCheckpoint()

@@ -136,7 +136,9 @@ function Game:enter(previous, data)
 
         -- Set Save count
 
-        spriteRescueCounter:setRescueSpriteCount(levelData.saveCount or botsToRescueCountDefault)
+        if not spriteRescueCounter:getRescuedSprites() and levelData.saveCount then
+            spriteRescueCounter:setRescueSpriteCount(levelData.saveCount)
+        end
     end
 
     -- Add Parallax if required
@@ -365,7 +367,10 @@ function Game:savePointSet()
 
     MemoryCard.saveLevelCheckpoint(areaName, worldName, levelData)
 
-    MemoryCard.setLevelCompletion(areaName, worldName, { currentLevel = currentLevelName })
+    local spriteRescueCounter = SpriteRescueCounter.getInstance()
+    local rescuedSprites = spriteRescueCounter:getRescuedSprites()
+    MemoryCard.setLevelCompletion(areaName, worldName,
+        { currentLevel = currentLevelName, rescuedSprites = rescuedSprites })
 
     Checkpoint.clearAllPrevious()
 end
