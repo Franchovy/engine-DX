@@ -32,7 +32,9 @@ function LinkedList:append(state, index)
     end
 end
 
-function LinkedList:pop()
+function LinkedList:pop(count)
+    count = count or 1
+
     local index = self.last
 
     if index == nil then

@@ -8658,7 +8658,7 @@
 						},
 						{
 							"__identifier": "ButtonPickup",
-							"__grid": [19,6],
+							"__grid": [21,6],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
@@ -8667,12 +8667,12 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [624,208],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"px": [688,208],
+							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["Right"]
+								"params": ["Left"]
 							}] }],
-							"__worldX": 8592,
+							"__worldX": 8656,
 							"__worldY": 2256
 						},
 						{
@@ -8693,6 +8693,25 @@
 							}] }],
 							"__worldX": 8368,
 							"__worldY": 2160
+						},
+						{
+							"__identifier": "ButtonPickup",
+							"__grid": [19,6],
+							"__pivot": [0.5,0.5],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#15F1D3",
+							"iid": "7d364bf0-3740-11f0-b95f-3dd06ab4333f",
+							"width": 28,
+							"height": 28,
+							"defUid": 21,
+							"px": [624,208],
+							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
+								"id": "V_String",
+								"params": ["Right"]
+							}] }],
+							"__worldX": 8592,
+							"__worldY": 2256
 						}
 					]
 				},

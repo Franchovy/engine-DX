@@ -24,6 +24,7 @@ local levelBounds
 -- Timer for handling cooldown on checkpoint revert
 
 local timerCooldownCheckpoint
+local warpSpeed = 1
 
 -- Boolean to keep overlapping with GUI state
 
@@ -488,7 +489,16 @@ function Player:updateWarp()
     -- Handle trigger
 
     if crankChange > 5 then
-        self:revertCheckpoint()
+        for i = 1, math.floor(warpSpeed) do
+            self:revertCheckpoint()
+        end
+
+        -- If warping continuously, slowly update warpSpeed.
+        if timerCooldownCheckpoint then
+            warpSpeed += 0.05
+        end
+    elseif not timerCooldownCheckpoint then
+        warpSpeed = 1
     end
 
     if self.crankWarpController:hasTriggered() then
