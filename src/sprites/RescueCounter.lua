@@ -18,7 +18,7 @@ local maxSpriteCounters <const> = 7
 local spriteCounters <const> = {}
 
 ---@class {number:{value:bool?, indexSpriteImage:number}}
-local stateSpriteCounters <const> = {}
+local stateSpriteCounters = {}
 
 ---@class SpriteRescueCounter: playdate.graphics.sprite
 SpriteRescueCounter = Class("SpriteRescueCounter", gfx.sprite)
@@ -26,8 +26,6 @@ SpriteRescueCounter = Class("SpriteRescueCounter", gfx.sprite)
 local _instance
 
 function SpriteRescueCounter.getInstance() return _instance end
-
-function SpriteRescueCounter.destroy() _instance = nil end
 
 function SpriteRescueCounter:init()
     SpriteRescueCounter.super.init(self)
@@ -71,8 +69,6 @@ function SpriteRescueCounter:setRescueSpriteCount(count)
         "max rescuable sprites does not support a number higher than " .. maxSpriteCounters .. ".")
 
     self.rescueSpriteCount = count
-
-    self:setPositionsSpriteCounter()
 
     for i, spriteCounter in ipairs(spriteCounters) do
         -- Reset image state
@@ -145,6 +141,7 @@ function SpriteRescueCounter:loadRescuedSprites(rescuedSprites)
     for i = 1, #stateSpriteCounters do
         stateSpriteCounters[i] = nil
     end
+
     -- Set new rescue states
     for i, state in pairs(rescuedSprites) do
         if state.value then
@@ -153,6 +150,13 @@ function SpriteRescueCounter:loadRescuedSprites(rescuedSprites)
             self:resetSpriteRescued(i)
         end
     end
+end
+
+function SpriteRescueCounter:reset()
+    -- Clear rescued sprites
+    stateSpriteCounters = {}
+
+    self.rescueSpriteCount = 0
 end
 
 function SpriteRescueCounter:getRescuedSprites()

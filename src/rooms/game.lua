@@ -60,7 +60,10 @@ function Game.loadWorld(area, world)
 
         if dataProgress.rescuedSprites then
             local spriteRescueCounter = SpriteRescueCounter.getInstance()
+
             spriteRescueCounter:loadRescuedSprites(dataProgress.rescuedSprites)
+
+            spriteRescueCounter:setPositionsSpriteCounter()
         end
     end
 
@@ -127,18 +130,13 @@ function Game:enter(previous, data)
 
     local levelData = LDtk.get_custom_data(currentLevelName) or {}
 
-    -- Initial Load - only run once per world
-
-    if data.isInitialLoad then
-        -- Set up GUI
+    -- Set Save count & GUI
 
         local spriteRescueCounter = SpriteRescueCounter.getInstance()
-
-        -- Set Save count
-
-        if not spriteRescueCounter:getRescuedSprites() and levelData.saveCount then
+    if #spriteRescueCounter:getRescuedSprites() == 0 and levelData.saveCount then
             spriteRescueCounter:setRescueSpriteCount(levelData.saveCount)
-        end
+
+        spriteRescueCounter:setPositionsSpriteCounter()
     end
 
     -- Add Parallax if required
@@ -278,7 +276,7 @@ function Game:leave(next, ...)
 
         -- Clear rescued sprites
 
-        SpriteRescueCounter.destroy()
+        SpriteRescueCounter.getInstance():reset()
 
         -- Remove system/PD menu items
 
