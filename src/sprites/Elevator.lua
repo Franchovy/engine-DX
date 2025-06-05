@@ -177,6 +177,11 @@ function Elevator:updatePosition()
 end
 
 function Elevator:moveToTarget(targetX, targetY, orientation, spriteChild, downwardsOffset)
+  if targetX == self.x and targetY == self.y then
+    -- No movement occurred.
+    return false
+  end
+
   -- Clamp point to track bounds
   local destinationX, destinationY = self.track:clampElevatorPoint(targetX, targetY)
 
@@ -190,7 +195,8 @@ function Elevator:moveToTarget(targetX, targetY, orientation, spriteChild, downw
   local isCollisionCheckPassed, actualX, actualY = self:isCollisionCheckPassed(self, destinationX, destinationY,
     spriteChild)
 
-  if not isCollisionCheckPassed then
+  if not isCollisionCheckPassed or (actualX == self.x and actualY == self.y) then
+    -- No movement occurred.
     return false
   end
 

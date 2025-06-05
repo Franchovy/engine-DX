@@ -132,9 +132,9 @@ function Game:enter(previous, data)
 
     -- Set Save count & GUI
 
-        local spriteRescueCounter = SpriteRescueCounter.getInstance()
+    local spriteRescueCounter = SpriteRescueCounter.getInstance()
     if #spriteRescueCounter:getRescuedSprites() == 0 and levelData.saveCount then
-            spriteRescueCounter:setRescueSpriteCount(levelData.saveCount)
+        spriteRescueCounter:setRescueSpriteCount(levelData.saveCount)
 
         spriteRescueCounter:setPositionsSpriteCounter()
     end
@@ -374,6 +374,12 @@ function Game:savePointSet()
 end
 
 function Game:checkpointRevert()
+    if true then
+        -- Revert checkpoint
+        Checkpoint.goToPrevious()
+        return
+    end
+
     if not SpriteRescueCounter.getInstance():isAllSpritesRescued() then
         -- SFX
 

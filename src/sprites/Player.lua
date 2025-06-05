@@ -323,7 +323,7 @@ function Player:revertCheckpoint()
 
     -- Cooldown timer for checkpoint revert
 
-    timerCooldownCheckpoint = playdate.timer.new(500)
+    timerCooldownCheckpoint = playdate.timer.new(200)
     timerCooldownCheckpoint.timerEndedCallback = function(timer)
         timer:remove()
 
@@ -396,6 +396,10 @@ function Player:update()
     -- Checkpoint Handling
 
     self:updateWarp()
+
+    if timerCooldownCheckpoint then
+        return
+    end
 
     -- Activatable sprite interactions
 
@@ -483,15 +487,19 @@ function Player:updateWarp()
 
     -- Handle trigger
 
+    if crankChange > 5 then
+        self:revertCheckpoint()
+    end
+
     if self.crankWarpController:hasTriggered() then
         if directionNew == -1 then
             -- Rescue bot
             self.activeDialog:setRescued()
         elseif directionNew == 1 then
             -- Revert checkpoint
-            self:revertCheckpoint()
+            --self:revertCheckpoint()
 
-            self.crankWarpController:reset()
+            --self.crankWarpController:reset()
         end
     end
 end
@@ -783,6 +791,22 @@ function Player:updateCollisions()
 end
 
 function Player:updateCheckpointState()
+    if self.x ~= self.latestCheckpointPosition.x or self.y ~= self.latestCheckpointPosition.y then
+        self.latestCheckpointPosition.x = self.x
+        self.latestCheckpointPosition.y = self.y
+
+        self.checkpointHandler:pushState({
+            x = self.latestCheckpointPosition.x,
+            y = self.latestCheckpointPosition.y,
+            blueprints = table.deepcopy(self.blueprints)
+        })
+
+        Checkpoint.increment()
+        print(Checkpoint.getCheckpointNumber())
+    end
+
+    if true then return end
+
     local state = self.checkpointHandler:getStateCurrent()
     if state then
         -- Update the state directly. No need to push new
@@ -794,6 +818,7 @@ function Player:updateCheckpointState()
         if self.x ~= self.latestCheckpointPosition.x or self.y ~= self.latestCheckpointPosition.y then
             self.latestCheckpointPosition.x = self.x
             self.latestCheckpointPosition.y = self.y
+
             self.checkpointHandler:pushState({
                 x = self.latestCheckpointPosition.x,
                 y = self.latestCheckpointPosition.y,
