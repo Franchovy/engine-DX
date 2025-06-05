@@ -16,6 +16,7 @@ function RigidBody:init(sprite, config)
   self.gravity = config.gravity or gravity
   self.airFrictionCoefficient = config.airFrictionCoefficient or airFrictionCoefficient
   self.groundFrictionCoefficient = config.groundFrictionCoefficient or groundFrictionCoefficient
+  self.forcesCoefficient = 1
 
   -- Dynamic variables
 
@@ -43,11 +44,15 @@ function RigidBody:setVelocityY(dY)
   self.velocity.dy = dY
 end
 
+function RigidBody:setForcesCoefficient(c)
+  self.forcesCoefficient = c
+end
+
 function RigidBody:update()
   local sprite = self.sprite
 
   -- calculate new position by adding velocity to current position
-  local newPos = gmt.vector2D.new(sprite.x, sprite.y) + (self.velocity * _G.delta_time)
+  local newPos = gmt.vector2D.new(sprite.x, sprite.y) + (self.velocity * _G.delta_time * self.forcesCoefficient)
 
   local _, _, sdkCollisions = sprite:moveWithCollisions(newPos:unpack())
 
@@ -85,7 +90,8 @@ function RigidBody:update()
 
     -- Apply Ground Friction to x-axis movement
 
-    self.velocity.dx = self.velocity.dx + (self.velocity.dx * self.groundFrictionCoefficient * _G.delta_time)
+    self.velocity.dx = self.velocity.dx +
+        (self.velocity.dx * self.groundFrictionCoefficient * _G.delta_time)
   else
     -- Adds gravity vector to current velocity
 
@@ -93,8 +99,10 @@ function RigidBody:update()
 
     -- Apply Air Friction
 
-    self.velocity.dx = self.velocity.dx + (self.velocity.dx * self.airFrictionCoefficient * _G.delta_time)
-    self.velocity.dy = self.velocity.dy + (self.velocity.dy * self.airFrictionCoefficient * _G.delta_time)
+    self.velocity.dx = self.velocity.dx +
+        (self.velocity.dx * self.airFrictionCoefficient * _G.delta_time)
+    self.velocity.dy = self.velocity.dy +
+        (self.velocity.dy * self.airFrictionCoefficient * _G.delta_time)
   end
 
   -- If x velocity is very small, reduce to zero.

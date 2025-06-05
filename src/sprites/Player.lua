@@ -420,6 +420,7 @@ function Player:update()
 
     -- Update variables set by collisions
 
+
     self.isTouchingGroundPrevious = self.rigidBody:getIsTouchingGround()
     self.isTouchingPowerPrevious = self.isTouchingPower
     self.isTouchingPower = false
@@ -430,6 +431,8 @@ function Player:update()
     -- RigidBody update
 
     self:updateRigidBody()
+
+    self.rigidBody:setForcesCoefficient(1)
 
     -- Collisions Update
 
@@ -496,11 +499,16 @@ function Player:updateWarp()
     elseif directionNew == 1 and self.crankWarpController:isActivated() then
         crankMomentum = (crankChange + crankMomentum) * 0.85
 
-        if crankMomentum > 10 then
-            local warpSpeedFinal = math.min(crankMomentum / 400, 10)
-            for i = 1, math.ceil(warpSpeedFinal) do
+        local crankThresholdWarp = 100
+        if crankMomentum >= crankThresholdWarp then
+            local warpSpeedFinal = math.min(crankMomentum / crankThresholdWarp, 10)
+            for i = 1, math.floor(warpSpeedFinal) do
                 self:revertCheckpoint()
             end
+        elseif crankMomentum > 1 and crankMomentum < crankThresholdWarp then
+            local coefficient = ((crankThresholdWarp - crankMomentum) / crankThresholdWarp) ^ 2
+
+            self.rigidBody:setForcesCoefficient(coefficient)
         end
     end
 end
