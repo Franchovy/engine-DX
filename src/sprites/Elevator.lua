@@ -392,7 +392,8 @@ end
 function Elevator:handleCheckpointRevert(state)
   self.movement = 0
 
-  self:moveToAndSave(state.x, state.y)
+  self:moveTo(state.x, state.y)
+  self:savePosition()
 
   if state.levelName ~= self.levelName then
     self:enterLevel(state.levelName)
