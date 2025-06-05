@@ -8,6 +8,7 @@ local angleCrankToWarpTotal <const> = 300
 local coefficientCrankResistance <const> = 0.3
 local maxCrankResistanceStart <const> = 15
 local maxCrankResistanceLoop <const> = 25
+local ACTIVATED_INDEX <const> = 80
 
 local animationStates = {
     start = "start",
@@ -64,11 +65,11 @@ function PlayerCrankWarpController:update()
         return
     end
 
-    local crankDirection = (crankChange > 0 and 1) or (crankChange < 0 and -1) or 0
+    local crankDirection = (crankChange > 0.1 and 1) or (crankChange < -0.1 and -1) or 0
     local crankChangeAbsolute = math.abs(crankChange)
 
     -- If crank has not started yet, then set crank direction.
-    if self.state == animationStates.none and self.crankMomentum == 0 then
+    if self.state == animationStates.none and math.abs(self.crankMomentum) < 1 then
         self.crankDirection = crankDirection
     end
 
@@ -184,6 +185,10 @@ function PlayerCrankWarpController:hasTriggered()
     return self.didTrigger
 end
 
+function PlayerCrankWarpController:isActivated()
+    return self.index < ACTIVATED_INDEX
+end
+
 function PlayerCrankWarpController:reset()
     self.didTrigger = false
 end
@@ -194,4 +199,8 @@ end
 
 function PlayerCrankWarpController:setIsLooping()
     self.isLoopingMode = true
+end
+
+function PlayerCrankWarpController:getCrankMomentum()
+    return self.crankMomentum
 end

@@ -24,7 +24,7 @@ local levelBounds
 -- Timer for handling cooldown on checkpoint revert
 
 local timerCooldownCheckpoint
-local warpSpeed = 1
+local crankMomentum = 0
 
 -- Boolean to keep overlapping with GUI state
 
@@ -488,28 +488,19 @@ function Player:updateWarp()
 
     -- Handle trigger
 
-    if crankChange > 5 then
-        for i = 1, math.floor(warpSpeed) do
-            self:revertCheckpoint()
-        end
-
-        -- If warping continuously, slowly update warpSpeed.
-        if timerCooldownCheckpoint then
-            warpSpeed += 0.05
-        end
-    elseif not timerCooldownCheckpoint then
-        warpSpeed = 1
-    end
-
     if self.crankWarpController:hasTriggered() then
         if directionNew == -1 then
             -- Rescue bot
             self.activeDialog:setRescued()
-        elseif directionNew == 1 then
-            -- Revert checkpoint
-            --self:revertCheckpoint()
+        end
+    elseif directionNew == 1 and self.crankWarpController:isActivated() then
+        crankMomentum = (crankChange + crankMomentum) * 0.85
 
-            --self.crankWarpController:reset()
+        if crankMomentum > 10 then
+            local warpSpeedFinal = math.min(crankMomentum / 400, 10)
+            for i = 1, math.ceil(warpSpeedFinal) do
+                self:revertCheckpoint()
+            end
         end
     end
 end
@@ -812,29 +803,6 @@ function Player:updateCheckpointState()
         })
 
         Checkpoint.increment()
-        print(Checkpoint.getCheckpointNumber())
-    end
-
-    if true then return end
-
-    local state = self.checkpointHandler:getStateCurrent()
-    if state then
-        -- Update the state directly. No need to push new
-
-        state.x = self.x
-        state.y = self.y
-        state.blueprints = self.blueprints
-    else
-        if self.x ~= self.latestCheckpointPosition.x or self.y ~= self.latestCheckpointPosition.y then
-            self.latestCheckpointPosition.x = self.x
-            self.latestCheckpointPosition.y = self.y
-
-            self.checkpointHandler:pushState({
-                x = self.latestCheckpointPosition.x,
-                y = self.latestCheckpointPosition.y,
-                blueprints = table.deepcopy(self.blueprints)
-            })
-        end
     end
 end
 
@@ -849,7 +817,9 @@ function Player:updateAnimationState()
     local shouldSkipStateCheck = self.states[self.currentState].nextAnimation == ANIMATION_STATES.Idle
 
     if not shouldSkipStateCheck then
-        if self.rigidBody:getIsTouchingGround() then
+        if self.crankWarpController:getDirection() == 1 then
+            animationState = ANIMATION_STATES.Falling
+        elseif self.rigidBody:getIsTouchingGround() then
             if self.isActivatingDrillableBlock and self:isHoldingDownKey() then
                 animationState = ANIMATION_STATES.Drilling
             elseif self.didPressedInvalidKey then

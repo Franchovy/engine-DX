@@ -26,8 +26,6 @@ function Collectible:init(entity)
     -- Generate hash from image
 
     self:generateImageHash()
-
-    print(self.imageHash)
 end
 
 function Collectible:postInit()

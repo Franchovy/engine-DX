@@ -374,18 +374,7 @@ function Game:savePointSet()
 end
 
 function Game:checkpointRevert()
-    if true then
-        -- Revert checkpoint
-        Checkpoint.goToPrevious()
-        return
-    end
-
     if not SpriteRescueCounter.getInstance():isAllSpritesRescued() then
-        -- SFX
-
-        spWarpAction:play(1)
-        spCheckpointRevert:play(1)
-
         -- Revert checkpoint
         Checkpoint.goToPrevious()
     elseif not self.timerEndSceneTransition then
