@@ -150,7 +150,7 @@ function MemoryCard.setAbilities(data)
     fileData.abilities[k] = v
   end
 
-  saveData(fileData.abilities, SAVE_FILE.GameData)
+  saveData(fileData, SAVE_FILE.GameData)
 end
 
 -- User Preferences

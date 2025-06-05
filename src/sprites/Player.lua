@@ -140,7 +140,7 @@ function Player:init(entity)
 
     -- Load abilities
 
-    self.abilities = MemoryCard.getAbilities() or {}
+    self:loadAbilities()
 
     -- Create child sprites
 
@@ -335,14 +335,16 @@ function Player:revertCheckpoint()
     end
 end
 
+function Player:loadAbilities()
+    self.abilities = MemoryCard.getAbilities() or {}
+end
+
 function Player:unlockCrank()
-    -- Create crank warp controller child sprite
-
-    self.crankWarpController = PlayerCrankWarpController()
-
     -- Save ability to memory card
 
     MemoryCard.setAbilities({ crankWarp = true })
+
+    self:loadAbilities()
 end
 
 function Player:pickUpBlueprint(blueprint)

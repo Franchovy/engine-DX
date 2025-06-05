@@ -59,6 +59,11 @@ end
 
 function PlayerCrankWarpController:update()
     local crankChange = self.crankChange
+
+    if not crankChange then
+        return
+    end
+
     local crankDirection = (crankChange > 0 and 1) or (crankChange < 0 and -1) or 0
     local crankChangeAbsolute = math.abs(crankChange)
 
