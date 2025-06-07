@@ -5493,10 +5493,10 @@
 							"defUid": 204,
 							"px": [80,176],
 							"fieldInstances": [
-								{ "__identifier": "text", "__type": "String", "__value": "{\"bleepVoice\":\"BOT_LOW\",\"bleepCount\":6,\"bleepDuration\":1}\nI'm a low-pitched robot.\n{\"bleepDuration\":4,\"bleepCount\":4}\nI... love... video... games!", "__tile": null, "defUid": 205, "realEditorValues": [{
+								{ "__identifier": "text", "__type": "String", "__value": "{\"bleepVoice\":\"BOT_LOW\",\"bleepCount\":6,\"bleepDuration\":1}\nI'm a low-pitched robot.\n{\"bleepDuration\":4,\"bleepCount\":4}\nI... love... video... games!\n{\"bleepCount\":6,\"bleepDuration\":1}\nIf you keep talking to me, I'll clear the level for you.\n3...\n2...\n1...\n0.5...............................\n{\"worldComplete\": true}\n(jk) Level Clear!!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"{\"bleepVoice\":\"BOT_LOW\",\"bleepCount\":6,\"bleepDuration\":1}\\nI'm a low-pitched robot.\\n{\"bleepDuration\":4,\"bleepCount\":4}\\nI... love... video... games!"
+										"{\"bleepVoice\":\"BOT_LOW\",\"bleepCount\":6,\"bleepDuration\":1}\\nI'm a low-pitched robot.\\n{\"bleepDuration\":4,\"bleepCount\":4}\\nI... love... video... games!\\n{\"bleepCount\":6,\"bleepDuration\":1}\\nIf you keep talking to me, I'll clear the level for you.\\n3...\\n2...\\n1...\\n0.5...............................\\n{\"worldComplete\": true}\\n(jk) Level Clear!!"
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },

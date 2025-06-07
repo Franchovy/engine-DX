@@ -456,7 +456,7 @@ function Dialog:parseProps(props)
         player:pickUpBlueprint(props.giveChip)
     end
 
-    if props.levelEnd then
+    if props.worldComplete then
         Manager.emitEvent(EVENTS.WorldComplete)
     end
 
