@@ -9,7 +9,7 @@
 --- Remove string property "id"
 --- Add non-nullable (default value 0) integer property "index".
 - Rename Entity "ButtonPickup" to "Chip"
---- Rename field "ability" to "button"
+--- Rename field "blueprint" to "button"
 - Rename field "blueprints" for Entity "Player" to "chipSet"
 - enum "ObjectEnum":
 --- Remove options "crank" and "B"

@@ -356,19 +356,33 @@ function Game:worldComplete()
 
     -- Set level complete in data
 
-    spriteTransition:startTransitionWorldComplete()
+    spriteTransition:startTransitionWorldComplete(function()
+        -- Update level progress
 
-    -- Push next level
+        local saveData = { complete = true, currentLevel = LEVEL_NAME_INITIAL }
+        MemoryCard.setLevelCompletion(areaName, worldName, saveData)
 
+        -- Remove progress file
+        MemoryCard.clearLevelCheckpoint(areaName, worldName)
 
+        -- Get next level to play
 
-    --
+        local nextArea, nextWorld = ReadFile.getNextWorld(worldName, areaName)
 
-    local saveData = { complete = true, currentLevel = LEVEL_NAME_INITIAL }
-    MemoryCard.setLevelCompletion(areaName, worldName, saveData)
+        if nextArea and nextWorld then
+            -- Clear Player Instance
 
-    -- Remove progress file
-    MemoryCard.clearLevelCheckpoint(areaName, worldName)
+            Player.destroy()
+
+            -- Load next level
+
+            sceneManager.scenes.currentGame = Game()
+
+            Game.loadWorld(nextArea, nextWorld)
+
+            sceneManager:enter(sceneManager.scenes.currentGame, { isInitialLoad = true })
+        end
+    end)
 end
 
 function Game:updateChipSet(data)

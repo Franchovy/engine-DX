@@ -110,6 +110,27 @@ function ReadFile.getAreasCount()
     return #areas
 end
 
+function ReadFile.getNextWorld(worldName, areaName)
+    local areaIndex = areasR[areaName]
+    local worldIndex = worldsR[areaIndex][worldName]
+
+    local nextWorldName = worlds[areaName][worldIndex + 1]
+    if nextWorldName then
+        return areaName, nextWorldName
+    end
+
+    -- Next world
+    local nextAreaName = areas[areaIndex + 1]
+    local nextWorldName = nextAreaName and worlds[nextAreaName][1]
+
+    if nextAreaName and nextWorldName then
+        return nextAreaName, nextWorldName
+    end
+
+    -- Game finished
+    print("Game finished!")
+end
+
 ---@return number number of worlds in areas
 function ReadFile.getWorldsCount(indexArea)
     return #worlds[areas[indexArea]]
