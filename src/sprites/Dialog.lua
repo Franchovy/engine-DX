@@ -228,6 +228,7 @@ function Dialog:setupDialogBubble(text, x, y, width)
 
     self.dialogSprite = dialogBox:asSprite()
 
+    self.dialogSprite:setZIndex(Z_INDEX.HUD.Background)
     self.dialogSprite:setCenter(0.5, 1)
     self.dialogSprite:moveTo(self:centerX(), self:top() - distanceAboveSprite)
     self.dialogSprite:add()
@@ -272,7 +273,7 @@ function Dialog:setRescued()
         self.isRescued = true
         self.fields.isRescued = true
 
-        Manager.emitEvent(EVENTS.BotRescued, self, self.rescueNumber, self.fields.levelEnd)
+        Manager.emitEvent(EVENTS.BotRescued, self, self.rescueNumber)
     end
 end
 
@@ -453,6 +454,10 @@ function Dialog:parseProps(props)
     if props.giveChip then
         local player = Player.getInstance()
         player:pickUpBlueprint(props.giveChip)
+    end
+
+    if props.levelEnd then
+        Manager.emitEvent(EVENTS.WorldComplete)
     end
 
     -- Bleeps config

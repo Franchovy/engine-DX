@@ -43,6 +43,10 @@ function Background:draw(dirtyX, dirtyY, dirtyWidth, dirtyHeight)
 
         local imageX, imageY = self.paralaxOffsets[i], self.verticalOffsets[i]
 
+        if not imageX or not imageY then
+            goto continue
+        end
+
         local x, y, w, h
 
         if imageX < 0 then
@@ -56,6 +60,8 @@ function Background:draw(dirtyX, dirtyY, dirtyWidth, dirtyHeight)
 
         image:draw(drawX, drawY, gfx.kImageUnflipped, -imageX + drawX, drawY, drawWidth,
             drawHeight)
+
+        ::continue::
     end
 end
 

@@ -1,6 +1,6 @@
 TAGS = {
     Player = 1,
-    Ability = 2,
+    Chip = 2,
     Wall = 3,
     DrillableBlock = 4,
     Elevator = 5,

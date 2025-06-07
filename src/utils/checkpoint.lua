@@ -84,6 +84,8 @@ end
 CheckpointHandler = Class("CheckpointHandler")
 
 function CheckpointHandler.getOrCreate(id, sprite, initialState)
+    assert(sprite.handleCheckpointRevert, "Sprite needs to implement `handleCheckpointRevert(state) method.`")
+
     local checkpointHandlerExisting = checkpointHandlers[id]
     if checkpointHandlerExisting then
         -- Update sprite reference

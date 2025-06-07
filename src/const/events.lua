@@ -2,12 +2,12 @@ EVENTS = {
     Update = 'update',
     Draw = 'draw',
     LevelComplete = 'levelComplete', -- TODO: Rename, this is for level transitions.
-    UpdateBlueprints = 'updateBlueprints',
+    UpdateChipSet = 'updateChipSet',
     CheckpointRevert = 'checkpointRevert',
     CheckpointIncrement = 'checkpointIncrement',
     HideOrShowGUI = 'hideOrShowGui',
     BotRescued = 'botRescued',
     SavePointSet = 'savePointSet',
-    LevelEnd = 'levelEnd',
+    WorldComplete = 'worldComplete',
     CollectiblePickup = "collectiblePickup"
 }

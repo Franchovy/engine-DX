@@ -3456,7 +3456,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "I'm here to watch the elevator/in case anything goes wrong.\n...Unfortunately, it seems something/has gone deeply wrong.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"I'm here to watch the elevator/in case anything goes wrong.\\n...Unfortunately, it seems something/has gone deeply wrong."
+										"I'm here to watch the elevator/in case anything goes wrong.\n...Unfortunately, it seems something/has gone deeply wrong."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -4475,7 +4475,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Hey, welcome to the hub!\nGlad to have you with us, although/you seem to have caught us at a bad time.\nI'd show you around, but it's actually/pretty hard to move right now.\nProbably safer for me to stay right here.\nBut it seems you can go left, so I recommend/you see Z-0, our elder.\nThey're up in a tower further to the/left, upwards after the gate.\nThey'll be able to help you understand/more about your model...\n...who you are and where you came from.\nThat's it for me, I'll see you around soon!\nWatch your step!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hey, welcome to the hub!\\nGlad to have you with us, although/you seem to have caught us at a bad time.\\nI'd show you around, but it's actually/pretty hard to move right now.\\nProbably safer for me to stay right here.\\nBut it seems you can go left, so I recommend/you see Z-0, our elder.\\nThey're up in a tower further to the/left, upwards after the gate.\\nThey'll be able to help you understand/more about your model...\\n...who you are and where you came from.\\nThat's it for me, I'll see you around soon!\\nWatch your step!"
+										"Hey, welcome to the hub!\nGlad to have you with us, although/you seem to have caught us at a bad time.\nI'd show you around, but it's actually/pretty hard to move right now.\nProbably safer for me to stay right here.\nBut it seems you can go left, so I recommend/you see Z-0, our elder.\nThey're up in a tower further to the/left, upwards after the gate.\nThey'll be able to help you understand/more about your model...\n...who you are and where you came from.\nThat's it for me, I'll see you around soon!\nWatch your step!"
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -6409,7 +6409,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Hmmm... Trying to get to Z-0?\nNormally the elevators should help you up,/but it seems they're not working.\nUsually it's easy to move around the hub,/unlike the outside environments...\n...I wonder why that's not the case right now?\nMaybe the power's down or something?\nOh, since I can't move, that might be the case.\nWe should probably go check the power source.\nIt's on the right if you take the elevator,/and down from there.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hmmm... Trying to get to Z-0?\\nNormally the elevators should help you up,/but it seems they're not working.\\nUsually it's easy to move around the hub,/unlike the outside environments...\\n...I wonder why that's not the case right now?\\nMaybe the power's down or something?\\nOh, since I can't move, that might be the case.\\nWe should probably go check the power source.\\nIt's on the right if you take the elevator,/and down from there."
+										"Hmmm... Trying to get to Z-0?\nNormally the elevators should help you up,/but it seems they're not working.\nUsually it's easy to move around the hub,/unlike the outside environments...\n...I wonder why that's not the case right now?\nMaybe the power's down or something?\nOh, since I can't move, that might be the case.\nWe should probably go check the power source.\nIt's on the right if you take the elevator,/and down from there."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -7609,7 +7609,7 @@
 						},
 						{
 							"__identifier": "Player",
-							"__grid": [10,1],
+							"__grid": [11,1],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
@@ -7618,7 +7618,7 @@
 							"width": 20,
 							"height": 24,
 							"defUid": 19,
-							"px": [342,53],
+							"px": [353,53],
 							"fieldInstances": [{ "__identifier": "blueprints", "__type": "Array<LocalEnum.ObjectEnum>", "__value": [ "A", "Right", "Left" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
 								"id": "V_String",
 								"params": ["A"]
@@ -7629,7 +7629,7 @@
 								"id": "V_String",
 								"params": ["Left"]
 							} ] }],
-							"__worldX": 7510,
+							"__worldX": 7521,
 							"__worldY": 597
 						},
 						{

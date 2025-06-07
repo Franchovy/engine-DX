@@ -35,7 +35,10 @@ function LevelSelect:enter(previous, data)
     self.gridView = MenuGridView.new()
   end
 
-  systemMenu:addMenuItem("reset", MemoryCard.resetProgress)
+  systemMenu:addMenuItem("reset", function()
+    MemoryCard.resetProgress()
+    MemoryCard.clearAll()
+  end)
 end
 
 function LevelSelect:leave()

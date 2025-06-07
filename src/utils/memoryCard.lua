@@ -207,6 +207,6 @@ function _.buildWorldAlias(area, world)
   return area .. "/" .. world
 end
 
-function _.buildProgressSaveFilePath(area, world)
-  return SAVE_FILE.LevelSave .. "_" .. area .. "_" .. world
+function _.buildProgressSaveFilePath(area, world, includeExtension)
+  return SAVE_FILE.LevelSave .. "_" .. area .. "_" .. world .. (includeExtension and ".json" or "")
 end

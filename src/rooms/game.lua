@@ -183,6 +183,10 @@ function Game:enter(previous, data)
 
             MemoryCard.setShouldEnableMusic(shouldEnableMusic)
         end)
+
+        -- Set world not complete
+
+        self.isWorldComplete = false
     end
 
     -- Load level --
@@ -303,6 +307,12 @@ end
 -- Event-based methods
 
 function Game:levelComplete(data)
+    if self.isWorldComplete then
+        Player.getInstance():freeze()
+
+        return
+    end
+
     local direction = data.direction
     local coordinates = data.coordinates
 
@@ -320,7 +330,7 @@ function Game:levelComplete(data)
     end)
 end
 
-function Game:botRescued(bot, botNumber, levelEnd)
+function Game:botRescued(bot, botNumber)
     local spriteRescueCounter = SpriteRescueCounter.getInstance()
     spriteRescueCounter:setSpriteRescued(botNumber, bot.fields.spriteNumber)
 
@@ -328,19 +338,21 @@ function Game:botRescued(bot, botNumber, levelEnd)
     local rescuedSprites = spriteRescueCounter:getRescuedSprites()
     MemoryCard.setLevelCompletion(areaName, worldName, { rescuedSprites = rescuedSprites })
 
-    if spriteRescueCounter:isAllSpritesRescued() and levelEnd then
-        self:levelEnd()
+    if spriteRescueCounter:isAllSpritesRescued() then
+        self:worldComplete()
     end
 end
 
-function Game:levelEnd()
+function Game:worldComplete()
+    if self.isWorldComplete then
+        return
+    end
+
+    self.isWorldComplete = true
+
     -- Add on-screen text
 
     spriteGUILevelComplete:add()
-
-    -- Set player state to game end
-
-    Player.getInstance():setLevelEndReady()
 
     -- Set level complete in data
 
@@ -351,9 +363,16 @@ function Game:levelEnd()
     MemoryCard.clearLevelCheckpoint(areaName, worldName)
 end
 
-function Game:updateBlueprints()
+function Game:updateChipSet(data)
     local abilityPanel = GUIChipSet.getInstance()
-    abilityPanel:updateBlueprints()
+
+    if type(data) == "string" then
+        -- Add single chip
+        abilityPanel:addChip(data)
+    else
+        -- Update entire table
+        abilityPanel:updateChipSet(data.chipSet, data.isActive)
+    end
 end
 
 function Game:checkpointIncrement()

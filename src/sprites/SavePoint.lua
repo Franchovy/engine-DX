@@ -21,7 +21,6 @@ function SavePoint:init(entity)
 
     -- Collisions
 
-    self:setCollideRect(0, 0, self:getSize())
     self:setTag(TAGS.SavePoint)
     self:setGroups(GROUPS.Overlap)
 
@@ -37,6 +36,9 @@ function SavePoint:postInit()
     -- Update
 
     self:updateImage()
+
+    -- Update collision rect
+    self:setCollideRect(0, 0, self:getSize())
 end
 
 function SavePoint:update()
