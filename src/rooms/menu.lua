@@ -17,9 +17,6 @@ local spriteRobot
 local sceneManager
 local isFirstTimePlay
 
-local timerTitleAnimation
-local blinkerPressStart
-
 -- Level Selection
 
 Menu = Class("Menu", Room)
@@ -77,8 +74,6 @@ function Menu:enter(previous)
       end
     end
   end
-
-  print("Collectibles: " .. self.collectiblesCount)
 end
 
 function Menu:draw()

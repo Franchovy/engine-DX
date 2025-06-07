@@ -318,7 +318,7 @@ function Game:levelComplete(data)
 
     Player.getInstance():freeze()
 
-    spriteTransition:startTransition(direction, function()
+    spriteTransition:startTransitionLevelChange(direction, function()
         -- Load next level
 
         local nextLevel, nextLevelBounds = LDtk.getNeighborLevelForPos(currentLevelName, direction, coordinates)
@@ -350,11 +350,19 @@ function Game:worldComplete()
 
     self.isWorldComplete = true
 
-    -- Add on-screen text
+    -- Freeze Player
 
-    spriteGUILevelComplete:add()
+    Player.getInstance():freeze()
 
     -- Set level complete in data
+
+    spriteTransition:startTransitionWorldComplete()
+
+    -- Push next level
+
+
+
+    --
 
     local saveData = { complete = true, currentLevel = LEVEL_NAME_INITIAL }
     MemoryCard.setLevelCompletion(areaName, worldName, saveData)

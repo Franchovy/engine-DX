@@ -17,6 +17,8 @@ local loopParticlesRight = gfx.animation.loop.new(27, imagetableParticlesRight, 
 local fadeAnimatorIn = gfx.animator.new(160, 1, 0, playdate.easingFunctions.outCubic)
 local fadeAnimatorOut = gfx.animator.new(80, 0, 1, playdate.easingFunctions.inExpo)
 
+local fadeAnimatorWorldComplete = gfx.animator.new(1600, 1, 0, playdate.easingFunctions.inOutCubic)
+
 function Transition:init()
     Transition.super.init(self)
 
@@ -30,11 +32,12 @@ function Transition:init()
 
     -- Direction of flip
     self.flip = gfx.kImageUnflipped
+
     -- Which animationLoop to use (horizontal or vertical)
     self.loop = nil
 end
 
-function Transition:startTransition(direction, postTransitionCallback)
+function Transition:startTransitionLevelChange(direction, postTransitionCallback)
     self.phase = 1
     _.setDirection(self, direction)
 
@@ -44,22 +47,55 @@ function Transition:startTransition(direction, postTransitionCallback)
 
     fadeAnimatorIn:reset()
 
+    self.fader = fadeAnimatorIn
+
     playdate.timer.performAfterDelay(200, function()
         -- Post-transition animation
 
         self.phase = 2
 
-        postTransitionCallback()
+        if postTransitionCallback then
+            postTransitionCallback()
+        end
+
         sfxSwoosh:play()
 
         fadeAnimatorOut:reset()
+
+        self.fader = fadeAnimatorOut
 
         self.loop.frame = 1
     end)
 end
 
+function Transition:startTransitionWorldComplete(postTransitionCallback)
+    self.phase = 1
+
+    self:add()
+
+    -- Fade-out animation
+
+    fadeAnimatorWorldComplete:reset()
+
+    self.fader = fadeAnimatorWorldComplete
+
+    playdate.timer.performAfterDelay(1500, function()
+        -- Post-transition animation
+
+        if postTransitionCallback then
+            postTransitionCallback()
+        end
+
+        self.phase = 0
+
+        self:finish()
+    end)
+end
+
 function Transition:finish()
     self.isActive = false
+    self.loop = nil
+    self.fader = nil
 
     self:remove()
 
@@ -67,20 +103,22 @@ function Transition:finish()
 end
 
 function Transition:draw(x, y, width, height)
-    local fadeValue = self.phase == 1 and fadeAnimatorIn:currentValue() or fadeAnimatorOut:currentValue()
+    if self.fader then
+        local fadeValue = self.fader:currentValue()
 
-    gfx.setColor(gfx.kColorBlack)
-    gfx.setDitherPattern(fadeValue, gfx.image.kDitherTypeBayer8x8)
-    gfx.fillRect(0, 0, width, height)
-
-    self.loop:draw(0, 0, self.flip)
+        gfx.setColor(gfx.kColorBlack)
+        gfx.setDitherPattern(fadeValue, gfx.image.kDitherTypeBayer8x8)
+        gfx.fillRect(0, 0, width, height)
+    elseif self.loop then
+        self.loop:draw(0, 0, self.flip)
+    end
 end
 
 function Transition:update()
     if self.phase ~= 0 then
         self:markDirty()
 
-        if self.phase == 2 and not self.loop:isValid() then
+        if self.phase == 2 and self.loop and not self.loop:isValid() then
             self:finish()
         end
     end
