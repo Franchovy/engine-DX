@@ -2237,9 +2237,9 @@
 			"pivotY": 0.5,
 			"fieldDefs": [
 				{
-					"identifier": "blueprints",
+					"identifier": "chipSet",
 					"doc": null,
-					"__type": "Array<LocalEnum.ObjectEnum>",
+					"__type": "Array<LocalEnum.Buttons>",
 					"uid": 40,
 					"type": "F_Enum(37)",
 					"isArray": true,
@@ -2276,7 +2276,7 @@
 			]
 		},
 		{
-			"identifier": "ButtonPickup",
+			"identifier": "Chip",
 			"uid": 21,
 			"tags": [],
 			"exportToToc": false,
@@ -2310,9 +2310,9 @@
 			"pivotY": 0.5,
 			"fieldDefs": [
 				{
-					"identifier": "blueprint",
+					"identifier": "button",
 					"doc": null,
-					"__type": "LocalEnum.ObjectEnum",
+					"__type": "LocalEnum.Buttons",
 					"uid": 38,
 					"type": "F_Enum(37)",
 					"isArray": false,
@@ -2605,7 +2605,7 @@
 				{
 					"identifier": "button",
 					"doc": null,
-					"__type": "LocalEnum.ObjectEnum",
+					"__type": "LocalEnum.Buttons",
 					"uid": 505,
 					"type": "F_Enum(37)",
 					"isArray": false,
@@ -3190,17 +3190,13 @@
 		}
 	], "enums": [
 		{ "identifier": "TileEnum", "uid": 3, "values": [{ "id": "Solid", "tileRect": null, "color": 12470831 }], "iconTilesetUid": null, "externalRelPath": null, "externalFileChecksum": null, "tags": [] },
-		{ "identifier": "ObjectEnum", "uid": 37, "values": [
+		{ "identifier": "Buttons", "uid": 37, "values": [
 			{ "id": "Left", "tileRect": null, "color": 12470831 },
 			{ "id": "Right", "tileRect": null, "color": 14120515 },
 			{ "id": "Up", "tileRect": null, "color": 15389866 },
 			{ "id": "Down", "tileRect": null, "color": 14984818 },
-			{ "id": "A", "tileRect": null, "color": 7552569 },
-			{ "id": "B", "tileRect": null, "color": 4073265 },
-			{ "id": "Crank", "tileRect": null, "color": 16690740 }
-		], "iconTilesetUid": null, "externalRelPath": null, "externalFileChecksum": null, "tags": [] },
-		{ "identifier": "ConveyorDirection", "uid": 77, "values": [ { "id": "Left", "tileRect": null, "color": 16711870 }, { "id": "Right", "tileRect": null, "color": 1376511 } ], "iconTilesetUid": null, "externalRelPath": null, "externalFileChecksum": null, "tags": [] },
-		{ "identifier": "ElevatorOrientation", "uid": 208, "values": [ { "id": "Horizontal", "tileRect": null, "color": 16711680 }, { "id": "Vertical", "tileRect": null, "color": 1535 } ], "iconTilesetUid": null, "externalRelPath": null, "externalFileChecksum": null, "tags": [] }
+			{ "id": "A", "tileRect": null, "color": 7552569 }
+		], "iconTilesetUid": null, "externalRelPath": null, "externalFileChecksum": null, "tags": [] }
 	], "externalEnums": [], "levelFields": [
 		{
 			"identifier": "HintCrank",
@@ -3379,7 +3375,7 @@
 							"height": 24,
 							"defUid": 19,
 							"px": [209,268],
-							"fieldInstances": [{ "__identifier": "blueprints", "__type": "Array<LocalEnum.ObjectEnum>", "__value": [ "A", "Down", "Left" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
+							"fieldInstances": [{ "__identifier": "chipSet", "__type": "Array<LocalEnum.Buttons>", "__value": [ "A", "Down", "Left" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
 								"id": "V_String",
 								"params": ["A"]
 							}, {
@@ -3408,14 +3404,14 @@
 								{ "__identifier": "text", "__type": "String", "__value": "{\"bleepCount\":3, \"bleepVoice\":\"BOT_MEDIUM\"}\nHey!...\n{\"bleepCount\":6}\nI can't believe it...\n{\"bleepDuration\":3,\"bleepCount\":1}\n...I'VE...\n...JUST...\n{\"bleepDuration\":2,\"bleepCount\":4}\n...RESCUED!!!...\n{\"bleepDuration\":1,\"bleepCount\":7}\nYou can thank me. Your new life now begins.\n{\"repeats\":true}\nHead LEFT to meet my team!!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"{\"bleepCount\":3, \"bleepVoice\":\"BOT_MEDIUM\"}\nHey!...\n{\"bleepCount\":6}\nI can't believe it...\n{\"bleepDuration\":3,\"bleepCount\":1}\n...I'VE...\n...JUST...\n{\"bleepDuration\":2,\"bleepCount\":4}\n...RESCUED!!!...\n{\"bleepDuration\":1,\"bleepCount\":7}\nYou can thank me. Your new life now begins.\n{\"repeats\":true}\nHead LEFT to meet my team!!"
+										"{\"bleepCount\":3, \"bleepVoice\":\"BOT_MEDIUM\"}\\nHey!...\\n{\"bleepCount\":6}\\nI can't believe it...\\n{\"bleepDuration\":3,\"bleepCount\":1}\\n...I'VE...\\n...JUST...\\n{\"bleepDuration\":2,\"bleepCount\":4}\\n...RESCUED!!!...\\n{\"bleepDuration\":1,\"bleepCount\":7}\\nYou can thank me. Your new life now begins.\\n{\"repeats\":true}\\nHead LEFT to meet my team!!"
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -3695,7 +3691,7 @@
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -4237,7 +4233,7 @@
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": 4, "__tile": null, "defUid": 417, "realEditorValues": [{ "id": "V_Int", "params": [4] }] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -4266,7 +4262,7 @@
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 7, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [7] }] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -4289,13 +4285,13 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "The best part is...\nThis isn't even/a real puzzle!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["The best part is...\nThis isn't even/a real puzzle!"]
+									"params": ["The best part is...\\nThis isn't even/a real puzzle!"]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 6, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [6] }] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -5368,13 +5364,13 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Flowers!! ...\nCooool!!!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Flowers!! ...\nCooool!!!"]
+									"params": ["Flowers!! ...\\nCooool!!!"]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -5400,7 +5396,7 @@
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 5, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [5] }] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -5697,13 +5693,13 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "...\n...Where am I?...", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["...\n...Where am I?..."]
+									"params": ["...\\n...Where am I?..."]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": true, "__tile": null, "defUid": 506, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ true ]
@@ -5730,7 +5726,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Hey... boss? I think/I found one!\nTake this button from me/and hop on that elevator.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hey... boss? I think/I found one!\nTake this button from me/and hop on that elevator."
+										"Hey... boss? I think/I found one!\\nTake this button from me/and hop on that elevator."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -5740,7 +5736,7 @@
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [null] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [null] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -5763,7 +5759,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "You're gonna need/this A button...\nTake it and make that leap there.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["You're gonna need/this A button...\nTake it and make that leap there."]
+									"params": ["You're gonna need/this A button...\\nTake it and make that leap there."]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -5772,7 +5768,7 @@
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [null] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [null] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -5781,7 +5777,7 @@
 							"__worldY": 160
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [5,0],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -5792,7 +5788,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [190,30],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Left"]
 							}] }],
@@ -5800,7 +5796,7 @@
 							"__worldY": 30
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [4,0],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -5811,7 +5807,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [158,30],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Right"]
 							}] }],
@@ -5830,7 +5826,7 @@
 							"height": 24,
 							"defUid": 19,
 							"px": [246,21],
-							"fieldInstances": [{ "__identifier": "blueprints", "__type": "Array<LocalEnum.ObjectEnum>", "__value": [ "Left", "Right", "Down" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
+							"fieldInstances": [{ "__identifier": "chipSet", "__type": "Array<LocalEnum.Buttons>", "__value": [ "Left", "Right", "Down" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
 								"id": "V_String",
 								"params": ["Left"]
 							}, {
@@ -5844,7 +5840,7 @@
 							"__worldY": 21
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [12,9],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -5855,7 +5851,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [414,318],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Up"]
 							}] }],
@@ -5863,7 +5859,7 @@
 							"__worldY": 318
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [8,4],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -5874,7 +5870,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [286,158],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "A", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "A", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["A"]
 							}] }],
@@ -6301,7 +6297,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "You're gonna need/this A button...\nTake it and make that leap there.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["You're gonna need/this A button...\nTake it and make that leap there."]
+									"params": ["You're gonna need/this A button...\\nTake it and make that leap there."]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -6310,7 +6306,7 @@
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": "A", "__tile": null, "defUid": 505, "realEditorValues": [{
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "A", "__tile": null, "defUid": 505, "realEditorValues": [{
 									"id": "V_String",
 									"params": ["A"]
 								}] },
@@ -6548,13 +6544,13 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Hey, get down/over there.\nYou'll find help/down below.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Hey, get down/over there.\nYou'll find help/down below."]
+									"params": ["Hey, get down/over there.\\nYou'll find help/down below."]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -8039,14 +8035,14 @@
 								{ "__identifier": "text", "__type": "String", "__value": "...[Transmission Incoming]...\nHey! New guy!\nGet over to the front/of the ship. I'm gonna explain/what you need to do.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"...[Transmission Incoming]...\nHey! New guy!\nGet over to the front/of the ship. I'm gonna explain/what you need to do."
+										"...[Transmission Incoming]...\\nHey! New guy!\\nGet over to the front/of the ship. I'm gonna explain/what you need to do."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": true, "__tile": null, "defUid": 506, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ true ]
@@ -8073,7 +8069,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "You're one of the newer models,/so you better get back...\n...to the headquarters/fast. Do you remember how to move?\n...\nDo I have to explain.../the thing?\nYou don't seem to know what I'm/talking about. I'll put you on/the course.\nTake this left arrow and/go as far as you can.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"You're one of the newer models,/so you better get back...\n...to the headquarters/fast. Do you remember how to move?\n...\nDo I have to explain.../the thing?\nYou don't seem to know what I'm/talking about. I'll put you on/the course.\nTake this left arrow and/go as far as you can."
+										"You're one of the newer models,/so you better get back...\\n...to the headquarters/fast. Do you remember how to move?\\n...\\nDo I have to explain.../the thing?\\nYou don't seem to know what I'm/talking about. I'll put you on/the course.\\nTake this left arrow and/go as far as you can."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -8083,7 +8079,7 @@
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [null] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [null] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -8092,7 +8088,7 @@
 							"__worldY": 3008
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [21,5],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -8103,7 +8099,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [702,190],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Left"]
 							}] }],
@@ -9200,13 +9196,13 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "...I don't know what/just happened.\nThe whole thing just/exploded!!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["...I don't know what/just happened.\nThe whole thing just/exploded!!"]
+									"params": ["...I don't know what/just happened.\\nThe whole thing just/exploded!!"]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -9238,7 +9234,7 @@
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -9267,7 +9263,7 @@
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -9293,7 +9289,7 @@
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -9782,7 +9778,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "...I... don't know what happened!\nThe whole thing just/exploded!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["...I... don't know what happened!\nThe whole thing just/exploded!"]
+									"params": ["...I... don't know what happened!\\nThe whole thing just/exploded!"]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -9791,7 +9787,7 @@
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -10343,7 +10339,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "...Help me!...\n...I can't get out!...", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["...Help me!...\n...I can't get out!..."]
+									"params": ["...Help me!...\\n...I can't get out!..."]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": true, "__tile": null, "defUid": 411, "realEditorValues": [{
 									"id": "V_Bool",
@@ -10352,7 +10348,7 @@
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 1, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [1] }] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": 1, "__tile": null, "defUid": 417, "realEditorValues": [{ "id": "V_Int", "params": [1] }] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -10361,7 +10357,7 @@
 							"__worldY": 3328
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [3,3],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -10372,7 +10368,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [126,126],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Right"]
 							}] }],
@@ -10794,14 +10790,14 @@
 								{ "__identifier": "text", "__type": "String", "__value": "...Hey! How did you/get down there?\nYou gotta move, we just/lost a bot we need to rescue!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"...Hey! How did you/get down there?\nYou gotta move, we just/lost a bot we need to rescue!"
+										"...Hey! How did you/get down there?\\nYou gotta move, we just/lost a bot we need to rescue!"
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -11091,14 +11087,14 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Looks like you're one of/the new ones.\nDon't know what happened in/there, but it's not looking good.\nYou're... wait.\n...You're not like the others.\nYou've got a special power, you./You're one of the lucky ones.\nI'll explain later. Get back to/HQ and get yourself cleaned up.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Looks like you're one of/the new ones.\nDon't know what happened in/there, but it's not looking good.\nYou're... wait.\n...You're not like the others.\nYou've got a special power, you./You're one of the lucky ones.\nI'll explain later. Get back to/HQ and get yourself cleaned up."
+										"Looks like you're one of/the new ones.\\nDon't know what happened in/there, but it's not looking good.\\nYou're... wait.\\n...You're not like the others.\\nYou've got a special power, you./You're one of the lucky ones.\\nI'll explain later. Get back to/HQ and get yourself cleaned up."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": true, "__tile": null, "defUid": 508, "realEditorValues": [{
 									"id": "V_Bool",
@@ -11476,7 +11472,7 @@
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -11485,7 +11481,7 @@
 							"__worldY": -1088
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [16,10],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -11496,7 +11492,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [542,350],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "A", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "A", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["A"]
 							}] }],
@@ -11504,7 +11500,7 @@
 							"__worldY": -930
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [10,10],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -11515,7 +11511,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [350,350],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "A", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "A", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["A"]
 							}] }],
@@ -11523,7 +11519,7 @@
 							"__worldY": -930
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [23,5],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -11534,7 +11530,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [766,190],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Left"]
 							}] }],
@@ -11562,7 +11558,7 @@
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -11571,7 +11567,7 @@
 							"__worldY": -928
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [8,10],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -11582,7 +11578,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [286,350],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Right"]
 							}] }],
@@ -11884,7 +11880,7 @@
 							"__worldY": -416
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [3,0],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -11895,7 +11891,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [126,30],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Down", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Down", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Down"]
 							}] }],
@@ -11903,7 +11899,7 @@
 							"__worldY": -450
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [3,5],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -11914,7 +11910,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [126,190],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Up"]
 							}] }],
@@ -11922,7 +11918,7 @@
 							"__worldY": -290
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [3,9],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -11933,7 +11929,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [126,318],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "A", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "A", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["A"]
 							}] }],
@@ -12079,7 +12075,7 @@
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -12111,7 +12107,7 @@
 									"id": "V_Bool",
 									"params": [ false ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -12145,7 +12141,7 @@
 									"id": "V_Bool",
 									"params": [ false ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -12186,7 +12182,7 @@
 							"__worldY": 32
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [3,7],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -12197,7 +12193,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [112,238],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Up"]
 							}] }],
@@ -12232,7 +12228,7 @@
 							"height": 24,
 							"defUid": 19,
 							"px": [273,139],
-							"fieldInstances": [{ "__identifier": "blueprints", "__type": "Array<LocalEnum.ObjectEnum>", "__value": [ "A", "Down", "Left" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
+							"fieldInstances": [{ "__identifier": "chipSet", "__type": "Array<LocalEnum.Buttons>", "__value": [ "A", "Down", "Left" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
 								"id": "V_String",
 								"params": ["A"]
 							}, {
@@ -12326,7 +12322,7 @@
 							"__worldY": 32
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [18,8],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -12337,7 +12333,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [592,272],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Right"]
 							}] }],
@@ -12345,7 +12341,7 @@
 							"__worldY": 112
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [17,8],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -12356,7 +12352,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [560,272],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Up"]
 							}] }],
@@ -12743,7 +12739,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "...My savior!!!\nThank you for having/come here.\n...\n...I am weak. But I must/tell you this...\nYou have a special power...\n...and not all will recognize it.\nI can explain to you/more later.\nYou need to help me...\n{\"giveChip\":\"Right\"}\n...take this RIGHT/arrow from me.\nNow USE THE CRANK to/help me get out of here.\nTurn it TOWARDS YOU/and you'll see.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"...My savior!!!\nThank you for having/come here.\n...\n...I am weak. But I must/tell you this...\nYou have a special power...\n...and not all will recognize it.\nI can explain to you/more later.\nYou need to help me...\n{\"giveChip\":\"Right\"}\n...take this RIGHT/arrow from me.\nNow USE THE CRANK to/help me get out of here.\nTurn it TOWARDS YOU/and you'll see."
+										"...My savior!!!\\nThank you for having/come here.\\n...\\n...I am weak. But I must/tell you this...\\nYou have a special power...\\n...and not all will recognize it.\\nI can explain to you/more later.\\nYou need to help me...\\n{\"giveChip\":\"Right\"}\\n...take this RIGHT/arrow from me.\\nNow USE THE CRANK to/help me get out of here.\\nTurn it TOWARDS YOU/and you'll see."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": true, "__tile": null, "defUid": 411, "realEditorValues": [{
@@ -12756,7 +12752,7 @@
 									"id": "V_Bool",
 									"params": [ false ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [null] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [null] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": true, "__tile": null, "defUid": 527, "realEditorValues": [{
@@ -13232,7 +13228,7 @@
 							"__worldY": -64
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [3,6],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -13243,7 +13239,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [112,208],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "A", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "A", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["A"]
 							}] }],
@@ -13610,7 +13606,7 @@
 									"id": "V_Bool",
 									"params": [ false ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -13976,7 +13972,7 @@
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -14453,7 +14449,7 @@
 					"gridTiles": [],
 					"entityInstances": [
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [12,2],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -14464,7 +14460,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [399,79],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Right"]
 							}] }],
@@ -14746,7 +14742,7 @@
 							"height": 24,
 							"defUid": 19,
 							"px": [176,142],
-							"fieldInstances": [{ "__identifier": "blueprints", "__type": "Array<LocalEnum.ObjectEnum>", "__value": [ "Right", "Left", "Down" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
+							"fieldInstances": [{ "__identifier": "chipSet", "__type": "Array<LocalEnum.Buttons>", "__value": [ "Right", "Left", "Down" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
 								"id": "V_String",
 								"params": ["Right"]
 							}, {
@@ -14775,7 +14771,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Hey... We got a problem./Elevator's broke.\nThere's a tunnel on the RIGHT/that can get you back to HQ.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hey... We got a problem./Elevator's broke.\nThere's a tunnel on the RIGHT/that can get you back to HQ."
+										"Hey... We got a problem./Elevator's broke.\\nThere's a tunnel on the RIGHT/that can get you back to HQ."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
@@ -14785,7 +14781,7 @@
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -15048,7 +15044,7 @@
 					"gridTiles": [],
 					"entityInstances": [
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [10,10],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -15059,7 +15055,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [336,336],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Up"]
 							}] }],
@@ -15067,7 +15063,7 @@
 							"__worldY": 720
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [4,7],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -15078,7 +15074,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [145,241],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Right"]
 							}] }],
@@ -15654,14 +15650,14 @@
 								{ "__identifier": "text", "__type": "String", "__value": "The HQ is DOWN that tunnel.\nHowever, I heard sounds coming above...\nMight be worth checking out.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"The HQ is DOWN that tunnel.\nHowever, I heard sounds coming above...\nMight be worth checking out."
+										"The HQ is DOWN that tunnel.\\nHowever, I heard sounds coming above...\\nMight be worth checking out."
 									]
 								}] },
 								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -15670,7 +15666,7 @@
 							"__worldY": 499
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [11,5],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -15681,7 +15677,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [369,176],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Left"]
 							}] }],
@@ -15780,7 +15776,7 @@
 							"height": 24,
 							"defUid": 19,
 							"px": [34,133],
-							"fieldInstances": [{ "__identifier": "blueprints", "__type": "Array<LocalEnum.ObjectEnum>", "__value": [ "Down", "Up", "Right" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
+							"fieldInstances": [{ "__identifier": "chipSet", "__type": "Array<LocalEnum.Buttons>", "__value": [ "Down", "Up", "Right" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
 								"id": "V_String",
 								"params": ["Down"]
 							}, {
@@ -16183,7 +16179,7 @@
 							"__worldY": 512
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [8,7],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -16194,7 +16190,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [272,240],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Left"]
 							}] }],
@@ -16202,7 +16198,7 @@
 							"__worldY": 464
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [7,2],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -16213,7 +16209,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [240,82],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "A", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "A", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["A"]
 							}] }],
@@ -16221,7 +16217,7 @@
 							"__worldY": 306
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [10,4],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -16232,7 +16228,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [336,143],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Left"]
 							}] }],
@@ -16600,7 +16596,7 @@
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.ObjectEnum", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
+								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
 								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
 								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
 								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
@@ -16609,7 +16605,7 @@
 							"__worldY": 243
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [3,7],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -16620,7 +16616,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [112,239],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Right"]
 							}] }],
@@ -16628,7 +16624,7 @@
 							"__worldY": 399
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [3,6],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -16639,7 +16635,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [113,208],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Down", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Down", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Down"]
 							}] }],
@@ -16647,7 +16643,7 @@
 							"__worldY": 368
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [8,6],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -16658,7 +16654,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [272,209],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Up"]
 							}] }],
@@ -16933,7 +16929,7 @@
 							"__worldY": -192
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [13,3],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -16944,7 +16940,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [432,112],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Left"]
 							}] }],
@@ -16952,7 +16948,7 @@
 							"__worldY": -240
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [10,4],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -16963,7 +16959,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [336,144],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Down", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Down", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Down"]
 							}] }],
@@ -18618,7 +18614,7 @@
 							"__worldY": 1152
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [4,2],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -18629,7 +18625,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [144,80],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Up"]
 							}] }],
@@ -19064,7 +19060,7 @@
 							"__worldY": 880
 						},
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [1,3],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -19075,7 +19071,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [48,112],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Down", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Down", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Down"]
 							}] }],
@@ -19234,7 +19230,7 @@
 					"gridTiles": [],
 					"entityInstances": [
 						{
-							"__identifier": "ButtonPickup",
+							"__identifier": "Chip",
 							"__grid": [1,1],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -19245,7 +19241,7 @@
 							"height": 28,
 							"defUid": 21,
 							"px": [48,48],
-							"fieldInstances": [{ "__identifier": "blueprint", "__type": "LocalEnum.ObjectEnum", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Left"]
 							}] }],
