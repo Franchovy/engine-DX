@@ -364,6 +364,10 @@ function Game:worldComplete()
 
     Player.getInstance():freeze()
 
+    -- Clear out checkpoint handling
+
+    Checkpoint.clearAll()
+
     -- Fade out music
 
     FilePlayer:fadeOut(spriteTransition:getDelayFadeOutWorldComplete())
