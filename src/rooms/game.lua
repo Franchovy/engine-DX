@@ -364,6 +364,10 @@ function Game:worldComplete()
 
     Player.getInstance():freeze()
 
+    -- Fade out music
+
+    FilePlayer:fadeOut(spriteTransition:getDelayFadeOutWorldComplete())
+
     -- Set level complete in data
 
     spriteTransition:startTransitionWorldComplete(function()

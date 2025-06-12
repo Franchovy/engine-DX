@@ -19,6 +19,8 @@ local fadeAnimatorOut = gfx.animator.new(80, 0, 1, playdate.easingFunctions.inEx
 
 local fadeAnimatorWorldComplete = gfx.animator.new(1600, 1, 0, playdate.easingFunctions.inOutCubic)
 
+local delayFadeOutWorldComplete <const> = 1500
+
 function Transition:init()
     Transition.super.init(self)
 
@@ -79,7 +81,7 @@ function Transition:startTransitionWorldComplete(postTransitionCallback)
 
     self.fader = fadeAnimatorWorldComplete
 
-    playdate.timer.performAfterDelay(1500, function()
+    playdate.timer.performAfterDelay(delayFadeOutWorldComplete, function()
         -- Post-transition animation
 
         if postTransitionCallback then
@@ -90,6 +92,10 @@ function Transition:startTransitionWorldComplete(postTransitionCallback)
 
         self:finish()
     end)
+end
+
+function Transition:getDelayFadeOutWorldComplete()
+    return delayFadeOutWorldComplete
 end
 
 function Transition:finish()

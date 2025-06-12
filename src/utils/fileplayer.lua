@@ -23,6 +23,10 @@ function FilePlayer.play(file)
     self.fileplayer:play(0)
 end
 
+function FilePlayer:fadeOut(durationInMs)
+    self.fileplayer:setVolume(0.0, 0.0, durationInMs / 1000, self.stop, self)
+end
+
 function FilePlayer.stop()
     if self.fileplayer then
         self.fileplayer:stop()
