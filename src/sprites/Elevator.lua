@@ -42,6 +42,8 @@ function Elevator:postInit()
 
   self.checkpointHandler = CheckpointHandler.getOrCreate(self.id, self,
     { x = self.x, y = self.y, levelName = self.levelName })
+
+  self.latestCheckpointPosition = { x = 0, y = 0 }
 end
 
 function Elevator:collisionResponse(other)
@@ -61,15 +63,20 @@ function Elevator:getDirection()
   return self.track and self.track:getOrientation() or nil
 end
 
-function Elevator:savePosition()
+function Elevator:savePosition(skipSaveToCheckpoint)
   local x, y = self:getPosition()
 
   -- Update LDtk fields
   self.entity.world_position.x = x
   self.entity.world_position.y = y -- - levelBounds.y + TILE_SIZE / 2
 
-  -- Update checkpoint state
-  self.checkpointHandler:pushState({ x = x, y = y, levelName = self.levelName })
+  if not skipSaveToCheckpoint and (self.x ~= self.latestCheckpointPosition.x or self.y ~= self.latestCheckpointPosition.y) then
+    self.latestCheckpointPosition.x = self.x
+    self.latestCheckpointPosition.y = self.y
+
+    -- Update checkpoint state
+    self.checkpointHandler:pushState({ x = x, y = y, levelName = self.levelName })
+  end
 end
 
 function Elevator:update()
@@ -399,7 +406,7 @@ function Elevator:handleCheckpointRevert(state)
   self.movement = 0
 
   self:moveTo(state.x, state.y)
-  self:savePosition()
+  self:savePosition(true)
 
   if state.levelName ~= self.levelName then
     self:enterLevel(state.levelName)

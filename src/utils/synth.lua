@@ -7,6 +7,7 @@ function Synth:init(scale, bleepsPerSecond)
 
     -- Create synth
     self.synth = playdate.sound.synth.new()
+    self.synth:setVolume(0.5)
 
     -- Create sequence
     self.sequence = playdate.sound.sequence.new()

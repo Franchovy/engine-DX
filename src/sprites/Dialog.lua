@@ -8,6 +8,7 @@ local gfx <const> = playdate.graphics
 local nineSliceSpeech <const> = assert(gfx.nineSlice.new(assets.images.speech, 7, 7, 17, 17))
 local imageSpeechBButton <const> = assert(gfx.image.new(assets.images.speechBButton))
 local spSpeech <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.speech))
+local spCollect <const> = playdate.sound.sampleplayer.new(assets.sounds.collect)
 
 -- Constants
 
@@ -154,11 +155,11 @@ function Dialog:updateDialog()
         local dialog = self.dialogs[self.currentLine]
 
         if dialog.condition then
-            local player = Player.getInstance()
+            local guiChipSet = GUIChipSet.getInstance()
 
-            if player.blueprints[1] == dialog.condition[1]
-                and player.blueprints[2] == dialog.condition[2]
-                and player.blueprints[3] == dialog.condition[3] then
+            if guiChipSet.chipSet[1] == dialog.condition[1]
+                and guiChipSet.chipSet[2] == dialog.condition[2]
+                and guiChipSet.chipSet[3] == dialog.condition[3] then
                 -- Condition passed
             else
                 -- Condition failed
@@ -452,8 +453,9 @@ function Dialog:parseProps(props)
     end
 
     if props.giveChip then
-        local player = Player.getInstance()
-        player:pickUpBlueprint(props.giveChip)
+        spCollect:play()
+
+        Manager.emitEvent(EVENTS.UpdateChipSet, props.giveChip)
     end
 
     if props.worldComplete then
