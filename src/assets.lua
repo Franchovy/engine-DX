@@ -65,6 +65,7 @@ _G.assets = {
     },
     sounds = {
         collect = "assets/sfx/collect",
+        cheatUnlock = "assets/sfx/cheat-unlock",
         jump = "assets/sfx/jump",
         powerUp = "assets/sfx/power-up",
         powerDown = "assets/sfx/power-down",

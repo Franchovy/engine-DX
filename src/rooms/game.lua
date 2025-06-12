@@ -7,9 +7,6 @@ Game = Class("Game", Room)
 local sceneManager
 local systemMenu <const> = pd.getSystemMenu()
 
-local spCheckpointRevert <const> = sound.sampleplayer.new("assets/sfx/checkpoint-revert")
-local spWarpAction <const> = playdate.sound.sampleplayer.new(assets.sounds.warpAction)
-
 local worldName
 local areaName
 
@@ -183,6 +180,19 @@ function Game:enter(previous, data)
 
             MemoryCard.setShouldEnableMusic(shouldEnableMusic)
         end)
+
+        -- Cheats
+
+        self.guiCheatUnlock = GUICheatUnlock()
+
+        self.sprCode = Tanuk_CodeSequence(
+            { pd.kButtonDown, pd.kButtonDown, pd.kButtonUp, pd.kButtonLeft, pd.kButtonRight, pd.kButtonLeft, pd
+                .kButtonRight,
+                pd.kButtonB, pd.kButtonB, pd.kButtonA, pd.kButtonA },
+            function()
+                self:unlockCheat()
+                Player.getInstance():unlockCrank()
+            end)
 
         -- Set world not complete
 
@@ -415,16 +425,8 @@ function Game:savePointSet()
 end
 
 function Game:checkpointRevert()
-    if not SpriteRescueCounter.getInstance():isAllSpritesRescued() then
-        -- Revert checkpoint
-        Checkpoint.goToPrevious()
-    elseif not self.timerEndSceneTransition then
-        -- If all bots have been rescued, then finish the level.
-
-        self.timerEndSceneTransition = playdate.timer.performAfterDelay(3000, function()
-            sceneManager:enter(sceneManager.scenes.levelSelect)
-        end)
-    end
+    -- Revert checkpoint
+    Checkpoint.goToPrevious()
 end
 
 function Game:hideOrShowGui(shouldHide)
@@ -439,4 +441,12 @@ end
 
 function Game:collectiblePickup(collectibleIndex, collectibleHash)
     MemoryCard.setCollectiblePickup(collectibleIndex, collectibleHash)
+end
+
+function Game:unlockCheat()
+    self.guiCheatUnlock:add()
+
+    playdate.timer.performAfterDelay(5000, function()
+        self.guiCheatUnlock:remove()
+    end)
 end
