@@ -56,6 +56,12 @@ function DrillableBlock:update()
 end
 
 function DrillableBlock:handleCheckpointRevert(state)
+    if self.fields.consumed and not state.consumed then
+        local sfx = spListBlockCrush[math.random(1, 4)]
+        sfx:setOffset(0.3)
+        sfx:play(1, -1)
+    end
+
     DrillableBlock.super.handleCheckpointRevert(self, state)
 
     self:reset()

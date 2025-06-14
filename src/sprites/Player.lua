@@ -20,7 +20,7 @@ local levelBounds
 
 -- Timer for handling cooldown on checkpoint revert
 
-local timerCooldownCheckpoint
+local warpCooldown
 local crankMomentum = 0
 
 -- Boolean to keep overlapping with GUI state
@@ -257,7 +257,8 @@ function Player:enterLevel(levelName, direction)
     elseif direction == DIRECTION.BOTTOM then
         self:moveTo(self.x, levelBounds.y + 15)
     elseif direction == DIRECTION.TOP then
-        self:moveTo(self.x, levelBounds.bottom - 15)
+        -- Additional movement when jumping into bottom of level for reaching bottom tile
+        self:moveTo(self.x, levelBounds.bottom - 30)
     end
 
     -- Bring any parents with player (for elevator)
@@ -275,14 +276,14 @@ function Player:enterLevel(levelName, direction)
     -- TODO: - Can this code be removed?
     -- Set a cooldown timer to prevent key presses on enter
 
-    timerCooldownCheckpoint = playdate.timer.new(50)
-    timerCooldownCheckpoint.timerEndedCallback = function(timer)
+    warpCooldown = playdate.timer.new(50)
+    warpCooldown.timerEndedCallback = function(timer)
         timer:remove()
 
         -- Since there can be multiple checkpoint-reverts in sequence, we want to
         -- ensure we're not removing a timer that's not this one.
-        if timerCooldownCheckpoint == timer then
-            timerCooldownCheckpoint = nil
+        if warpCooldown == timer then
+            warpCooldown = nil
         end
     end
 end
@@ -298,14 +299,14 @@ function Player:revertCheckpoint()
 
     -- Cooldown timer for checkpoint revert
 
-    timerCooldownCheckpoint = playdate.timer.new(200)
-    timerCooldownCheckpoint.timerEndedCallback = function(timer)
+    warpCooldown = playdate.timer.new(200)
+    warpCooldown.timerEndedCallback = function(timer)
         timer:remove()
 
         -- Since there can be multiple checkpoint-reverts in sequence, we want to
         -- ensure we're not removing a timer that's not this one.
-        if timerCooldownCheckpoint == timer then
-            timerCooldownCheckpoint = nil
+        if warpCooldown == timer then
+            warpCooldown = nil
         end
     end
 end
@@ -341,10 +342,6 @@ function Player:update()
 
     self:updateWarp()
 
-    if timerCooldownCheckpoint then
-        return
-    end
-
     -- Activatable sprite interactions
 
     self.isActivatingElevator = false
@@ -359,14 +356,13 @@ function Player:update()
 
     -- Skip movement handling if timer cooldown is active
 
-    self:updateMovement()
+    if not warpCooldown then
+        self:updateMovement()
+    end
 
     -- Update variables set by collisions
 
-
     self.isTouchingGroundPrevious = self.rigidBody:getIsTouchingGround()
-    self.isTouchingPowerPrevious = self.isTouchingPower
-    self.isTouchingPower = false
     self.didPressedInvalidKey = false
     self.activationsBottom = {}
     self.activations = {}
@@ -395,7 +391,9 @@ function Player:update()
 
     -- Check if player has moved into another level
 
-    self:updateLevelChange()
+    if not warpCooldown then
+        self:updateLevelChange()
+    end
 end
 
 function Player:updateWarp()
@@ -445,9 +443,12 @@ function Player:updateWarp()
         local crankThresholdWarp = 100
         if crankMomentum >= crankThresholdWarp then
             local warpSpeedFinal = math.min(crankMomentum / crankThresholdWarp, 10)
+
             for i = 1, math.floor(warpSpeedFinal) do
                 self:revertCheckpoint()
             end
+
+            self.rigidBody:setForcesCoefficient(0.1)
         elseif crankMomentum > 1 and crankMomentum < crankThresholdWarp then
             local coefficient = ((crankThresholdWarp - crankMomentum) / crankThresholdWarp) ^ 2
 
@@ -551,7 +552,7 @@ function Player:updateActivations()
             -- we should be handling the multiple blueprints as a single checkpoint.
             -- But it's also useful for debugging.
 
-            if not timerCooldownCheckpoint then
+            if not warpCooldown then
                 otherSprite:activate()
             end
         elseif tag == TAGS.Dialog and not self.activeDialog then

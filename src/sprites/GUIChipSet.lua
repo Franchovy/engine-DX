@@ -4,6 +4,7 @@ local gmt <const> = pd.geometry
 
 local imagePanel <const> = gfx.image.new(assets.images.hudPanel)
 
+---@class GUIChipSet
 GUIChipSet = Class("GUIChipSet", gfx.sprite)
 
 -- Button images (from imagetable)
@@ -42,6 +43,8 @@ local timerAnimation = nil
 
 local _instance
 
+--- Returns the singleton instance of the GUIChipSet.
+--- @return GUIChipSet
 function GUIChipSet.getInstance() return _instance end
 
 function GUIChipSet.destroy() _instance = nil end
@@ -75,6 +78,7 @@ function GUIChipSet:init()
   self.checkpointHandler = CheckpointHandler.getOrCreate("GUIChipSet", self)
 
   self.isActive = true
+  self.isPermaActive = true
 
   -- Image button mask (for disabled chipset)
 
@@ -158,18 +162,7 @@ function GUIChipSet:updateChipSet(chipSet, isActive)
 
     -- Update button sprites
 
-    for i, sprite in ipairs(buttonSprites) do
-      if self.chipSet[i] then
-        -- Update image to correct button
-        local image = imageTableButtons[imageTableIndexes[self.chipSet[i]]]
-        sprite:setImage(image)
-        sprite:markDirty()
-
-        sprite:add()
-      else
-        sprite:remove()
-      end
-    end
+    self:updateButtonSprites()
   end
   -- Update active status
 
@@ -178,32 +171,14 @@ function GUIChipSet:updateChipSet(chipSet, isActive)
 
     -- Update button masks
 
-    for i, sprite in ipairs(buttonSprites) do
-      if self.chipSet[i] then
-        local image = sprite:getImage()
-
-        local imageMaskCurrent = image:getMaskImage()
-        local imageMaskNew
-
-        if self.isActive and imageMaskCurrent ~= imageButtonMaskDefault then
-          -- Set enabled appearance (using image mask)
-
-          imageMaskNew = imageButtonMaskDefault
-        elseif not self.isActive and imageMaskCurrent ~= imageButtonMaskFaded then
-          -- Set disabled appearance (using image mask)
-
-          imageMaskNew = imageButtonMaskFaded
-        end
-
-        -- Update appearance if needed
-        if imageMaskNew ~= nil then
-          image:setMaskImage(imageMaskNew)
-
-          sprite:markDirty()
-        end
-      end
-    end
+    self:updateButtonSpriteMasks()
   end
+end
+
+function GUIChipSet:setPermaActive(isActive)
+  self.isPermaActive = isActive
+
+  self:updateButtonSpriteMasks()
 end
 
 function GUIChipSet:addChip(chip)
@@ -230,7 +205,7 @@ function GUIChipSet:handleCheckpointRevert(state)
 end
 
 function GUIChipSet:getButtonEnabled(buttonToCheck)
-  if not self.isActive then
+  if not self.isPermaActive or not self.isActive then
     return true
   end
 
@@ -245,4 +220,56 @@ end
 
 function GUIChipSet:getIsActive()
   return self.isActive
+end
+
+function GUIChipSet:updateButtonSprites()
+  if not self.chipSet then
+    return
+  end
+
+  for i, sprite in ipairs(buttonSprites) do
+    if self.chipSet[i] then
+      -- Update image to correct button
+      local image = imageTableButtons[imageTableIndexes[self.chipSet[i]]]
+      sprite:setImage(image)
+
+      sprite:add()
+    else
+      sprite:remove()
+    end
+  end
+end
+
+function GUIChipSet:updateButtonSpriteMasks()
+  if not self.chipSet then
+    return
+  end
+
+  local isDisabled = not self.isPermaActive or not self.isActive
+
+  for i, sprite in ipairs(buttonSprites) do
+    if self.chipSet[i] then
+      local image = sprite:getImage()
+
+      local imageMaskCurrent = image:getMaskImage()
+      local imageMaskNew
+
+      if not isDisabled and imageMaskCurrent ~= imageButtonMaskDefault then
+        -- Set enabled appearance (using image mask)
+
+        imageMaskNew = imageButtonMaskDefault
+      elseif isDisabled and imageMaskCurrent ~= imageButtonMaskFaded then
+        -- Set disabled appearance (using image mask)
+
+        imageMaskNew = imageButtonMaskFaded
+      end
+
+      -- Update appearance if needed
+      if imageMaskNew ~= nil then
+        image:setMaskImage(imageMaskNew)
+
+        sprite:markDirty()
+      end
+    end
+  end
 end

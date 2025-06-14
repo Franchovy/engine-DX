@@ -185,19 +185,31 @@ function Game:enter(previous, data)
 
         self.guiCheatUnlock = GUICheatUnlock()
 
-        self.sprCode = Tanuk_CodeSequence(
+        -- Crank unlock cheat
+
+        self.guiCheatUnlock:addCheat(
             { pd.kButtonDown, pd.kButtonDown, pd.kButtonUp, pd.kButtonLeft, pd.kButtonRight, pd.kButtonLeft, pd
-                .kButtonRight,
-                pd.kButtonB, pd.kButtonB, pd.kButtonA, pd.kButtonA },
-            function()
-                self:unlockCheat()
-                Player.getInstance():unlockCrank()
-            end)
+                .kButtonRight, pd.kButtonB, pd.kButtonB, pd.kButtonA, pd.kButtonA },
+            function() Player.getInstance():unlockCrank() end
+        )
+        self.guiCheatUnlock:addCheat(
+            { pd.kButtonLeft, pd.kButtonRight, pd.kButtonRight, pd.kButtonLeft, pd
+                .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonA, pd.kButtonA },
+            function() print("Alt cheat") end
+        )
 
         -- Set world not complete
 
         self.isWorldComplete = false
+
+        -- Perma-power enabled/disabled
+
+        if levelData.power then
+            GUIChipSet.getInstance():setPermaActive(not levelData.power)
+        end
     end
+
+    self.guiCheatUnlock:add()
 
     -- Load level --
 
@@ -273,6 +285,10 @@ function Game:leave(next, ...)
             self.timerEndSceneTransition:remove()
             self.timerEndSceneTransition = nil
         end
+
+        -- Remove active cheats
+
+        self.guiCheatUnlock:clearAll()
 
         -- Clear ability panel
 
@@ -449,12 +465,4 @@ end
 
 function Game:collectiblePickup(collectibleIndex, collectibleHash)
     MemoryCard.setCollectiblePickup(collectibleIndex, collectibleHash)
-end
-
-function Game:unlockCheat()
-    self.guiCheatUnlock:add()
-
-    playdate.timer.performAfterDelay(5000, function()
-        self.guiCheatUnlock:remove()
-    end)
 end
