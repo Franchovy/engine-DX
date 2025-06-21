@@ -268,7 +268,7 @@ end
 --- Sets movement to be executed in the next update() call using vector.
 --- *param* key - the player input key direction (KEYNAMES)
 --- *returns* the distance covered in the activation.
-function Elevator:activate(spriteChild, key)
+function Elevator:activateDown(spriteChild, key)
   -- Set child sprite
 
   self.spriteChild = spriteChild

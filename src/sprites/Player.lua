@@ -107,7 +107,7 @@ function Player:init(entity)
     self.activeDialog = false
     self.didPressedInvalidKey = false
     self.activations = {}
-    self.activationsBottom = {}
+    self.activationsDown = {}
     self.activationsPrevious = {}
 
     -- Jumping mechanic variables
@@ -364,7 +364,7 @@ function Player:update()
 
     self.isTouchingGroundPrevious = self.rigidBody:getIsTouchingGround()
     self.didPressedInvalidKey = false
-    self.activationsBottom = {}
+    self.activationsDown = {}
     self.activations = {}
 
     -- RigidBody update
@@ -458,12 +458,12 @@ function Player:updateWarp()
 end
 
 function Player:updateActivations()
-    for i, otherSprite in ipairs(self.activationsBottom) do
+    for i, otherSprite in ipairs(self.activationsDown) do
         local tag = otherSprite:getTag()
         local isBelowCenter = self:centerX() < otherSprite:right() and self:centerX() > otherSprite:left()
 
         -- If there are two bottom activations, choose only the one that is directly below the player.
-        if #self.activationsBottom > 1 and not isBelowCenter then
+        if #self.activationsDown > 1 and not isBelowCenter then
             goto continue
         end
 
@@ -481,7 +481,7 @@ function Player:updateActivations()
 
                 -- Activate block drilling
 
-                otherSprite:activate()
+                otherSprite:activateDown()
 
                 -- If consumed or player stopped pressing, end animation.
                 if otherSprite:isConsumed() then
@@ -532,7 +532,7 @@ function Player:updateActivations()
                 otherSprite:disableCollisionsForFrame()
             else
                 -- Otherwise, activate elevator (set self as child)
-                otherSprite:activate(self, key)
+                otherSprite:activateDown(self, key)
 
                 if key or (not self.isActivatingElevator and otherSprite:hasMovedRemaining()) then
                     -- If activation happened or elevator is still moving with player
@@ -677,9 +677,9 @@ function Player:updateCollisions()
         end
 
         -- Bottom activations
-        if normal.y == -1 and (tag == TAGS.DrillableBlock or tag == TAGS.Elevator) then
+        if normal.y == -1 and other.activateDown then
             -- If colliding with bottom, activate
-            table.insert(self.activationsBottom, other)
+            table.insert(self.activationsDown, other)
         elseif other.activate then
             -- Other activations
             table.insert(self.activations, other)
