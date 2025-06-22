@@ -19,3 +19,11 @@ function pdDialogue.create(text, config)
 
     return pdDialogue.DialogueBox
 end
+
+-- Replace input handlers to remove default
+
+local function getInputHandlersReplacement()
+    return {}
+end
+
+pdDialogueBox.getInputHandlers = getInputHandlersReplacement

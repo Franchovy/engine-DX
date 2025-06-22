@@ -54,13 +54,15 @@ _G.assets = {
         },
         bots = {
             helper = "assets/images/bots/A",
-            [1] = "assets/images/bots/B",
-            [2] = "assets/images/bots/C",
-            [3] = "assets/images/bots/D",
-            [4] = "assets/images/bots/E",
-            [5] = "assets/images/bots/F",
-            [6] = "assets/images/bots/G",
-            [7] = "assets/images/bots/H",
+            ELDR = "assets/images/bots/ELDR",
+            RKD = "assets/images/bots/RKD",
+            ["1"] = "assets/images/bots/B",
+            ["2"] = "assets/images/bots/C",
+            ["3"] = "assets/images/bots/D",
+            ["4"] = "assets/images/bots/E",
+            ["5"] = "assets/images/bots/F",
+            ["6"] = "assets/images/bots/G",
+            ["7"] = "assets/images/bots/H",
         }
     },
     sounds = {

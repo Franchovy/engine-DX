@@ -11,7 +11,7 @@
 	"iid": "b12745f0-d7b0-11ee-9f72-7bc5a2cd12f0",
 	"jsonVersion": "1.5.3",
 	"appBuildId": 473703,
-	"nextUid": 560,
+	"nextUid": 562,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": "Free",
@@ -2455,84 +2455,10 @@
 					"tilesetUid": null
 				},
 				{
-					"identifier": "save",
-					"doc": null,
-					"__type": "Bool",
-					"uid": 411,
-					"type": "F_Bool",
-					"isArray": false,
-					"canBeNull": false,
-					"arrayMinLength": null,
-					"arrayMaxLength": null,
-					"editorDisplayMode": "Hidden",
-					"editorDisplayScale": 1,
-					"editorDisplayPos": "Above",
-					"editorLinkStyle": "StraightArrow",
-					"editorDisplayColor": null,
-					"editorAlwaysShow": false,
-					"editorShowInWorld": true,
-					"editorCutLongValues": true,
-					"editorTextSuffix": null,
-					"editorTextPrefix": null,
-					"useForSmartColor": false,
-					"exportToToc": false,
-					"searchable": false,
-					"min": null,
-					"max": null,
-					"regex": null,
-					"acceptFileTypes": null,
-					"defaultOverride": null,
-					"textLanguageMode": null,
-					"symmetricalRef": false,
-					"autoChainRef": true,
-					"allowOutOfLevelRef": true,
-					"allowedRefs": "OnlySame",
-					"allowedRefsEntityUid": null,
-					"allowedRefTags": [],
-					"tilesetUid": null
-				},
-				{
 					"identifier": "saveNumber",
 					"doc": null,
 					"__type": "Int",
 					"uid": 412,
-					"type": "F_Int",
-					"isArray": false,
-					"canBeNull": true,
-					"arrayMinLength": null,
-					"arrayMaxLength": null,
-					"editorDisplayMode": "Hidden",
-					"editorDisplayScale": 1,
-					"editorDisplayPos": "Above",
-					"editorLinkStyle": "StraightArrow",
-					"editorDisplayColor": null,
-					"editorAlwaysShow": false,
-					"editorShowInWorld": true,
-					"editorCutLongValues": true,
-					"editorTextSuffix": null,
-					"editorTextPrefix": null,
-					"useForSmartColor": false,
-					"exportToToc": false,
-					"searchable": false,
-					"min": null,
-					"max": null,
-					"regex": null,
-					"acceptFileTypes": null,
-					"defaultOverride": null,
-					"textLanguageMode": null,
-					"symmetricalRef": false,
-					"autoChainRef": true,
-					"allowOutOfLevelRef": true,
-					"allowedRefs": "OnlySame",
-					"allowedRefsEntityUid": null,
-					"allowedRefTags": [],
-					"tilesetUid": null
-				},
-				{
-					"identifier": "spriteNumber",
-					"doc": null,
-					"__type": "Int",
-					"uid": 417,
 					"type": "F_Int",
 					"isArray": false,
 					"canBeNull": true,
@@ -2603,11 +2529,11 @@
 					"tilesetUid": null
 				},
 				{
-					"identifier": "button",
+					"identifier": "asset",
 					"doc": null,
-					"__type": "LocalEnum.Buttons",
-					"uid": 505,
-					"type": "F_Enum(37)",
+					"__type": "String",
+					"uid": 560,
+					"type": "F_String",
 					"isArray": false,
 					"canBeNull": true,
 					"arrayMinLength": null,
@@ -2640,90 +2566,16 @@
 					"tilesetUid": null
 				},
 				{
-					"identifier": "noSprite",
+					"identifier": "points",
 					"doc": null,
-					"__type": "Bool",
-					"uid": 506,
-					"type": "F_Bool",
-					"isArray": false,
-					"canBeNull": false,
+					"__type": "Array<Point>",
+					"uid": 561,
+					"type": "F_Point",
+					"isArray": true,
+					"canBeNull": true,
 					"arrayMinLength": null,
 					"arrayMaxLength": null,
-					"editorDisplayMode": "Hidden",
-					"editorDisplayScale": 1,
-					"editorDisplayPos": "Above",
-					"editorLinkStyle": "StraightArrow",
-					"editorDisplayColor": null,
-					"editorAlwaysShow": false,
-					"editorShowInWorld": true,
-					"editorCutLongValues": true,
-					"editorTextSuffix": null,
-					"editorTextPrefix": null,
-					"useForSmartColor": false,
-					"exportToToc": false,
-					"searchable": false,
-					"min": null,
-					"max": null,
-					"regex": null,
-					"acceptFileTypes": null,
-					"defaultOverride": null,
-					"textLanguageMode": null,
-					"symmetricalRef": false,
-					"autoChainRef": true,
-					"allowOutOfLevelRef": true,
-					"allowedRefs": "OnlySame",
-					"allowedRefsEntityUid": null,
-					"allowedRefTags": [],
-					"tilesetUid": null
-				},
-				{
-					"identifier": "levelEnd",
-					"doc": null,
-					"__type": "Bool",
-					"uid": 508,
-					"type": "F_Bool",
-					"isArray": false,
-					"canBeNull": false,
-					"arrayMinLength": null,
-					"arrayMaxLength": null,
-					"editorDisplayMode": "Hidden",
-					"editorDisplayScale": 1,
-					"editorDisplayPos": "Above",
-					"editorLinkStyle": "StraightArrow",
-					"editorDisplayColor": null,
-					"editorAlwaysShow": false,
-					"editorShowInWorld": true,
-					"editorCutLongValues": true,
-					"editorTextSuffix": null,
-					"editorTextPrefix": null,
-					"useForSmartColor": false,
-					"exportToToc": false,
-					"searchable": false,
-					"min": null,
-					"max": null,
-					"regex": null,
-					"acceptFileTypes": null,
-					"defaultOverride": null,
-					"textLanguageMode": null,
-					"symmetricalRef": false,
-					"autoChainRef": true,
-					"allowOutOfLevelRef": true,
-					"allowedRefs": "OnlySame",
-					"allowedRefsEntityUid": null,
-					"allowedRefTags": [],
-					"tilesetUid": null
-				},
-				{
-					"identifier": "freeze",
-					"doc": null,
-					"__type": "Bool",
-					"uid": 527,
-					"type": "F_Bool",
-					"isArray": false,
-					"canBeNull": false,
-					"arrayMinLength": null,
-					"arrayMaxLength": null,
-					"editorDisplayMode": "Hidden",
+					"editorDisplayMode": "PointPath",
 					"editorDisplayScale": 1,
 					"editorDisplayPos": "Above",
 					"editorLinkStyle": "StraightArrow",
@@ -3404,17 +3256,13 @@
 								{ "__identifier": "text", "__type": "String", "__value": "{\"bleepCount\":3, \"bleepVoice\":\"BOT_MEDIUM\"}\nHey!...\n{\"bleepCount\":6}\nI can't believe it...\n{\"bleepDuration\":3,\"bleepCount\":1}\n...I'VE...\n...JUST...\n{\"bleepDuration\":2,\"bleepCount\":4}\n...RESCUED!!!...\n{\"bleepDuration\":1,\"bleepCount\":7}\nYou can thank me. Your new life now begins.\n{\"repeats\":true}\nHead LEFT to meet my team!!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"{\"bleepCount\":3, \"bleepVoice\":\"BOT_MEDIUM\"}\nHey!...\n{\"bleepCount\":6}\nI can't believe it...\n{\"bleepDuration\":3,\"bleepCount\":1}\n...I'VE...\n...JUST...\n{\"bleepDuration\":2,\"bleepCount\":4}\n...RESCUED!!!...\n{\"bleepDuration\":1,\"bleepCount\":7}\nYou can thank me. Your new life now begins.\n{\"repeats\":true}\nHead LEFT to meet my team!!"
+										"{\"bleepCount\":3, \"bleepVoice\":\"BOT_MEDIUM\"}\\nHey!...\\n{\"bleepCount\":6}\\nI can't believe it...\\n{\"bleepDuration\":3,\"bleepCount\":1}\\n...I'VE...\\n...JUST...\\n{\"bleepDuration\":2,\"bleepCount\":4}\\n...RESCUED!!!...\\n{\"bleepDuration\":1,\"bleepCount\":7}\\nYou can thank me. Your new life now begins.\\n{\"repeats\":true}\\nHead LEFT to meet my team!!"
 									]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 8656,
 							"__worldY": -271
@@ -3684,17 +3532,13 @@
 									"id": "V_String",
 									"params": ["Pretty cool stuff,/right?"]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 1, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [1] }] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": true, "__tile": null, "defUid": 432, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 1920,
 							"__worldY": -96
@@ -4229,14 +4073,10 @@
 									"id": "V_String",
 									"params": ["Try not to/get lost."]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": 4, "__tile": null, "defUid": 417, "realEditorValues": [{ "id": "V_Int", "params": [4] }] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 1184,
 							"__worldY": 64
@@ -4258,14 +4098,10 @@
 									"id": "V_String",
 									"params": ["Crank to see it all again!"]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 7, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [7] }] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 576,
 							"__worldY": 672
@@ -4285,16 +4121,12 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "The best part is...\nThis isn't even/a real puzzle!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["The best part is...\nThis isn't even/a real puzzle!"]
+									"params": ["The best part is...\\nThis isn't even/a real puzzle!"]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 6, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [6] }] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 608,
 							"__worldY": 224
@@ -5364,16 +5196,12 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Flowers!! ...\nCooool!!!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Flowers!! ...\nCooool!!!"]
+									"params": ["Flowers!! ...\\nCooool!!!"]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 1536,
 							"__worldY": 96
@@ -5392,14 +5220,10 @@
 							"px": [224,96],
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": null, "__tile": null, "defUid": 205, "realEditorValues": [] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 5, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [5] }] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 1536,
 							"__worldY": 96
@@ -5693,19 +5517,12 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "...\n...Where am I?...", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["...\n...Where am I?..."]
+									"params": ["...\\n...Where am I?..."]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": true, "__tile": null, "defUid": 506, "realEditorValues": [{
-									"id": "V_Bool",
-									"params": [ true ]
-								}] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": -480,
 							"__worldY": 288
@@ -5726,20 +5543,16 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Hey... boss? I think/I found one!\nTake this button from me/and hop on that elevator.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hey... boss? I think/I found one!\nTake this button from me/and hop on that elevator."
+										"Hey... boss? I think/I found one!\\nTake this button from me/and hop on that elevator."
 									]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": true, "__tile": null, "defUid": 432, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [null] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": -320,
 							"__worldY": 320
@@ -5759,19 +5572,15 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "You're gonna need/this A button...\nTake it and make that leap there.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["You're gonna need/this A button...\nTake it and make that leap there."]
+									"params": ["You're gonna need/this A button...\\nTake it and make that leap there."]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": true, "__tile": null, "defUid": 432, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [null] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": -256,
 							"__worldY": 160
@@ -6297,22 +6106,15 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "You're gonna need/this A button...\nTake it and make that leap there.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["You're gonna need/this A button...\nTake it and make that leap there."]
+									"params": ["You're gonna need/this A button...\\nTake it and make that leap there."]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": true, "__tile": null, "defUid": 432, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "A", "__tile": null, "defUid": 505, "realEditorValues": [{
-									"id": "V_String",
-									"params": ["A"]
-								}] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": -800,
 							"__worldY": 160
@@ -6544,16 +6346,12 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "Hey, get down/over there.\nYou'll find help/down below.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Hey, get down/over there.\nYou'll find help/down below."]
+									"params": ["Hey, get down/over there.\\nYou'll find help/down below."]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 160,
 							"__worldY": 128
@@ -8035,20 +7833,13 @@
 								{ "__identifier": "text", "__type": "String", "__value": "...[Transmission Incoming]...\nHey! New guy!\nGet over to the front/of the ship. I'm gonna explain/what you need to do.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"...[Transmission Incoming]...\nHey! New guy!\nGet over to the front/of the ship. I'm gonna explain/what you need to do."
+										"...[Transmission Incoming]...\\nHey! New guy!\\nGet over to the front/of the ship. I'm gonna explain/what you need to do."
 									]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": true, "__tile": null, "defUid": 506, "realEditorValues": [{
-									"id": "V_Bool",
-									"params": [ true ]
-								}] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 224,
 							"__worldY": 3104
@@ -8069,20 +7860,16 @@
 								{ "__identifier": "text", "__type": "String", "__value": "You're one of the newer models,/so you better get back...\n...to the headquarters/fast. Do you remember how to move?\n...\nDo I have to explain.../the thing?\nYou don't seem to know what I'm/talking about. I'll put you on/the course.\nTake this left arrow and/go as far as you can.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"You're one of the newer models,/so you better get back...\n...to the headquarters/fast. Do you remember how to move?\n...\nDo I have to explain.../the thing?\nYou don't seem to know what I'm/talking about. I'll put you on/the course.\nTake this left arrow and/go as far as you can."
+										"You're one of the newer models,/so you better get back...\\n...to the headquarters/fast. Do you remember how to move?\\n...\\nDo I have to explain.../the thing?\\nYou don't seem to know what I'm/talking about. I'll put you on/the course.\\nTake this left arrow and/go as far as you can."
 									]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": true, "__tile": null, "defUid": 432, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [null] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 480,
 							"__worldY": 3008
@@ -9196,16 +8983,12 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "...I don't know what/just happened.\nThe whole thing just/exploded!!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["...I don't know what/just happened.\nThe whole thing just/exploded!!"]
+									"params": ["...I don't know what/just happened.\\nThe whole thing just/exploded!!"]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": -960,
 							"__worldY": 3040
@@ -9227,17 +9010,13 @@
 									"id": "V_String",
 									"params": ["Gear up, fellas. This is gonna be a tough rescue."]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": true, "__tile": null, "defUid": 432, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": -1248,
 							"__worldY": 3040
@@ -9259,14 +9038,10 @@
 									"id": "V_String",
 									"params": ["...Never seen one like them..."]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": -1312,
 							"__worldY": 3040
@@ -9285,14 +9060,10 @@
 							"px": [480,128],
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": null, "__tile": null, "defUid": 205, "realEditorValues": [] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": -1376,
 							"__worldY": 3040
@@ -9778,19 +9549,15 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "...I... don't know what happened!\nThe whole thing just/exploded!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["...I... don't know what happened!\nThe whole thing just/exploded!"]
+									"params": ["...I... don't know what happened!\\nThe whole thing just/exploded!"]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": true, "__tile": null, "defUid": 432, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": -928,
 							"__worldY": 3008
@@ -10339,19 +10106,12 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "...Help me!...\n...I can't get out!...", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["...Help me!...\n...I can't get out!..."]
-								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": true, "__tile": null, "defUid": 411, "realEditorValues": [{
-									"id": "V_Bool",
-									"params": [ true ]
+									"params": ["...Help me!...\\n...I can't get out!..."]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 1, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [1] }] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": 1, "__tile": null, "defUid": 417, "realEditorValues": [{ "id": "V_Int", "params": [1] }] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": -1120,
 							"__worldY": 3328
@@ -10790,17 +10550,13 @@
 								{ "__identifier": "text", "__type": "String", "__value": "...Hey! How did you/get down there?\nYou gotta move, we just/lost a bot we need to rescue!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"...Hey! How did you/get down there?\nYou gotta move, we just/lost a bot we need to rescue!"
+										"...Hey! How did you/get down there?\\nYou gotta move, we just/lost a bot we need to rescue!"
 									]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": -768,
 							"__worldY": 3200
@@ -11087,20 +10843,13 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Looks like you're one of/the new ones.\nDon't know what happened in/there, but it's not looking good.\nYou're... wait.\n...You're not like the others.\nYou've got a special power, you./You're one of the lucky ones.\nI'll explain later. Get back to/HQ and get yourself cleaned up.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Looks like you're one of/the new ones.\nDon't know what happened in/there, but it's not looking good.\nYou're... wait.\n...You're not like the others.\nYou've got a special power, you./You're one of the lucky ones.\nI'll explain later. Get back to/HQ and get yourself cleaned up."
+										"Looks like you're one of/the new ones.\\nDon't know what happened in/there, but it's not looking good.\\nYou're... wait.\\n...You're not like the others.\\nYou've got a special power, you./You're one of the lucky ones.\\nI'll explain later. Get back to/HQ and get yourself cleaned up."
 									]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": true, "__tile": null, "defUid": 508, "realEditorValues": [{
-									"id": "V_Bool",
-									"params": [ true ]
-								}] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": -2080,
 							"__worldY": 3040
@@ -11462,20 +11211,13 @@
 							"px": [544,192],
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": null, "__tile": null, "defUid": 205, "realEditorValues": [] },
-								{ "__identifier": "save", "__type": "Bool", "__value": true, "__tile": null, "defUid": 411, "realEditorValues": [{
-									"id": "V_Bool",
-									"params": [ true ]
-								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 1, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [1] }] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": 7, "__tile": null, "defUid": 417, "realEditorValues": [{ "id": "V_Int", "params": [7] }] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": true, "__tile": null, "defUid": 432, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": -896,
 							"__worldY": -1088
@@ -11554,14 +11296,10 @@
 									"id": "V_String",
 									"params": ["...We can't/get up there!"]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": -1120,
 							"__worldY": -928
@@ -12068,17 +11806,13 @@
 								{ "__identifier": "text", "__type": "String", "__value": "$ADL\n{\"bleepVoice\":\"BOT_LOW\"}\nHey! Nice to see you/made it to us.\nI see you're equipped with/a LEFT arrow.\nWe need your help to reach/a bot on the left.\nIf you drill those blocks,/you can activate the elevator...\n...and reach the room on the left.\nSee if you can come back with the bot!\n$RLD\nNice job!...\n...\n...Did you bring them back?...\n...\n...Ok. Head down that elevator and/make your way back to the hub.\nWe'll take care of that bot.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"$ADL\n{\"bleepVoice\":\"BOT_LOW\"}\nHey! Nice to see you/made it to us.\nI see you're equipped with/a LEFT arrow.\nWe need your help to reach/a bot on the left.\nIf you drill those blocks,/you can activate the elevator...\n...and reach the room on the left.\nSee if you can come back with the bot!\n$RLD\nNice job!...\n...\n...Did you bring them back?...\n...\n...Ok. Head down that elevator and/make your way back to the hub.\nWe'll take care of that bot."
+										"$ADL\\n{\"bleepVoice\":\"BOT_LOW\"}\\nHey! Nice to see you/made it to us.\\nI see you're equipped with/a LEFT arrow.\\nWe need your help to reach/a bot on the left.\\nIf you drill those blocks,/you can activate the elevator...\\n...and reach the room on the left.\\nSee if you can come back with the bot!\\n$RLD\\nNice job!...\\n...\\n...Did you bring them back?...\\n...\\n...Ok. Head down that elevator and/make your way back to the hub.\\nWe'll take care of that bot."
 									]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 6833,
 							"__worldY": 49
@@ -12100,17 +11834,13 @@
 									"id": "V_String",
 									"params": ["Woohoo! Another bot saved!"]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ false ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 6960,
 							"__worldY": -16
@@ -12131,20 +11861,16 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Hey! Saved bot found!\nGo talk to the boss/over there.\nHe'll tell you/what to do next.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hey! Saved bot found!\nGo talk to the boss/over there.\nHe'll tell you/what to do next."
+										"Hey! Saved bot found!\\nGo talk to the boss/over there.\\nHe'll tell you/what to do next."
 									]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ false ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 7057,
 							"__worldY": -47
@@ -12739,26 +12465,16 @@
 								{ "__identifier": "text", "__type": "String", "__value": "...My savior!!!\nThank you for having/come here.\n...\n...I am weak. But I must/tell you this...\nYou have a special power...\n...and not all will recognize it.\nI can explain to you/more later.\nYou need to help me...\n{\"giveChip\":\"Right\"}\n...take this RIGHT/arrow from me.\nNow USE THE CRANK to/help me get out of here.\nTurn it TOWARDS YOU/and you'll see.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"...My savior!!!\nThank you for having/come here.\n...\n...I am weak. But I must/tell you this...\nYou have a special power...\n...and not all will recognize it.\nI can explain to you/more later.\nYou need to help me...\n{\"giveChip\":\"Right\"}\n...take this RIGHT/arrow from me.\nNow USE THE CRANK to/help me get out of here.\nTurn it TOWARDS YOU/and you'll see."
+										"...My savior!!!\\nThank you for having/come here.\\n...\\n...I am weak. But I must/tell you this...\\nYou have a special power...\\n...and not all will recognize it.\\nI can explain to you/more later.\\nYou need to help me...\\n{\"giveChip\":\"Right\"}\\n...take this RIGHT/arrow from me.\\nNow USE THE CRANK to/help me get out of here.\\nTurn it TOWARDS YOU/and you'll see."
 									]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": true, "__tile": null, "defUid": 411, "realEditorValues": [{
-									"id": "V_Bool",
-									"params": [ true ]
-								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 1, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [1] }] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": 6, "__tile": null, "defUid": 417, "realEditorValues": [{ "id": "V_Int", "params": [6] }] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ false ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [null] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": true, "__tile": null, "defUid": 527, "realEditorValues": [{
-									"id": "V_Bool",
-									"params": [ true ]
-								}] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 5712,
 							"__worldY": -46
@@ -13596,20 +13312,16 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Hey! Nice job getting rescued!\nLooks like you're able/to move by yourself...\n...see if you can drill DOWN on/those blocks over there.\n{\"repeats\":true}\nTry pressing DOWN/while on top of those blocks.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hey! Nice job getting rescued!\nLooks like you're able/to move by yourself...\n...see if you can drill DOWN on/those blocks over there.\n{\"repeats\":true}\nTry pressing DOWN/while on top of those blocks."
+										"Hey! Nice job getting rescued!\\nLooks like you're able/to move by yourself...\\n...see if you can drill DOWN on/those blocks over there.\\n{\"repeats\":true}\\nTry pressing DOWN/while on top of those blocks."
 									]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ false ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 8048,
 							"__worldY": -272
@@ -13965,17 +13677,13 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Hey there! Looks like/you're able to move...\n...see if you can use/that elevator to go DOWN.\n{\"repeats\":true}\nStand on top of the/elevator and press DOWN.\n$RUL\n...\nHow did you get back up here?\nYour chips are in the wrong order...\nI don't think I can help you.\n$LRU\n...\nHow did you get back up here?\nLooks like you're doing a better job than me.\n{\"giveChip\": \"A\"}\nTake this A chip.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hey there! Looks like/you're able to move...\n...see if you can use/that elevator to go DOWN.\n{\"repeats\":true}\nStand on top of the/elevator and press DOWN.\n$RUL\n...\nHow did you get back up here?\nYour chips are in the wrong order...\nI don't think I can help you.\n$LRU\n...\nHow did you get back up here?\nLooks like you're doing a better job than me.\n{\"giveChip\": \"A\"}\nTake this A chip."
+										"Hey there! Looks like/you're able to move...\\n...see if you can use/that elevator to go DOWN.\\n{\"repeats\":true}\\nStand on top of the/elevator and press DOWN.\\n$RUL\\n...\\nHow did you get back up here?\\nYour chips are in the wrong order...\\nI don't think I can help you.\\n$LRU\\n...\\nHow did you get back up here?\\nLooks like you're doing a better job than me.\\n{\"giveChip\": \"A\"}\\nTake this A chip."
 									]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 7536,
 							"__worldY": -207
@@ -14771,20 +14479,16 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Hey... We got a problem./Elevator's broke.\nThere's a tunnel on the RIGHT/that can get you back to HQ.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hey... We got a problem./Elevator's broke.\nThere's a tunnel on the RIGHT/that can get you back to HQ."
+										"Hey... We got a problem./Elevator's broke.\\nThere's a tunnel on the RIGHT/that can get you back to HQ."
 									]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": true, "__tile": null, "defUid": 432, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 6768,
 							"__worldY": 562
@@ -15650,17 +15354,13 @@
 								{ "__identifier": "text", "__type": "String", "__value": "The HQ is DOWN that tunnel.\nHowever, I heard sounds coming above...\nMight be worth checking out.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"The HQ is DOWN that tunnel.\nHowever, I heard sounds coming above...\nMight be worth checking out."
+										"The HQ is DOWN that tunnel.\\nHowever, I heard sounds coming above...\\nMight be worth checking out."
 									]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": false, "__tile": null, "defUid": 411, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 417, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 7152,
 							"__worldY": 499
@@ -16586,20 +16286,13 @@
 									"id": "V_String",
 									"params": ["...Thank you!!!"]
 								}] },
-								{ "__identifier": "save", "__type": "Bool", "__value": true, "__tile": null, "defUid": 411, "realEditorValues": [{
-									"id": "V_Bool",
-									"params": [ true ]
-								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 2, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [2] }] },
-								{ "__identifier": "spriteNumber", "__type": "Int", "__value": 1, "__tile": null, "defUid": 417, "realEditorValues": [{ "id": "V_Int", "params": [1] }] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": true, "__tile": null, "defUid": 432, "realEditorValues": [{
 									"id": "V_Bool",
 									"params": [ true ]
 								}] },
-								{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": null, "__tile": null, "defUid": 505, "realEditorValues": [] },
-								{ "__identifier": "noSprite", "__type": "Bool", "__value": false, "__tile": null, "defUid": 506, "realEditorValues": [] },
-								{ "__identifier": "levelEnd", "__type": "Bool", "__value": false, "__tile": null, "defUid": 508, "realEditorValues": [] },
-								{ "__identifier": "freeze", "__type": "Bool", "__value": false, "__tile": null, "defUid": 527, "realEditorValues": [] }
+								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 560, "realEditorValues": [] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 561, "realEditorValues": [] }
 							],
 							"__worldX": 7120,
 							"__worldY": 243

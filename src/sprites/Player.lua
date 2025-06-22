@@ -258,7 +258,10 @@ function Player:enterLevel(levelName, direction)
         self:moveTo(self.x, levelBounds.y + 15)
     elseif direction == DIRECTION.TOP then
         -- Additional movement when jumping into bottom of level for reaching bottom tile
-        self:moveTo(self.x, levelBounds.bottom - 30)
+        -- ... except if moving up with elevator.
+
+        local additionalBottomOffset = self.isActivatingElevator and 0 or 15
+        self:moveTo(self.x, levelBounds.bottom - 15 - additionalBottomOffset)
     end
 
     -- Bring any parents with player (for elevator)

@@ -78,6 +78,10 @@ function Game.getLevelName()
     return currentLevelName
 end
 
+function Game.getLevelBounds()
+    return LDtk.get_rect(currentLevelName)
+end
+
 -- Private Methods
 
 local function goToStart()

@@ -6,6 +6,12 @@
 - Edit custom fields (for levels):
 --- Delete "HintCrank" field
 --- Add boolean field "power", nullable and false by default.
+- Entity "Dialog":
+--- Remove field "save", "button", "freeze"
+--- Replace field "spriteNumber" (int) with nullable string field "asset"
+--- ** NOTE: do not confuse with "saveNumber" - which signifies the order in which the
+--- ** sprites must be rescued.
+--- Add Array-Point field "points"
 
 # Version 0.1.3
 
