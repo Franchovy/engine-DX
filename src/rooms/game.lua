@@ -208,9 +208,7 @@ function Game:enter(previous, data)
 
         -- Perma-power enabled/disabled
 
-        if levelData.power then
-            GUIChipSet.getInstance():setPermaActive(not levelData.power)
-        end
+        GUIChipSet.getInstance():setPermaActive(not levelData.power)
     end
 
     self.guiCheatUnlock:add()

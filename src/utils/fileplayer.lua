@@ -24,7 +24,9 @@ function FilePlayer.play(file)
 end
 
 function FilePlayer:fadeOut(durationInMs)
-    self.fileplayer:setVolume(0.0, 0.0, durationInMs / 1000, self.stop, self)
+    if self.fileplayer then
+        self.fileplayer:setVolume(0.0, 0.0, durationInMs / 1000, self.stop, self)
+    end
 end
 
 function FilePlayer.stop()
