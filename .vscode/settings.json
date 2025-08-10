@@ -1,6 +1,6 @@
 // .vscode/settings.json
 {
-  // "playdate-debug.sdkPath": "/path/to/PlaydateSDK",
+  "playdate-debug.sdkPath": "/home/pc/Developer/PlaydateSDK",
   "playdate-debug.sourcePath": "src",
   "playdate-debug.outputPath": "",
   "playdate-debug.productName": "Discontrolled",

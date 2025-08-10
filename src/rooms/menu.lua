@@ -4,8 +4,8 @@ local gfx <const> = pd.graphics
 
 -- Constants / Assets
 
-local imageSpriteRobot <const> = gfx.imagetable.new(assets.imageTables.player)
-local imageTitle <const> = gfx.image.new(assets.images.menu.title)
+local imageSpriteRobot <const> = assert(gfx.imagetable.new(assets.imageTables.player))
+local imageTitle <const> = assert(gfx.image.new(assets.images.menu.title))
 local imageButtonAStart <const> = assert(gfx.image.new(assets.images.menu.buttonAStart))
 local imageButtonAContinue <const> = assert(gfx.image.new(assets.images.menu.buttonAContinue))
 local imageButtonBLevelSelect <const> = assert(gfx.image.new(assets.images.menu.buttonBLevelSelect))

@@ -1,6 +1,6 @@
 local gfx <const> = playdate.graphics
 
-local imagetableQuestionMark <const> = gfx.imagetable.new(assets.imageTables.questionMark)
+local imagetableQuestionMark <const> = assert(gfx.imagetable.new(assets.imageTables.questionMark))
 local ticksPerFrame <const> = 2
 
 --- @class PlayerQuestionMark: playdate.graphics.sprite

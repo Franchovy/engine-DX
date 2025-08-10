@@ -2,7 +2,7 @@ local pd <const> = playdate
 local gfx <const> = pd.graphics
 local gmt <const> = pd.geometry
 
-local imagePanel <const> = gfx.image.new(assets.images.hudPanel)
+local imagePanel <const> = assert(gfx.image.new(assets.images.hudPanel))
 
 ---@class GUIChipSet
 GUIChipSet = Class("GUIChipSet", gfx.sprite)

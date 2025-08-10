@@ -1,9 +1,9 @@
 local pd <const> = playdate
 local gfx <const> = playdate.graphics
 
-local spWarpAmbient <const> = playdate.sound.sampleplayer.new(assets.sounds.warpAmbient)
+local spWarpAmbient <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.warpAmbient))
 
-local imageTableWarp <const> = gfx.imagetable.new(assets.imageTables.warp)
+local imageTableWarp <const> = assert(gfx.imagetable.new(assets.imageTables.warp))
 local angleCrankToWarpTotal <const> = 300
 local coefficientCrankResistance <const> = 0.3
 local maxCrankResistanceStart <const> = 15

@@ -11,7 +11,7 @@ local gfx <const> = playdate.graphics
 local timer <const> = playdate.timer
 local frameTimer <const> = playdate.frameTimer
 
-local imageLogo <const> = gfx.image.new(assets.images.logo)
+local imageLogo <const> = assert(gfx.image.new(assets.images.logo))
 
 local showLogo = true
 local last_time = 0

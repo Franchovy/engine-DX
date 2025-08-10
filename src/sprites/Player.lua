@@ -7,12 +7,12 @@ local sound <const> = pd.sound
 local gmt <const> = pd.geometry
 local gfx <const> = pd.graphics
 
-local imagetablePlayer <const> = gfx.imagetable.new(assets.imageTables.player)
-local imagetablePlayerDarkness <const> = gfx.imagetable.new(assets.imageTables.playerDarkness)
+local imagetablePlayer <const> = assert(gfx.imagetable.new(assets.imageTables.player))
+local imagetablePlayerDarkness <const> = assert(gfx.imagetable.new(assets.imageTables.playerDarkness))
 
-local spJump <const> = sound.sampleplayer.new(assets.sounds.jump)
-local spError <const> = sound.sampleplayer.new(assets.sounds.errorAction)
-local spDrill <const> = sound.sampleplayer.new(assets.sounds.drill)
+local spJump <const> = assert(sound.sampleplayer.new(assets.sounds.jump))
+local spError <const> = assert(sound.sampleplayer.new(assets.sounds.errorAction))
+local spDrill <const> = assert(sound.sampleplayer.new(assets.sounds.drill))
 
 -- Level Bounds for camera movement (X,Y coords areas in global (world) coordinates)
 

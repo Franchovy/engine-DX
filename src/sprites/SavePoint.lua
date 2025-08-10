@@ -1,8 +1,8 @@
 local gfx <const> = playdate.graphics
 
-local imageTableSprite <const> = gfx.imagetable.new(assets.imageTables.guiRescueBots)
-local spWin <const> = playdate.sound.sampleplayer.new(assets.sounds.savepointActivate)
-local spError <const> = playdate.sound.sampleplayer.new(assets.sounds.errorSavePoint)
+local imageTableSprite <const> = assert(gfx.imagetable.new(assets.imageTables.guiRescueBots))
+local spWin <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.savepointActivate))
+local spError <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.errorSavePoint))
 
 ---@class SavePont: playdate.graphics.sprite
 SavePoint = Class("SavePoint", gfx.sprite)

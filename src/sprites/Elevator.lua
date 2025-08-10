@@ -1,6 +1,6 @@
 local gfx <const> = playdate.graphics
 
-local imagetableElevator <const> = gfx.imagetable.new(assets.imageTables.elevator)
+local imagetableElevator <const> = assert(gfx.imagetable.new(assets.imageTables.elevator))
 
 local downwardsOffsetMax <const> = 2
 

@@ -8,7 +8,7 @@ local geo <const> = playdate.geometry
 local nineSliceSpeech <const> = assert(gfx.nineSlice.new(assets.images.speech, 7, 7, 17, 17))
 local imageSpeechBButton <const> = assert(gfx.image.new(assets.images.speechBButton))
 local spSpeech <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.speech))
-local spCollect <const> = playdate.sound.sampleplayer.new(assets.sounds.collect)
+local spCollect <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.collect))
 
 -- Constants
 

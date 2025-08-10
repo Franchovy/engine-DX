@@ -1,8 +1,8 @@
 local gfx = playdate.graphics
 local sound = playdate.sound
 
-local spPowerUp <const> = sound.sampleplayer.new(assets.sounds.powerUp)
-local spPowerDown <const> = sound.sampleplayer.new(assets.sounds.powerDown)
+local spPowerUp <const> = assert(sound.sampleplayer.new(assets.sounds.powerUp))
+local spPowerDown <const> = assert(sound.sampleplayer.new(assets.sounds.powerDown))
 
 Powerwall = Class("Powerwall", gfx.sprite)
 

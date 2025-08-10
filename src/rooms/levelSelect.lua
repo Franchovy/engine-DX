@@ -3,7 +3,7 @@ import "levelSelect/grid"
 local gfx <const> = playdate.graphics
 local systemMenu <const> = playdate.getSystemMenu()
 
-local spButton <const> = playdate.sound.sampleplayer.new(assets.sounds.menuSelect)
+local spButton <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.menuSelect))
 
 LevelSelect = Class("LevelSelect", Room)
 

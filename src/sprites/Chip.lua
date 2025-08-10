@@ -1,8 +1,8 @@
 local gfx <const> = playdate.graphics;
 local sound <const> = playdate.sound
 
-local imageTableButtons <const> = gfx.imagetable.new(assets.imageTables.buttons)
-local spCollect <const> = sound.sampleplayer.new(assets.sounds.collect)
+local imageTableButtons <const> = assert(gfx.imagetable.new(assets.imageTables.buttons))
+local spCollect <const> = assert(sound.sampleplayer.new(assets.sounds.collect))
 
 local imageTableIndexes <const> = {
   [KEYNAMES.Right] = 1,
