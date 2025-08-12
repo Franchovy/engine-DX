@@ -12,7 +12,7 @@ local areaName
 
 -- LDtk current level name
 
-local LEVEL_NAME_INITIAL <const> = "Level_19"
+local LEVEL_NAME_INITIAL <const> = "Level_0"
 local initialLevelNameSaveProgress
 local currentLevelName
 
