@@ -174,6 +174,8 @@ function Game:enter(previous, data)
 
         -- Menu items
 
+        systemMenu:removeAllMenuItems()
+
         systemMenu:addMenuItem("main menu", goToStart)
         systemMenu:addCheckmarkMenuItem("music", shouldEnableMusic, function(shouldEnableMusic)
             if shouldEnableMusic then

@@ -57,8 +57,16 @@ function Dialog:init(entity)
         -- Set the rate at which the bot should animate
         botAnimationSpeed = botAnimationSpeeds[entity.fields.asset]
 
+        local assetName = entity.fields.asset
+
+        if type(assetName) == "number" then
+            -- Convert number asset name to string for backwards compatibility
+
+            assetName = tostring(assetName)
+        end
+
         -- Grab the imagetable corresponding to this sprite
-        imagetable = assert(gfx.imagetable.new(assets.imageTables.bots[entity.fields.asset]))
+        imagetable = assert(gfx.imagetable.new(assets.imageTables.bots[assetName]))
     else
         -- Set imagetable to Helper Bot
         imagetable = assert(gfx.imagetable.new(assets.imageTables.bots.helper))
@@ -275,6 +283,9 @@ end
 
 function Dialog:collapse()
     if self.dialogSprite then
+        -- Pop input handler belonging to dialog (ugly, I know.)
+        playdate.inputHandlers.pop()
+
         self.dialogSprite:remove()
         self.dialogSprite = nil
     end
