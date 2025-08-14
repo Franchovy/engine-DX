@@ -4675,7 +4675,7 @@
 							"height": 16,
 							"defUid": 540,
 							"px": [80,336],
-							"fieldInstances": [{ "__identifier": "index", "__type": "Int", "__value": 0, "__tile": null, "defUid": 600, "realEditorValues": [] }],
+							"fieldInstances": [{ "__identifier": "index", "__type": "Int", "__value": 5, "__tile": null, "defUid": 600, "realEditorValues": [{ "id": "V_Int", "params": [5] }] }],
 							"__worldX": 7408,
 							"__worldY": 2128
 						}
@@ -5066,7 +5066,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "{\"bleepCount\":4,\"bleepDuration\":2}\nNice to see you here!\n{\"bleepCount\":6,\"bleepDuration\":1}\nI know who you are... and I will unlock a power for you.\n{\"unlockCrank\":true}\n*insert magical sound effect*\n{\"repeat\":true}\nTurn the crank AWAY FROM YOU to warp backwards.\nYou'll find the exit through the top.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"{\"bleepCount\":4,\"bleepDuration\":2}\\nNice to see you here!\\n{\"bleepCount\":6,\"bleepDuration\":1}\\nI know who you are... and I will unlock a power for you.\\n{\"unlockCrank\":true}\\n*insert magical sound effect*\\n{\"repeat\":true}\\nTurn the crank AWAY FROM YOU to warp backwards.\\nYou'll find the exit through the top."
+										"{\"bleepCount\":4,\"bleepDuration\":2}\nNice to see you here!\n{\"bleepCount\":6,\"bleepDuration\":1}\nI know who you are... and I will unlock a power for you.\n{\"unlockCrank\":true}\n*insert magical sound effect*\n{\"repeat\":true}\nTurn the crank AWAY FROM YOU to warp backwards.\nYou'll find the exit through the top."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 1, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [1] }] },
@@ -6736,7 +6736,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Sometimes, more than one path is available.\nBut what is driving us down this path?\nA strange force surrounds us...\nI am watching you, DRLBOT.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Sometimes, more than one path is available.\\nBut what is driving us down this path?\\nA strange force surrounds us...\\nI am watching you, DRLBOT."
+										"Sometimes, more than one path is available.\nBut what is driving us down this path?\nA strange force surrounds us...\nI am watching you, DRLBOT."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 2, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [2] }] },
@@ -7877,7 +7877,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Robots...\n...Without a purpose...\n...Doesn't make sense, does it?...\n...Why are we here?...", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Robots...\\n...Without a purpose...\\n...Doesn't make sense, does it?...\\n...Why are we here?..."
+										"Robots...\n...Without a purpose...\n...Doesn't make sense, does it?...\n...Why are we here?..."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 3, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [3] }] },
@@ -9413,7 +9413,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "The source...\nIt's everywhere, actually.\nYOU are part of it.\nAnd it needs us...\n...just as we need IT...\n{\"levelEnd\": true}", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"The source...\\nIt's everywhere, actually.\\nYOU are part of it.\\nAnd it needs us...\\n...just as we need IT...\\n{\"levelEnd\": true}"
+										"The source...\nIt's everywhere, actually.\nYOU are part of it.\nAnd it needs us...\n...just as we need IT...\n{\"levelEnd\": true}"
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
