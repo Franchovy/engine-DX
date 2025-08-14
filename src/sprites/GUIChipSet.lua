@@ -1,10 +1,13 @@
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 local gmt <const> = pd.geometry
+local sound = playdate.sound
 
+local spPowerUp <const> = assert(sound.sampleplayer.new(assets.sounds.powerUp))
+local spPowerDown <const> = assert(sound.sampleplayer.new(assets.sounds.powerDown))
 local imagePanel <const> = assert(gfx.image.new(assets.images.hudPanel))
 
----@class GUIChipSet
+---@class GUIChipSet : playdate.graphics.sprite
 GUIChipSet = Class("GUIChipSet", gfx.sprite)
 
 -- Button images (from imagetable)
@@ -36,6 +39,11 @@ local spritePositions = {
 
 -- Static Variables
 
+local shouldPowerUpNextTick = false
+local isPoweredUp = false
+local isPoweredUpPrevious = false
+local isPoweredPermanent = false
+local chipSetNeedsUpdate = false
 local isHidden = false
 local timerAnimation = nil
 
@@ -58,7 +66,6 @@ function GUIChipSet:init()
   self:setCenter(0, 0)
   self:setZIndex(Z_INDEX.HUD.Background)
   self:setIgnoresDrawOffset(true)
-  self:setUpdatesEnabled(false)
 
   for _, sprite in pairs(buttonSprites) do
     sprite:setZIndex(Z_INDEX.HUD.Main)
@@ -77,8 +84,11 @@ function GUIChipSet:init()
 
   self.checkpointHandler = CheckpointHandler.getOrCreate("GUIChipSet", self)
 
-  self.isActive = true
-  self.isPermaActive = true
+  shouldPowerUpNextTick = false
+  isPoweredPermanent = false
+  isPoweredUp = false
+  isPoweredUpPrevious = false
+  chipSetNeedsUpdate = false
 
   -- Image button mask (for disabled chipset)
 
@@ -148,37 +158,22 @@ function GUIChipSet:show()
   end
 end
 
--- Update function - reads player blueprints and updates accordingly.
-
-function GUIChipSet:updateChipSet(chipSet, isActive)
-  -- Update chipset buttons
-
-  if chipSet ~= nil then
-    self.chipSet = chipSet or self.chipSet
-
-    -- Update checkpoint state
-
-    self.checkpointHandler:pushState({ chipSet = self.chipSet })
-
-    -- Update button sprites
-
-    self:updateButtonSprites()
-  end
-  -- Update active status
-
-  if isActive ~= nil then
-    self.isActive = isActive
-
-    -- Update button masks
-
-    self:updateButtonSpriteMasks()
-  end
+function GUIChipSet:getIsPowered()
+  return isPoweredPermanent or isPoweredUp
 end
 
-function GUIChipSet:setPermaActive(isActive)
-  self.isPermaActive = isActive
+function GUIChipSet:getButtonEnabled(buttonToCheck)
+  if isPoweredPermanent or isPoweredUp then
+    return true
+  end
 
-  self:updateButtonSpriteMasks()
+  for _, buttonChipset in ipairs(self.chipSet) do
+    if buttonChipset == buttonToCheck then
+      return true
+    end
+  end
+
+  return false
 end
 
 function GUIChipSet:addChip(chip)
@@ -197,29 +192,61 @@ function GUIChipSet:addChip(chip)
 
   -- Replace chipset
 
-  self:updateChipSet(chipSetNew)
+  self:setChipSet(chipSetNew)
 end
 
-function GUIChipSet:handleCheckpointRevert(state)
-  self.chipSet = state.chipSet
+function GUIChipSet:setChipSet(chipSet)
+  self.chipSet = chipSet or self.chipSet
+
+  -- Update checkpoint state
+
+  self.checkpointHandler:pushState({ chipSet = self.chipSet })
+
+  -- Set needs update
+
+  chipSetNeedsUpdate = true
 end
 
-function GUIChipSet:getButtonEnabled(buttonToCheck)
-  if not self.isPermaActive or not self.isActive then
-    return true
+function GUIChipSet:setIsPowered()
+  -- Update active status
+
+  shouldPowerUpNextTick = true
+end
+
+function GUIChipSet:setPowerPermanent(shouldPowerPermanent)
+  isPoweredPermanent = shouldPowerPermanent
+end
+
+--- Update Method
+
+function GUIChipSet:update()
+  isPoweredUp = shouldPowerUpNextTick
+
+  if self:getIsPowered() and not isPoweredUpPrevious then
+    -- Power turned on
+
+    spPowerUp:play(0)
+
+    self:updateButtonSpriteMasks()
+  elseif not self:getIsPowered() and isPoweredUpPrevious then
+    -- Power turned off
+
+    spPowerDown:play(0)
+
+    self:updateButtonSpriteMasks()
   end
 
-  for _, buttonChipset in ipairs(self.chipSet) do
-    if buttonChipset == buttonToCheck then
-      return true
-    end
+  if chipSetNeedsUpdate then
+    -- Update button sprites
+
+    self:updateButtonSprites()
   end
 
-  return false
-end
+  -- Set update variables
 
-function GUIChipSet:getIsActive()
-  return self.isActive
+  shouldPowerUpNextTick = false or isPoweredPermanent
+  isPoweredUpPrevious = isPoweredUp
+  chipSetNeedsUpdate = false
 end
 
 function GUIChipSet:updateButtonSprites()
@@ -245,8 +272,6 @@ function GUIChipSet:updateButtonSpriteMasks()
     return
   end
 
-  local isDisabled = not self.isPermaActive or not self.isActive
-
   for i, sprite in ipairs(buttonSprites) do
     if self.chipSet[i] then
       local image = sprite:getImage()
@@ -254,11 +279,11 @@ function GUIChipSet:updateButtonSpriteMasks()
       local imageMaskCurrent = image:getMaskImage()
       local imageMaskNew
 
-      if not isDisabled and imageMaskCurrent ~= imageButtonMaskDefault then
+      if not self:getIsPowered() and imageMaskCurrent ~= imageButtonMaskDefault then
         -- Set enabled appearance (using image mask)
 
         imageMaskNew = imageButtonMaskDefault
-      elseif isDisabled and imageMaskCurrent ~= imageButtonMaskFaded then
+      elseif self:getIsPowered() and imageMaskCurrent ~= imageButtonMaskFaded then
         -- Set disabled appearance (using image mask)
 
         imageMaskNew = imageButtonMaskFaded
@@ -272,4 +297,12 @@ function GUIChipSet:updateButtonSpriteMasks()
       end
     end
   end
+end
+
+-- Checkpoint handling
+
+function GUIChipSet:handleCheckpointRevert(state)
+  self.chipSet = state.chipSet
+
+  chipSetNeedsUpdate = true
 end

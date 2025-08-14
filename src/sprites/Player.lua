@@ -119,7 +119,7 @@ function Player:init(entity)
 
     assert(entity.fields.chipSet, "Error: no chipset was set!")
 
-    Manager.emitEvent(EVENTS.UpdateChipSet, { chipSet = entity.fields.chipSet, isActive = true })
+    Manager.emitEvent(EVENTS.ChipSetNew, entity.fields.chipSet)
 
     -- RigidBody config
 
@@ -754,16 +754,16 @@ function Player:updateAnimationState()
                     animationState = ANIMATION_STATES.Impact
                 end
             elseif isMoving and not (self.isActivatingElevator and self.isActivatingElevator:wasActivationSuccessful()) then
-                if GUIChipSet.getInstance():getIsActive() then
-                    animationState = ANIMATION_STATES.Moving
-                else
+                if GUIChipSet.getInstance():getIsPowered() then
                     animationState = ANIMATION_STATES.MovingPowerUp
+                else
+                    animationState = ANIMATION_STATES.Moving
                 end
             else
-                if GUIChipSet.getInstance():getIsActive() then
-                    animationState = ANIMATION_STATES.Idle
-                else
+                if GUIChipSet.getInstance():getIsPowered() then
                     animationState = ANIMATION_STATES.IdlePowerUp
+                else
+                    animationState = ANIMATION_STATES.Idle
                 end
             end
         else

@@ -44,7 +44,7 @@ function Chip:activate()
 
   -- Update chipset
 
-  Manager.emitEvent(EVENTS.UpdateChipSet, self.button)
+  Manager.emitEvent(EVENTS.ChipSetAdd, self.button)
 
   self:consume()
 end

@@ -484,7 +484,7 @@ function Dialog:parseProps(props)
     if props.giveChip then
         spCollect:play()
 
-        Manager.emitEvent(EVENTS.UpdateChipSet, props.giveChip)
+        Manager.emitEvent(EVENTS.ChipSetAdd, props.giveChip)
     end
 
     if props.worldComplete then

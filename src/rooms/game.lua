@@ -210,7 +210,7 @@ function Game:enter(previous, data)
 
         -- Perma-power enabled/disabled
 
-        GUIChipSet.getInstance():setPermaActive(not levelData.power)
+        GUIChipSet.getInstance():setPowerPermanent(levelData.power)
     end
 
     self.guiCheatUnlock:add()
@@ -423,16 +423,22 @@ function Game:worldComplete()
     end)
 end
 
-function Game:updateChipSet(data)
+function Game:chipSetNew(chipSet)
     local abilityPanel = GUIChipSet.getInstance()
 
-    if type(data) == "string" then
-        -- Add single chip
-        abilityPanel:addChip(data)
-    else
-        -- Update entire table
-        abilityPanel:updateChipSet(data.chipSet, data.isActive)
-    end
+    abilityPanel:setChipSet(chipSet)
+end
+
+function Game:chipSetAdd(chip)
+    local abilityPanel = GUIChipSet.getInstance()
+
+    abilityPanel:addChip(chip)
+end
+
+function Game:chipSetPower(power)
+    local abilityPanel = GUIChipSet.getInstance()
+
+    abilityPanel:setIsPowered(power)
 end
 
 function Game:checkpointIncrement()
