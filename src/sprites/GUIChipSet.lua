@@ -22,7 +22,7 @@ local imageTableIndexes = {
   [KEYNAMES.B] = 6,
 }
 
-local imageButtonDefault = gfx.image.new(1, 1, gfx.kColorWhite)
+local imageButtonEmpty = gfx.image.new(1, 1, gfx.kColorWhite)
 local imageButtonMaskDefault
 local imageButtonMaskFaded
 
@@ -70,7 +70,7 @@ function GUIChipSet:init()
   for _, sprite in pairs(buttonSprites) do
     sprite:setZIndex(Z_INDEX.HUD.Main)
     sprite:setIgnoresDrawOffset(true)
-    sprite:setImage(imageButtonDefault)
+    sprite:setImage(imageButtonEmpty)
   end
 
   -- These calls affect both this sprite and the children. See overrides below
@@ -273,9 +273,8 @@ function GUIChipSet:updateButtonSpriteMasks()
   end
 
   for i, sprite in ipairs(buttonSprites) do
-    if self.chipSet[i] then
-      local image = sprite:getImage()
-
+    local image = sprite:getImage()
+    if self.chipSet[i] and image ~= imageButtonEmpty then
       local imageMaskCurrent = image:getMaskImage()
       local imageMaskNew
 

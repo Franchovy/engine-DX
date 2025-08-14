@@ -210,7 +210,8 @@ function Game:enter(previous, data)
 
         -- Perma-power enabled/disabled
 
-        GUIChipSet.getInstance():setPowerPermanent(levelData.power)
+        local isPoweredPermanent = levelData.power or false -- for backwards compatibility
+        GUIChipSet.getInstance():setPowerPermanent(isPoweredPermanent)
     end
 
     self.guiCheatUnlock:add()
