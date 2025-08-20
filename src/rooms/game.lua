@@ -12,6 +12,7 @@ local areaName
 
 -- LDtk current level name
 
+local LEVEL_NAME_INITIAL_DEBUG <const> = nil
 local LEVEL_NAME_INITIAL <const> = "Level_0"
 local initialLevelNameSaveProgress
 local currentLevelName
@@ -121,7 +122,9 @@ function Game:enter(previous, data)
 
     -- Get current level
 
-    currentLevelName = level and level.name or initialLevelNameSaveProgress or LEVEL_NAME_INITIAL
+    currentLevelName = (not self.isInitialized and LEVEL_NAME_INITIAL_DEBUG) or level and level.name or
+        initialLevelNameSaveProgress or
+        LEVEL_NAME_INITIAL
 
     -- Load level bounds
 
