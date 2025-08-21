@@ -240,6 +240,7 @@ function GUIChipSet:update()
     -- Update button sprites
 
     self:updateButtonSprites()
+    self:updateButtonSpriteMasks()
   end
 
   -- Set update variables
