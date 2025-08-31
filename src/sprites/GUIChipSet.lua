@@ -217,6 +217,20 @@ function GUIChipSet:setPowerPermanent(shouldPowerPermanent)
   isPoweredPermanent = shouldPowerPermanent
 end
 
+function GUIChipSet:hasDoubleKey(key)
+  local hasSingle = false
+
+  for _, chip in pairs(self.chipSet) do
+    if key == chip then
+      if hasSingle then
+        return true
+      else
+        hasSingle = true
+      end
+    end
+  end
+end
+
 --- Update Method
 
 function GUIChipSet:update()

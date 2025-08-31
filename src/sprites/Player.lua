@@ -18,6 +18,11 @@ local spDrill <const> = assert(sound.sampleplayer.new(assets.sounds.drill))
 
 local levelBounds
 
+-- Variables for double-jump
+
+local hasDoubleJumpUnlocked = true
+local hasDoubleJumpRemaining = true
+
 -- Timer for handling cooldown on checkpoint revert
 
 local warpCooldown
@@ -326,6 +331,15 @@ function Player:unlockCrank()
     self:loadAbilities()
 end
 
+function Player:animateInvalidKey()
+    self.questionMark:play()
+    screenShake(3, 1)
+
+    self.didPressedInvalidKey = true
+
+    spError:play(1)
+end
+
 --------------------
 -- UPDATE METHODS --
 --------------------
@@ -619,14 +633,22 @@ function Player:updateMovement()
     elseif self.rigidBody:getIsTouchingGround() then
         -- Reset coyote frames
         self.coyoteFramesRemaining = coyoteFrames
+
+        -- Reset double jump
+        hasDoubleJumpRemaining = true
     end
 
     -- Handle Vertical Movement
 
-    if self.rigidBody:getIsTouchingGround() or self.coyoteFramesRemaining > 0 or CONFIG.INFINITE_JUMP then
+    local isFirstJump = self.rigidBody:getIsTouchingGround() or self.coyoteFramesRemaining > 0
+    if isFirstJump or self:canDoubleJump() then
         -- Handle jump start
 
         if self:didJumpStart() then
+            if not isFirstJump then
+                hasDoubleJumpRemaining = false
+            end
+
             spJump:play(1)
 
             self.rigidBody:setVelocityY(-jumpSpeed)
@@ -850,6 +872,10 @@ function Player:didJumpStart()
     return pd.buttonJustPressed(KEYNAMES.A) and self:isHoldingJumpKey()
 end
 
+function Player:canDoubleJump()
+    return hasDoubleJumpUnlocked and hasDoubleJumpRemaining and GUIChipSet.getInstance():hasDoubleKey(KEYNAMES.A)
+end
+
 -- Input Handlers
 
 -- TODO: Replace implementation of button & blueprints check with blueprint check using button mask + playdate.getButtonState()
@@ -898,12 +924,7 @@ function Player:isKeyPressedGated(key)
     if chipset:getButtonEnabled(key) then
         return true
     elseif pd.buttonJustPressed(key) then
-        self.questionMark:play()
-        screenShake(3, 1)
-
-        self.didPressedInvalidKey = true
-
-        spError:play(1)
+        self:animateInvalidKey()
 
         return false
     end
