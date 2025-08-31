@@ -1,6 +1,7 @@
 import "player/PlayerCrankWarpController"
 import "player/PlayerQuestionMark"
 import "player/PlayerParticlesDrilling"
+import "player/dash"
 
 local pd <const> = playdate
 local sound <const> = pd.sound
@@ -22,6 +23,11 @@ local levelBounds
 
 local hasDoubleJumpUnlocked = true
 local hasDoubleJumpRemaining = true
+
+-- Variables for Dash
+
+local framesDashRemaining
+local framesDashCooldown
 
 -- Timer for handling cooldown on checkpoint revert
 
@@ -65,10 +71,13 @@ KEYS = {
 local coyoteFrames <const> = 5
 local groundAcceleration <const> = 3.5
 local airAcceleration <const> = 1.4
+local dashAcceleration <const> = 8.0
 local jumpSpeed <const> = 27
 local jumpSpeedDrilledBlock <const> = -14
 local jumpHoldTimeInTicks <const> = 4
 local VELOCITY_FALL_ANIMATION <const> = 6
+local framesDashRemainingMax <const> = 4
+local framesDashCooldownMax <const> = 25
 
 -- Setup
 
@@ -119,6 +128,11 @@ function Player:init(entity)
 
     self.jumpTimeLeftInTicks = jumpHoldTimeInTicks
     self.coyoteFramesRemaining = coyoteFrames
+
+    -- Dash
+
+    framesDashRemaining = framesDashRemainingMax
+    framesDashCooldown = 0
 
     -- Setup keys array and starting keys
 
@@ -613,10 +627,25 @@ function Player:updateMovement()
         -- Skip upon landing on a horizontal elevator
         self.rigidBody:setVelocityX(0.0)
     else
-        local acceleration = self.rigidBody:getIsTouchingGround() and groundAcceleration or airAcceleration
-
         local isHoldingLeft = self:isHoldingLeftKey()
         local isHoldingRight = self:isHoldingRightKey()
+
+        if isHoldingLeft and playdate.buttonJustPressed(KEYNAMES.Left) then
+            Dash:registerKeyPressed(KEYNAMES.Left)
+        elseif isHoldingRight and playdate.buttonJustPressed(KEYNAMES.Right) then
+            Dash:registerKeyPressed(KEYNAMES.Right)
+        end
+
+        local isDashActivating = Dash:getIsActivated() and framesDashCooldown == 0 and framesDashRemaining > 0
+
+        local acceleration = isDashActivating and dashAcceleration or
+            self.rigidBody:getIsTouchingGround() and groundAcceleration or airAcceleration
+
+        if isDashActivating and framesDashRemaining == 1 then
+            framesDashCooldown = framesDashCooldownMax
+        elseif isDashActivating then
+            framesDashRemaining -= 1
+        end
 
         if isHoldingLeft and not isHoldingRight then
             self.rigidBody:addVelocityX(-acceleration)
@@ -624,6 +653,14 @@ function Player:updateMovement()
             self.rigidBody:addVelocityX(acceleration)
         end
     end
+
+    -- Dash cooldown / update
+
+    if framesDashCooldown > 0 then
+        framesDashCooldown -= 1
+    end
+
+    Dash:update()
 
     -- Handle coyote frames
 
@@ -636,6 +673,9 @@ function Player:updateMovement()
 
         -- Reset double jump
         hasDoubleJumpRemaining = true
+
+        -- Reset dash (only one per air-time)
+        framesDashRemaining = framesDashRemainingMax
     end
 
     -- Handle Vertical Movement
