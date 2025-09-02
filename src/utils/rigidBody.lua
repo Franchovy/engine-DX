@@ -5,7 +5,7 @@ local gfx <const> = pd.graphics
 RigidBody = Class("RigidBody")
 
 local gravity <const> = 8
-local airFrictionCoefficient <const> = -0.2
+local airFrictionCoefficient <const> = -0.00035
 local groundFrictionCoefficient <const> = -0.8
 
 function RigidBody:init(sprite, config)
@@ -46,6 +46,10 @@ end
 
 function RigidBody:setForcesCoefficient(c)
   self.forcesCoefficient = c
+end
+
+function RigidBody:setGravity(g)
+  self.gravity = g or gravity
 end
 
 function RigidBody:update()
@@ -100,9 +104,9 @@ function RigidBody:update()
     -- Apply Air Friction
 
     self.velocity.dx = self.velocity.dx +
-        (self.velocity.dx * self.airFrictionCoefficient * _G.delta_time)
+        (self.velocity.dx ^ 3 * self.airFrictionCoefficient * _G.delta_time)
     self.velocity.dy = self.velocity.dy +
-        (self.velocity.dy * self.airFrictionCoefficient * _G.delta_time)
+        (self.velocity.dy ^ 3 * self.airFrictionCoefficient * _G.delta_time)
   end
 
   -- If x velocity is very small, reduce to zero.

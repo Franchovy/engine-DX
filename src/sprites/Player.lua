@@ -65,8 +65,9 @@ KEYS = {
 
 local coyoteFrames <const> = 5
 local groundAcceleration <const> = 3.5
-local airAcceleration <const> = 1.4
-local dashAcceleration <const> = 8.0
+local airAcceleration <const> = 0.9
+local dashSpeed <const> = 27.0
+local framesPostDashNoGravity <const> = 4
 local jumpSpeed <const> = 27
 local jumpSpeedDrilledBlock <const> = -14
 local jumpHoldTimeInTicks <const> = 4
@@ -618,33 +619,40 @@ function Player:updateMovement()
         local isHoldingLeft = self:isHoldingLeftKey()
         local isHoldingRight = self:isHoldingRightKey()
 
+        -- Register key press for dash
+
         if isHoldingLeft and playdate.buttonJustPressed(KEYNAMES.Left) then
             Dash:registerKeyPressed(KEYNAMES.Left)
         elseif isHoldingRight and playdate.buttonJustPressed(KEYNAMES.Right) then
             Dash:registerKeyPressed(KEYNAMES.Right)
         end
 
-        local isDashActivating = Dash:getIsActivated()
+        -- Set dash velocity if active
 
-        local acceleration = isDashActivating and dashAcceleration or
-            self.rigidBody:getIsTouchingGround() and groundAcceleration or airAcceleration
+        if Dash:getIsActivated() then
+            if (playdate.buttonJustReleased(KEYNAMES.Left) and Dash:getLastKey() == KEYNAMES.Left) or
+                (playdate.buttonJustReleased(KEYNAMES.Right) and Dash:getLastKey() == KEYNAMES.Right)
+            then
+                -- Cancel dash if key released
+                Dash:cancel()
+            else
+                -- Apply dash acceleration
+                self.rigidBody:setVelocityX(isHoldingLeft and -dashSpeed or dashSpeed)
+            end
+        else
+            local acceleration =
+                self.rigidBody:getIsTouchingGround() and groundAcceleration or
+                airAcceleration
 
-        if isDashActivating and framesDashRemaining == 1 then
-            framesDashCooldown = framesDashCooldownMax
-        elseif isDashActivating then
-            framesDashRemaining -= 1
-        end
+            -- Add horizontal acceleration to velocity
 
-        if isHoldingLeft and not isHoldingRight then
-            self.rigidBody:addVelocityX(-acceleration)
-        elseif isHoldingRight and not isHoldingLeft then
-            self.rigidBody:addVelocityX(acceleration)
+            if isHoldingLeft and not isHoldingRight then
+                self.rigidBody:addVelocityX(-acceleration)
+            elseif isHoldingRight and not isHoldingLeft then
+                self.rigidBody:addVelocityX(acceleration)
+            end
         end
     end
-
-    -- Dash cooldown / update
-
-    Dash:updateFrame()
 
     -- Handle coyote frames
 
@@ -664,34 +672,48 @@ function Player:updateMovement()
 
     -- Handle Vertical Movement
 
-    local isFirstJump = self.rigidBody:getIsTouchingGround() or self.coyoteFramesRemaining > 0
-    if isFirstJump or self:canDoubleJump() then
-        -- Handle jump start
+    if (Dash:getIsActivated() or Dash:getFramesSinceCooldownStarted() < framesPostDashNoGravity) and not Dash:getWasCancelled() then
+        -- Dash movement (ignores gravity and removes vertical movement)
 
-        if self:didJumpStart() then
-            if not isFirstJump then
-                hasDoubleJumpRemaining = false
+        self.rigidBody:setVelocityY(0)
+        self.rigidBody:setGravity(0)
+    else
+        self.rigidBody:setGravity()
+
+
+        local isFirstJump = self.rigidBody:getIsTouchingGround() or self.coyoteFramesRemaining > 0
+        if isFirstJump or self:canDoubleJump() then
+            -- Handle jump start
+
+            if self:didJumpStart() then
+                if not isFirstJump then
+                    hasDoubleJumpRemaining = false
+                end
+
+                spJump:play(1)
+
+                self.rigidBody:setVelocityY(-jumpSpeed)
+
+                self.jumpTimeLeftInTicks -= 1
+
+                self.coyoteFramesRemaining = 0
             end
-
-            spJump:play(1)
+        elseif self:isHoldingJumpKey() and self.jumpTimeLeftInTicks > 0 then
+            -- Handle Jump Hold
 
             self.rigidBody:setVelocityY(-jumpSpeed)
 
             self.jumpTimeLeftInTicks -= 1
+        elseif pd.buttonJustReleased(KEYNAMES.A) or self.jumpTimeLeftInTicks > 0 then
+            -- Handle Jump Release
 
-            self.coyoteFramesRemaining = 0
+            self.jumpTimeLeftInTicks = 0
         end
-    elseif self:isHoldingJumpKey() and self.jumpTimeLeftInTicks > 0 then
-        -- Handle Jump Hold
-
-        self.rigidBody:setVelocityY(-jumpSpeed)
-
-        self.jumpTimeLeftInTicks -= 1
-    elseif pd.buttonJustReleased(KEYNAMES.A) or self.jumpTimeLeftInTicks > 0 then
-        -- Handle Jump Release
-
-        self.jumpTimeLeftInTicks = 0
     end
+
+    -- Dash cooldown / update
+
+    Dash:updateFrame()
 end
 
 function Player:updateInteractions()
