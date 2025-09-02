@@ -326,10 +326,12 @@ function Player:loadAbilities()
     self.abilities = MemoryCard.getAbilities() or {}
 end
 
-function Player:unlockCrank()
+function Player:unlockAbility(ability)
     -- Save ability to memory card
 
-    MemoryCard.setAbilities({ crankWarp = true })
+    MemoryCard.setAbilities({ [ability] = true })
+
+    -- Reload abilities
 
     self:loadAbilities()
 end
@@ -426,7 +428,7 @@ function Player:updateWarp()
     end
 
     -- If forward direction but ability is not yet unlocked, do nothing
-    if not self.abilities.crankWarp and (direction == 1 or crankChange > 0) then
+    if not self.abilities[ABILITIES.CrankToWarp] and (direction == 1 or crankChange > 0) then
         return
     end
 
@@ -629,7 +631,7 @@ function Player:updateMovement()
 
         -- Set dash velocity if active
 
-        if Dash:getIsActivated() then
+        if self.abilities[ABILITIES.Dash] and Dash:getIsActivated() then
             if (playdate.buttonJustReleased(KEYNAMES.Left) and Dash:getLastKey() == KEYNAMES.Left) or
                 (playdate.buttonJustReleased(KEYNAMES.Right) and Dash:getLastKey() == KEYNAMES.Right)
             then
@@ -919,7 +921,8 @@ function Player:didJumpStart()
 end
 
 function Player:canDoubleJump()
-    return hasDoubleJumpUnlocked and hasDoubleJumpRemaining and GUIChipSet.getInstance():hasDoubleKey(KEYNAMES.A)
+    return self.abilities[ABILITIES.DoubleJump] and hasDoubleJumpRemaining and
+    GUIChipSet.getInstance():hasDoubleKey(KEYNAMES.A)
 end
 
 -- Input Handlers

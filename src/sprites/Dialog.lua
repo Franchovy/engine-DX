@@ -478,7 +478,7 @@ function Dialog:parseProps(props)
 
     if props.unlockCrank then
         local player = Player.getInstance()
-        player:unlockCrank()
+        player:unlockAbility(ABILITIES.CrankToWarp)
     end
 
     if props.giveChip then

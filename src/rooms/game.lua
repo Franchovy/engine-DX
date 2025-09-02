@@ -196,15 +196,23 @@ function Game:enter(previous, data)
 
         -- Crank unlock cheat
 
+        -- LRLR-UDU-BAA
         self.guiCheatUnlock:addCheat(
-            { pd.kButtonDown, pd.kButtonDown, pd.kButtonUp, pd.kButtonLeft, pd.kButtonRight, pd.kButtonLeft, pd
-                .kButtonRight, pd.kButtonB, pd.kButtonB, pd.kButtonA, pd.kButtonA },
-            function() Player.getInstance():unlockCrank() end
+            { pd.kButtonLeft, pd.kButtonRight, pd.kButtonLeft, pd.kButtonRight, pd
+                .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonB, pd.kButtonA, pd.kButtonA },
+            function() Player.getInstance():unlockAbility(ABILITIES.CrankToWarp) end
         )
+        -- LRRL-UDU-BAA
         self.guiCheatUnlock:addCheat(
             { pd.kButtonLeft, pd.kButtonRight, pd.kButtonRight, pd.kButtonLeft, pd
-                .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonA, pd.kButtonA },
-            function() print("Alt cheat") end
+                .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonB, pd.kButtonA, pd.kButtonA },
+            function() Player.getInstance():unlockAbility(ABILITIES.DoubleJump) end
+        )
+        -- LLRR-UDU-BAA
+        self.guiCheatUnlock:addCheat(
+            { pd.kButtonLeft, pd.kButtonLeft, pd.kButtonRight, pd.kButtonRight, pd
+                .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonB, pd.kButtonA, pd.kButtonA },
+            function() Player.getInstance():unlockAbility(ABILITIES.Dash) end
         )
 
         -- Set world not complete
