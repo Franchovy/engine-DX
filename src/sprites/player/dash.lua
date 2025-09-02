@@ -13,7 +13,6 @@ local timeLastKeyPressed
 local framesDashCooldown = 0
 local framesDashRemaining = framesDashRemainingMax
 local isActivated = false
-local wasCancelled = false
 
 function Dash:registerKeyPressed(key)
     local currentTime = playdate.getCurrentTimeMilliseconds()
@@ -39,15 +38,6 @@ end
 
 function Dash:getLastKey()
     return lastKeyPressed
-end
-
-function Dash:cancel()
-    wasCancelled = true
-    self:finish()
-end
-
-function Dash:getWasCancelled()
-    return wasCancelled
 end
 
 function Dash:getIsActivated()
@@ -90,8 +80,5 @@ function Dash:updateFrame()
         -- If not activated, reduce cooldown if active
 
         framesDashCooldown -= 1
-    else
-        -- If reached end of cooldown, reset cancelled state
-        wasCancelled = false
     end
 end
