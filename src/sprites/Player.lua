@@ -24,11 +24,6 @@ local levelBounds
 local hasDoubleJumpUnlocked = true
 local hasDoubleJumpRemaining = true
 
--- Variables for Dash
-
-local framesDashRemaining
-local framesDashCooldown
-
 -- Timer for handling cooldown on checkpoint revert
 
 local warpCooldown
@@ -76,8 +71,6 @@ local jumpSpeed <const> = 27
 local jumpSpeedDrilledBlock <const> = -14
 local jumpHoldTimeInTicks <const> = 4
 local VELOCITY_FALL_ANIMATION <const> = 6
-local framesDashRemainingMax <const> = 4
-local framesDashCooldownMax <const> = 25
 
 -- Setup
 
@@ -128,11 +121,6 @@ function Player:init(entity)
 
     self.jumpTimeLeftInTicks = jumpHoldTimeInTicks
     self.coyoteFramesRemaining = coyoteFrames
-
-    -- Dash
-
-    framesDashRemaining = framesDashRemainingMax
-    framesDashCooldown = 0
 
     -- Setup keys array and starting keys
 
@@ -636,7 +624,7 @@ function Player:updateMovement()
             Dash:registerKeyPressed(KEYNAMES.Right)
         end
 
-        local isDashActivating = Dash:getIsActivated() and framesDashCooldown == 0 and framesDashRemaining > 0
+        local isDashActivating = Dash:getIsActivated()
 
         local acceleration = isDashActivating and dashAcceleration or
             self.rigidBody:getIsTouchingGround() and groundAcceleration or airAcceleration
@@ -656,11 +644,7 @@ function Player:updateMovement()
 
     -- Dash cooldown / update
 
-    if framesDashCooldown > 0 then
-        framesDashCooldown -= 1
-    end
-
-    Dash:update()
+    Dash:updateFrame()
 
     -- Handle coyote frames
 
@@ -675,7 +659,7 @@ function Player:updateMovement()
         hasDoubleJumpRemaining = true
 
         -- Reset dash (only one per air-time)
-        framesDashRemaining = framesDashRemainingMax
+        Dash:recharge()
     end
 
     -- Handle Vertical Movement
