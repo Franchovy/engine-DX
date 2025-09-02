@@ -376,9 +376,14 @@ function Player:update()
 
     self:updateInteractions()
 
-    -- Skip movement handling if timer cooldown is active
+    -- Skip movement handling if:
+    -- timer cooldown is active
+    -- cooldown for warp is active
 
-    if not warpCooldown then
+    if not warpCooldown and
+        not (self.crankWarpController and self.crankWarpController:isActive()) and
+        not playdate.buttonIsPressed(KEYNAMES.B)
+    then
         self:updateMovement()
     end
 
@@ -407,9 +412,9 @@ function Player:update()
 
     self:updateAnimationState()
 
-    -- Check if player is in top-left of level (overlap with GUI)
+    -- GUI Overlap, Camera
 
-    self:updateGUIOverlap()
+    self:updateGUI()
 
     -- Check if player has moved into another level
 
@@ -491,7 +496,7 @@ function Player:updateActivations()
 
         -- If Drilling
         if tag == TAGS.DrillableBlock then
-            if self:isHoldingDownKey() and isBelowCenter then
+            if self:isHoldingDownKeyGated() and isBelowCenter then
                 -- Play drilling sound
                 if not spDrill:isPlaying() then
                     spDrill:play(1)
@@ -535,15 +540,15 @@ function Player:updateActivations()
                 -- If horizontal, then the player must be near the center for the elevator to start.
                 local marginWithinCenterRange <const> = 12
 
-                if self:isHoldingLeftKey() and self:centerX() < otherSprite:right() - marginWithinCenterRange then
+                if self:isHoldingLeftKeyGated() and self:centerX() < otherSprite:right() - marginWithinCenterRange then
                     key = KEYNAMES.Left
-                elseif self:isHoldingRightKey() and self:centerX() > otherSprite:left() + marginWithinCenterRange then
+                elseif self:isHoldingRightKeyGated() and self:centerX() > otherSprite:left() + marginWithinCenterRange then
                     key = KEYNAMES.Right
                 end
             elseif direction == ORIENTATION.Vertical then
-                if self:isHoldingDownKey() then
+                if self:isHoldingDownKeyGated() then
                     key = KEYNAMES.Down
-                elseif self:isHoldingUpKey() then
+                elseif self:isHoldingUpKeyGated() then
                     key = KEYNAMES.Up
                 end
             end
@@ -595,11 +600,6 @@ function Player:updateActivations()
 end
 
 function Player:updateMovement()
-    -- If cooldown for warp is active, then skip movement update.
-    if self.crankWarpController and self.crankWarpController:isActive() then
-        return
-    end
-
     -- Movement handling (update velocity X and Y)
 
     -- Handle Horizontal Movement
@@ -618,8 +618,8 @@ function Player:updateMovement()
         -- Skip upon landing on a horizontal elevator
         self.rigidBody:setVelocityX(0.0)
     else
-        local isHoldingLeft = self:isHoldingLeftKey()
-        local isHoldingRight = self:isHoldingRightKey()
+        local isHoldingLeft = self:isHoldingLeftKeyGated()
+        local isHoldingRight = self:isHoldingRightKeyGated()
 
         -- Register key press for dash
 
@@ -694,7 +694,7 @@ function Player:updateMovement()
 
                 self.coyoteFramesRemaining = 0
             end
-        elseif self:isHoldingJumpKey() and self.jumpTimeLeftInTicks > 0 then
+        elseif self:isHoldingJumpKeyGated() and self.jumpTimeLeftInTicks > 0 then
             -- Handle Jump Hold
 
             self.rigidBody:setVelocityY(-jumpSpeed)
@@ -789,7 +789,7 @@ function Player:updateAnimationState()
     local animationState
     local velocity = self.rigidBody:getCurrentVelocity()
     local isMoving = math.floor(math.abs(velocity.dx)) > 0
-    local isMovingActive = self:isHoldingRightKey() or self:isHoldingLeftKey()
+    local isMovingActive = self:isHoldingRightKeyGated() or self:isHoldingLeftKeyGated()
 
     -- "Skip" states
 
@@ -799,7 +799,7 @@ function Player:updateAnimationState()
         if self.crankWarpController:getDirection() == 1 then
             animationState = ANIMATION_STATES.Falling
         elseif self.rigidBody:getIsTouchingGround() then
-            if self.isActivatingDrillableBlock and self:isHoldingDownKey() then
+            if self.isActivatingDrillableBlock and self:isHoldingDownKeyGated() then
                 animationState = ANIMATION_STATES.Drilling
             elseif self.didPressedInvalidKey then
                 if isMoving and isMovingActive then
@@ -867,7 +867,23 @@ function Player:updateAnimationState()
     self:changeState(animationState)
 end
 
-function Player:updateGUIOverlap()
+function Player:updateGUI()
+    -- Update camera if pressing a direction + B button
+
+    if playdate.buttonIsPressed(KEYNAMES.B) then
+        local directionX, directionY =
+            playdate.buttonIsPressed(KEYNAMES.Left) and 1 or playdate.buttonIsPressed(KEYNAMES.Right) and -1 or 0,
+            playdate.buttonIsPressed(KEYNAMES.Up) and 1 or playdate.buttonIsPressed(KEYNAMES.Down) and -1 or 0
+
+        local panOffsetX, panOffsetY = 150, 100
+
+        Camera.setOffset(directionX * panOffsetX, directionY * panOffsetY)
+    else
+        Camera.setOffset(0, 0)
+    end
+
+    -- GUI Overlap check
+
     local isOverlappingWithGUIPrevious = isOverlappingWithGUI
     local screenOffsetX, screenOffsetY = gfx.getDrawOffset()
 
@@ -911,7 +927,7 @@ end
 -- Stateless checks
 
 function Player:didJumpStart()
-    return pd.buttonJustPressed(KEYNAMES.A) and self:isHoldingJumpKey()
+    return pd.buttonJustPressed(KEYNAMES.A) and self:isHoldingJumpKeyGated()
 end
 
 function Player:canDoubleJump()
@@ -924,23 +940,23 @@ end
 -- TODO: Replace implementation of button & blueprints check with blueprint check using button mask + playdate.getButtonState()
 -- Replace didPressedInvalidKey with stateless check
 
-function Player:isHoldingJumpKey()
+function Player:isHoldingJumpKeyGated()
     return self:isKeyPressedGated(KEYNAMES.A)
 end
 
-function Player:isHoldingRightKey()
+function Player:isHoldingRightKeyGated()
     return self:isKeyPressedGated(KEYNAMES.Right)
 end
 
-function Player:isHoldingLeftKey()
+function Player:isHoldingLeftKeyGated()
     return self:isKeyPressedGated(KEYNAMES.Left)
 end
 
-function Player:isHoldingUpKey()
+function Player:isHoldingUpKeyGated()
     return self:isKeyPressedGated(KEYNAMES.Up)
 end
 
-function Player:isHoldingDownKey()
+function Player:isHoldingDownKeyGated()
     return self:isKeyPressedGated(KEYNAMES.Down)
 end
 
@@ -957,6 +973,11 @@ end
 function Player:isKeyPressedGated(key)
     if not pd.buttonIsPressed(key) then
         -- Button is not pressed.
+        return false
+    end
+
+    if playdate.buttonIsPressed(KEYNAMES.B) then
+        -- If B is pressed, disable all input (movement)
         return false
     end
 

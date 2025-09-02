@@ -6,6 +6,7 @@ Camera = {}
 local viewpoint
 local animatorViewpoint
 local levelBounds
+local offsetX, offsetY = 0, 0
 
 function Camera.goToPoint(x, y)
     viewpoint = geo.point.new(-x, -y)
@@ -15,21 +16,28 @@ function Camera.enterLevel(levelNew)
     levelBounds = LDtk.get_rect(levelNew)
 end
 
+function Camera.setOffset(x, y)
+    offsetX = x
+    offsetY = y
+end
+
 function Camera.update()
     -- Fix on player
+
     local player = Player.getInstance()
 
     if not player then
         return
     end
 
-    local playerX, playerY = player.x, player.y
-    local idealX, idealY = playerX - 200, playerY - 100
+    local xPlayer, yPlayer = player.x, player.y
+    local xCentered, yCentered = xPlayer - 200, yPlayer - 100
+    local xWithOffset, yWithOffset = xCentered - offsetX, yCentered - offsetY
 
     -- Positon camera within level bounds
 
-    local cameraOffsetX = math.max(math.min(idealX, levelBounds.right - 400), levelBounds.x)
-    local cameraOffsetY = math.max(math.min(idealY, levelBounds.bottom - 240), levelBounds.y)
+    local cameraOffsetX = math.max(math.min(xWithOffset, levelBounds.right - 400), levelBounds.x)
+    local cameraOffsetY = math.max(math.min(yWithOffset, levelBounds.bottom - 240), levelBounds.y)
 
     -- Center offset for small levels
 
