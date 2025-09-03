@@ -8,13 +8,13 @@ local spListBlockCrush = {
     [4] = playdate.sound.sampleplayer.new(assets.sounds.blockCrush[4])
 }
 
---- @class DrillableBlock : ConsumableSprite
-DrillableBlock = Class("DrillableBlock", ConsumableSprite)
+--- @class DrillableBlock : Consumable
+DrillableBlock = Class("DrillableBlock", Consumable)
 
 local maxTicksToDrill = 12
 
-function DrillableBlock:init(entity)
-    DrillableBlock.super.init(self, entity)
+function DrillableBlock:init(entityData, levelName)
+    DrillableBlock.super.init(self, entityData, levelName)
 
     self:setImage(imagetable[1])
 

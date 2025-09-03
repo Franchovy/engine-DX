@@ -33,55 +33,21 @@ function LDtk.loadAllLayersAsSprites(levelName)
 end
 
 function LDtk.loadAllEntitiesAsSprites(levelName)
-    local levelBounds = LDtk.get_rect(levelName)
-    for _, entity in ipairs(LDtk.get_entities(levelName)) do
-        if not _G[entity.name] then
-            debugPrint("WARNING: No sprite class for entity with name: " .. entity.name)
+    for _, entityData in ipairs(LDtk.get_entities(levelName)) do
+        local entityClass = _G[entityData.name]
+
+        if not entityClass then
+            debugPrint("WARNING: No sprite class for entity with name: " .. data.name)
 
             goto continue
         end
 
-        local sprite
-
-        if entity.name == "Player" and Player.getInstance() then
-            -- TODO: Replace "Player" in LDtk with "PlayerOrSavePoint" and use a global function with this name
-            -- to remove the logic from here and apply the logic below (returning either player or savepoint).
-            -- Also add null-check to sprite and skip if sprite is null.
-
-            if entity.isOriginalPlayerSpawn then
-                -- If Player previously spawned here, skip.
-                goto continue
-            end
-
-            -- If Player already exists and is playing, then create a SavePoint instead.
-            sprite = SavePoint(entity)
-        elseif entity.fields.consumed == true then
-            -- If sprite has been marked "consumed" then we shouldn't add it in. (e.g. DrillableBlock, ButtonPickup)
+        if not entityClass.shouldSpawn(entityData, levelName) then
             goto continue
-        else
-            -- Create sprite using LDtk naming
-            sprite = _G[entity.name](entity)
         end
 
-        local positionX, positionY = entity.world_position.x,
-            entity.world_position.y
-
-        sprite:setCollideRect(0, 0, entity.size.width, entity.size.height)
-        sprite:setCenter(entity.center.x, entity.center.y)
-        sprite:moveTo(positionX, positionY)
-        sprite:setZIndex(Z_INDEX.Level.Active)
-        sprite:add()
-
-        -- Give sprite references to LDtk data
-        sprite.id = entity.iid
-        sprite.fields = entity.fields
-        sprite.entity = entity
-        sprite.levelName = levelName
-
-        -- Optional Post-init call for overriding default configurations
-        if sprite.postInit then
-            sprite:postInit()
-        end
+        -- Create entity
+        entityClass(entityData, levelName)
 
         ::continue::
     end

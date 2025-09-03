@@ -3,11 +3,11 @@ local gfx <const> = playdate.graphics
 local imageTableCollectibles <const> = assert(gfx.imagetable.new(assets.imageTables.collectibles))
 local spCollectiblePickup <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.collectiblePickup))
 
---- @class Collectible : ConsumableSprite
-Collectible = Class("Collectible", ConsumableSprite)
+--- @class Collectible : Consumable
+Collectible = Class("Collectible", Consumable)
 
-function Collectible:init(entity)
-    Collectible.super.init(self)
+function Collectible:init(entityData, levelName)
+    Collectible.super.init(self, entityData, levelName)
 
     -- Collision Setup
 
@@ -16,7 +16,7 @@ function Collectible:init(entity)
 
     -- Setup image using index provided in LDtk
 
-    local index = entity.fields.index
+    local index = entityData.fields.index
 
     assert(index, "Missing identifier for index")
     assert(index ~= 0, "Collectible index cannot be 0")

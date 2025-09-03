@@ -75,8 +75,8 @@ local VELOCITY_FALL_ANIMATION <const> = 6
 
 -- Setup
 
---- @class Player : playdate.graphics.sprite
-Player = Class("Player", AnimatedSprite)
+--- @class Player : EntityAnimated
+Player = Class("Player", EntityAnimated)
 
 -- Static Reference
 
@@ -86,19 +86,24 @@ function Player.getInstance() return _instance end
 
 function Player.destroy() _instance = nil end
 
+function Player.shouldSpawn(entityData, levelName)
+    --- Return false if player instance already exists.
+    return not Player.getInstance()
+end
+
 -----------------------
 -- LIFECYCLE METHODS --
 -----------------------
 
-function Player:init(entity)
+function Player:init(entityData, levelName)
     _instance = self
 
     local imagetable = CONFIG.ADD_SUPER_DARKNESS_EFFECT and imagetablePlayerDarkness or imagetablePlayer
-    Player.super.init(self, imagetable)
+    Player.super.init(self, entityData, levelName, imagetable)
 
     -- Set original spawn property on LDtk data
 
-    entity.isOriginalPlayerSpawn = true
+    entityData.isOriginalPlayerSpawn = true
 
     -- AnimatedSprite states
 
@@ -125,9 +130,9 @@ function Player:init(entity)
 
     -- Setup keys array and starting keys
 
-    assert(entity.fields.chipSet, "Error: no chipset was set!")
+    assert(entityData.fields.chipSet, "Error: no chipset was set!")
 
-    Manager.emitEvent(EVENTS.ChipSetNew, entity.fields.chipSet)
+    Manager.emitEvent(EVENTS.ChipSetNew, entityData.fields.chipSet)
 
     -- RigidBody config
 
@@ -148,9 +153,7 @@ function Player:init(entity)
     -- Utils
 
     self.synth = Synth(SCALES.PLAYER)
-end
 
-function Player:postInit()
     -- Reduce hitbox sizes
 
     local trimWidth, trimTop = 6, 8

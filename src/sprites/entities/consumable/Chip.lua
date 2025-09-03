@@ -13,11 +13,11 @@ local imageTableIndexes <const> = {
   [KEYNAMES.B] = 6,
 }
 
---- @class ButtonPickup : ConsumableSprite
-Chip = Class('Chip', ConsumableSprite)
+--- @class ButtonPickup : Consumable
+Chip = Class('Chip', Consumable)
 
-function Chip:init(entity)
-  Chip.super.init(self, entity)
+function Chip:init(entityData, levelName)
+  Chip.super.init(self, entityData, levelName)
 
   -- Collisions
 
@@ -26,7 +26,7 @@ function Chip:init(entity)
 
   -- Set blueprint name from ldtk
 
-  self.button = entity.fields.button
+  self.button = entityData.fields.button
   assert(KEYNAMES[self.button], "Missing Key name: " .. self.button)
 
   -- Set blueprint image for name

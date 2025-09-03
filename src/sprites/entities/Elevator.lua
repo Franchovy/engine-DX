@@ -9,11 +9,11 @@ local downwardsOffsetMax <const> = 2
 --- Private Static methods
 ---
 
----@class Elevator : playdate.graphics.sprite
-Elevator = Class("Elevator", gfx.sprite)
+---@class Elevator : Entity
+Elevator = Class("Elevator", Entity)
 
-function Elevator:init(entity)
-  Elevator.super.init(self, imagetableElevator[1])
+function Elevator:init(entityData, levelName)
+  Elevator.super.init(self, entityData, levelName, imagetableElevator[1])
 
   -- Collisions
 

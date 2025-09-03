@@ -1,12 +1,10 @@
 local gfx <const> = playdate.graphics
 
---- @class LevelEnd : playdate.graphics.sprite
-LevelEnd = Class("LevelEnd", gfx.sprite)
+--- @class LevelEnd : Entity
+LevelEnd = Class("LevelEnd", Entity)
 
-function LevelEnd:init(entity)
-    LevelEnd.super.init(self)
-
-    print("Added level end")
+function LevelEnd:init(entityData, levelName)
+    LevelEnd.super.init(self, entityData, levelName)
 
     -- Collisions
 

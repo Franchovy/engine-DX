@@ -1,5 +1,6 @@
 import "utils/checkpoint"
-import "utils/consumableSprite"
+import "utils/Entity"
+import "utils/Consumable"
 import "utils/readFile"
 import "utils/rigidBody"
 import "utils/memoryCard"

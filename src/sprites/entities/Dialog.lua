@@ -37,10 +37,10 @@ local lettersToActions <const> = {
     ["D"] = KEYNAMES.Down,
 }
 
----@class Dialog: playdate.graphics.sprite
-Dialog = Class("Dialog", AnimatedSprite)
+---@class Dialog: EntityAnimated
+Dialog = Class("Dialog", EntityAnimated)
 
-function Dialog:init(entity)
+function Dialog:init(entityData, levelName)
     -- Load image based on rescuable & entity ID
 
     local botAnimationSpeed = 2
@@ -48,16 +48,16 @@ function Dialog:init(entity)
 
     -- Choose imagetable using sprite number
 
-    if entity.fields.saveNumber and not entity.fields.asset then
+    if entityData.fields.saveNumber and not entityData.fields.asset then
         -- Set a random sprite number for rescuable bots without a spriteNumber
-        entity.fields.asset = math.random(1, 7)
+        entityData.fields.asset = math.random(1, 7)
     end
 
-    if entity.fields.asset then
+    if entityData.fields.asset then
         -- Set the rate at which the bot should animate
-        botAnimationSpeed = botAnimationSpeeds[entity.fields.asset]
+        botAnimationSpeed = botAnimationSpeeds[entityData.fields.asset]
 
-        local assetName = entity.fields.asset
+        local assetName = entityData.fields.asset
 
         if type(assetName) == "number" then
             -- Convert number asset name to string for backwards compatibility
@@ -74,7 +74,7 @@ function Dialog:init(entity)
 
     -- Super init call
 
-    Dialog.super.init(self, imagetable)
+    Dialog.super.init(self, entityData, levelName, imagetable)
 
     -- Add animation states
 
@@ -83,11 +83,11 @@ function Dialog:init(entity)
 
     -- Set up animation states (Sad / Happy) if needs rescue
 
-    if entity.fields.saveNumber then
+    if entityData.fields.saveNumber then
         self:addState(ANIMATION_STATES.NeedsRescue, 9, 12, { tickStep = botAnimationSpeed })
         self:addState(ANIMATION_STATES.Rescued, 12, 16, { tickStep = botAnimationSpeed })
 
-        if entity.fields.isRescued then
+        if entityData.fields.isRescued then
             self:changeState(ANIMATION_STATES.Rescued)
         else
             self:changeState(ANIMATION_STATES.NeedsRescue)
@@ -114,12 +114,12 @@ function Dialog:init(entity)
 
     -- Set whether is "rescuable"
 
-    self.isRescuable = entity.fields.saveNumber ~= nil
-    self.rescueNumber = entity.fields.saveNumber
+    self.isRescuable = entityData.fields.saveNumber ~= nil
+    self.rescueNumber = entityData.fields.saveNumber
 
     -- Get text from LDtk entity
 
-    local text = entity.fields.text
+    local text = entityData.fields.text
 
     -- Break up text into lines
 

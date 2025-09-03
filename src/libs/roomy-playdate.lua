@@ -1,3 +1,15 @@
+--- ADDED BY FRANCHOVY ---
+
+----- stubs for Roomy
+
+--- @class Room
+Room = {}
+
+--- @class Manager
+Manager = {}
+
+--------------------------
+
 local roomy = {
   _VERSION = 'Roomy',
   _DESCRIPTION = 'Scene management for Playdate sdk, adapted from https://github.com/tesselode/roomy',
@@ -35,6 +47,7 @@ local gfx <const> = playdate.graphics
 ----------------------------------------------------
 -- Basic Room
 ----------------------------------------------------
+
 class("Room").extends()
 
 function Room:__tostring()

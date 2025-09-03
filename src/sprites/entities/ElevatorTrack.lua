@@ -19,21 +19,33 @@ local TILE_ID <const> = {
 
 -- Class definition
 
----@class ElevatorTrack : playdate.graphics.sprite
-ElevatorTrack = Class("ElevatorTrack", gfx.sprite)
+---@class ElevatorTrack : Entity
+ElevatorTrack = Class("ElevatorTrack", Entity)
 
--- Constructors for LDtk name reference
+-- Fake Constructors for LDtk name reference
 
-function ElevatorTrackH(entity)
-    return ElevatorTrack(entity, ORIENTATION.Horizontal)
+local _shouldSpawn = Entity.shouldSpawn
+
+ElevatorTrackH = { shouldSpawn = _shouldSpawn }
+
+function ElevatorTrackH.init(_, entityData, levelName)
+    return ElevatorTrack(entityData, levelName, ORIENTATION.Horizontal)
 end
 
-function ElevatorTrackV(entity)
-    return ElevatorTrack(entity, ORIENTATION.Vertical)
+setmetatable(ElevatorTrackH, { __call = ElevatorTrackH.init })
+
+ElevatorTrackV = { shouldSpawn = _shouldSpawn }
+
+function ElevatorTrackV.init(_, entityData, levelName)
+    return ElevatorTrack(entityData, levelName, ORIENTATION.Vertical)
 end
 
-function ElevatorTrack:init(entity, orientation)
-    ElevatorTrack.super.init(self)
+setmetatable(ElevatorTrackV, { __call = ElevatorTrackV.init })
+
+---
+
+function ElevatorTrack:init(entityData, levelName, orientation)
+    ElevatorTrack.super.init(self, entityData, levelName)
 
     -- Set tag
 
@@ -41,8 +53,8 @@ function ElevatorTrack:init(entity, orientation)
 
     -- Create Tilemap
 
-    local numberOfTiles = (orientation == ORIENTATION.Horizontal and entity.size.width or
-        entity.size.height) / TILE_SIZE * 2 - 1
+    local numberOfTiles = (orientation == ORIENTATION.Horizontal and entityData.size.width or
+        entityData.size.height) / TILE_SIZE * 2 - 1
 
     -- Create tilemap data using length
     local dataTilemap = table.create(numberOfTiles, 0)

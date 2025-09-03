@@ -1,9 +1,10 @@
 local gfx = playdate.graphics
 
-Powerwall = Class("Powerwall", gfx.sprite)
+--- @class Powerwall : Entity
+Powerwall = Class("Powerwall", Entity)
 
-function Powerwall:init(entity)
-    Powerwall.super.init(self)
+function Powerwall:init(entityData, levelName)
+    Powerwall.super.init(self, entityData, levelName)
 
     -- Collisions
 
@@ -13,7 +14,7 @@ function Powerwall:init(entity)
     -- Sprite config
 
     self:setCenter(0, 0)
-    self:setSize(entity.size.width, entity.size.height)
+    self:setSize(entityData.size.width, entityData.size.height)
 end
 
 function Powerwall:activate()

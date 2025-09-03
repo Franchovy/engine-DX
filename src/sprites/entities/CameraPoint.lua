@@ -1,10 +1,10 @@
 local gfx <const> = playdate.graphics
 
---- @class CameraPoint : playdate.graphics.sprite
-CameraPoint = Class("CameraPoint", gfx.sprite)
+--- @class CameraPoint : Entity
+CameraPoint = Class("CameraPoint", Entity)
 
-function CameraPoint:init()
-    CameraPoint.super.init(self)
+function CameraPoint:init(entityData, levelName)
+    CameraPoint.super.init(self, entityData, levelName)
 
     self.isActive = true
 end

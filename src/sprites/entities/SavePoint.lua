@@ -4,15 +4,15 @@ local imageTableSprite <const> = assert(gfx.imagetable.new(assets.imageTables.gu
 local spWin <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.savepointActivate))
 local spError <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.errorSavePoint))
 
----@class SavePont: playdate.graphics.sprite
-SavePoint = Class("SavePoint", gfx.sprite)
+---@class SavePont: Entity
+SavePoint = Class("SavePoint", Entity)
 
-function SavePoint:init(entity)
-    SavePoint.super.init(self, imageTableSprite[1])
+function SavePoint:init(entityData, levelName)
+    SavePoint.super.init(self, entityData, levelName, imageTableSprite[1])
 
     -- Entity Config
 
-    self.blueprints = entity.fields.blueprints
+    self.blueprints = entityData.fields.blueprints
 
     -- Sprite Config
 
@@ -26,7 +26,7 @@ function SavePoint:init(entity)
 
     -- State properties
 
-    self.isActivated = entity.fields.isActivated or false
+    self.isActivated = entityData.fields.isActivated or false
     self.blueprintsCurrentError = nil
 end
 
