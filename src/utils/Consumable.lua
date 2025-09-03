@@ -72,7 +72,11 @@ local function createEntityClassPrototype(className)
 end
 
 --- @class Consumable : Entity
+--- @field consume function Consumes the entity, marking the LDtk entity as consumed.
+--- @field isConsumed function Check if the entity has been consumed. Returns boolean
 Consumable = Class("Consumable", Entity, createEntityClassPrototype("Consumable"))
 
 --- @class ConsumableAnimated : EntityAnimated
+--- @field consume function Consumes the entity, marking the LDtk entity as consumed.
+--- @field isConsumed function Check if the entity has been consumed. Returns boolean
 ConsumableAnimated = Class("ConsumableAnimated", EntityAnimated, createEntityClassPrototype("ConsumableAnimated"))

@@ -31,7 +31,15 @@ local function createEntityClassPrototype(className)
 end
 
 --- @class Entity : playdate.graphics.sprite
+--- @field id string Same as LDtk iid.
+--- @field fields table LDtk fields data
+--- @field entity table LDtk entity data
+--- @field levelName string Level name reference - should be kept up to date
 Entity = Class("Entity", playdate.graphics.sprite, createEntityClassPrototype("Entity"))
 
 --- @class EntityAnimated : AnimatedSprite
+--- @field id string Same as LDtk iid.
+--- @field fields table LDtk fields data
+--- @field entity table LDtk entity data
+--- @field levelName string Level name reference - should be kept up to date
 EntityAnimated = Class("EntityAnimated", AnimatedSprite, createEntityClassPrototype("EntityAnimated"))
