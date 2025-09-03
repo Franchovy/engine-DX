@@ -26,10 +26,6 @@ function Collectible:init(entityData, levelName)
     -- Generate hash from image
 
     self:generateImageHash()
-end
-
-function Collectible:postInit()
-    Collectible.super.postInit(self)
 
     -- Center collide rect on sprite
 

@@ -141,9 +141,7 @@ function Dialog:init(entityData, levelName)
     -- Variables to be consumed in update
 
     self.isActivated = false
-end
 
-function Dialog:postInit()
     -- Set flip value
 
     if self.fields.flip ~= nil then

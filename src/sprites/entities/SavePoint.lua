@@ -28,9 +28,7 @@ function SavePoint:init(entityData, levelName)
 
     self.isActivated = entityData.fields.isActivated or false
     self.blueprintsCurrentError = nil
-end
 
-function SavePoint:postInit()
     self:setZIndex(Z_INDEX.Level.Neutral)
 
     -- Update

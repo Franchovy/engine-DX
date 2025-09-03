@@ -28,9 +28,7 @@ function Elevator:init(entityData, levelName)
   self.movement = 0                 -- Update scalar for movement.
   self.didActivationSuccess = false -- Update value for checking if activation was successful
   self.didMoveRemaining = false     -- Update value for checking if remaining/adjustment movement occurred
-end
 
-function Elevator:postInit()
   -- Set collideRect to bottom half of sprite
   self:setCollideRect(0, 16, 32, 16)
 

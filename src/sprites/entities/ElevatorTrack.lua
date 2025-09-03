@@ -73,9 +73,7 @@ function ElevatorTrack:init(entityData, levelName, orientation)
 
     self.tilemap = tilemap
     self.orientation = orientation
-end
 
-function ElevatorTrack:postInit()
     -- Sprite config
 
     if self.orientation == ORIENTATION.Vertical then
