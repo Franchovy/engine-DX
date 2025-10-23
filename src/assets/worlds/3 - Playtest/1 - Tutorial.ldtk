@@ -33,7 +33,7 @@
 	"imageExportMode": "None",
 	"exportLevelBg": true,
 	"pngFilePattern": null,
-	"backupOnSave": true,
+	"backupOnSave": false,
 	"backupLimit": 10,
 	"backupRelPath": null,
 	"levelNamePattern": "Level_%idx",
@@ -2805,7 +2805,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Press B to skip dialog.\nYou can jump in the hole/on the right.\n...\n...\n...\nI like stinky gears.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Press B to skip dialog.\\nYou can jump in the hole/on the right.\\n...\\n...\\n...\\nI like stinky gears."
+										"Press B to skip dialog.\nYou can jump in the hole/on the right.\n...\n...\n...\nI like stinky gears."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -3429,7 +3429,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "You can only hold 3 actions/at a time.\nTry moving left.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["You can only hold 3 actions/at a time.\\nTry moving left."]
+									"params": ["You can only hold 3 actions/at a time.\nTry moving left."]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": true, "__tile": null, "defUid": 432, "realEditorValues": [{
@@ -4139,7 +4139,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "This CHECKPOINT will only/activate with the right key combination.\nTry picking up that button/further to the right.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"This CHECKPOINT will only/activate with the right key combination.\\nTry picking up that button/further to the right."
+										"This CHECKPOINT will only/activate with the right key combination.\nTry picking up that button/further to the right."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -4699,7 +4699,7 @@
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": "...\nPeek-a-boop!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["...\\nPeek-a-boop!"]
+									"params": ["...\nPeek-a-boop!"]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
@@ -4994,7 +4994,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Stuck? USE THE CRANK to/warp back to the checkpoint.\nAnd don't be greedy.\nJust take one of them.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Stuck? USE THE CRANK to/warp back to the checkpoint.\\nAnd don't be greedy.\\nJust take one of them."
+										"Stuck? USE THE CRANK to/warp back to the checkpoint.\nAnd don't be greedy.\nJust take one of them."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
