@@ -53,8 +53,8 @@ local function _handleCheckpointRevert(self, state)
     self.fields.consumed = state.consumed
 end
 
-local function _init(self, data, levelName, ...)
-    _G[self.entityClassName].super.init(self, ...)
+local function _init(self, ...)
+    _G[self.consumableClassName].super.init(self, ...)
 
     -- Setup checkpoint handler with initial state (not consumed)
     self.checkpointHandler = CheckpointHandler.getOrCreate(self.id, self, checkpointStateNotConsumed)
@@ -62,7 +62,7 @@ end
 
 local function createEntityClassPrototype(className)
     return {
-        entityClassName = className,
+        consumableClassName = className,
         init = _init,
         shouldSpawn = _shouldSpawn,
         handleCheckpointRevert = _handleCheckpointRevert,
