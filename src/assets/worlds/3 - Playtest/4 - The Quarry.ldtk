@@ -39,7 +39,7 @@
 	"levelNamePattern": "Level_%idx",
 	"tutorialDesc": null,
 	"customCommands": [],
-	"flags": ["ExportOldTableOfContentData"],
+	"flags": [ "ExportOldTableOfContentData", "IgnoreBackupSuggest" ],
 	"defs": { "layers": [
 		{
 			"__type": "Entities",

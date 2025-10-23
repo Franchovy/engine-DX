@@ -39,7 +39,7 @@
 	"levelNamePattern": "Level_%idx",
 	"tutorialDesc": null,
 	"customCommands": [],
-	"flags": ["ExportOldTableOfContentData"],
+	"flags": [ "ExportOldTableOfContentData", "IgnoreBackupSuggest" ],
 	"defs": { "layers": [
 		{
 			"__type": "Entities",
@@ -3332,7 +3332,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Woohoo, welcome back!\nThis time, you made it here all on your own!\nEnjoy the 0-4515!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Woohoo, welcome back!\\nThis time, you made it here all on your own!\\nEnjoy the 0-4515!"
+										"Woohoo, welcome back!\nThis time, you made it here all on your own!\nEnjoy the 0-4515!"
 									]
 								}] },
 								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 592, "realEditorValues": [] },
@@ -10649,7 +10649,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Looks like the LEFT passage has been restored.\nThat's great, probably worth exploring.\nI believe we lost some bots back at the time over there.\n{\"repeatLine\":true}\nGood luck exploring to the LEFT.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Looks like the LEFT passage has been restored.\\nThat's great, probably worth exploring.\\nI believe we lost some bots back at the time over there.\\n{\"repeatLine\":true}\\nGood luck exploring to the LEFT."
+										"Looks like the LEFT passage has been restored.\nThat's great, probably worth exploring.\nI believe we lost some bots back at the time over there.\n{\"repeatLine\":true}\nGood luck exploring to the LEFT."
 									]
 								}] },
 								{ "__identifier": "asset", "__type": "String", "__value": "RKD", "__tile": null, "defUid": 592, "realEditorValues": [{
@@ -10950,7 +10950,7 @@
 						2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
 						2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
 						2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-
+						
 					],
 					"autoLayerTiles": [
 						{ "px": [0,0], "src": [288,192], "f": 0, "t": 81, "d": [493,0], "a": 1 },

@@ -39,7 +39,7 @@
 	"levelNamePattern": "Level_%idx",
 	"tutorialDesc": null,
 	"customCommands": [],
-	"flags": ["ExportOldTableOfContentData"],
+	"flags": [ "ExportOldTableOfContentData", "IgnoreBackupSuggest" ],
 	"defs": { "layers": [
 		{
 			"__type": "Entities",
@@ -5960,7 +5960,7 @@
 						2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
 						2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
 						2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
-
+						
 					],
 					"autoLayerTiles": [
 						{ "px": [0,0], "src": [128,224], "f": 0, "t": 88, "d": [493,0], "a": 1 },
