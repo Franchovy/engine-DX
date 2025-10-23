@@ -1,4 +1,5 @@
 ---@class LDtkWorld
+---@property isCompleted boolean
 LDtkWorld = Class("LDtkWorld")
 
 function LDtkWorld:init(filepathLevel, progressEntitiesData)
@@ -7,4 +8,7 @@ function LDtkWorld:init(filepathLevel, progressEntitiesData)
     if progressEntitiesData then
         LDtk.loadLevelEntitiesData(progressEntitiesData)
     end
+
+    self.filepath = filepathLevel
+    self.isCompleted = false
 end

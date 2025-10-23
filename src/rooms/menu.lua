@@ -132,7 +132,10 @@ function Menu:AButtonDown()
   if area and world then
     spButton:play(1)
 
-    SCENES.currentGame = Game.loadAndEnter(area, world)
+    -- Load LDtk file
+
+    local filepathLevel = ReadFile.getWorldFilepath(area, world)
+    Game.loadAndEnter(filepathLevel)
   end
 end
 

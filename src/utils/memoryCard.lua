@@ -33,23 +33,20 @@ end
 
 -- static functions, to be called by other classes
 
-function MemoryCard.getLevelCompleted(area, world)
+function MemoryCard.getLevelCompleted(filepathLevel)
   local data = loadData(SAVE_FILE.GameData)
 
-  local worldAlias = _.buildWorldAlias(area, world)
-
-  if data.levels == nil or data.levels[worldAlias] == nil then
+  if data.levels == nil or data.levels[filepathLevel] == nil then
     return false
   end
 
-  return data.levels[worldAlias].complete or false
+  return data.levels[filepathLevel].complete or false
 end
 
-function MemoryCard.setLastPlayed(area, world)
+function MemoryCard.setLastPlayed(filepathLevel)
   local data = loadData(SAVE_FILE.GameData)
 
-  local worldAlias = _.buildWorldAlias(area, world)
-  data.lastPlayed = worldAlias
+  data.lastPlayed = filepathLevel
 
   saveData(data, SAVE_FILE.GameData)
 end
@@ -59,27 +56,21 @@ end
 function MemoryCard.getLastPlayed()
   local data = loadData(SAVE_FILE.GameData)
 
-  if not data.lastPlayed then
-    return nil
-  end
-
-  return _.parseWorldAlias(data.lastPlayed)
+  return data and data.lastPlayed
 end
 
-function MemoryCard.setLevelCompletion(area, world, data)
+function MemoryCard.setLevelCompletion(filepathLevel, data)
   local fileData = loadData(SAVE_FILE.GameData)
 
   if not fileData.levels then
     fileData.levels = {}
   end
 
-  local worldAlias = _.buildWorldAlias(area, world)
-
-  if not fileData.levels[worldAlias] then
-    fileData.levels[worldAlias] = {}
+  if not fileData.levels[filepathLevel] then
+    fileData.levels[filepathLevel] = {}
   end
 
-  local fileDataLevel = fileData.levels[worldAlias]
+  local fileDataLevel = fileData.levels[filepathLevel]
 
   if data.currentLevel then
     -- Set current level name
@@ -98,12 +89,11 @@ function MemoryCard.setLevelCompletion(area, world, data)
   saveData(fileData, SAVE_FILE.GameData)
 end
 
-function MemoryCard.getLevelCompletion(area, world)
+function MemoryCard.getLevelCompletion(filepathLevel)
   local fileData = loadData(SAVE_FILE.GameData)
-  local worldAlias = _.buildWorldAlias(area, world)
 
-  if fileData.levels and fileData.levels[worldAlias] then
-    return fileData.levels[worldAlias]
+  if fileData.levels and fileData.levels[filepathLevel] then
+    return fileData.levels[filepathLevel]
   end
 end
 
@@ -173,16 +163,16 @@ end
 
 -- LEVEL PROGRESS
 
-function MemoryCard.clearLevelCheckpoint(area, world)
-  clearData(_.buildProgressSaveFilePath(area, world))
+function MemoryCard.clearLevelCheckpoint(filepathLevel)
+  clearData(_.buildProgressSaveFilePath(filepathLevel))
 end
 
-function MemoryCard.saveLevelCheckpoint(area, world, data)
-  saveData(data, _.buildProgressSaveFilePath(area, world))
+function MemoryCard.saveLevelCheckpoint(filepathLevel, data)
+  saveData(data, _.buildProgressSaveFilePath(filepathLevel))
 end
 
-function MemoryCard.levelProgressToLoad(area, world)
-  local filePath = _.buildProgressSaveFilePath(area, world, true)
+function MemoryCard.levelProgressToLoad(filepathLevel)
+  local filePath = _.buildProgressSaveFilePath(filepathLevel, true)
   local shouldLoad = fi.exists(filePath)
 
   if shouldLoad then
@@ -203,21 +193,6 @@ end
 
 -- PRIVATE METHODS
 
-function _.buildWorldAlias(area, world)
-  return area .. "/" .. world
-end
-
-function _.parseWorldAlias(alias)
-  -- Split alias by "/" character
-  local result = {}
-
-  for part in string.gmatch(alias, "[^/]+") do
-    table.insert(result, part)
-  end
-
-  return table.unpack(result)
-end
-
-function _.buildProgressSaveFilePath(area, world, includeExtension)
-  return SAVE_FILE.LevelSave .. "_" .. area .. "_" .. world .. (includeExtension and ".json" or "")
+function _.buildProgressSaveFilePath(filepathLevel, includeExtension)
+  return SAVE_FILE.LevelSaveDirectory .. "/" .. filepathLevel .. (includeExtension and ".json" or "")
 end

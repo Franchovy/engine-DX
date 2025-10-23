@@ -5,14 +5,9 @@ local sound <const> = pd.sound
 Game = Class("Game", Room)
 
 local sceneManager
-local systemMenu <const> = pd.getSystemMenu()
-
-local worldName
-local areaName
 
 -- LDtk current level name
 
-local LEVEL_NAME_INITIAL_DEBUG <const> = nil
 local LEVEL_NAME_INITIAL <const> = "Level_0"
 local initialLevelNameSaveProgress
 local currentLevelName
@@ -26,10 +21,10 @@ local worldCurrent
 
 -- Static methods
 
-function Game.loadAndEnter(area, world)
+function Game.loadAndEnter(filepathLevel)
     -- Create Game Scene
 
-    local game = Game(area, world)
+    local game = Game(filepathLevel)
 
     -- Enter Game Scene
 
@@ -38,33 +33,25 @@ function Game.loadAndEnter(area, world)
     Manager.getInstance():enter(game, { isInitialLoad = true })
 end
 
---- @param area string
---- @param world string
-function Game:init(area, world)
-    -- Load LDtk file
-
-    local filepathLevel = ReadFile.getWorldFilepath(area, world)
-
+--- @param filepathLevel string level to load
+function Game:init(filepathLevel)
     -- MEMORY CARD
 
-    MemoryCard.setLastPlayed(area, world)
+    MemoryCard.setLastPlayed(filepathLevel)
 
-    local progressDataLevel = MemoryCard.levelProgressToLoad(area, world)
+    local progressDataLevel = MemoryCard.levelProgressToLoad(filepathLevel)
 
     worldCurrent = LDtkWorld(filepathLevel, progressDataLevel)
 
     -- Get last progress of level
 
-    local progressData = MemoryCard.getLevelCompletion(area, world)
+    local progressData = MemoryCard.getLevelCompletion(filepathLevel)
 
     SpriteRescueCounter.loadProgressData(progressData)
 
     --
 
     -- Set world name
-
-    worldName = world
-    areaName = area
 
     self.checkpointHandler = CheckpointHandler.getOrCreate("game", self)
 
@@ -82,6 +69,28 @@ function Game:init(area, world)
 
     self.abilityPanel = GUIChipSet()
 
+    -- Music
+
+    self:setupMusic()
+
+    -- Menu items
+
+    self:setupSystemMenu()
+
+    -- Cheats
+
+    self:setupCheats()
+
+    -- Set world not complete
+
+    worldCurrent.isCompleted = false
+end
+
+---------------------------------
+--- SETUP METHODS
+---------------------------------
+
+function Game:setupMusic()
     -- Load if music should play:
 
     local shouldEnableMusic = MemoryCard.getShouldEnableMusic()
@@ -91,12 +100,20 @@ function Game:init(area, world)
     if shouldEnableMusic then
         FilePlayer.play(assets.music.game)
     end
+end
 
-    -- Menu items
+function Game:setupSystemMenu()
+    local systemMenu = pd.getSystemMenu()
 
     systemMenu:removeAllMenuItems()
 
-    systemMenu:addMenuItem("main menu", sceneManager:enter(SCENES.menu))
+    -- Main menu return
+    systemMenu:addMenuItem("main menu", function()
+        Manager.getInstance():enter(SCENES.menu)
+    end)
+
+    -- Music enabled/disabled
+    local shouldEnableMusic = MemoryCard.getShouldEnableMusic()
     systemMenu:addCheckmarkMenuItem("music", shouldEnableMusic, function(shouldEnableMusic)
         if shouldEnableMusic then
             FilePlayer.play(assets.music.game)
@@ -106,36 +123,36 @@ function Game:init(area, world)
 
         MemoryCard.setShouldEnableMusic(shouldEnableMusic)
     end)
+end
 
-    -- Cheats
-
+function Game:setupCheats()
     self.guiCheatUnlock = GUICheatUnlock()
 
-    -- Crank unlock cheat
-
-    -- LRLR-UDU-BAA
+    -- Unlock Crank: LRLR-UDU-BAA
     self.guiCheatUnlock:addCheat(
         { pd.kButtonLeft, pd.kButtonRight, pd.kButtonLeft, pd.kButtonRight, pd
             .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonB, pd.kButtonA, pd.kButtonA },
         function() Player.getInstance():unlockAbility(ABILITIES.CrankToWarp) end
     )
-    -- LRRL-UDU-BAA
+
+    -- Unlock Double Jump: LRRL-UDU-BAA
     self.guiCheatUnlock:addCheat(
         { pd.kButtonLeft, pd.kButtonRight, pd.kButtonRight, pd.kButtonLeft, pd
             .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonB, pd.kButtonA, pd.kButtonA },
         function() Player.getInstance():unlockAbility(ABILITIES.DoubleJump) end
     )
-    -- LLRR-UDU-BAA
+
+    -- Unlock Dash: LLRR-UDU-BAA
     self.guiCheatUnlock:addCheat(
         { pd.kButtonLeft, pd.kButtonLeft, pd.kButtonRight, pd.kButtonRight, pd
             .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonB, pd.kButtonA, pd.kButtonA },
         function() Player.getInstance():unlockAbility(ABILITIES.Dash) end
     )
-
-    -- Set world not complete
-
-    self.isWorldComplete = false
 end
+
+---------------------------------
+---
+---------------------------------
 
 function Game.getLevelName()
     return currentLevelName
@@ -146,7 +163,7 @@ function Game.getLevelBounds()
 end
 
 function Game:enter(previous, data)
-    assert(worldName, "No world has been loaded!")
+    assert(worldCurrent, "No world has been loaded!")
 
     data = data or {}
     local direction = data.direction
@@ -237,7 +254,6 @@ function Game:leave(next, ...)
         -- Reset load data
 
         initialLevelNameSaveProgress = nil
-        worldName = nil
 
         -- Remove active cheats
 
@@ -311,10 +327,12 @@ function Game:handleCheckpointRevert(state)
     end
 end
 
--- Event-based methods
+---------------------------------
+--- Event-based methods
+---------------------------------
 
 function Game:levelComplete(data)
-    if self.isWorldComplete then
+    if worldCurrent.isCompleted then
         Player.getInstance():freeze()
 
         return
@@ -330,7 +348,7 @@ function Game:levelComplete(data)
 
         local nextLevel, nextLevelBounds = LDtk.getNeighborLevelForPos(currentLevelName, direction, coordinates)
 
-        sceneManager:enter(SCENES.currentGame,
+        Manager:getInstance():enter(SCENES.currentGame,
             { direction = direction, level = { name = nextLevel, bounds = nextLevelBounds } })
 
         Player.getInstance():unfreeze()
@@ -343,7 +361,7 @@ function Game:botRescued(bot, botNumber)
 
     -- Save the rescued sprite list
     local rescuedSprites = spriteRescueCounter:getRescuedSprites()
-    MemoryCard.setLevelCompletion(areaName, worldName, { rescuedSprites = rescuedSprites })
+    MemoryCard.setLevelCompletion(worldCurrent.filepath, { rescuedSprites = rescuedSprites })
 
     if spriteRescueCounter:isAllSpritesRescued() then
         self:worldComplete()
@@ -351,11 +369,11 @@ function Game:botRescued(bot, botNumber)
 end
 
 function Game:worldComplete()
-    if self.isWorldComplete then
+    if worldCurrent.isCompleted then
         return
     end
 
-    self.isWorldComplete = true
+    worldCurrent.isCompleted = true
 
     -- Freeze Player
 
@@ -375,23 +393,20 @@ function Game:worldComplete()
         -- Update level progress
 
         local saveData = { complete = true, currentLevel = LEVEL_NAME_INITIAL }
-        MemoryCard.setLevelCompletion(areaName, worldName, saveData)
+        MemoryCard.setLevelCompletion(worldCurrent.filepath, saveData)
 
         -- Remove progress file
-        MemoryCard.clearLevelCheckpoint(areaName, worldName)
+        MemoryCard.clearLevelCheckpoint(worldCurrent.filepath)
 
         -- Get next level to play
 
-        local nextArea, nextWorld = ReadFile.getNextWorld(worldName, areaName)
+        local filepathLevelNext = ReadFile.getNextWorld(worldCurrent.filepath)
 
-        if nextArea and nextWorld then
+        if filepathLevelNext then
             -- Clear Player Instance
-
             Player.destroy()
 
-            -- Load next level
-
-            SCENES.currentGame = Game.loadAndEnter(area, world)
+            Game.loadAndEnter(filepathLevelNext)
         end
     end)
 end
@@ -421,11 +436,11 @@ end
 function Game:savePointSet()
     local levelData = LDtk.getAllLevels()
 
-    MemoryCard.saveLevelCheckpoint(areaName, worldName, levelData)
+    MemoryCard.saveLevelCheckpoint(worldCurrent.filepath, levelData)
 
     local spriteRescueCounter = SpriteRescueCounter.getInstance()
     local rescuedSprites = spriteRescueCounter:getRescuedSprites()
-    MemoryCard.setLevelCompletion(areaName, worldName,
+    MemoryCard.setLevelCompletion(worldCurrent.filepath,
         { currentLevel = currentLevelName, rescuedSprites = rescuedSprites })
 
     Checkpoint.clearAllPrevious()

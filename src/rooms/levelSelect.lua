@@ -78,11 +78,9 @@ function LevelSelect:AButtonDown()
   if nameArea and nameWorld then
     spButton:play(1)
 
-    SCENES.currentGame = Game.loadAndEnter(area, world)
+    local filepathLevel = ReadFile.getWorldFilepath(nameArea, nameWorld)
 
-    Game.loadWorld(nameArea, nameWorld)
-
-    sceneManager:enter(SCENES.currentGame, { isInitialLoad = true })
+    Game.loadAndEnter(filepathLevel)
   end
 end
 

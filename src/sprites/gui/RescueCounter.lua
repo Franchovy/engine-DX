@@ -26,7 +26,7 @@ SpriteRescueCounter = Class("SpriteRescueCounter", gfx.sprite)
 -- Static Methods
 
 function SpriteRescueCounter.loadProgressData(progressDataRescues)
-    if progressDataRescues.rescuedSprites then
+    if progressDataRescues and progressDataRescues.rescuedSprites then
         local spriteRescueCounter = SpriteRescueCounter.getInstance()
 
         spriteRescueCounter:loadRescuedSprites(progressDataRescues.rescuedSprites)

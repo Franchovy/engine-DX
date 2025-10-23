@@ -110,13 +110,14 @@ function ReadFile.getAreasCount()
     return #areas
 end
 
+---@return string filepath for next world
 function ReadFile.getNextWorld(worldName, areaName)
     local areaIndex = areasR[areaName]
     local worldIndex = worldsR[areaIndex][worldName]
 
     local nextWorldName = worlds[areaName][worldIndex + 1]
     if nextWorldName then
-        return areaName, nextWorldName
+        return _.buildFilePath(areaName, nextWorldName)
     end
 
     -- Next world
@@ -124,7 +125,7 @@ function ReadFile.getNextWorld(worldName, areaName)
     local nextWorldName = nextAreaName and worlds[nextAreaName][1]
 
     if nextAreaName and nextWorldName then
-        return nextAreaName, nextWorldName
+        return _.buildFilePath(nextAreaName, nextWorldName)
     end
 
     -- Game finished
