@@ -86,7 +86,7 @@ end
 -- Private Methods
 
 local function goToStart()
-    sceneManager:enter(sceneManager.scenes.menu)
+    sceneManager:enter(SCENES.menu)
 end
 
 -- Instance methods
@@ -103,6 +103,68 @@ function Game:init()
     spriteGUILightingEffect = GUILightingEffect()
 
     spriteBackground = Background()
+
+    -- Set local reference to sceneManager
+
+    SCENES.currentGame = self
+
+    -- Load Ability Panel
+
+    self.abilityPanel = GUIChipSet()
+
+    -- Load if music should play:
+
+    local shouldEnableMusic = MemoryCard.getShouldEnableMusic()
+
+    -- Play music if enabled
+
+    if shouldEnableMusic then
+        FilePlayer.play(assets.music.game)
+    end
+
+    -- Menu items
+
+    systemMenu:removeAllMenuItems()
+
+    systemMenu:addMenuItem("main menu", goToStart)
+    systemMenu:addCheckmarkMenuItem("music", shouldEnableMusic, function(shouldEnableMusic)
+        if shouldEnableMusic then
+            FilePlayer.play(assets.music.game)
+        else
+            FilePlayer.stop()
+        end
+
+        MemoryCard.setShouldEnableMusic(shouldEnableMusic)
+    end)
+
+    -- Cheats
+
+    self.guiCheatUnlock = GUICheatUnlock()
+
+    -- Crank unlock cheat
+
+    -- LRLR-UDU-BAA
+    self.guiCheatUnlock:addCheat(
+        { pd.kButtonLeft, pd.kButtonRight, pd.kButtonLeft, pd.kButtonRight, pd
+            .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonB, pd.kButtonA, pd.kButtonA },
+        function() Player.getInstance():unlockAbility(ABILITIES.CrankToWarp) end
+    )
+    -- LRRL-UDU-BAA
+    self.guiCheatUnlock:addCheat(
+        { pd.kButtonLeft, pd.kButtonRight, pd.kButtonRight, pd.kButtonLeft, pd
+            .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonB, pd.kButtonA, pd.kButtonA },
+        function() Player.getInstance():unlockAbility(ABILITIES.DoubleJump) end
+    )
+    -- LLRR-UDU-BAA
+    self.guiCheatUnlock:addCheat(
+        { pd.kButtonLeft, pd.kButtonLeft, pd.kButtonRight, pd.kButtonRight, pd
+            .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonB, pd.kButtonA, pd.kButtonA },
+        function() Player.getInstance():unlockAbility(ABILITIES.Dash) end
+    )
+
+    -- Set world not complete
+
+    self.isWorldComplete = false
 end
 
 function Game:enter(previous, data)
@@ -134,96 +196,9 @@ function Game:enter(previous, data)
 
     local levelData = LDtk.get_custom_data(currentLevelName) or {}
 
-    -- Set Save count & GUI
+    -- Parse custom level data
 
-    local spriteRescueCounter = SpriteRescueCounter.getInstance()
-    if #spriteRescueCounter:getRescuedSprites() == 0 and levelData.saveCount then
-        spriteRescueCounter:setRescueSpriteCount(levelData.saveCount)
-
-        spriteRescueCounter:setPositionsSpriteCounter()
-    end
-
-    -- Add Parallax if required
-
-    if levelData.parallax or CONFIG.PARALLAX_BG then
-        spriteBackground.enterLevel(currentLevelName)
-
-        spriteBackground:add()
-    end
-
-    -- This should run only once to initialize the game instance.
-
-    if not self.isInitialized then
-        self.isInitialized = true
-
-        -- Set local reference to sceneManager
-
-        sceneManager = self.manager
-        sceneManager.scenes.currentGame = self
-
-        -- Load Ability Panel
-
-        self.abilityPanel = GUIChipSet()
-
-        -- Load if music should play:
-
-        local shouldEnableMusic = MemoryCard.getShouldEnableMusic()
-
-        -- Play music if enabled
-
-        if shouldEnableMusic then
-            FilePlayer.play(assets.music.game)
-        end
-
-        -- Menu items
-
-        systemMenu:removeAllMenuItems()
-
-        systemMenu:addMenuItem("main menu", goToStart)
-        systemMenu:addCheckmarkMenuItem("music", shouldEnableMusic, function(shouldEnableMusic)
-            if shouldEnableMusic then
-                FilePlayer.play(assets.music.game)
-            else
-                FilePlayer.stop()
-            end
-
-            MemoryCard.setShouldEnableMusic(shouldEnableMusic)
-        end)
-
-        -- Cheats
-
-        self.guiCheatUnlock = GUICheatUnlock()
-
-        -- Crank unlock cheat
-
-        -- LRLR-UDU-BAA
-        self.guiCheatUnlock:addCheat(
-            { pd.kButtonLeft, pd.kButtonRight, pd.kButtonLeft, pd.kButtonRight, pd
-                .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonB, pd.kButtonA, pd.kButtonA },
-            function() Player.getInstance():unlockAbility(ABILITIES.CrankToWarp) end
-        )
-        -- LRRL-UDU-BAA
-        self.guiCheatUnlock:addCheat(
-            { pd.kButtonLeft, pd.kButtonRight, pd.kButtonRight, pd.kButtonLeft, pd
-                .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonB, pd.kButtonA, pd.kButtonA },
-            function() Player.getInstance():unlockAbility(ABILITIES.DoubleJump) end
-        )
-        -- LLRR-UDU-BAA
-        self.guiCheatUnlock:addCheat(
-            { pd.kButtonLeft, pd.kButtonLeft, pd.kButtonRight, pd.kButtonRight, pd
-                .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonB, pd.kButtonA, pd.kButtonA },
-            function() Player.getInstance():unlockAbility(ABILITIES.Dash) end
-        )
-
-        -- Set world not complete
-
-        self.isWorldComplete = false
-
-        -- Perma-power enabled/disabled
-
-        local isPoweredPermanent = levelData.power or false -- for backwards compatibility
-        GUIChipSet.getInstance():setPowerPermanent(isPoweredPermanent)
-    end
+    self:parseCustomLevelData(levelData)
 
     self.guiCheatUnlock:add()
 
@@ -245,12 +220,6 @@ function Game:enter(previous, data)
 
     if player then
         player:add()
-
-        if checkpoint then
-            player:setBlueprints(checkpoint.blueprints)
-            player:moveTo(checkpoint.x, checkpoint.y)
-        end
-
         player:enterLevel(currentLevelName, direction)
 
         Camera.enterLevel(currentLevelName)
@@ -295,13 +264,6 @@ function Game:leave(next, ...)
         initialLevelNameSaveProgress = nil
         worldName = nil
 
-        -- Remove end timer
-
-        if timerEndSceneTransition then
-            self.timerEndSceneTransition:remove()
-            self.timerEndSceneTransition = nil
-        end
-
         -- Remove active cheats
 
         self.guiCheatUnlock:clearAll()
@@ -329,7 +291,7 @@ function Game:leave(next, ...)
         systemMenu:removeAllMenuItems()
 
         -- Remove currentGame reference from manager
-        sceneManager.scenes.currentGame = nil
+        SCENES.currentGame = nil
 
         -- Stop the music!
 
@@ -337,11 +299,39 @@ function Game:leave(next, ...)
     end
 end
 
+-- Level data setup
+
+function Game:parseCustomLevelData(levelData)
+    -- Set Save count & GUI
+
+    local spriteRescueCounter = SpriteRescueCounter.getInstance()
+    if #spriteRescueCounter:getRescuedSprites() == 0 and levelData.saveCount then
+        spriteRescueCounter:setRescueSpriteCount(levelData.saveCount)
+
+        spriteRescueCounter:setPositionsSpriteCounter()
+    end
+
+    -- Add Parallax if required
+
+    if levelData.parallax or CONFIG.PARALLAX_BG then
+        spriteBackground.enterLevel(currentLevelName)
+
+        spriteBackground:add()
+    end
+
+    -- Perma-power enabled/disabled
+
+    if not self.isInitialized then
+        local isPoweredPermanent = levelData.power or false -- for backwards compatibility
+        GUIChipSet.getInstance():setPowerPermanent(isPoweredPermanent)
+    end
+end
+
 -- Checkpoint interface
 
 function Game:handleCheckpointRevert(state)
     if currentLevelName ~= state.levelName then
-        sceneManager:enter(sceneManager.scenes.currentGame,
+        sceneManager:enter(SCENES.currentGame,
             { level = { name = state.levelName }, isCheckpointRevert = true })
     end
 end
@@ -365,7 +355,7 @@ function Game:levelComplete(data)
 
         local nextLevel, nextLevelBounds = LDtk.getNeighborLevelForPos(currentLevelName, direction, coordinates)
 
-        sceneManager:enter(sceneManager.scenes.currentGame,
+        sceneManager:enter(SCENES.currentGame,
             { direction = direction, level = { name = nextLevel, bounds = nextLevelBounds } })
 
         Player.getInstance():unfreeze()
@@ -426,11 +416,11 @@ function Game:worldComplete()
 
             -- Load next level
 
-            sceneManager.scenes.currentGame = Game()
+            SCENES.currentGame = Game()
 
             Game.loadWorld(nextArea, nextWorld)
 
-            sceneManager:enter(sceneManager.scenes.currentGame, { isInitialLoad = true })
+            sceneManager:enter(SCENES.currentGame, { isInitialLoad = true })
         end
     end)
 end

@@ -30,7 +30,7 @@ local function createEntityClassPrototype(className)
     }
 end
 
---- @class Entity : playdate.graphics.sprite
+--- @class Entity: _Sprite
 --- @field id string Same as LDtk iid.
 --- @field fields table LDtk fields data
 --- @field entity table LDtk entity data

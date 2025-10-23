@@ -1,2 +1,2 @@
----@class AnimatedSprite: playdate.graphics.sprite
+---@class AnimatedSprite: _Sprite
 _G.AnimatedSprite = AnimatedSprite

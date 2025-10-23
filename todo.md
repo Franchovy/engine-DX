@@ -1,4 +1,4 @@
-- All sprites should use the LDtk "pivot" notion and stop adjusting their own position/center. Remove hard-coded centering in ldtk extension
-- Flip option: Left, Right, Facing player
-- LDtk: Clean up dialog sprite
-- LDtk: Remove "Hint Crank" from levels
+- Dialog: {"flip":{"facing": "player"}}
+- Gamepoint: {"camera":{"focus":{"target":"self"}}}
+- Level: {"gamepoints_on_enter":["73048940-ac70-11f0-979d-c755f1a6d76b"]}
+- Dialog: {"goto": {"iid": ""}}

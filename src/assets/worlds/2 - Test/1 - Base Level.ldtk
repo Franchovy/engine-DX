@@ -11,7 +11,7 @@
 	"iid": "b12745f0-d7b0-11ee-9f72-7bc5a2cd12f0",
 	"jsonVersion": "1.5.3",
 	"appBuildId": 473703,
-	"nextUid": 586,
+	"nextUid": 589,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": "Free",
@@ -3041,6 +3041,79 @@
 					"tilesetUid": null
 				}
 			]
+		},
+		{
+			"identifier": "Gamepoint",
+			"uid": 587,
+			"tags": [],
+			"exportToToc": false,
+			"allowOutOfBounds": false,
+			"doc": null,
+			"width": 16,
+			"height": 16,
+			"resizableX": false,
+			"resizableY": false,
+			"minWidth": null,
+			"maxWidth": null,
+			"minHeight": null,
+			"maxHeight": null,
+			"keepAspectRatio": false,
+			"tileOpacity": 1,
+			"fillOpacity": 1,
+			"lineOpacity": 1,
+			"hollow": false,
+			"color": "#D77643",
+			"renderMode": "Rectangle",
+			"showName": true,
+			"tilesetId": null,
+			"tileRenderMode": "FitInside",
+			"tileRect": null,
+			"uiTileRect": null,
+			"nineSliceBorders": [],
+			"maxCount": 0,
+			"limitScope": "PerLevel",
+			"limitBehavior": "MoveLastOne",
+			"pivotX": 0,
+			"pivotY": 0,
+			"fieldDefs": [
+				{
+					"identifier": "config",
+					"doc": null,
+					"__type": "String",
+					"uid": 588,
+					"type": "F_Text",
+					"isArray": false,
+					"canBeNull": true,
+					"arrayMinLength": null,
+					"arrayMaxLength": null,
+					"editorDisplayMode": "Hidden",
+					"editorDisplayScale": 1,
+					"editorDisplayPos": "Above",
+					"editorLinkStyle": "StraightArrow",
+					"editorDisplayColor": null,
+					"editorAlwaysShow": false,
+					"editorShowInWorld": true,
+					"editorCutLongValues": true,
+					"editorTextSuffix": null,
+					"editorTextPrefix": null,
+					"useForSmartColor": false,
+					"exportToToc": false,
+					"searchable": false,
+					"min": null,
+					"max": null,
+					"regex": null,
+					"acceptFileTypes": null,
+					"defaultOverride": null,
+					"textLanguageMode": "LangJson",
+					"symmetricalRef": false,
+					"autoChainRef": true,
+					"allowOutOfLevelRef": true,
+					"allowedRefs": "OnlySame",
+					"allowedRefsEntityUid": null,
+					"allowedRefTags": [],
+					"tilesetUid": null
+				}
+			]
 		}
 	], "tilesets": [
 		{
@@ -3127,50 +3200,13 @@
 		], "iconTilesetUid": null, "externalRelPath": null, "externalFileChecksum": null, "tags": [] }
 	], "externalEnums": [], "levelFields": [
 		{
-			"identifier": "HintCrank",
+			"identifier": "config",
 			"doc": null,
-			"__type": "Bool",
-			"uid": 60,
-			"type": "F_Bool",
+			"__type": "String",
+			"uid": 586,
+			"type": "F_Text",
 			"isArray": false,
-			"canBeNull": false,
-			"arrayMinLength": null,
-			"arrayMaxLength": null,
-			"editorDisplayMode": "ValueOnly",
-			"editorDisplayScale": 1,
-			"editorDisplayPos": "Above",
-			"editorLinkStyle": "StraightArrow",
-			"editorDisplayColor": null,
-			"editorAlwaysShow": true,
-			"editorShowInWorld": true,
-			"editorCutLongValues": true,
-			"editorTextSuffix": null,
-			"editorTextPrefix": null,
-			"useForSmartColor": false,
-			"exportToToc": false,
-			"searchable": false,
-			"min": null,
-			"max": null,
-			"regex": null,
-			"acceptFileTypes": null,
-			"defaultOverride": null,
-			"textLanguageMode": null,
-			"symmetricalRef": false,
-			"autoChainRef": true,
-			"allowOutOfLevelRef": true,
-			"allowedRefs": "OnlySame",
-			"allowedRefsEntityUid": null,
-			"allowedRefTags": [],
-			"tilesetUid": null
-		},
-		{
-			"identifier": "saveCount",
-			"doc": null,
-			"__type": "Int",
-			"uid": 431,
-			"type": "F_Int",
-			"isArray": false,
-			"canBeNull": false,
+			"canBeNull": true,
 			"arrayMinLength": null,
 			"arrayMaxLength": null,
 			"editorDisplayMode": "Hidden",
@@ -3191,44 +3227,7 @@
 			"regex": null,
 			"acceptFileTypes": null,
 			"defaultOverride": null,
-			"textLanguageMode": null,
-			"symmetricalRef": false,
-			"autoChainRef": true,
-			"allowOutOfLevelRef": true,
-			"allowedRefs": "OnlySame",
-			"allowedRefsEntityUid": null,
-			"allowedRefTags": [],
-			"tilesetUid": null
-		},
-		{
-			"identifier": "parallax",
-			"doc": null,
-			"__type": "Bool",
-			"uid": 475,
-			"type": "F_Bool",
-			"isArray": false,
-			"canBeNull": false,
-			"arrayMinLength": null,
-			"arrayMaxLength": null,
-			"editorDisplayMode": "Hidden",
-			"editorDisplayScale": 1,
-			"editorDisplayPos": "Above",
-			"editorLinkStyle": "StraightArrow",
-			"editorDisplayColor": null,
-			"editorAlwaysShow": false,
-			"editorShowInWorld": true,
-			"editorCutLongValues": true,
-			"editorTextSuffix": null,
-			"editorTextPrefix": null,
-			"useForSmartColor": false,
-			"exportToToc": false,
-			"searchable": false,
-			"min": null,
-			"max": null,
-			"regex": null,
-			"acceptFileTypes": null,
-			"defaultOverride": null,
-			"textLanguageMode": null,
+			"textLanguageMode": "LangJson",
 			"symmetricalRef": false,
 			"autoChainRef": true,
 			"allowOutOfLevelRef": true,
@@ -3258,11 +3257,7 @@
 			"__smartColor": "#ADADB5",
 			"__bgPos": null,
 			"externalRelPath": null,
-			"fieldInstances": [
-				{ "__identifier": "HintCrank", "__type": "Bool", "__value": false, "__tile": null, "defUid": 60, "realEditorValues": [] },
-				{ "__identifier": "saveCount", "__type": "Int", "__value": 0, "__tile": null, "defUid": 431, "realEditorValues": [] },
-				{ "__identifier": "parallax", "__type": "Bool", "__value": false, "__tile": null, "defUid": 475, "realEditorValues": [] }
-			],
+			"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": null, "__tile": null, "defUid": 586, "realEditorValues": [] }],
 			"layerInstances": [
 				{
 					"__identifier": "Entities",
@@ -3337,33 +3332,8 @@
 							"__worldY": 1376
 						},
 						{
-							"__identifier": "Player",
-							"__grid": [3,5],
-							"__pivot": [0.5,0.5],
-							"__tags": [],
-							"__tile": null,
-							"__smartColor": "#275FFC",
-							"iid": "45ac4f70-1030-11f0-a12e-e93a8c0a6f37",
-							"width": 20,
-							"height": 24,
-							"defUid": 19,
-							"px": [112,176],
-							"fieldInstances": [{ "__identifier": "chipSet", "__type": "Array<LocalEnum.Buttons>", "__value": [ "Left", "Right", "A" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
-								"id": "V_String",
-								"params": ["Left"]
-							}, {
-								"id": "V_String",
-								"params": ["Right"]
-							}, {
-								"id": "V_String",
-								"params": ["A"]
-							} ] }],
-							"__worldX": 7408,
-							"__worldY": 1456
-						},
-						{
 							"__identifier": "Chip",
-							"__grid": [6,6],
+							"__grid": [11,2],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
@@ -3372,13 +3342,13 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [208,208],
+							"px": [368,80],
 							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Left"]
 							}] }],
-							"__worldX": 7504,
-							"__worldY": 1488
+							"__worldX": 7664,
+							"__worldY": 1360
 						},
 						{
 							"__identifier": "Dialog",
@@ -3393,9 +3363,9 @@
 							"defUid": 204,
 							"px": [240,208],
 							"fieldInstances": [
-								{ "__identifier": "text", "__type": "String", "__value": "Test", "__tile": null, "defUid": 205, "realEditorValues": [{
+								{ "__identifier": "text", "__type": "String", "__value": "{\"flip\":{\"facing\": \"player\"}}\nTest", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Test"]
+									"params": ["{\"flip\":{\"facing\": \"player\"}}\\nTest"]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
@@ -3423,7 +3393,7 @@
 						},
 						{
 							"__identifier": "CameraPoint",
-							"__grid": [8,2],
+							"__grid": [3,2],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
@@ -3432,14 +3402,14 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 509,
-							"px": [272,80],
+							"px": [112,80],
 							"fieldInstances": [],
-							"__worldX": 7568,
+							"__worldX": 7408,
 							"__worldY": 1360
 						},
 						{
 							"__identifier": "Collectible",
-							"__grid": [11,2],
+							"__grid": [10,2],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
@@ -3448,9 +3418,9 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 540,
-							"px": [368,80],
+							"px": [336,80],
 							"fieldInstances": [{ "__identifier": "index", "__type": "Int", "__value": 1, "__tile": null, "defUid": 582, "realEditorValues": [{ "id": "V_Int", "params": [1] }] }],
-							"__worldX": 7664,
+							"__worldX": 7632,
 							"__worldY": 1360
 						},
 						{
@@ -3499,6 +3469,50 @@
 							"px": [288,96],
 							"fieldInstances": [{ "__identifier": "uid", "__type": "String", "__value": null, "__tile": null, "defUid": 581, "realEditorValues": [] }],
 							"__worldX": 7584,
+							"__worldY": 1376
+						},
+						{
+							"__identifier": "Player",
+							"__grid": [3,6],
+							"__pivot": [0.5,0.5],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#275FFC",
+							"iid": "02562120-ac70-11f0-9a22-c38e748d8e64",
+							"width": 20,
+							"height": 24,
+							"defUid": 19,
+							"px": [112,208],
+							"fieldInstances": [{ "__identifier": "chipSet", "__type": "Array<LocalEnum.Buttons>", "__value": [ "Right", "A", "Up" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
+								"id": "V_String",
+								"params": ["Right"]
+							}, {
+								"id": "V_String",
+								"params": ["A"]
+							}, {
+								"id": "V_String",
+								"params": ["Up"]
+							} ] }],
+							"__worldX": 7408,
+							"__worldY": 1488
+						},
+						{
+							"__identifier": "Gamepoint",
+							"__grid": [6,3],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#D77643",
+							"iid": "73048940-ac70-11f0-979d-c755f1a6d76b",
+							"width": 16,
+							"height": 16,
+							"defUid": 587,
+							"px": [192,96],
+							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\"camera\":{\"focus\":{\"target\":\"self\"}}}", "__tile": null, "defUid": 588, "realEditorValues": [{
+								"id": "V_String",
+								"params": ["{\"camera\":{\"focus\":{\"target\":\"self\"}}}"]
+							}] }],
+							"__worldX": 7488,
 							"__worldY": 1376
 						}
 					]

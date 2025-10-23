@@ -9,7 +9,7 @@ local backgroundImages <const> = {}
 
 local levelBounds
 
---- @class Background : playdate.graphics.sprite
+--- @class Background: _Sprite
 Background = Class("Background", gfx.sprite)
 
 function Background:init()

@@ -13,6 +13,8 @@
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 
+---@class Tanuk_CodeSequence : _Sprite
+Tanuk_CodeSequence = {}
 class('Tanuk_CodeSequence').extends(gfx.sprite)
 
 --- Creates a Cheat code sequence

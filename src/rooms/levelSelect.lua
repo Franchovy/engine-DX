@@ -78,16 +78,16 @@ function LevelSelect:AButtonDown()
   if nameArea and nameWorld then
     spButton:play(1)
 
-    sceneManager.scenes.currentGame = Game()
+    SCENES.currentGame = Game()
 
     Game.loadWorld(nameArea, nameWorld)
 
-    sceneManager:enter(sceneManager.scenes.currentGame, { isInitialLoad = true })
+    sceneManager:enter(SCENES.currentGame, { isInitialLoad = true })
   end
 end
 
 function LevelSelect:BButtonDown()
-  sceneManager:enter(sceneManager.scenes.menu)
+  sceneManager:enter(SCENES.menu)
 end
 
 function LevelSelect:downButtonDown()

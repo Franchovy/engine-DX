@@ -42,7 +42,7 @@ function Checkpoint.increment()
 end
 
 function Checkpoint.goToPrevious()
-    debugPrint("Performing Checkpoint revert operation...", DEBUG_PRINT)
+    --debug: print("Performing Checkpoint revert operation...", DEBUG_PRINT)
 
     local hasChanged = false
     for _, handler in pairs(checkpointHandlers) do
@@ -53,12 +53,11 @@ function Checkpoint.goToPrevious()
     -- Only decrement the checkpoint number if no reset occurred.
     if not hasChanged then
         if checkpointNumber == 1 then
-            debugPrint("No state changes detected. Cannot decrement checkpoint number 1.", DEBUG_PRINT)
+            --debug: print("No state changes detected. Cannot decrement checkpoint number 1.", DEBUG_PRINT)
             return
         end
 
-        debugPrint("No state changes detected. Decrementing the checkpoint number to: " .. checkpointNumber - 1,
-            DEBUG_PRINT)
+        --debug: print("No state changes detected. Decrementing the checkpoint number to: " .. checkpointNumber - 1, DEBUG_PRINT)
 
         checkpointNumber -= 1
 
@@ -134,8 +133,8 @@ function CheckpointHandler:pushState(state)
 
     self.states:append(state, checkpointNumber)
 
-    debugPrint("Pushing state: " .. checkpointNumber, DEBUG_PRINT)
-    debugPrintTable(self.states, DEBUG_PRINT)
+    --debug: print("Pushing state: " .. checkpointNumber, DEBUG_PRINT)
+    --debug: printTable(self.states, DEBUG_PRINT)
 end
 
 function CheckpointHandler:revertState()
@@ -145,8 +144,8 @@ function CheckpointHandler:revertState()
 
     -- Check what state needs to be reverted.
 
-    debugPrint("Checking state to revert: ", DEBUG_PRINT)
-    debugPrintTable(self.states, DEBUG_PRINT)
+    --debug: print("Checking state to revert: ", DEBUG_PRINT)
+    --debug: printTable(self.states, DEBUG_PRINT)
 
     -- Pop all values until the checkpoint number.
 
@@ -165,8 +164,8 @@ function CheckpointHandler:revertState()
     if hasChangedState then
         local state = self.states:getLast()
 
-        debugPrint("Reverting to state: ", DEBUG_PRINT)
-        debugPrintTable(state, DEBUG_PRINT)
+        --debug: print("Reverting to state: ", DEBUG_PRINT)
+        --debug: printTable(state, DEBUG_PRINT)
 
         assert(self.sprite.handleCheckpointRevert, "Sprite did not implement handleCheckpointRevert().")
         self.sprite:handleCheckpointRevert(state)

@@ -11,7 +11,10 @@
 import 'CoreLibs/object'
 import 'CoreLibs/sprites'
 local gfx <const> = playdate.graphics
-local function emptyFunc() end
+
+--- @function
+--- @param self any
+local function emptyFunc(self) end
 
 class("AnimatedSprite").extends(gfx.sprite)
 
@@ -173,43 +176,43 @@ local function addState(self, params)
         state["firstFrameIndex"] = thatState.firstFrameIndex + thatState.framesCount
     else
         state["firstFrameIndex"] = params
-        .firstFrameIndex                                  -- index in the imagetable for the firstFrame
+            .firstFrameIndex -- index in the imagetable for the firstFrame
     end
     state["framesCount"] = params.framesCount and params.framesCount or
         (self.states.default.framesCount - state.firstFrameIndex + 1) -- This state frames count
     state["nextAnimation"] = params
-    .nextAnimation                                                -- Animation to switch to after this finishes
+        .nextAnimation                                                -- Animation to switch to after this finishes
     if (params.nextAnimation == nil) then
         state["loop"] = params
-        .loop                                                     -- You can put in number of loops or true for endless loop
+            .loop -- You can put in number of loops or true for endless loop
     else
         state["loop"] = params.loop or false
     end
     state["reverse"] = params
-    .reverse                                   -- You can reverse animation sequence
+        .reverse                                   -- You can reverse animation sequence
     state["animationStartingFrame"] = params.animationStartingFrame or
         (state.reverse and state.framesCount or 1) -- Frame to start the animation from
     state["tickStep"] = params
-    .tickStep                                  -- Speed of animation (2 = every second frame)
+        .tickStep                                  -- Speed of animation (2 = every second frame)
     state["frameStep"] = params
-    .frameStep                                 -- Number of images to skip on next frame
+        .frameStep                                 -- Number of images to skip on next frame
     state["yoyo"] = params
-    .yoyo                                      -- Ping-pong animation (from 1 to n to 1 to n)
+        .yoyo                                      -- Ping-pong animation (from 1 to n to 1 to n)
     state["flip"] = params
-    .flip                                      -- You can set up flip mode, read Playdate SDK Docs for more info
+        .flip                                      -- You can set up flip mode, read Playdate SDK Docs for more info
     state["xScale"] = params
-    .xScale                                    -- Optional scale for horizontal axis
+        .xScale                                    -- Optional scale for horizontal axis
     state["yScale"] = params
-    .yScale                                    -- Optional scale for vertical axis
+        .yScale                                    -- Optional scale for vertical axis
 
     state["onFrameChangedEvent"] = params
-        .onFrameChangedEvent                                  -- Event that will be raised when animation moves to the next frame
+        .onFrameChangedEvent -- Event that will be raised when animation moves to the next frame
     state["onStateChangedEvent"] = params
-    .onStateChangedEvent                                      -- Event that will be raised when animation state changes
+        .onStateChangedEvent -- Event that will be raised when animation state changes
     state["onLoopFinishedEvent"] = params
-        .onLoopFinishedEvent                                  -- Event that will be raised when animation changes to the final frame
+        .onLoopFinishedEvent -- Event that will be raised when animation changes to the final frame
     state["onAnimationEndEvent"] = params
-        .onAnimationEndEvent                                  -- Event that will be raised after animation in this state ends
+        .onAnimationEndEvent -- Event that will be raised after animation in this state ends
 
     return state
 end
@@ -310,7 +313,7 @@ function AnimatedSprite:addState(name, startFrame, endFrame, params, animate)
 end
 
 ---Changes current state to an existing state
----@param name string New state name
+---@param name string|number New state name
 ---@param play? boolean If new animation should be played right away. Default: `True`
 function AnimatedSprite:changeState(name, play)
     if (name == self.currentState) then
@@ -356,7 +359,7 @@ function AnimatedSprite:forceNextAnimation(instant, state)
 end
 
 ---Sets default state.
----@param name string Name of an existing state
+---@param name string|number Name of an existing state
 function AnimatedSprite:setDefaultState(name)
     assert(self.states[name], "State name is nil.")
     self.defaultState = name

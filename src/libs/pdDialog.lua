@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global, undefined-global
 ------------------------------------------------
 --- Dialogue classes intended to ease the    ---
 --- implementation of dialogue into playdate ---

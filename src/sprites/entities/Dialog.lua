@@ -20,8 +20,9 @@ local durationDialog <const> = 2000
 local collideRectSize <const> = 90
 
 local yOffset <const> = 16
-local botAnimationSpeeds <const> = botAnimationSpeeds
+local botAnimationSpeeds <const> = BOT_ANIMATION_SPEEDS
 
+---@type {number:number}
 local ANIMATION_STATES <const> = {
     Idle = 1,
     Talking = 2,
@@ -38,6 +39,7 @@ local lettersToActions <const> = {
 }
 
 ---@class Dialog: EntityAnimated
+---@property timer _Timer|nil
 Dialog = Class("Dialog", EntityAnimated)
 
 function Dialog:init(entityData, levelName)
@@ -57,6 +59,7 @@ function Dialog:init(entityData, levelName)
         -- Set the rate at which the bot should animate
         botAnimationSpeed = botAnimationSpeeds[entityData.fields.asset]
 
+        ---@type string | number
         local assetName = entityData.fields.asset
 
         if type(assetName) == "number" then
@@ -142,12 +145,16 @@ function Dialog:init(entityData, levelName)
 
     self.isActivated = false
 
+    -- Timer placeholder
+
+    ---@type _Timer|nil
+    self.timer = nil
+
     -- Set flip value
 
     if self.fields.flip ~= nil then
         self:setFlip(self.fields.flip)
     end
-
 
     -- Set collide rect to full size, centered on current center.
     self:setCollideRect(

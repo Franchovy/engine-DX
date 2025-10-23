@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global, undefined-field, duplicate-set-field
 --- ADDED BY FRANCHOVY ---
 
 ----- stubs for Roomy

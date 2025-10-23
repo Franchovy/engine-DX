@@ -1,5 +1,5 @@
 --- Table containing the animation speed for each bot.
-botAnimationSpeeds = {
+BOT_ANIMATION_SPEEDS = {
     ["1"] = 2,
     ["2"] = 2,
     ["3"] = 3,

@@ -25,6 +25,7 @@ function Camera.setOffset(x, y)
         return
     end
 
+    ---@type number|_Point
     local currentPoint = geo.point.new(0, 0)
 
     if offsetAnimator then
@@ -79,7 +80,9 @@ function Camera.update()
     end
 
     if animatorViewpoint then
-        gfx.setDrawOffset(animatorViewpoint:currentValue():unpack())
+        local offset = animatorViewpoint:currentValue()
+        ---@cast offset -number
+        gfx.setDrawOffset(offset:unpack())
 
         if animatorViewpoint:ended() then
             playdate.timer.performAfterDelay(2500, function()

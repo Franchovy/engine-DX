@@ -1,6 +1,6 @@
 local gfx <const> = playdate.graphics
 
---- @class GUILightingEffect : playdate.graphics.sprite
+--- @class GUILightingEffect: _Sprite
 GUILightingEffect = Class("GUILightingEffect", gfx.sprite)
 
 function GUILightingEffect:init()

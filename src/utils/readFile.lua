@@ -55,11 +55,11 @@ function ReadFile.initialize()
 
     -- Populate reverse lookup table for areas and worlds
 
-    areasR = reverseLookup(areas)
+    areasR = table.reverse(areas)
     worldsR = {}
 
     for indexArea, nameArea in pairs(areas) do
-        worldsR[indexArea] = reverseLookup(worlds[nameArea])
+        worldsR[indexArea] = table.reverse(worlds[nameArea])
     end
 
     -- Set initialized

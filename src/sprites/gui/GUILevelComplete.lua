@@ -6,7 +6,7 @@ local SPRITE_HEIGHT <const> = 120
 -- Local functions
 local _ = {}
 
---- @class GUILevelComplete : playdate.graphics.sprite
+--- @class GUILevelComplete: _Sprite
 GUILevelComplete = Class("GUILevelComplete", gfx.sprite)
 
 function GUILevelComplete:init()

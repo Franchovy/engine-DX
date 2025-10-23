@@ -17,7 +17,7 @@ local padding <const> = 3
 local maxSpriteCounters <const> = 7
 local spriteCounters <const> = {}
 
----@class {number:{value:bool?, indexSpriteImage:number}}
+---@type {number:{value:boolean?, indexSpriteImage:number}}
 local stateSpriteCounters = {}
 
 ---@class SpriteRescueCounter: playdate.graphics.sprite

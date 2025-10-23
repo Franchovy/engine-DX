@@ -4,9 +4,13 @@ local gfx <const> = pd.graphics
 
 function LDtk.loadAllLayersAsSprites(levelName)
     local levelBounds = LDtk.get_rect(levelName)
-    for layerName, layer in pairs(LDtk.get_layers(levelName)) do
+    for layerName, layer in pairs(LDtk.get_layers(levelName) or {}) do
         if layer.tiles then
             local tilemap = LDtk.create_tilemap(levelName, layerName)
+            if not tilemap then
+                goto continue
+            end
+
             local sprite = gfx.sprite.new()
             sprite:setTilemap(tilemap)
             sprite:setCenter(0, 0)
@@ -29,15 +33,17 @@ function LDtk.loadAllLayersAsSprites(levelName)
                 end
             end
         end
+
+        ::continue::
     end
 end
 
 function LDtk.loadAllEntitiesAsSprites(levelName)
-    for _, entityData in ipairs(LDtk.get_entities(levelName)) do
+    for _, entityData in ipairs(LDtk.get_entities(levelName) or {}) do
         local entityClass = _G[entityData.name]
 
         if not entityClass then
-            debugPrint("WARNING: No sprite class for entity with name: " .. data.name)
+            print("WARNING: No sprite class for entity with name: " .. entityData.name)
 
             goto continue
         end
@@ -58,7 +64,7 @@ function LDtk.getNeighborLevelForPos(levelName, direction, position)
 
     assert(#neighbors > 0)
 
-    for _, levelName in pairs(neighbors) do
+    for _, levelName in pairs(neighbors or {}) do
         local levelBounds = LDtk.get_rect(levelName)
         if levelBounds.x < position.x and levelBounds.x + levelBounds.width > position.x and
             levelBounds.y < position.y and levelBounds.y + levelBounds.height > position.y then

@@ -1,3 +1,5 @@
+---@diagnostic disable: duplicate-set-field
+
 -- Swizzle enter method – adds reference from scene to the manager.
 local enterSwizzled = Manager.enter
 function Manager.enter(self, next, ...)
@@ -5,12 +7,14 @@ function Manager.enter(self, next, ...)
     enterSwizzled(self, next, ...)
 end
 
-local sceneManager = nil
+--- @class sceneManager : Manager
+--- @field scenes Room[]
+local sceneManager = {}
 
 -- Swizzle init method - keep a reference of sceneManager
 
 local managerInitSwizzled = Manager.init
-function Manager.init(self, ...)
+Manager.init = function(self, ...)
     managerInitSwizzled(self, ...)
 
     sceneManager = self

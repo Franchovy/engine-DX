@@ -2,7 +2,7 @@ local gfx <const> = playdate.graphics
 
 local spCheatUnlock <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.cheatUnlock))
 
---- @class GUICheatUnlock : playdate.graphics.sprite
+--- @class GUICheatUnlock: _Sprite
 GUICheatUnlock = Class("GUICheatUnlock", gfx.sprite)
 
 local _instance

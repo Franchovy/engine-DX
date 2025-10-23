@@ -1,5 +1,4 @@
 import "const"
-import "debug"
 import "assets"
 import "libs"
 import "extensions"
@@ -16,7 +15,11 @@ local imageLogo <const> = assert(gfx.image.new(assets.images.logo))
 local showLogo = true
 local last_time = 0
 
-local manager
+--- @class SCENES : table
+--- @field menu table
+--- @field levelSelect table
+--- @field currentGame table
+SCENES = {}
 
 local function updateDeltaTime()
   local current_time = playdate.getCurrentTimeMilliseconds();
@@ -49,24 +52,24 @@ local function init()
 
   -- Set up Scene Manager (Roomy)
 
-  manager = Manager()
-
-  manager:hook()
+  local sceneManagerInstance = Manager()
+  sceneManagerInstance:hook()
 
   -- Open Menu (& save reference)
 
-  manager.scenes = {
+  SCENES = {
     menu = Menu(),
     levelSelect = LevelSelect()
   }
 
-  manager:enter(manager.scenes.menu)
+  sceneManagerInstance:enter(SCENES.menu)
 
   -- Hide logo
 
   showLogo = false
 end
 
+---@diagnostic disable-next-line: duplicate-set-field
 function playdate.update()
   timer.updateTimers()
   frameTimer.updateTimers()
@@ -87,9 +90,10 @@ function playdate.update()
   gfx.animation.blinker.updateAll()
 
   -- Update Scenes using Scene Manager
-  manager:emit(EVENTS.Update)
+  local sceneManagerInstance = Manager.getInstance()
 
-  manager:emit(EVENTS.Draw)
+  sceneManagerInstance:emit(EVENTS.Update)
+  sceneManagerInstance:emit(EVENTS.Draw)
 
   Camera.update()
 end

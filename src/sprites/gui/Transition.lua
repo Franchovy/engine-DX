@@ -3,7 +3,7 @@ local sound <const> = playdate.sound
 
 local _ = {}
 
---- @class Transition : playdate.graphics.sprite
+--- @class Transition: _Sprite
 Transition = Class("Transition", gfx.sprite)
 
 local sfxSwoosh <const> = assert(sound.sampleplayer.new(assets.sounds.swoosh))

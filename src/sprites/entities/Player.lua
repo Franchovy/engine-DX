@@ -114,6 +114,7 @@ function Player:init(entityData, levelName)
 
     -- "Sub-States"
 
+    ---@type Dialog|false
     self.activeDialog = false
     self.didPressedInvalidKey = false
     self.activations = {}
@@ -338,7 +339,7 @@ end
 
 function Player:animateInvalidKey()
     self.questionMark:play()
-    screenShake(3, 1)
+    ScreenShake.performScreenShake(3, 1)
 
     self.didPressedInvalidKey = true
 

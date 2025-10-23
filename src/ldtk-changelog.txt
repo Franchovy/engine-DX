@@ -1,3 +1,12 @@
+# Version 0.1.5
+
+* Levels now have flexible config using multiline text field
+
+- Edit custom fields for levels:
+--- Remove all custom fields
+--- Add multi-line text field: "config". Input JSON properties inside
+--- Select Language: "JSON"
+
 # Version 0.1.4
 
 * Levels can have power turned on by default (useful for hub)

@@ -7,7 +7,7 @@ local spPowerUp <const> = assert(sound.sampleplayer.new(assets.sounds.powerUp))
 local spPowerDown <const> = assert(sound.sampleplayer.new(assets.sounds.powerDown))
 local imagePanel <const> = assert(gfx.image.new(assets.images.hudPanel))
 
----@class GUIChipSet : playdate.graphics.sprite
+---@class GUIChipSet: _Sprite
 GUIChipSet = Class("GUIChipSet", gfx.sprite)
 
 -- Button images (from imagetable)
@@ -207,10 +207,10 @@ function GUIChipSet:setChipSet(chipSet)
   chipSetNeedsUpdate = true
 end
 
-function GUIChipSet:setIsPowered()
+function GUIChipSet:setIsPowered(shouldPower)
   -- Update active status
 
-  shouldPowerUpNextTick = true
+  shouldPowerUpNextTick = shouldPower
 end
 
 function GUIChipSet:setPowerPermanent(shouldPowerPermanent)

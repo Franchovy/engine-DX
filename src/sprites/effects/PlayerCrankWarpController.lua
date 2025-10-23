@@ -19,12 +19,12 @@ local animationStates = {
 
 --- Indexes in the `totalCrankAngleToWarp` imagetable. Imagetable
 --- works in inverse order, starting at the end and working back to the start.
---- @field start number start index.
+--- @type {number:number}
 local indexesImageTableWarp = {
+    [animationStates.none] = 99,
     [animationStates.start] = 91,
     [animationStates.loop] = 60,
     [animationStates.finish] = 30,
-    [animationStates.none] = 99
 }
 
 local function setState(self, state)
