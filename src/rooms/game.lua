@@ -22,76 +22,50 @@ local spriteGUILightingEffect
 local spriteGUILevelComplete
 local spriteBackground
 
--- Sprites
-
-local botsToRescueCountDefault <const> = 3
+local worldCurrent
 
 -- Static methods
 
+function Game.loadAndEnter(area, world)
+    -- Create Game Scene
+
+    local game = Game(area, world)
+
+    -- Enter Game Scene
+
+    SCENES.currentGame = game
+
+    Manager.getInstance():enter(game, { isInitialLoad = true })
+end
+
 --- @param area string
 --- @param world string
-function Game.loadWorld(area, world)
+function Game:init(area, world)
     -- Load LDtk file
 
     local filepathLevel = ReadFile.getWorldFilepath(area, world)
 
-    LDtk.load(filepathLevel)
+    -- MEMORY CARD
 
-    -- Check if save data exists
+    MemoryCard.setLastPlayed(area, world)
 
-    local fileLevelProgress = MemoryCard.levelProgressToLoad(area, world)
+    local progressDataLevel = MemoryCard.levelProgressToLoad(area, world)
 
-    if fileLevelProgress then
-        -- Replace entities data in LDtk loaded levels with save progress
-
-        LDtk.loadLevelEntitiesData(fileLevelProgress)
-    end
+    worldCurrent = LDtkWorld(filepathLevel, progressDataLevel)
 
     -- Get last progress of level
 
-    local dataProgress = MemoryCard.getLevelCompletion(area, world)
+    local progressData = MemoryCard.getLevelCompletion(area, world)
 
-    if dataProgress then
-        if dataProgress.currentLevel then
-            initialLevelNameSaveProgress = dataProgress.currentLevel
-        end
-
-        if dataProgress.rescuedSprites then
-            local spriteRescueCounter = SpriteRescueCounter.getInstance()
-
-            spriteRescueCounter:loadRescuedSprites(dataProgress.rescuedSprites)
-
-            spriteRescueCounter:setPositionsSpriteCounter()
-        end
-    end
+    SpriteRescueCounter.loadProgressData(progressData)
 
     --
-
-    MemoryCard.setLastPlayed(area, world)
 
     -- Set world name
 
     worldName = world
     areaName = area
-end
 
-function Game.getLevelName()
-    return currentLevelName
-end
-
-function Game.getLevelBounds()
-    return LDtk.get_rect(currentLevelName)
-end
-
--- Private Methods
-
-local function goToStart()
-    sceneManager:enter(SCENES.menu)
-end
-
--- Instance methods
-
-function Game:init()
     self.checkpointHandler = CheckpointHandler.getOrCreate("game", self)
 
     spriteGUILevelComplete = GUILevelComplete()
@@ -103,10 +77,6 @@ function Game:init()
     spriteGUILightingEffect = GUILightingEffect()
 
     spriteBackground = Background()
-
-    -- Set local reference to sceneManager
-
-    SCENES.currentGame = self
 
     -- Load Ability Panel
 
@@ -126,7 +96,7 @@ function Game:init()
 
     systemMenu:removeAllMenuItems()
 
-    systemMenu:addMenuItem("main menu", goToStart)
+    systemMenu:addMenuItem("main menu", sceneManager:enter(SCENES.menu))
     systemMenu:addCheckmarkMenuItem("music", shouldEnableMusic, function(shouldEnableMusic)
         if shouldEnableMusic then
             FilePlayer.play(assets.music.game)
@@ -167,6 +137,14 @@ function Game:init()
     self.isWorldComplete = false
 end
 
+function Game.getLevelName()
+    return currentLevelName
+end
+
+function Game.getLevelBounds()
+    return LDtk.get_rect(currentLevelName)
+end
+
 function Game:enter(previous, data)
     assert(worldName, "No world has been loaded!")
 
@@ -175,22 +153,19 @@ function Game:enter(previous, data)
     local level = data.level
     local isCheckpointRevert = data.isCheckpointRevert
 
+    -- Get current level
+
+    if currentLevelName then
+        -- Already loaded game
+        currentLevelName = level and level.name
+    else
+        currentLevelName = initialLevelNameSaveProgress or LEVEL_NAME_INITIAL
+    end
+
     -- Set Font
 
     local fontDefault = gfx.font.new(assets.fonts.dialog)
     gfx.setFont(fontDefault)
-
-    -- Load rescuable bot array
-
-    -- Get current level
-
-    currentLevelName = (not self.isInitialized and LEVEL_NAME_INITIAL_DEBUG) or level and level.name or
-        initialLevelNameSaveProgress or
-        LEVEL_NAME_INITIAL
-
-    -- Load level bounds
-
-    local levelBounds = level and level.bounds or LDtk.get_rect(currentLevelName)
 
     -- Load level fields
 
@@ -416,11 +391,7 @@ function Game:worldComplete()
 
             -- Load next level
 
-            SCENES.currentGame = Game()
-
-            Game.loadWorld(nextArea, nextWorld)
-
-            sceneManager:enter(SCENES.currentGame, { isInitialLoad = true })
+            SCENES.currentGame = Game.loadAndEnter(area, world)
         end
     end)
 end

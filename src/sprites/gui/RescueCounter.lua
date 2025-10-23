@@ -20,8 +20,22 @@ local spriteCounters <const> = {}
 ---@type {number:{value:boolean?, indexSpriteImage:number}}
 local stateSpriteCounters = {}
 
----@class SpriteRescueCounter: playdate.graphics.sprite
+---@class SpriteRescueCounter : _Sprite
 SpriteRescueCounter = Class("SpriteRescueCounter", gfx.sprite)
+
+-- Static Methods
+
+function SpriteRescueCounter.loadProgressData(progressDataRescues)
+    if progressDataRescues.rescuedSprites then
+        local spriteRescueCounter = SpriteRescueCounter.getInstance()
+
+        spriteRescueCounter:loadRescuedSprites(progressDataRescues.rescuedSprites)
+
+        spriteRescueCounter:setPositionsSpriteCounter()
+    end
+end
+
+-- Instance Methods
 
 local _instance
 

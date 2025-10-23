@@ -5,7 +5,7 @@ local imagetableParticles <const> = assert(gfx.imagetable.new(assets.imageTables
 local indexAnimationPre = 8
 local indexAnimationEnd = 26
 
----@class PlayerParticlesDrilling: playdate.graphics.sprite
+---@class PlayerParticlesDrilling: _Sprite
 PlayerParticlesDrilling = Class("PlayerParticlesDrilling", gfx.sprite)
 
 function PlayerParticlesDrilling:init(player)

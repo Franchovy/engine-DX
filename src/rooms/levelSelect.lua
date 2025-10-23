@@ -78,7 +78,7 @@ function LevelSelect:AButtonDown()
   if nameArea and nameWorld then
     spButton:play(1)
 
-    SCENES.currentGame = Game()
+    SCENES.currentGame = Game.loadAndEnter(area, world)
 
     Game.loadWorld(nameArea, nameWorld)
 

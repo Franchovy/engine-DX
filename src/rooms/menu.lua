@@ -132,11 +132,7 @@ function Menu:AButtonDown()
   if area and world then
     spButton:play(1)
 
-    SCENES.currentGame = Game()
-
-    Game.loadWorld(area, world)
-
-    sceneManager:enter(SCENES.currentGame, { isInitialLoad = true })
+    SCENES.currentGame = Game.loadAndEnter(area, world)
   end
 end
 

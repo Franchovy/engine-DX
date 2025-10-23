@@ -32,7 +32,7 @@ local function setState(self, state)
     self.state = state
 end
 
----@class CrankWarpController: playdate.graphics.sprite
+---@class CrankWarpController: _Sprite
 PlayerCrankWarpController = Class("PlayerCrankWarpController", gfx.sprite)
 
 function PlayerCrankWarpController:init()
