@@ -3,3 +3,7 @@
 .luarc.json
 .DS_Store
 src/assets/worlds/**/backups
+
+# VSCode settings - Included in repo, but don't commit changes.
+.vscode/
+.vscode/settings.json
