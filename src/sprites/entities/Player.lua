@@ -632,7 +632,7 @@ function Player:updateMovement()
 
         -- Set dash velocity if active
 
-        if self.abilities[ABILITIES.Dash] and Dash:getIsActivated() then
+        if self:isDashActivated() then
             -- Apply dash acceleration
             local directionScalar = Dash:getLastKey() == KEYNAMES.Left and -1 or 1
             self.rigidBody:setVelocityX(directionScalar * dashSpeed)
@@ -669,7 +669,7 @@ function Player:updateMovement()
 
     -- Handle Vertical Movement
 
-    if (Dash:getIsActivated() or Dash:getFramesSinceCooldownStarted() < framesPostDashNoGravity) then
+    if (self:isDashActivated() or self:isDashCoolingDown()) then
         -- Dash movement (ignores gravity and removes vertical movement)
 
         self.rigidBody:setVelocityY(0)
@@ -934,6 +934,14 @@ end
 function Player:canDoubleJump()
     return self.abilities[ABILITIES.DoubleJump] and hasDoubleJumpRemaining and
         GUIChipSet.getInstance():hasDoubleKey(KEYNAMES.A)
+end
+
+function Player:isDashActivated()
+    return self.abilities[ABILITIES.Dash] and Dash:getIsActivated()
+end
+
+function Player:isDashCoolingDown()
+    return self.abilities[ABILITIES.Dash] and Dash:getFramesSinceCooldownStarted() < framesPostDashNoGravity
 end
 
 -- Input Handlers
