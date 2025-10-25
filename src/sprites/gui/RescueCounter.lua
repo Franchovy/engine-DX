@@ -39,7 +39,7 @@ end
 
 local _instance
 
-function SpriteRescueCounter.getInstance() return _instance end
+function SpriteRescueCounter.getInstance() return assert(_instance, "No instance has been created.") end
 
 function SpriteRescueCounter:init()
     SpriteRescueCounter.super.init(self)

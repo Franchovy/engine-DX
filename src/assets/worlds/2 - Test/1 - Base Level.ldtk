@@ -3257,7 +3257,10 @@
 			"__smartColor": "#ADADB5",
 			"__bgPos": null,
 			"externalRelPath": null,
-			"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": null, "__tile": null, "defUid": 586, "realEditorValues": [] }],
+			"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\"gamepoints_on_enter\":[\"73048940-ac70-11f0-979d-c755f1a6d76b\"]}", "__tile": null, "defUid": 586, "realEditorValues": [{
+				"id": "V_String",
+				"params": ["{\"gamepoints_on_enter\":[\"73048940-ac70-11f0-979d-c755f1a6d76b\"]}"]
+			}] }],
 			"layerInstances": [
 				{
 					"__identifier": "Entities",

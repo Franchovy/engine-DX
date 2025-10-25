@@ -14,7 +14,6 @@ local currentLevelName
 
 local spriteTransition
 local spriteGUILightingEffect
-local spriteGUILevelComplete
 local spriteBackground
 
 local worldCurrent
@@ -45,19 +44,15 @@ function Game:init(filepathLevel)
 
     -- Get last progress of level
 
+    SpriteRescueCounter()
+
     local progressData = MemoryCard.getLevelCompletion(filepathLevel)
 
     SpriteRescueCounter.loadProgressData(progressData)
 
     --
 
-    -- Set world name
-
     self.checkpointHandler = CheckpointHandler.getOrCreate("game", self)
-
-    spriteGUILevelComplete = GUILevelComplete()
-
-    SpriteRescueCounter()
 
     spriteTransition = Transition()
 
