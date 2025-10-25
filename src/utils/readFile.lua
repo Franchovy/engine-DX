@@ -88,10 +88,8 @@ function ReadFile.getWorlds()
     return worlds
 end
 
-function ReadFile.worldFileExists(area, world)
-    local filePath = _.buildFilePath(area, world)
-
-    return fl.exists(filePath)
+function ReadFile.worldFileExists(filepathLevel)
+    return fl.exists(filepathLevel)
 end
 
 --- @return string Name of the Area at indexArea
@@ -130,6 +128,12 @@ function ReadFile.getNextWorld(worldName, areaName)
 
     -- Game finished
     print("Game finished!")
+end
+
+function ReadFile.getFirstWorld()
+    local area = ReadFile.getAreaName(1)
+    local world = ReadFile.getWorldName(1, 1)
+    return _.buildFilePath(area, world)
 end
 
 ---@return number number of worlds in areas

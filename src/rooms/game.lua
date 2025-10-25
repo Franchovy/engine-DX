@@ -274,7 +274,7 @@ function Game:leave(next, ...)
 
         -- Remove system/PD menu items
 
-        systemMenu:removeAllMenuItems()
+        playdate.getSystemMenu():removeAllMenuItems()
 
         -- Remove currentGame reference from manager
         SCENES.currentGame = nil

@@ -109,32 +109,30 @@ function Menu:leave(next, ...)
 end
 
 function Menu:AButtonDown()
-  local area, world = MemoryCard.getLastPlayed()
+  local filepathLevel = MemoryCard.getLastPlayed()
 
-  if area and world then
+  if filepathLevel then
     -- Check if level file exists (useful while game is WIP)
-    local worldFileExists = ReadFile.worldFileExists(area, world)
+    local worldFileExists = ReadFile.worldFileExists(filepathLevel)
 
     if not worldFileExists then
       -- If doesn't exist, reset the last played.
 
-      area, world = nil, nil
+      filepathLevel = nil, nil
     end
   end
 
-  if not (area and world) then
+  if not filepathLevel then
     -- Start with first level
 
-    area = ReadFile.getAreaName(1)
-    world = ReadFile.getWorldName(1, 1)
+    filepathLevel = ReadFile.getFirstWorld()
   end
 
-  if area and world then
+  if filepathLevel then
     spButton:play(1)
 
     -- Load LDtk file
 
-    local filepathLevel = ReadFile.getWorldFilepath(area, world)
     Game.loadAndEnter(filepathLevel)
   end
 end
