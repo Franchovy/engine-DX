@@ -35,8 +35,6 @@ function AnimatedSprite:init(imagetable, states, animate)
     self.imagetable = imagetable
     assert(self.imagetable, "Imagetable is nil. Check if it was loaded correctly.")
 
-    self:add()
-
     self.globalFlip = gfx.kImageUnflipped
     self.defaultState = "default"
     self.states = {

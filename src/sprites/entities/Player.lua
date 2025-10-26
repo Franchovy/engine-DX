@@ -195,6 +195,10 @@ function Player:add()
     if self.questionMark then
         self.questionMark:add()
     end
+
+    -- Add lighting effect
+
+    GUILightingEffect:getInstance():addEffect(self, 2)
 end
 
 function Player:remove()
@@ -211,6 +215,10 @@ function Player:remove()
     if self.questionMark then
         self.questionMark:remove()
     end
+
+    -- Remove lighting effect
+
+    GUILightingEffect:getInstance():removeEffect(self)
 end
 
 function Player:setupAnimationStates()

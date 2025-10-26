@@ -165,6 +165,18 @@ function Dialog:init(entityData, levelName)
     )
 end
 
+function Dialog:add()
+    Dialog.super.add(self)
+
+    GUILightingEffect:getInstance():addEffect(self, 1)
+end
+
+function Dialog:remove()
+    Dialog.super.remove(self)
+
+    GUILightingEffect:getInstance():removeEffect(self)
+end
+
 function Dialog:setupDialogLines(text)
     if not text then
         return

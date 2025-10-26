@@ -243,7 +243,7 @@ function Game:enter(previous, data)
     SpriteRescueCounter.getInstance():add()
     Background.getInstance():add()
     Transition.getInstance():add()
-    --GUILightingEffect.getInstance():add()
+    GUILightingEffect.getInstance():add()
     GUICheatUnlock.getInstance():add()
     GUIChipSet.getInstance():add()
 end

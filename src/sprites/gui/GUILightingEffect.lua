@@ -9,8 +9,10 @@ local maskImage
 local imageLargeCircle = gfx.image.new(200, 200)
 local imageSmallCircle = gfx.image.new(100, 100)
 
-local xImageCircleLarge, yImageCircleLarge = 0, 0
+---@type {_Sprite : {image: _Image, xPrevious: number, yPrevious: number}}
+local effects <const> = {}
 
+---@return GUILightingEffect
 function GUILightingEffect.getInstance() return assert(_instance) end
 
 function GUILightingEffect:init()
@@ -61,42 +63,65 @@ function GUILightingEffect:createCircleImages()
     end
 end
 
+---@param sprite _Sprite Sprite to track effect
+---@param size 1|2 area size, small or large respectively
+function GUILightingEffect:addEffect(sprite, size)
+    local image = size == 1 and imageSmallCircle or imageLargeCircle
+
+    effects[sprite] = {
+        image = image,
+        xPrevious = nil,
+        yPrevious = nil
+    }
+end
+
+---@param sprite _Sprite Sprite to track effect
+function GUILightingEffect:removeEffect(sprite)
+    effects[sprite] = nil
+end
+
 function GUILightingEffect:update()
     GUILightingEffect.super.update(self)
 
-    -- Get locations to draw circles
+    self:makeEffect()
+end
 
-    local player = Player:getInstance()
-
-    if not player then
-        return
-    end
-
+function GUILightingEffect:makeEffect()
     local xOffset, yOffset = gfx.getDrawOffset()
-    local xCircleLarge, yCircleLarge = xOffset + player.x, yOffset + player.y
 
-    -- If circles have moved
-    if xImageCircleLarge ~= xCircleLarge or yImageCircleLarge ~= yCircleLarge then
-        xImageCircleLarge = xCircleLarge
-        yImageCircleLarge = yCircleLarge
+    local hasImageMaskClear = false
 
-        -- Clear image mask
+    -- Draw each sprite's effect
 
-        maskImage:clear(gfx.kColorWhite)
+    local drawModeOriginal = gfx.getImageDrawMode()
+    gfx.setImageDrawMode(gfx.kDrawModeWhiteTransparent)
+    gfx.pushContext(maskImage)
 
-        -- Draw circles onto mask image
+    for sprite, config in pairs(effects) do
+        -- FRANCH: This is a work-around to the light not showing up on the first frame.
+        sprite:add()
 
-        local drawModeOriginal = gfx.getImageDrawMode()
-        gfx.pushContext(maskImage)
+        if sprite.x ~= config.xPrevious or sprite.y ~= config.yPrevious then
+            if not hasImageMaskClear then
+                -- Clear image mask
 
-        gfx.setImageDrawMode(gfx.kDrawModeWhiteTransparent)
-        imageLargeCircle:drawCentered(xCircleLarge, yCircleLarge)
+                maskImage:clear(gfx.kColorWhite)
+                hasImageMaskClear = true
+            end
 
-        gfx.popContext()
-        gfx.setImageDrawMode(drawModeOriginal)
+            -- Update position
+            config.xPrevious, config.yPrevious = sprite.x, sprite.y
 
-        -- Mark sprite as dirty
+            -- Draw effect image onto mask image
+            local xTarget, yTarget = xOffset + sprite.x, yOffset + sprite.y
+            config.image:drawCentered(xTarget, yTarget)
 
-        self:markDirty()
+            -- Mark sprite as dirty
+
+            self:markDirty()
+        end
     end
+
+    gfx.popContext()
+    gfx.setImageDrawMode(drawModeOriginal)
 end
