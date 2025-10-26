@@ -810,7 +810,7 @@ function Player:updateAnimationState()
     local shouldSkipStateCheck = self.states[self.currentState].nextAnimation == ANIMATION_STATES.Idle
 
     if not shouldSkipStateCheck then
-        if self.crankWarpController:getDirection() == 1 then
+        if self.crankWarpController.crankMomentum > 20 then
             animationState = ANIMATION_STATES.Falling
         elseif self.rigidBody:getIsTouchingGround() then
             if self.isActivatingDrillableBlock and self:isHoldingDownKeyGated() then
