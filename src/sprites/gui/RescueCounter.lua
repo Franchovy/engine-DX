@@ -27,19 +27,27 @@ SpriteRescueCounter = Class("SpriteRescueCounter", gfx.sprite)
 
 function SpriteRescueCounter.loadProgressData(progressDataRescues)
     if progressDataRescues and progressDataRescues.rescuedSprites then
-        local spriteRescueCounter = SpriteRescueCounter.getInstance()
+        local instance = SpriteRescueCounter.getInstance()
 
-        spriteRescueCounter:loadRescuedSprites(progressDataRescues.rescuedSprites)
+        instance:loadRescuedSprites(progressDataRescues.rescuedSprites)
 
-        spriteRescueCounter:setPositionsSpriteCounter()
+        instance:setPositionsSpriteCounter()
     end
 end
-
--- Instance Methods
 
 local _instance
 
 function SpriteRescueCounter.getInstance() return assert(_instance, "No instance has been created.") end
+
+function SpriteRescueCounter.destroy()
+    if _instance then
+        _instance:reset()
+        _instance:remove()
+        _instance = nil
+    end
+end
+
+-- Instance Methods
 
 function SpriteRescueCounter:init()
     SpriteRescueCounter.super.init(self)

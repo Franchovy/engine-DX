@@ -55,7 +55,12 @@ local _instance
 --- @return GUIChipSet
 function GUIChipSet.getInstance() return _instance end
 
-function GUIChipSet.destroy() _instance = nil end
+function GUIChipSet.destroy()
+  if _instance then
+    _instance:remove()
+    _instance = nil
+  end
+end
 
 --
 

@@ -8,6 +8,8 @@ GUICheatUnlock = Class("GUICheatUnlock", gfx.sprite)
 local _instance
 local _callbacks = {}
 
+-- Internal Methods
+
 local function _callbackInternal(spriteCheat)
     local cheatCallback = _callbacks[spriteCheat]
 
@@ -15,6 +17,20 @@ local function _callbackInternal(spriteCheat)
 
     cheatCallback()
 end
+
+-- Static Methods
+
+function GUICheatUnlock.getInstance() return assert(_instance) end
+
+function GUICheatUnlock.destroy()
+    if _instance then
+        _instance:clearAll()
+        _instance:remove()
+        _instance = nil
+    end
+end
+
+-- Instance Methods
 
 function GUICheatUnlock:init()
     GUICheatUnlock.super.init(self)

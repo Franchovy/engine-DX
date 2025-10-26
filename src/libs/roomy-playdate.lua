@@ -126,6 +126,8 @@ local handler_functions = {
   "crankUndocked"
 }
 
+local inputhandler
+
 class("Manager").extends()
 
 function Manager:printStack()
@@ -141,21 +143,24 @@ function Manager:init()
 end
 
 function Manager:hook(options)
-  options = options or {}
-  local to_include = options.include or handler_functions
-  local to_exclude = options.exclude or {}
-  for _, v in ipairs(to_exclude) do
-    local i = table.indexOfElement(to_include, v)
-    if i then
-      table.remove(to_include, i)
+  if not inputhandler then
+    options = options or {}
+    local to_include = options.include or handler_functions
+    local to_exclude = options.exclude or {}
+    for _, v in ipairs(to_exclude) do
+      local i = table.indexOfElement(to_include, v)
+      if i then
+        table.remove(to_include, i)
+      end
+    end
+
+    inputhandler = {}
+    for _, v in ipairs(to_include) do
+      inputhandler[v] = function(...) self:emit(v, ...) end
     end
   end
 
-  local handler = {}
-  for _, v in ipairs(to_include) do
-    handler[v] = function(...) self:emit(v, ...) end
-  end
-  pd.inputHandlers.push(handler)
+  pd.inputHandlers.push(inputhandler)
 end
 
 function Manager:emit(event, ...)

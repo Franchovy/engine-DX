@@ -81,7 +81,12 @@ local _instance
 
 function Player.getInstance() return _instance end
 
-function Player.destroy() _instance = nil end
+function Player.destroy()
+    if _instance then
+        _instance:remove()
+        _instance = nil
+    end
+end
 
 function Player.shouldSpawn(entityData, levelName)
     --- Return false if player instance already exists.

@@ -4,17 +4,11 @@ local sound <const> = pd.sound
 
 Game = Class("Game", Room)
 
-local sceneManager
-
 -- LDtk current level name
 
 local LEVEL_NAME_INITIAL <const> = "Level_0"
 local initialLevelNameSaveProgress
 local currentLevelName
-
-local spriteTransition
-local spriteGUILightingEffect
-local spriteBackground
 
 local worldCurrent
 
@@ -34,13 +28,14 @@ end
 
 --- @param filepathLevel string level to load
 function Game:init(filepathLevel)
-    -- MEMORY CARD
+    -- Load World / Load + Update progress
 
     MemoryCard.setLastPlayed(filepathLevel)
 
     local progressDataLevel = MemoryCard.levelProgressToLoad(filepathLevel)
 
     worldCurrent = LDtkWorld(filepathLevel, progressDataLevel)
+    worldCurrent.isCompleted = false
 
     -- Get last progress of level
 
@@ -48,54 +43,57 @@ function Game:init(filepathLevel)
 
     local progressData = MemoryCard.getLevelCompletion(filepathLevel)
 
-    SpriteRescueCounter.loadProgressData(progressData)
+    SpriteRescueCounter:getInstance():loadProgressData(progressData)
 
     --
 
-    self.checkpointHandler = CheckpointHandler.getOrCreate("game", self)
+    Transition()
 
-    spriteTransition = Transition()
+    GUILightingEffect()
 
-    spriteGUILightingEffect = GUILightingEffect()
-
-    spriteBackground = Background()
+    Background()
 
     -- Load Ability Panel
 
-    self.abilityPanel = GUIChipSet()
+    GUIChipSet()
 
-    -- Music
+    -- Checkpoints
 
-    self:setupMusic()
+    self.checkpointHandler = CheckpointHandler.getOrCreate("game", self)
+end
 
-    -- Menu items
+function Game:unload()
+    -- Reset load data
 
-    self:setupSystemMenu()
+    worldCurrent = nil
+    currentLevelName = nil
 
-    -- Cheats
+    initialLevelNameSaveProgress = nil
 
-    self:setupCheats()
+    -- Remove active cheats
 
-    -- Set world not complete
+    Player.destroy()
+    GUICheatUnlock.destroy()
+    GUIChipSet.destroy()
+    SpriteRescueCounter.destroy()
 
-    worldCurrent.isCompleted = false
+    Checkpoint.clearAll()
+
+    -- Remove system/PD menu items
+
+    playdate.getSystemMenu():removeAllMenuItems()
+
+    -- Remove currentGame reference from manager
+    SCENES.currentGame = nil
+
+    -- Stop the music!
+
+    FilePlayer.stop()
 end
 
 ---------------------------------
 --- SETUP METHODS
 ---------------------------------
-
-function Game:setupMusic()
-    -- Load if music should play:
-
-    local shouldEnableMusic = MemoryCard.getShouldEnableMusic()
-
-    -- Play music if enabled
-
-    if shouldEnableMusic then
-        FilePlayer.play(assets.music.game)
-    end
-end
 
 function Game:setupSystemMenu()
     local systemMenu = pd.getSystemMenu()
@@ -120,29 +118,48 @@ function Game:setupSystemMenu()
     end)
 end
 
+function Game:setupMusic()
+    -- Load if music should play:
+
+    local shouldEnableMusic = MemoryCard.getShouldEnableMusic()
+
+    -- Play music if enabled
+
+    if shouldEnableMusic then
+        FilePlayer.play(assets.music.game)
+    end
+end
+
 function Game:setupCheats()
-    self.guiCheatUnlock = GUICheatUnlock()
+    local guiCheatUnlock = GUICheatUnlock()
 
     -- Unlock Crank: LRLR-UDU-BAA
-    self.guiCheatUnlock:addCheat(
+    guiCheatUnlock:addCheat(
         { pd.kButtonLeft, pd.kButtonRight, pd.kButtonLeft, pd.kButtonRight, pd
             .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonB, pd.kButtonA, pd.kButtonA },
         function() Player.getInstance():unlockAbility(ABILITIES.CrankToWarp) end
     )
 
     -- Unlock Double Jump: LRRL-UDU-BAA
-    self.guiCheatUnlock:addCheat(
+    guiCheatUnlock:addCheat(
         { pd.kButtonLeft, pd.kButtonRight, pd.kButtonRight, pd.kButtonLeft, pd
             .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonB, pd.kButtonA, pd.kButtonA },
         function() Player.getInstance():unlockAbility(ABILITIES.DoubleJump) end
     )
 
     -- Unlock Dash: LLRR-UDU-BAA
-    self.guiCheatUnlock:addCheat(
+    guiCheatUnlock:addCheat(
         { pd.kButtonLeft, pd.kButtonLeft, pd.kButtonRight, pd.kButtonRight, pd
             .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonB, pd.kButtonA, pd.kButtonA },
         function() Player.getInstance():unlockAbility(ABILITIES.Dash) end
     )
+end
+
+function Game:setupFonts()
+    -- Set Font
+
+    local fontDefault = gfx.font.new(assets.fonts.dialog)
+    gfx.setFont(fontDefault)
 end
 
 ---------------------------------
@@ -160,6 +177,15 @@ end
 function Game:enter(previous, data)
     assert(worldCurrent, "No world has been loaded!")
 
+    if getmetatable(previous).class ~= Game then
+        -- First-time load setup
+
+        self:setupMusic()
+        self:setupSystemMenu()
+        self:setupCheats()
+        self:setupFonts()
+    end
+
     data = data or {}
     local direction = data.direction
     local level = data.level
@@ -174,20 +200,11 @@ function Game:enter(previous, data)
         currentLevelName = initialLevelNameSaveProgress or LEVEL_NAME_INITIAL
     end
 
-    -- Set Font
-
-    local fontDefault = gfx.font.new(assets.fonts.dialog)
-    gfx.setFont(fontDefault)
-
     -- Load level fields
 
     local levelData = LDtk.get_custom_data(currentLevelName) or {}
 
-    -- Parse custom level data
-
     self:parseCustomLevelData(levelData)
-
-    self.guiCheatUnlock:add()
 
     -- Load level --
 
@@ -203,34 +220,23 @@ function Game:enter(previous, data)
 
     LDtk.loadAllEntitiesAsSprites(currentLevelName)
 
-    local player = Player.getInstance()
+    -- Add static classes that should always be present in-game
 
+    local player = Player.getInstance()
     if player then
         player:add()
-        player:enterLevel(currentLevelName, direction)
+    end
 
+    SpriteRescueCounter.getInstance():add()
+    Background.getInstance():add()
+    Transition.getInstance():add()
+    GUILightingEffect.getInstance():add()
+    GUICheatUnlock.getInstance():add()
+    GUIChipSet.getInstance():add()
+
+    if player then
+        player:enterLevel(currentLevelName)
         Camera.enterLevel(currentLevelName)
-    end
-
-    local abilityPanel = GUIChipSet.getInstance()
-
-    if abilityPanel then
-        abilityPanel:add()
-    end
-
-    local rescueCounter = SpriteRescueCounter.getInstance()
-
-    if rescueCounter then
-        rescueCounter:add()
-    end
-
-    if getmetatable(previous).class == Game then
-        -- Add Transition Sprite to finish transition
-        spriteTransition:add()
-    end
-
-    if CONFIG.ADD_DARKNESS_EFFECT or CONFIG.ADD_SUPER_DARKNESS_EFFECT then
-        spriteGUILightingEffect:add()
     end
 end
 
@@ -245,43 +251,8 @@ function Game:leave(next, ...)
 
     --
 
-    if next.super.class == Menu or next.super.class == LevelSelect then
-        -- Reset load data
-
-        initialLevelNameSaveProgress = nil
-
-        -- Remove active cheats
-
-        self.guiCheatUnlock:clearAll()
-
-        -- Clear ability panel
-
-        GUIChipSet.getInstance():remove()
-        GUIChipSet.destroy()
-
-        -- Clear player data
-
-        Player.getInstance():remove()
-        Player.destroy()
-
-        -- Clear checkpoints
-
-        Checkpoint.clearAll()
-
-        -- Clear rescued sprites
-
-        SpriteRescueCounter.getInstance():reset()
-
-        -- Remove system/PD menu items
-
-        playdate.getSystemMenu():removeAllMenuItems()
-
-        -- Remove currentGame reference from manager
-        SCENES.currentGame = nil
-
-        -- Stop the music!
-
-        FilePlayer.stop()
+    if next.super.class ~= Game then
+        self:unload()
     end
 end
 
@@ -300,9 +271,9 @@ function Game:parseCustomLevelData(levelData)
     -- Add Parallax if required
 
     if levelData.parallax or CONFIG.PARALLAX_BG then
-        spriteBackground.enterLevel(currentLevelName)
+        Background.getInstance().enterLevel(currentLevelName)
 
-        spriteBackground:add()
+        Background.getInstance():add()
     end
 
     -- Perma-power enabled/disabled
@@ -317,7 +288,7 @@ end
 
 function Game:handleCheckpointRevert(state)
     if currentLevelName ~= state.levelName then
-        sceneManager:enter(SCENES.currentGame,
+        Manager.getInstance():enter(SCENES.currentGame,
             { level = { name = state.levelName }, isCheckpointRevert = true })
     end
 end
@@ -338,7 +309,7 @@ function Game:levelComplete(data)
 
     Player.getInstance():freeze()
 
-    spriteTransition:startTransitionLevelChange(direction, function()
+    Transition:getInstance():startTransitionLevelChange(direction, function()
         -- Load next level
 
         local nextLevel, nextLevelBounds = LDtk.getNeighborLevelForPos(currentLevelName, direction, coordinates)
@@ -380,11 +351,11 @@ function Game:worldComplete()
 
     -- Fade out music
 
-    FilePlayer:fadeOut(spriteTransition:getDelayFadeOutWorldComplete())
+    FilePlayer:fadeOut(Transition:getInstance():getDelayFadeOutWorldComplete())
 
     -- Set level complete in data
 
-    spriteTransition:startTransitionWorldComplete(function()
+    Transition:getInstance():startTransitionWorldComplete(function()
         -- Update level progress
 
         local saveData = { complete = true, currentLevel = LEVEL_NAME_INITIAL }

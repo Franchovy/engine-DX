@@ -7,10 +7,12 @@ local images <const> = {
 }
 local backgroundImages <const> = {}
 
-local levelBounds
-
 --- @class Background: _Sprite
 Background = Class("Background", gfx.sprite)
+
+local _instance
+
+function Background.getInstance() return assert(_instance) end
 
 function Background:init()
     Background.super.init(self)
@@ -35,6 +37,8 @@ function Background:init()
     self.previousOffset = {}
     self.paralaxOffsets = { 1 }
     self.verticalOffsets = { 1 }
+
+    _instance = self
 end
 
 function Background:draw(dirtyX, dirtyY, dirtyWidth, dirtyHeight)

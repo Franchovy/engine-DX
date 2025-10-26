@@ -54,8 +54,8 @@ local function init()
 
   -- Set up Scene Manager (Roomy)
 
-  local sceneManagerInstance = Manager()
-  sceneManagerInstance:hook()
+  local sceneManager = Manager()
+  sceneManager:hook()
 
   -- Open Menu (& save reference)
 
@@ -64,7 +64,7 @@ local function init()
     levelSelect = LevelSelect()
   }
 
-  sceneManagerInstance:enter(SCENES.menu)
+  sceneManager:enter(SCENES.menu)
 
   -- Hide logo
 

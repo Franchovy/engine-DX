@@ -108,7 +108,7 @@ function ReadFile.getAreasCount()
     return #areas
 end
 
----@return string filepath for next world
+---@return string|nil filepath for next world
 function ReadFile.getNextWorld(worldName, areaName)
     local areaIndex = areasR[areaName]
     local worldIndex = worldsR[areaIndex][worldName]
@@ -134,6 +134,13 @@ function ReadFile.getFirstWorld()
     local area = ReadFile.getAreaName(1)
     local world = ReadFile.getWorldName(1, 1)
     return _.buildFilePath(area, world)
+end
+
+function ReadFile.getWorldFromIndex(indexArea, indexWorld)
+    local nameArea = ReadFile.getAreaName(indexArea)
+    local nameWorld = ReadFile.getWorldName(indexArea, indexWorld)
+
+    return ReadFile.getWorldFilepath(nameArea, nameWorld)
 end
 
 ---@return number number of worlds in areas

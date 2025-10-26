@@ -72,13 +72,10 @@ function LevelSelect:AButtonDown()
     return
   end
 
-  local nameArea = ReadFile.getAreaName(indexArea)
-  local nameWorld = ReadFile.getWorldName(indexArea, indexWorld)
+  local filepathLevel = ReadFile.getWorldFromIndex(indexArea, indexWorld)
 
-  if nameArea and nameWorld then
+  if filepathLevel then
     spButton:play(1)
-
-    local filepathLevel = ReadFile.getWorldFilepath(nameArea, nameWorld)
 
     Game.loadAndEnter(filepathLevel)
   end

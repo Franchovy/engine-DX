@@ -25,6 +25,10 @@ function Menu:enter(previous)
   -- Set sceneManager reference
   sceneManager = self.manager
 
+  -- Refresh SceneManager input handlers
+
+  Manager:hook()
+
   -- Set font
 
   local font = gfx.font.new(assets.fonts.menu.small)
@@ -103,7 +107,7 @@ function Menu:leave(next, ...)
 
   -- Music
 
-  if next.super.className == "Game" then
+  if next.super.class == Game then
     FilePlayer.stop()
   end
 end
@@ -118,7 +122,7 @@ function Menu:AButtonDown()
     if not worldFileExists then
       -- If doesn't exist, reset the last played.
 
-      filepathLevel = nil, nil
+      filepathLevel = nil
     end
   end
 

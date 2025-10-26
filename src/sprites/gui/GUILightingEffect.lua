@@ -3,6 +3,10 @@ local gfx <const> = playdate.graphics
 --- @class GUILightingEffect: _Sprite
 GUILightingEffect = Class("GUILightingEffect", gfx.sprite)
 
+local _instance
+
+function GUILightingEffect.getInstance() return assert(_instance) end
+
 function GUILightingEffect:init()
     GUILightingEffect.super.init(self)
 
@@ -40,6 +44,8 @@ function GUILightingEffect:init()
 
     self:setImage(image)
     self:setZIndex(Z_INDEX.Level.Overlay)
+
+    _instance = self
 end
 
 function GUILightingEffect:update()

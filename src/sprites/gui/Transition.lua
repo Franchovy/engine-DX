@@ -21,6 +21,10 @@ local fadeAnimatorWorldComplete = gfx.animator.new(1600, 1, 0, playdate.easingFu
 
 local delayFadeOutWorldComplete <const> = 1500
 
+local _instance
+
+function Transition.getInstance() return assert(_instance) end
+
 function Transition:init()
     Transition.super.init(self)
 
@@ -37,6 +41,8 @@ function Transition:init()
 
     -- Which animationLoop to use (horizontal or vertical)
     self.loop = nil
+
+    _instance = self
 end
 
 function Transition:startTransitionLevelChange(direction, postTransitionCallback)

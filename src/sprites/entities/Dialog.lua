@@ -288,9 +288,6 @@ end
 
 function Dialog:collapse()
     if self.dialogSprite then
-        -- Pop input handler belonging to dialog (ugly, I know.)
-        playdate.inputHandlers.pop()
-
         self.dialogSprite:remove()
         self.dialogSprite = nil
     end
