@@ -6,8 +6,10 @@ GUILightingEffect = Class("GUILightingEffect", gfx.sprite)
 local _instance
 
 local maskImage
-local imageLargeCircle = gfx.image.new(200, 200)
-local imageSmallCircle = gfx.image.new(100, 100)
+local imageBackground
+local imageBackgroundFaded
+local imageLargeCircle
+local imageSmallCircle
 
 ---@type {_Sprite : {image: _Image, xPrevious: number, yPrevious: number}}
 local effects <const> = {}
@@ -20,9 +22,9 @@ function GUILightingEffect:init()
 
     -- Create image and get mask
 
-    local image = gfx.image.new(400, 240, gfx.kColorClear)
-    maskImage = image:getMaskImage()
-    self:setImage(image)
+    self:createBackgroundImages()
+
+    self:setImage(imageBackground)
 
     -- Images to be used for mask
 
@@ -37,7 +39,15 @@ function GUILightingEffect:init()
     _instance = self
 end
 
+function GUILightingEffect:createBackgroundImages()
+    imageBackground = gfx.image.new(400, 240, gfx.kColorClear)
+    maskImage = imageBackground:getMaskImage()
+end
+
 function GUILightingEffect:createCircleImages()
+    imageLargeCircle = gfx.image.new(200, 200)
+    imageSmallCircle = gfx.image.new(100, 100)
+
     for _, image in pairs({ imageLargeCircle, imageSmallCircle }) do
         local radius = image:getSize() / 2
         local imageCenterX, imageCenterY = image.width / 2, image.height / 2
