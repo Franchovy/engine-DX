@@ -19,6 +19,7 @@ local isFirstTimePlay
 
 -- Level Selection
 
+---@class Menu : Room
 Menu = Class("Menu", Room)
 
 function Menu:enter(previous)

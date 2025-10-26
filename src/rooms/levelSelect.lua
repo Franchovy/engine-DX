@@ -5,6 +5,7 @@ local systemMenu <const> = playdate.getSystemMenu()
 
 local spButton <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.menuSelect))
 
+---@class LevelSelect : Room
 LevelSelect = Class("LevelSelect", Room)
 
 local sceneManager

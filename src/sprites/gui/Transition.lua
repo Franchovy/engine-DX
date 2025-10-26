@@ -119,7 +119,9 @@ function Transition:draw(x, y, width, height)
         local fadeValue = self.fader:currentValue()
 
         gfx.setColor(gfx.kColorBlack)
+        ---@cast fadeValue number
         gfx.setDitherPattern(fadeValue, gfx.image.kDitherTypeBayer8x8)
+
         gfx.fillRect(0, 0, width, height)
     elseif self.loop then
         self.loop:draw(0, 0, self.flip)

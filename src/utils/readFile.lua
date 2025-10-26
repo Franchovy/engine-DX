@@ -109,9 +109,8 @@ function ReadFile.getAreasCount()
 end
 
 ---@return string|nil filepath for next world
-function ReadFile.getNextWorld(worldName, areaName)
-    local areaIndex = areasR[areaName]
-    local worldIndex = worldsR[areaIndex][worldName]
+function ReadFile.getNextWorld(filepathLevel)
+    local areaName, worldName, areaIndex, worldIndex = _.getAreaWorld(filepathLevel)
 
     local nextWorldName = worlds[areaName][worldIndex + 1]
     if nextWorldName then
@@ -146,6 +145,17 @@ end
 ---@return number number of worlds in areas
 function ReadFile.getWorldsCount(indexArea)
     return #worlds[areas[indexArea]]
+end
+
+--- @param filepathLevel string In the format: "assets/worlds/2 - Test/1 - Base Level.ldtk"
+--- @return string areaName
+--- @return string worldName
+--- @return number indexArea
+--- @return number indexWorld
+function _.getAreaWorld(filepathLevel)
+    -- Example filepathLevel:
+    local indexArea, area, indexWorld, world = string.match(filepathLevel, 'worlds/(%d+) %- ([^/]+)/(%d+) %- (.-).ldtk$')
+    return area, world, indexArea, indexWorld
 end
 
 function _.buildFilePath(area, world)

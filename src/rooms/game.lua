@@ -2,6 +2,7 @@ local pd <const> = playdate
 local gfx <const> = pd.graphics
 local sound <const> = pd.sound
 
+---@class Game : Room
 Game = Class("Game", Room)
 
 -- LDtk current level name
@@ -373,7 +374,7 @@ function Game:worldComplete()
             -- Clear Player Instance
             Player.destroy()
 
-            Game.loadAndEnter(filepathLevelNext)
+            Manager.getInstance():enter(SCENES.worldComplete, worldCurrent.filepath, filepathLevelNext)
         end
     end)
 end

@@ -67,6 +67,11 @@ function GUILightingEffect:update()
     -- Get locations to draw circles
 
     local player = Player:getInstance()
+
+    if not player then
+        return
+    end
+
     local xOffset, yOffset = gfx.getDrawOffset()
     local xCircleLarge, yCircleLarge = xOffset + player.x, yOffset + player.y
 

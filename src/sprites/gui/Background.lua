@@ -49,12 +49,18 @@ end
 
 function Background:draw(dirtyX, dirtyY, dirtyWidth, dirtyHeight)
     local xDrawOffset, yDrawOffset = Camera.getDrawOffset()
-    local xCrop, yCrop =
-        math.max(0, xDrawOffset + levelBounds.x),
-        math.max(0, yDrawOffset + levelBounds.y)
-    local rightCrop, bottomCrop =
-        math.min(400, xDrawOffset + levelBounds.right - xCrop),
-        math.min(240, yDrawOffset + levelBounds.bottom - yCrop)
+
+    local xCrop, yCrop = 0, 0
+    local rightCrop, bottomCrop = 400, 240
+
+    if levelBounds then
+        xCrop, yCrop =
+            math.max(0, xDrawOffset + levelBounds.x),
+            math.max(0, yDrawOffset + levelBounds.y)
+        rightCrop, bottomCrop =
+            math.min(400, xDrawOffset + levelBounds.right - xCrop),
+            math.min(240, yDrawOffset + levelBounds.bottom - yCrop)
+    end
 
     for i = #backgroundImages, 1, -1 do
         local image = backgroundImages[i]

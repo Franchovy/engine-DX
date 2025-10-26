@@ -20,6 +20,7 @@ local last_time = 0
 --- @class SCENES : table
 --- @field menu table
 --- @field levelSelect table
+--- @field worldComplete table
 --- @field currentGame table
 SCENES = {}
 
@@ -61,7 +62,8 @@ local function init()
 
   SCENES = {
     menu = Menu(),
-    levelSelect = LevelSelect()
+    levelSelect = LevelSelect(),
+    worldComplete = WorldComplete()
   }
 
   sceneManager:enter(SCENES.menu)
