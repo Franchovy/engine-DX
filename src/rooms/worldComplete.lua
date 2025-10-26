@@ -18,8 +18,10 @@ function WorldComplete:enter(previous, currentLevelName, nextLevelName)
     spriteWorldCompleteText:add()
 
     playdate.timer.performAfterDelay(5000, function()
-        Transition:getInstance():startTransitionWorldComplete(function()
+        Transition:getInstance():fadeOut(1600, function()
             Game.loadAndEnter(nextLevelName)
+
+            Transition:getInstance():fadeIn(1200)
         end)
     end)
 end

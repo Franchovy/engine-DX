@@ -7,6 +7,11 @@ Game = Class("Game", Room)
 
 -- LDtk current level name
 
+local msFadeInLevel <const> = 220
+local msFadeOutLevel <const> = 160
+local msFadeInWorld <const> = 600
+local msFadeOutWorld <const> = 1200
+
 local LEVEL_NAME_INITIAL <const> = "Level_0"
 local initialLevelNameSaveProgress
 local currentLevelName
@@ -238,7 +243,7 @@ function Game:enter(previous, data)
     SpriteRescueCounter.getInstance():add()
     Background.getInstance():add()
     Transition.getInstance():add()
-    GUILightingEffect.getInstance():add()
+    --GUILightingEffect.getInstance():add()
     GUICheatUnlock.getInstance():add()
     GUIChipSet.getInstance():add()
 end
@@ -311,7 +316,7 @@ function Game:levelComplete(data)
 
     Player.getInstance():freeze()
 
-    Transition:getInstance():startTransitionLevelChange(direction, function()
+    Transition:getInstance():fadeOut(msFadeOutLevel, function()
         -- Load next level
 
         local nextLevel, nextLevelBounds = LDtk.getNeighborLevelForPos(currentLevelName, direction, coordinates)
@@ -320,6 +325,8 @@ function Game:levelComplete(data)
             { direction = direction, level = { name = nextLevel, bounds = nextLevelBounds } })
 
         Player.getInstance():unfreeze()
+
+        Transition:getInstance():fadeIn(msFadeInLevel)
     end)
 end
 
@@ -353,13 +360,11 @@ function Game:worldComplete()
 
     -- Fade out music - after same delay as transition
 
-    local guiTransition = Transition:getInstance()
-
-    FilePlayer:fadeOut(guiTransition:getDelayFadeOutWorldComplete())
+    FilePlayer:fadeOut(msFadeOutWorld)
 
     -- Set level complete in data
 
-    guiTransition:startTransitionWorldComplete(function()
+    Transition:getInstance():fadeOut(msFadeOutWorld, function()
         -- Update level progress
 
         local saveData = { complete = true, currentLevel = LEVEL_NAME_INITIAL }
@@ -377,6 +382,8 @@ function Game:worldComplete()
             Player.destroy()
 
             Manager.getInstance():enter(SCENES.worldComplete, worldCurrent.filepath, filepathLevelNext)
+
+            Transition:getInstance():fadeIn(msFadeInWorld)
         end
     end)
 end
