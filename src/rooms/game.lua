@@ -351,13 +351,15 @@ function Game:worldComplete()
 
     Checkpoint.clearAll()
 
-    -- Fade out music
+    -- Fade out music - after same delay as transition
 
-    FilePlayer:fadeOut(Transition:getInstance():getDelayFadeOutWorldComplete())
+    local guiTransition = Transition:getInstance()
+
+    FilePlayer:fadeOut(guiTransition:getDelayFadeOutWorldComplete())
 
     -- Set level complete in data
 
-    Transition:getInstance():startTransitionWorldComplete(function()
+    guiTransition:startTransitionWorldComplete(function()
         -- Update level progress
 
         local saveData = { complete = true, currentLevel = LEVEL_NAME_INITIAL }
