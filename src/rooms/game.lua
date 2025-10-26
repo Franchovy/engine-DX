@@ -227,21 +227,22 @@ function Game:enter(previous, data)
         player:add()
     end
 
+    if player then
+        player:enterLevel(currentLevelName, direction)
+    end
+
+    Camera.enterLevel(currentLevelName)
+    Background.enterLevel(currentLevelName)
+
     SpriteRescueCounter.getInstance():add()
     Background.getInstance():add()
     Transition.getInstance():add()
     GUILightingEffect.getInstance():add()
     GUICheatUnlock.getInstance():add()
     GUIChipSet.getInstance():add()
-
-    if player then
-        player:enterLevel(currentLevelName)
-        Camera.enterLevel(currentLevelName)
-    end
 end
 
 function Game:update()
-
 end
 
 function Game:leave(next, ...)

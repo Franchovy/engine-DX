@@ -10,6 +10,7 @@ local backgroundImages <const> = {}
 --- @class Background: _Sprite
 Background = Class("Background", gfx.sprite)
 
+local levelBounds
 local _instance
 
 function Background.getInstance() return assert(_instance) end
@@ -24,11 +25,16 @@ function Background:init()
     self:moveTo(0, 0)
 
     for _, image in ipairs(images) do
-        local backgroundImage = gfx.image.new(image.width * 2, image.height)
+        local backgroundImage = gfx.image.new(800, image.height)
 
         gfx.pushContext(backgroundImage)
-        image:draw(0, 0)
-        image:draw(image.width, 0)
+
+        local xDraw = 0
+        repeat
+            image:draw(xDraw, 0)
+            xDraw += image.width
+        until xDraw > 800
+
         gfx.popContext()
 
         table.insert(backgroundImages, backgroundImage)
@@ -42,6 +48,14 @@ function Background:init()
 end
 
 function Background:draw(dirtyX, dirtyY, dirtyWidth, dirtyHeight)
+    local xDrawOffset, yDrawOffset = Camera.getDrawOffset()
+    local xCrop, yCrop =
+        math.max(0, xDrawOffset + levelBounds.x),
+        math.max(0, yDrawOffset + levelBounds.y)
+    local rightCrop, bottomCrop =
+        math.min(400, xDrawOffset + levelBounds.right - xCrop),
+        math.min(240, yDrawOffset + levelBounds.bottom - yCrop)
+
     for i = #backgroundImages, 1, -1 do
         local image = backgroundImages[i]
 
@@ -53,11 +67,7 @@ function Background:draw(dirtyX, dirtyY, dirtyWidth, dirtyHeight)
 
         local x, y, w, h
 
-        if imageX < 0 then
-            x, y, w, h = 0, 0, 400, image.height
-        else
-            x, y, w, h = imageX, 0, image.width, image.height
-        end
+        x, y, w, h = xCrop, yCrop, rightCrop, math.min(bottomCrop, image.height)
 
         local drawX, drawY, drawWidth, drawHeight = geo.rect.fast_intersection(dirtyX, dirtyY, dirtyWidth, dirtyHeight, x,
             y, w, h)

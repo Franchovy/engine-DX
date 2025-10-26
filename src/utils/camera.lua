@@ -9,6 +9,7 @@ local levelBounds
 --- @type playdate.graphics.animator | nil
 local offsetAnimator
 local xOffsetTarget, yOffsetTarget = 0, 0
+local xDrawOffset, yDrawOffset = 0, 0
 
 function Camera.goToPoint(x, y)
     viewpoint = geo.point.new(-x, -y)
@@ -82,7 +83,7 @@ function Camera.update()
     if animatorViewpoint then
         local offset = animatorViewpoint:currentValue()
         ---@cast offset -number
-        gfx.setDrawOffset(offset:unpack())
+        xDrawOffset, yDrawOffset = offset:unpack()
 
         if animatorViewpoint:ended() then
             playdate.timer.performAfterDelay(2500, function()
@@ -91,6 +92,13 @@ function Camera.update()
             end)
         end
     else
-        gfx.setDrawOffset(xCameraOffsetBounded, yCameraOffsetBounded)
+        xDrawOffset, yDrawOffset = xCameraOffsetBounded, yCameraOffsetBounded
     end
+
+    -- Set playdate graphics draw offset
+    gfx.setDrawOffset(xDrawOffset, yDrawOffset)
+end
+
+function Camera.getDrawOffset()
+    return xDrawOffset, yDrawOffset
 end
