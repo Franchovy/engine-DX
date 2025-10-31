@@ -17,8 +17,22 @@ local imageFade
 ---@type {any : {image: _Image, xPrevious: number, yPrevious: number}}
 local effects <const> = {}
 
+-- Static methods
+
 ---@return GUILightingEffect
 function GUILightingEffect.getInstance() return assert(_instance) end
+
+function GUILightingEffect.load(config)
+    if not _instance then return end
+
+    if config.background == "medium" then
+        _instance:addEffect(Game.getLevelName(), GUILightingEffect.imageFade)
+    else
+        _instance:removeEffect(Game.getLevelName())
+    end
+end
+
+-- Instance methods
 
 function GUILightingEffect:init()
     GUILightingEffect.super.init(self)

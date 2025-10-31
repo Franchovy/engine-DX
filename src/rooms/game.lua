@@ -183,7 +183,9 @@ end
 function Game:enter(previous, data)
     assert(worldCurrent, "No world has been loaded!")
 
-    if getmetatable(previous).class ~= Game then
+    local isFirstTimeLoad = getmetatable(previous).class ~= Game
+
+    if isFirstTimeLoad then
         -- First-time load setup
 
         self:setupMusic()
@@ -199,30 +201,21 @@ function Game:enter(previous, data)
 
     -- Get current level
 
-    if currentLevelName then
+    if isFirstTimeLoad then
+        -- Newly loaded world
+        currentLevelName = initialLevelNameSaveProgress or LEVEL_NAME_INITIAL
+    else
         -- Already loaded game
         currentLevelName = level and level.name
-    else
-        currentLevelName = initialLevelNameSaveProgress or LEVEL_NAME_INITIAL
     end
 
-    -- Load level fields
-
-    self:setupCustomLevelData(currentLevelName)
+    worldCurrent:loadLevel(currentLevelName, isFirstTimeLoad)
 
     -- Load level --
 
     if not isCheckpointRevert then
         self.checkpointHandler:pushState({ levelName = currentLevelName })
     end
-
-    -- Load level layers
-
-    LDtk.loadAllLayersAsSprites(currentLevelName)
-
-    -- Load level sprites
-
-    LDtk.loadAllEntitiesAsSprites(currentLevelName)
 
     -- Add static classes that should always be present in-game
 
@@ -236,10 +229,8 @@ function Game:enter(previous, data)
     end
 
     Camera.enterLevel(currentLevelName)
-    Background.enterLevel(currentLevelName)
 
     SpriteRescueCounter.getInstance():add()
-    Background.getInstance():add()
     Transition.getInstance():add()
     GUILightingEffect.getInstance():add()
     GUICheatUnlock.getInstance():add()
@@ -258,63 +249,6 @@ function Game:leave(next, ...)
 
     if next.super.class ~= Game then
         self:unload()
-    end
-end
-
--- Level data setup
-
-function Game:setupCustomLevelData(levelName)
-    local dataRaw = LDtk.get_custom_data(levelName)
-    if not dataRaw or not dataRaw.config then
-        return
-    end
-
-    local data = json.decode(dataRaw.config)
-    if not data then
-        return
-    end
-
-    -- Parse data
-
-    -- Game Points on Start
-
-    -- Game Points on Enter
-
-    if data.gamepoints_on_enter then
-
-    end
-
-    -- Light Mode
-
-    if data.light_mode then
-        local instance = GUILightingEffect.getInstance()
-        if data.light_mode == "medium" then
-            instance:addEffect(self, GUILightingEffect.imageFade)
-        end
-    end
-
-    -- Set Save count & GUI
-
-    local spriteRescueCounter = SpriteRescueCounter.getInstance()
-    if #spriteRescueCounter:getRescuedSprites() == 0 and data.saveCount then
-        spriteRescueCounter:setRescueSpriteCount(data.saveCount)
-
-        spriteRescueCounter:setPositionsSpriteCounter()
-    end
-
-    -- Add Parallax if required
-
-    if data.parallax or CONFIG.PARALLAX_BG then
-        Background.getInstance().enterLevel(currentLevelName)
-
-        Background.getInstance():add()
-    end
-
-    -- Perma-power enabled/disabled
-
-    if not self.isInitialized then
-        local isPoweredPermanent = data.power or false -- for backwards compatibility
-        GUIChipSet.getInstance():setPowerPermanent(isPoweredPermanent)
     end
 end
 

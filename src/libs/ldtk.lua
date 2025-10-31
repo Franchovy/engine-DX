@@ -71,6 +71,10 @@ local _ = {} -- for private functions
 ---
 ---
 
+local entitiesById <const> = {}
+
+LDtk.entitiesById = entitiesById
+
 function LDtk.getAllLevels()
     return _levels
 end
@@ -729,6 +733,7 @@ function _.process_level_data(level_data)
                     world_position = { x = entity_data.__worldX, y = entity_data.__worldY }
                 end
 
+                --[[
                 table.insert(layer.entities, {
                     name = entity_data.__identifier,
                     iid = entity_data.iid,
@@ -740,6 +745,25 @@ function _.process_level_data(level_data)
                     zIndex = layer.zIndex,
                     fields = properties,
                 })
+                ]]
+
+                --- FUNCTIONALITY CHANGE BY FRANCHOVY
+
+                local entityTable = {
+                    name = entity_data.__identifier,
+                    iid = entity_data.iid,
+                    tileset_rect = entity_data.__tile,
+                    position = { x = entity_data.px[1], y = entity_data.px[2] },
+                    world_position = world_position,
+                    center = { x = entity_data.__pivot[1], y = entity_data.__pivot[2] },
+                    size = { width = entity_data.width, height = entity_data.height },
+                    zIndex = layer.zIndex,
+                    fields = properties,
+                }
+
+                table.insert(layer.entities, entityTable)
+
+                entitiesById[entity_data.iid] = entityTable
             end
         end
     end

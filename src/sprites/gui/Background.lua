@@ -13,7 +13,23 @@ Background = Class("Background", gfx.sprite)
 local levelBounds
 local _instance
 
+-- Static Methods
+
 function Background.getInstance() return assert(_instance) end
+
+function Background.load(config)
+    if not _instance then return end
+
+    if config then
+        _instance:enterLevel(Game.getLevelName())
+
+        _instance:add()
+    else
+        _instance:remove()
+    end
+end
+
+-- Instance Methods
 
 function Background:init()
     Background.super.init(self)

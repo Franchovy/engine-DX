@@ -51,6 +51,8 @@ local timerAnimation = nil
 
 local _instance
 
+-- Static Methods
+
 --- Returns the singleton instance of the GUIChipSet.
 --- @return GUIChipSet
 function GUIChipSet.getInstance() return _instance end
@@ -62,7 +64,14 @@ function GUIChipSet.destroy()
   end
 end
 
---
+function GUIChipSet.load(config)
+  if not _instance then return end
+
+  local shouldPower = config.power or false -- for backwards compatibility
+  _instance:setPowerPermanent(shouldPower)
+end
+
+-- Instance Methods
 
 function GUIChipSet:init()
   GUIChipSet.super.init(self, imagePanel)

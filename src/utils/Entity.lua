@@ -16,6 +16,9 @@ local function _init(self, data, levelName, ...)
     self.fields = data.fields
     self.entity = data
     self.levelName = levelName
+
+    -- Set backwards reference (from LDtk) to sprite
+    data.sprite = self
 end
 
 local function _shouldSpawn(entityData, levelName)

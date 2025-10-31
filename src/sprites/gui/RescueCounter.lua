@@ -23,19 +23,29 @@ local stateSpriteCounters = {}
 ---@class SpriteRescueCounter : _Sprite
 SpriteRescueCounter = Class("SpriteRescueCounter", gfx.sprite)
 
+local _instance
+
 -- Static Methods
 
 function SpriteRescueCounter.loadProgressData(progressDataRescues)
+    if not _instance then return end
+
     if progressDataRescues and progressDataRescues.rescuedSprites then
-        local instance = SpriteRescueCounter.getInstance()
+        _instance:loadRescuedSprites(progressDataRescues.rescuedSprites)
 
-        instance:loadRescuedSprites(progressDataRescues.rescuedSprites)
-
-        instance:setPositionsSpriteCounter()
+        _instance:setPositionsSpriteCounter()
     end
 end
 
-local _instance
+function SpriteRescueCounter.load(config)
+    if not _instance then return end
+
+    if #_instance:getRescuedSprites() == 0 and config.count then
+        _instance:setRescueSpriteCount(config.count)
+
+        _instance:setPositionsSpriteCounter()
+    end
+end
 
 function SpriteRescueCounter.getInstance() return assert(_instance, "No instance has been created.") end
 
