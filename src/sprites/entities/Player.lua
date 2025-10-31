@@ -773,15 +773,9 @@ function Player:updateCollisions()
     -- this appears to make the "slide" fail and no movement occurs.
 
     if horizontalCornerBlock and self.rigidBody:getIsTouchingGround() then
-        if horizontalCornerBlock:collisionsEnabled() then
-            horizontalCornerBlock:setCollisionsEnabled(false)
+        local isMovingLeft = self.rigidBody.velocity.x < 0
 
-            -- Schedule reset for collisions
-            playdate.frameTimer.new(1,
-                function()
-                    horizontalCornerBlock:setCollisionsEnabled(true)
-                end)
-        end
+        self:moveBy(isMovingLeft and 1 or -1, 0)
     end
 end
 
