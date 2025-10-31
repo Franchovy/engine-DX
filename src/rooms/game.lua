@@ -7,6 +7,8 @@ Game = Class("Game", Room)
 
 -- LDtk current level name
 
+local sfxSwoosh <const> = assert(sound.sampleplayer.new(assets.sounds.swoosh))
+
 local msFadeInLevel <const> = 220
 local msFadeOutLevel <const> = 160
 local msFadeInWorld <const> = 600
@@ -192,6 +194,8 @@ function Game:enter(previous, data)
         self:setupSystemMenu()
         self:setupCheats()
         self:setupFonts()
+    else
+        sfxSwoosh:play(1)
     end
 
     data = data or {}

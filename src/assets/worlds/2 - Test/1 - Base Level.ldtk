@@ -3551,10 +3551,10 @@
 							"height": 16,
 							"defUid": 587,
 							"px": [192,96],
-							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true,\n  \"camera\":{\"focus\":{\"target\":\"self\"}},\n  \"lighting\": {\"background\": \"medium\"},\n  \"rescue\": {\"count\": 5},\n  \"chipset\": {\"power\": true}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true,\n  \"camera\":{\"focus\":{\"target\":\"self\"}},\n  \"lighting\": {\"background\": \"medium\"},\n  \"rescue\": {\"count\": 5},\n  \"chipset\": {\"power\": true},\n  \"transition\": {\"color\": 1}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
 								"params": [
-									"{\\n  \"parallax\": true,\\n  \"camera\":{\"focus\":{\"target\":\"self\"}},\\n  \"lighting\": {\"background\": \"medium\"},\\n  \"rescue\": {\"count\": 5},\\n  \"chipset\": {\"power\": true}\\n}"
+									"{\\n  \"parallax\": true,\\n  \"camera\":{\"focus\":{\"target\":\"self\"}},\\n  \"lighting\": {\"background\": \"medium\"},\\n  \"rescue\": {\"count\": 5},\\n  \"chipset\": {\"power\": true},\\n  \"transition\": {\"color\": 1}\\n}"
 								]
 							}] }],
 							"__worldX": 7488,

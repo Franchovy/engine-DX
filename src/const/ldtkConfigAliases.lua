@@ -4,5 +4,6 @@ LDTK_CONFIG_ALIASES = {
     camera = "Camera",
     lighting = "GUILightingEffect",
     rescue = "SpriteRescueCounter",
-    chipset = "GUIChipSet"
+    chipset = "GUIChipSet",
+    transition = "Transition"
 }
