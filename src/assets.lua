@@ -36,6 +36,7 @@ _G.assets = {
         }
     },
     imageTables = {
+        logicBlock = "assets/images/logic-block",
         collectibles = "assets/images/collectibles",
         questionMark = "assets/images/questionmark",
         buttons = "assets/images/buttons",
@@ -56,13 +57,13 @@ _G.assets = {
             helper = "assets/images/bots/A",
             ELDR = "assets/images/bots/ELDR",
             RKD = "assets/images/bots/RKD",
-            ["1"] = "assets/images/bots/B",
-            ["2"] = "assets/images/bots/C",
-            ["3"] = "assets/images/bots/D",
-            ["4"] = "assets/images/bots/E",
-            ["5"] = "assets/images/bots/F",
-            ["6"] = "assets/images/bots/G",
-            ["7"] = "assets/images/bots/H",
+            JMPY = "assets/images/bots/C",
+            B = "assets/images/bots/B",
+            D = "assets/images/bots/D",
+            E = "assets/images/bots/E",
+            F = "assets/images/bots/F",
+            G = "assets/images/bots/G",
+            H = "assets/images/bots/H",
         }
     },
     sounds = {

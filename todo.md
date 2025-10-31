@@ -1,4 +1,14 @@
 - Dialog: {"flip":{"facing": "player"}}
 - Gamepoint: {"camera":{"focus":{"target":"self"}}}
-- Level: {"gamepoints_on_enter":["73048940-ac70-11f0-979d-c755f1a6d76b"]}
 - Dialog: {"goto": {"iid": ""}}
+
+### Migrate Levels
+
+Playtest:
+
+- Scott - Order - Puzzle 1, 2, 3
+
+Challenge:
+
+- Scott - Order - Puzzle 4
+- Scott - Order - Puzzle 5
