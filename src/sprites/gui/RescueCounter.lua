@@ -32,8 +32,6 @@ function SpriteRescueCounter.loadProgressData(progressDataRescues)
 
     if progressDataRescues and progressDataRescues.rescuedSprites then
         _instance:loadRescuedSprites(progressDataRescues.rescuedSprites)
-
-        _instance:setPositionsSpriteCounter()
     end
 end
 
@@ -42,8 +40,6 @@ function SpriteRescueCounter.load(config)
 
     if #_instance:getRescuedSprites() == 0 and config.count then
         _instance:setRescueSpriteCount(config.count)
-
-        _instance:setPositionsSpriteCounter()
     end
 end
 
@@ -86,6 +82,8 @@ function SpriteRescueCounter:add()
     for i = 1, self.rescueSpriteCount do
         spriteCounters[i]:add()
     end
+
+    self:setPositionsSpriteCounter()
 end
 
 function SpriteRescueCounter:remove()
