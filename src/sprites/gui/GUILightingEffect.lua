@@ -7,11 +7,14 @@ local _instance
 
 local maskImage
 local imageBackground
-local imageBackgroundFaded
+
+-- Template effects
+
 local imageLargeCircle
 local imageSmallCircle
+local imageFade
 
----@type {_Sprite : {image: _Image, xPrevious: number, yPrevious: number}}
+---@type {any : {image: _Image, xPrevious: number, yPrevious: number}}
 local effects <const> = {}
 
 ---@return GUILightingEffect
@@ -28,6 +31,7 @@ function GUILightingEffect:init()
 
     -- Images to be used for mask
 
+    self:createFadeImages()
     self:createCircleImages()
 
     -- Sprite config
@@ -42,6 +46,18 @@ end
 function GUILightingEffect:createBackgroundImages()
     imageBackground = gfx.image.new(400, 240, gfx.kColorClear)
     maskImage = imageBackground:getMaskImage()
+end
+
+function GUILightingEffect:createFadeImages()
+    imageFade = gfx.image.new(400, 240, gfx.kColorBlack)
+
+    gfx.pushContext(imageFade)
+    gfx.setColor(gfx.kColorWhite)
+    gfx.setDitherPattern(0.3, gfx.image.kDitherTypeDiagonalLine)
+    gfx.fillRect(0, 0, 400, 240)
+    gfx.popContext()
+
+    GUILightingEffect.imageFade = imageFade
 end
 
 function GUILightingEffect:createCircleImages()
@@ -71,13 +87,15 @@ function GUILightingEffect:createCircleImages()
 
         gfx.popContext()
     end
+
+    -- Set static references to effects
+    GUILightingEffect.imageLargeCircle = imageLargeCircle
+    GUILightingEffect.imageSmallCircle = imageSmallCircle
 end
 
----@param sprite _Sprite Sprite to track effect
----@param size 1|2 area size, small or large respectively
-function GUILightingEffect:addEffect(sprite, size)
-    local image = size == 1 and imageSmallCircle or imageLargeCircle
-
+---@param sprite _Sprite|any Sprite or (table/object with and x and y) to track effect, or simply a reference for the effect. Needs x and y or the effect will be placed at 0, 0.
+---@param image _Image image for effect (should be black & white, applicable as a mask)
+function GUILightingEffect:addEffect(sprite, image)
     effects[sprite] = {
         image = image,
         xPrevious = nil,
@@ -85,7 +103,7 @@ function GUILightingEffect:addEffect(sprite, size)
     }
 end
 
----@param sprite _Sprite Sprite to track effect
+---@param sprite _Sprite|any Sprite or reference for which to remove effect
 function GUILightingEffect:removeEffect(sprite)
     effects[sprite] = nil
 end
@@ -96,10 +114,30 @@ function GUILightingEffect:update()
     self:makeEffect()
 end
 
-function GUILightingEffect:makeEffect()
+function GUILightingEffect:makeEffect() -- First loop to check for changes in lighting
+    -- First loop to check for changes in lighting
+
+    local applychanges = false
+
+    for sprite, config in pairs(effects) do
+        if sprite.x and sprite.y
+            and (sprite.x ~= config.xPrevious
+                or sprite.y ~= config.yPrevious) then
+            applychanges = true
+            break
+        end
+    end
+
+    if not applychanges then
+        return
+    end
+
+    -- Get draw offset
     local xOffset, yOffset = gfx.getDrawOffset()
 
-    local hasImageMaskClear = false
+    -- Clear image mask
+
+    maskImage:clear(gfx.kColorWhite)
 
     -- Draw each sprite's effect
 
@@ -107,31 +145,34 @@ function GUILightingEffect:makeEffect()
     gfx.setImageDrawMode(gfx.kDrawModeWhiteTransparent)
     gfx.pushContext(maskImage)
 
+    -- Second loop to apply changes if needed
+
     for sprite, config in pairs(effects) do
-        -- FRANCH: This is a work-around to the light not showing up on the first frame.
-        sprite:add()
+        local x, y = 200, 120
+        if sprite.x and sprite.y then
+            -- Update last drawn position
+            config.xPrevious, config.yPrevious = x, y
 
-        if sprite.x ~= config.xPrevious or sprite.y ~= config.yPrevious then
-            if not hasImageMaskClear then
-                -- Clear image mask
-
-                maskImage:clear(gfx.kColorWhite)
-                hasImageMaskClear = true
-            end
-
-            -- Update position
-            config.xPrevious, config.yPrevious = sprite.x, sprite.y
-
-            -- Draw effect image onto mask image
-            local xTarget, yTarget = xOffset + sprite.x, yOffset + sprite.y
-            config.image:drawCentered(xTarget, yTarget)
-
-            -- Mark sprite as dirty
-
-            self:markDirty()
+            -- Set draw x and y subtracting offset
+            x = sprite.x + xOffset
+            y = sprite.y + yOffset
         end
+
+        -- FRANCH: This is a work-around to the light not showing up on the first frame.
+        if sprite.add then
+            sprite:add()
+        end
+
+        -- Draw effect image onto mask image
+        config.image:drawCentered(x, y)
     end
+
+    -- Reset draw context
 
     gfx.popContext()
     gfx.setImageDrawMode(drawModeOriginal)
+
+    -- Mark sprite as dirty
+
+    self:markDirty()
 end

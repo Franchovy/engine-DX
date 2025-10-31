@@ -198,7 +198,7 @@ function Player:add()
 
     -- Add lighting effect
 
-    GUILightingEffect:getInstance():addEffect(self, 2)
+    GUILightingEffect:getInstance():addEffect(self, GUILightingEffect.imageLargeCircle)
 end
 
 function Player:remove()

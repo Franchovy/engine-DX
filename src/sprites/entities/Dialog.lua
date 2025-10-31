@@ -168,7 +168,7 @@ end
 function Dialog:add()
     Dialog.super.add(self)
 
-    GUILightingEffect:getInstance():addEffect(self, 1)
+    GUILightingEffect:getInstance():addEffect(self, GUILightingEffect.imageSmallCircle)
 end
 
 function Dialog:remove()

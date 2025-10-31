@@ -208,9 +208,7 @@ function Game:enter(previous, data)
 
     -- Load level fields
 
-    local levelData = LDtk.get_custom_data(currentLevelName) or {}
-
-    self:parseCustomLevelData(levelData)
+    self:setupCustomLevelData(currentLevelName)
 
     -- Load level --
 
@@ -265,19 +263,48 @@ end
 
 -- Level data setup
 
-function Game:parseCustomLevelData(levelData)
+function Game:setupCustomLevelData(levelName)
+    local dataRaw = LDtk.get_custom_data(levelName)
+    if not dataRaw or not dataRaw.config then
+        return
+    end
+
+    local data = json.decode(dataRaw.config)
+    if not data then
+        return
+    end
+
+    -- Parse data
+
+    -- Game Points on Start
+
+    -- Game Points on Enter
+
+    if data.gamepoints_on_enter then
+
+    end
+
+    -- Light Mode
+
+    if data.light_mode then
+        local instance = GUILightingEffect.getInstance()
+        if data.light_mode == "medium" then
+            instance:addEffect(self, GUILightingEffect.imageFade)
+        end
+    end
+
     -- Set Save count & GUI
 
     local spriteRescueCounter = SpriteRescueCounter.getInstance()
-    if #spriteRescueCounter:getRescuedSprites() == 0 and levelData.saveCount then
-        spriteRescueCounter:setRescueSpriteCount(levelData.saveCount)
+    if #spriteRescueCounter:getRescuedSprites() == 0 and data.saveCount then
+        spriteRescueCounter:setRescueSpriteCount(data.saveCount)
 
         spriteRescueCounter:setPositionsSpriteCounter()
     end
 
     -- Add Parallax if required
 
-    if levelData.parallax or CONFIG.PARALLAX_BG then
+    if data.parallax or CONFIG.PARALLAX_BG then
         Background.getInstance().enterLevel(currentLevelName)
 
         Background.getInstance():add()
@@ -286,7 +313,7 @@ function Game:parseCustomLevelData(levelData)
     -- Perma-power enabled/disabled
 
     if not self.isInitialized then
-        local isPoweredPermanent = levelData.power or false -- for backwards compatibility
+        local isPoweredPermanent = data.power or false -- for backwards compatibility
         GUIChipSet.getInstance():setPowerPermanent(isPoweredPermanent)
     end
 end
