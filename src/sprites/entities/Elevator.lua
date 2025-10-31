@@ -10,6 +10,7 @@ local downwardsOffsetMax <const> = 2
 ---
 
 ---@class Elevator : Entity
+---@field tracks ElevatorTrack[]
 Elevator = Class("Elevator", Entity)
 
 function Elevator:init(entityData, levelName)
@@ -20,6 +21,7 @@ function Elevator:init(entityData, levelName)
   self:setTag(TAGS.Elevator)
   self:setGroups({ GROUPS.Solid, GROUPS.Ground })
   self:setCollidesWithGroups(GROUPS.Solid)
+
 
   -- Elevator-specific fields
 
@@ -35,6 +37,9 @@ function Elevator:init(entityData, levelName)
   -- Offset upwards to occupy upper portion of tile, if needed.
   local tileOffsetY = (self.y - TILE_SIZE / 2) % TILE_SIZE
   self:moveBy(0, -tileOffsetY)
+
+  -- Connected elevator track list
+  self.tracks = {}
 
   -- Checkpoint Handling setup
 
@@ -57,8 +62,22 @@ end
 --- Public class Methods
 ---
 
-function Elevator:getDirection()
-  return self.track and self.track:getOrientation() or nil
+function Elevator:getDirectionsAvailable()
+  local directions = {}
+
+  for _, track in pairs(self.tracks) do
+    directions[track:getOrientation()] = true
+  end
+
+  return directions
+end
+
+function Elevator:getTrackForDirection(orientation)
+  for _, track in pairs(self.tracks) do
+    if track:getOrientation() == orientation then
+      return track
+    end
+  end
 end
 
 function Elevator:savePosition(skipSaveToCheckpoint)
@@ -80,10 +99,8 @@ end
 function Elevator:update()
   Elevator.super.update(self)
 
-  -- Set track for this elevator
-  if self.track == nil then
-    self:updateTrack()
-  end
+  -- Update connected tracks for this elevator
+  self:updateTrack()
 
   -- Move elevator to nearest tile if applicable
 
@@ -106,24 +123,33 @@ function Elevator:update()
 end
 
 function Elevator:updateTrack()
+  local ownTrackId = self.fields.trackId
+  local hasTrack = #self.tracks > 0
+
+  if hasTrack and ownTrackId then
+    -- If elevator already has a track specified, then skip.
+    return
+  end
+
   local spritesOverlapping = self.querySpritesAtPoint(self:centerX(), self:centerY() + self.height / 4)
 
-  local ownTrackId = self.fields.trackId
-  local track
+  local tracksNew = {}
 
   for _, sprite in pairs(spritesOverlapping) do
+    ---@cast sprite ElevatorTrack
     if (sprite:getTag() == TAGS.ElevatorTrack) then
       if ownTrackId and ownTrackId == sprite.fields.uid then
-        -- If matching UID, then set to other track.
-        track = sprite
+        -- If matching UID, then set to other track and break loop.
+        table.insert(tracksNew, sprite)
+        break
       elseif not ownTrackId then
         -- If no specified trackId exists, set to any track.
-        track = sprite
+        table.insert(tracksNew, sprite)
       end
     end
   end
 
-  self.track = track
+  self.tracks = tracksNew
 end
 
 function Elevator:getTargetPositionFromOffset(offset, position)
@@ -144,7 +170,7 @@ function Elevator:getTargetPositionFromOffset(offset, position)
 end
 
 function Elevator:updatePosition()
-  if not self.track then
+  if #self.tracks == 0 then
     return
   end
 
@@ -187,8 +213,13 @@ function Elevator:moveToTarget(targetX, targetY, orientation, spriteChild, downw
     return false
   end
 
+  local track = self:getTrackForDirection(orientation)
+  if not track then
+    return
+  end
+
   -- Clamp point to track bounds
-  local destinationX, destinationY = self.track:clampElevatorPoint(targetX, targetY)
+  local destinationX, destinationY = track:clampElevatorPoint(targetX, targetY)
 
   if destinationX == self.x and destinationY == self.y then
     -- [End of track] No movement occurred.
@@ -277,7 +308,7 @@ function Elevator:activateDown(spriteChild, key)
 
   -- Return if no track (cannot move elevator)
 
-  if not self.track then return end
+  if #self.tracks == 0 then return end
 
   local speedX, speedY = 0, 0
   local orientation
@@ -345,9 +376,9 @@ function Elevator:enterLevel(levelName, direction)
 
   self:add()
 
-  -- Reset track
+  -- Reset tracks
 
-  self.track = nil
+  self.tracks = {}
 
   -- Update levelName
 

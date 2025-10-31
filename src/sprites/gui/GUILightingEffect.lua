@@ -12,7 +12,8 @@ local imageBackground
 
 local imageLargeCircle
 local imageSmallCircle
-local imageFade
+local imageFadeMedium
+local imageFadeLight
 
 ---@type {any : {image: _Image, xPrevious: number, yPrevious: number}}
 local effects <const> = {}
@@ -25,8 +26,10 @@ function GUILightingEffect.getInstance() return assert(_instance) end
 function GUILightingEffect.load(config)
     if not _instance then return end
 
-    if config.background == "medium" then
-        _instance:addEffect(Game.getLevelName(), GUILightingEffect.imageFade)
+    if config.background == "light" then
+        _instance:addEffect(Game.getLevelName(), GUILightingEffect.imageFadeLight)
+    elseif config.background == "medium" then
+        _instance:addEffect(Game.getLevelName(), GUILightingEffect.imageFadeMedium)
     else
         _instance:removeEffect(Game.getLevelName())
     end
@@ -63,15 +66,26 @@ function GUILightingEffect:createBackgroundImages()
 end
 
 function GUILightingEffect:createFadeImages()
-    imageFade = gfx.image.new(400, 240, gfx.kColorBlack)
+    -- Medium-dark background
+    imageFadeMedium = gfx.image.new(400, 240, gfx.kColorBlack)
 
-    gfx.pushContext(imageFade)
+    gfx.pushContext(imageFadeMedium)
     gfx.setColor(gfx.kColorWhite)
     gfx.setDitherPattern(0.3, gfx.image.kDitherTypeDiagonalLine)
     gfx.fillRect(0, 0, 400, 240)
     gfx.popContext()
 
-    GUILightingEffect.imageFade = imageFade
+    -- Light background
+    imageFadeLight = gfx.image.new(400, 240, gfx.kColorBlack)
+
+    gfx.pushContext(imageFadeLight)
+    gfx.setColor(gfx.kColorWhite)
+    gfx.setDitherPattern(0.7, gfx.image.kDitherTypeDiagonalLine)
+    gfx.fillRect(0, 0, 400, 240)
+    gfx.popContext()
+
+    GUILightingEffect.imageFadeMedium = imageFadeMedium
+    GUILightingEffect.imageFadeLight = imageFadeLight
 end
 
 function GUILightingEffect:createCircleImages()

@@ -548,9 +548,9 @@ function Player:updateActivations()
 
         if tag == TAGS.Elevator then
             local key
-            local direction = otherSprite:getDirection()
+            local directionsAvailable = otherSprite:getDirectionsAvailable()
 
-            if direction == ORIENTATION.Horizontal then
+            if directionsAvailable[ORIENTATION.Horizontal] then
                 -- If horizontal, then the player must be near the center for the elevator to start.
                 local marginWithinCenterRange <const> = 12
 
@@ -559,7 +559,9 @@ function Player:updateActivations()
                 elseif self:isHoldingRightKeyGated() and self:centerX() > otherSprite:left() + marginWithinCenterRange then
                     key = KEYNAMES.Right
                 end
-            elseif direction == ORIENTATION.Vertical then
+            end
+
+            if directionsAvailable[ORIENTATION.Vertical] then
                 if self:isHoldingDownKeyGated() then
                     key = KEYNAMES.Down
                 elseif self:isHoldingUpKeyGated() then
@@ -623,11 +625,11 @@ function Player:updateMovement()
     if self.isActivatingDrillableBlock or didActivateElevatorSuccess then
         -- Skip horizontal movement if activating a bottom block
         self.rigidBody:setVelocityX(0.0)
-    elseif self.isActivatingElevator and self.isActivatingElevator:getDirection() == ORIENTATION.Horizontal
+    elseif self.isActivatingElevator and self.isActivatingElevator:getDirectionsAvailable()[ORIENTATION.Horizontal]
         and (pd.buttonJustPressed(pd.kButtonLeft) or pd.buttonJustPressed(pd.kButtonRight)) then
         -- Skip upon pressing left or right to give collisions a frame to calculate horizontal elevator movement.
         self.rigidBody:setVelocityX(0.0)
-    elseif self.isActivatingElevator and self.isActivatingElevator:getDirection() == ORIENTATION.Horizontal
+    elseif self.isActivatingElevator and self.isActivatingElevator:getDirectionsAvailable()[ORIENTATION.Horizontal]
         and (not self.isTouchingGroundPrevious and self.rigidBody:getIsTouchingGround()) then
         -- Skip upon landing on a horizontal elevator
         self.rigidBody:setVelocityX(0.0)
