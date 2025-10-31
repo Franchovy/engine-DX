@@ -5,5 +5,6 @@ LDTK_CONFIG_ALIASES = {
     lighting = "GUILightingEffect",
     rescue = "SpriteRescueCounter",
     chipset = "GUIChipSet",
-    transition = "Transition"
+    transition = "Transition",
+    levelname = "GUILevelName"
 }

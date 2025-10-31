@@ -61,6 +61,8 @@ function Game:init(filepathLevel)
 
     Background()
 
+    GUILevelName()
+
     -- Load Ability Panel
 
     GUIChipSet()
@@ -194,6 +196,8 @@ function Game:enter(previous, data)
         self:setupSystemMenu()
         self:setupCheats()
         self:setupFonts()
+
+        GUILevelName.getInstance():present()
     else
         sfxSwoosh:play(1)
     end
