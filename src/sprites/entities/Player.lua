@@ -65,9 +65,8 @@ local groundAcceleration <const> = 3.5
 local airAcceleration <const> = 0.9
 local dashSpeed <const> = 27.0
 local framesPostDashNoGravity <const> = 4
-local jumpSpeed <const> = 17
+local jumpSpeed <const> = 27
 local jumpSpeedDrilledBlock <const> = -14
-local jumpHoldTimeInTicks <const> = 5
 local VELOCITY_FALL_ANIMATION <const> = 6
 
 -- Setup
@@ -129,7 +128,6 @@ function Player:init(entityData, levelName)
 
     -- Jumping mechanic variables
 
-    self.jumpTimeLeftInTicks = jumpHoldTimeInTicks
     self.coyoteFramesRemaining = coyoteFrames
 
     -- Setup keys array and starting keys
@@ -705,8 +703,6 @@ function Player:updateMovement()
         if isFirstJump or self:canDoubleJump() then
             -- Handle jump start
 
-            self.jumpTimeLeftInTicks = jumpHoldTimeInTicks
-
             if self:didJumpStart() then
                 if not isFirstJump then
                     hasDoubleJumpRemaining = false
@@ -716,20 +712,8 @@ function Player:updateMovement()
 
                 self.rigidBody:setVelocityY(-jumpSpeed)
 
-                self.jumpTimeLeftInTicks -= 1
-
                 self.coyoteFramesRemaining = 0
             end
-        elseif self:isHoldingJumpKeyGated() and self.jumpTimeLeftInTicks > 0 then
-            -- Handle Jump Hold
-
-            self.rigidBody:setVelocityY(-jumpSpeed)
-
-            self.jumpTimeLeftInTicks -= 1
-        elseif pd.buttonJustReleased(KEYNAMES.A) or self.jumpTimeLeftInTicks > 0 then
-            -- Handle Jump Release
-
-            self.jumpTimeLeftInTicks = 0
         end
     end
 
