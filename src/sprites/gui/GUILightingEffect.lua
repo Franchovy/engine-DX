@@ -27,11 +27,11 @@ function GUILightingEffect.load(config)
     if not _instance then return end
 
     if config.background == "light" then
-        _instance:addEffect(Game.getLevelName(), GUILightingEffect.imageFadeLight)
+        _instance:addEffect("background", GUILightingEffect.imageFadeLight)
     elseif config.background == "medium" then
-        _instance:addEffect(Game.getLevelName(), GUILightingEffect.imageFadeMedium)
+        _instance:addEffect("background", GUILightingEffect.imageFadeMedium)
     else
-        _instance:removeEffect(Game.getLevelName())
+        _instance:removeEffect("background")
     end
 end
 

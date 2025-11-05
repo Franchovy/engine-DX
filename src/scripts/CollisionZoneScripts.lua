@@ -1,22 +1,43 @@
 CollisionZoneScripts = {
+    loadConfig = {
+        activate = function(self)
+            self.super.activate(self)
+
+            ConfigHandler.loadConfig(self.args["activate"])
+        end
+    },
+    loadConfigOnExit = {
+        onExit = function(self)
+            ConfigHandler.loadConfig(self.args["onExit"])
+        end
+    },
     powerwall = {
         activate = function(self)
+            self.super.activate(self)
+
             Manager.emitEvent(EVENTS.ChipSetPower, true)
         end
     },
     levelEnd = {
         activate = function(self)
+            self.super.activate(self)
+
             -- Trigger level end
-            Manager.emitEvent(EVENTS.WorldComplete)
+            Manager.emitEvent(
+                EVENTS.WorldComplete,
+                self.args["activate"] ~= true
+                and self.args["activate"]
+                or nil
+            )
         end
     },
     restart = {
         activate = function(self)
-            if self.isActivated then
+            self.super.activate(self)
+
+            if self.isActivatedPrevious then
                 return
             end
-
-            self.isActivated = true
 
             local gamepointId = self.args["activate"].gamepoint
 
@@ -31,16 +52,20 @@ CollisionZoneScripts = {
 
             Game.enableLevelChange = false
 
-            Transition.getInstance():fadeOut(500, function()
-                player:moveTo(gamepoint.sprite.x, gamepoint.sprite.y)
+            Transition.getInstance():fadeOut(1000, function()
+                playdate.timer.performAfterDelay(2000, function()
+                    player:moveTo(gamepoint.sprite.x, gamepoint.sprite.y)
+                    Camera.setOffsetInstantaneous()
 
-                Transition.getInstance():fadeIn(500, function()
-                    Game.enableLevelChange = true
+                    Transition.getInstance():fadeIn(500, function()
+                        Game.enableLevelChange = true
 
-                    player:unfreeze()
+                        player:unfreeze()
 
-                    self.isActivated = false
-                end)
+                        self.isActivated = false
+                    end)
+                end
+                )
             end)
         end
     }

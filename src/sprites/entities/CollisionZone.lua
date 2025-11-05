@@ -12,8 +12,21 @@ function CollisionZone:init(data, levelName, ...)
     -- Args for named functions (a.k.a. scripts) are passed through this table
     self.args = {}
 
-    local config = json.decode(data.fields.config)
+    local config = assert(json.decode(data.fields.config), "Error decoding CollisionZone json!")
 
+    self:loadConfig(config)
+
+    -- Collisions
+
+    self:setGroups(GROUPS.Overlap)
+
+    -- Sprite config
+
+    self:setCenter(0, 0)
+    self:setSize(data.size.width, data.size.height)
+end
+
+function CollisionZone:loadConfig(config)
     for key, args in pairs(config) do
         local scripts = CollisionZoneScripts[key]
 
@@ -25,13 +38,28 @@ function CollisionZone:init(data, levelName, ...)
             self[name] = func
         end
     end
+end
 
-    -- Collisions
+function CollisionZone:activate()
+    self.isActivated = self.latestTime
+end
 
-    self:setGroups(GROUPS.Overlap)
+function CollisionZone:update()
+    if self.isActivated and self.isActivated < self.latestTime then
+        -- On activation last tick
 
-    -- Sprite config
+        self.isActivatedPrevious = self.isActivated
+        self.isActivated = false
+    elseif not self.isActivated and self.isActivatedPrevious then
+        -- On ended activation last tick
 
-    self:setCenter(0, 0)
-    self:setSize(data.size.width, data.size.height)
+        self.isActivatedPrevious = false
+
+        -- Call onExit callback if exists
+        if self.onExit then
+            self:onExit()
+        end
+    end
+
+    self.latestTime = _G.activation_time
 end

@@ -3,62 +3,143 @@ local gfx <const> = playdate.graphics
 
 Camera = {}
 
-local viewpoint
-local animatorViewpoint
+-- Local constants
+
+local viewOffsetXDefault <const> = 200
+local viewOffsetYDefault <const> = 140
+
+-- Local variables
+
+---@type {x:number, y:number}
+local offsetTarget = { x = 0, y = 0 }
+
+---@type {x:number, y:number}?
+local focusPoint
+local isSoftFocus = false
+
+---@type {x:number, y:number}
+local offsetView = {
+    x = viewOffsetXDefault,
+    y = viewOffsetYDefault
+}
+
+local drawOffsetTarget = geo.point.new(0, 0)
+
+-- Independently track level bounds and draw offset.
+
 local levelBounds
---- @type playdate.graphics.animator | nil
-local offsetAnimator
-local xOffsetTarget, yOffsetTarget = 0, 0
 local xDrawOffset, yDrawOffset = 0, 0
 
-function Camera.goToPoint(x, y)
-    viewpoint = geo.point.new(-x, -y)
-end
+-- Static Methods
 
 function Camera.enterLevel(levelNew)
     levelBounds = LDtk.get_rect(levelNew)
+
+    -- Set draw offset without animation
+    Camera.setOffsetInstantaneous()
+end
+
+function Camera.reset()
+    -- Reset config values.
+
+    focusPoint = nil
+    offsetView.x = viewOffsetXDefault
+    offsetView.y = viewOffsetYDefault
+end
+
+function Camera.load(config)
+    if config.offset then
+        offsetView.x = viewOffsetXDefault + config.offset.x
+        offsetView.y = viewOffsetYDefault + config.offset.y
+    else
+        offsetView.x = viewOffsetXDefault
+        offsetView.y = viewOffsetYDefault
+    end
+
+    if config.focus or config.softFocus then
+        -- Load gamepoint x, y
+        local gamepoint = LDtk.entitiesById[config.focus or config.softFocus].sprite
+
+        focusPoint = { x = gamepoint.x, y = gamepoint.y }
+        isSoftFocus = config.softFocus ~= nil
+    else
+        focusPoint = nil
+    end
 end
 
 function Camera.setOffset(x, y)
     -- Skip if target offset is the same as current.
 
-    if xOffsetTarget == x and yOffsetTarget == y then
-        return
-    end
+    offsetTarget.x = x
+    offsetTarget.y = y
 
-    ---@type number|_Point
-    local currentPoint = geo.point.new(0, 0)
-
-    if offsetAnimator then
-        currentPoint = offsetAnimator:currentValue()
-    end
-
-    -- Else, add an animator from current offset point to target.
-
-    xOffsetTarget, yOffsetTarget = x, y
+    --[[
+        xOffsetTarget, yOffsetTarget = x, y
     offsetAnimator = gfx.animator.new(
         600,
         currentPoint,
         geo.point.new(xOffsetTarget, yOffsetTarget),
         playdate.easingFunctions.outExpo
     )
+    ]]
 end
 
 function Camera.update()
-    -- Fix on player
+    -- Update tracking values
 
+    xDrawOffset, yDrawOffset = gfx.getDrawOffset()
+
+    -- Calculate draw offset target
+
+    Camera.calculateDrawOffsetTarget()
+
+    local xDrawOffsetSmoothed, yDrawOffsetSmoothed =
+        xDrawOffset + (drawOffsetTarget.x - xDrawOffset) * 0.2,
+        yDrawOffset + (drawOffsetTarget.y - yDrawOffset) * 0.2
+
+    gfx.setDrawOffset(xDrawOffsetSmoothed, yDrawOffsetSmoothed)
+end
+
+function Camera.setOffsetInstantaneous()
+    Camera.calculateDrawOffsetTarget()
+
+    gfx.setDrawOffset(drawOffsetTarget:unpack())
+end
+
+function Camera.getDrawOffset()
+    return xDrawOffset, yDrawOffset
+end
+
+function Camera.calculateDrawOffsetTarget()
+    -- Camera Focus
+
+    local xIdeal, yIdeal
     local player = Player.getInstance()
 
-    if not player then
+    if focusPoint then
+        if isSoftFocus and player then
+            -- Balance Focus point and Player
+
+            xIdeal, yIdeal = (focusPoint.x + player.x) / 2 - offsetView.x, (focusPoint.y + player.y) / 2 - offsetView.y
+        else
+            -- Fix on Focus point
+
+            xIdeal, yIdeal = focusPoint.x - offsetView.x, focusPoint.y - offsetView.y
+        end
+    elseif player then
+        -- Fix on Player
+
+        xIdeal, yIdeal = player.x - offsetView.x, player.y - offsetView.y
+    else
+        -- Nothing to focus on. Skip altogether.
+
         return
     end
 
-    local xPlayer, yPlayer = player.x, player.y
-    local xIdeal, yIdeal = xPlayer - 200, yPlayer - 100
+    -- If no focus point is active, then allow panning up/down
 
-    if offsetAnimator then
-        local value = offsetAnimator:currentValue()
-        xIdeal, yIdeal = xIdeal - value.x, yIdeal - value.y
+    if not focusPoint then
+        xIdeal, yIdeal = xIdeal - offsetTarget.x, yIdeal - offsetTarget.y
     end
 
     -- Positon camera within level bounds
@@ -74,31 +155,5 @@ function Camera.update()
     local xCameraOffsetBounded = -xCameraOffset + xLevelBounds
     local yCameraOffsetBounded = -yCameraOffset + yLevelBounds
 
-    if viewpoint and not animatorViewpoint then
-        -- Interpolate between player camera point and viewpoint
-        local playerCameraPoint = geo.point.new(xCameraOffsetBounded, yCameraOffsetBounded)
-        animatorViewpoint = gfx.animator.new(1200, playerCameraPoint, viewpoint, playdate.easingFunctions.inOutQuad, 500)
-    end
-
-    if animatorViewpoint then
-        local offset = animatorViewpoint:currentValue()
-        ---@cast offset -number
-        xDrawOffset, yDrawOffset = offset:unpack()
-
-        if animatorViewpoint:ended() then
-            playdate.timer.performAfterDelay(2500, function()
-                animatorViewpoint = nil
-                viewpoint = nil
-            end)
-        end
-    else
-        xDrawOffset, yDrawOffset = xCameraOffsetBounded, yCameraOffsetBounded
-    end
-
-    -- Set playdate graphics draw offset
-    gfx.setDrawOffset(xDrawOffset, yDrawOffset)
-end
-
-function Camera.getDrawOffset()
-    return xDrawOffset, yDrawOffset
+    drawOffsetTarget.x, drawOffsetTarget.y = xCameraOffsetBounded, yCameraOffsetBounded
 end

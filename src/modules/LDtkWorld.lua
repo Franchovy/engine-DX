@@ -13,7 +13,7 @@ function LDtkWorld:init(filepathLevel, progressEntitiesData)
     self.isCompleted = false
 end
 
-function LDtkWorld:loadLevel(levelName, isFirstTimeLoad)
+function LDtkWorld:loadLevel(levelName)
     -- Load level layers
 
     LDtk.loadAllLayersAsSprites(levelName)
@@ -29,12 +29,16 @@ function LDtkWorld:loadLevel(levelName, isFirstTimeLoad)
         return
     end
 
-    if isFirstTimeLoad then
+    if not dataRaw.isFirstTimeLoaded then
         -- Load GamePoints on Load (first-time only)
 
         for _, idGamepoint in pairs(dataRaw["gamepointsOnLoad"] or {}) do
             LDtk.entitiesById[idGamepoint].sprite:load()
         end
+
+        -- Set loaded on LDtk data
+
+        dataRaw.isFirstTimeLoaded = true
     end
 
     -- Load GamePoints on Enter

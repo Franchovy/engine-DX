@@ -221,6 +221,8 @@ function Game:enter(previous, data)
         currentLevelName = level and level.name
     end
 
+    Camera.reset()
+
     worldCurrent:loadLevel(currentLevelName, isFirstTimeLoad)
 
     -- Load level --
@@ -250,6 +252,7 @@ function Game:enter(previous, data)
 end
 
 function Game:update()
+    Camera.update()
 end
 
 function Game:leave(next, ...)
@@ -278,11 +281,11 @@ end
 ---------------------------------
 
 function Game:levelComplete(data)
-    Player.getInstance():freeze()
-
     if worldCurrent.isCompleted or Game.enableLevelChange == false then
         return
     end
+
+    Player.getInstance():freeze()
 
     local direction = data.direction
     local coordinates = data.coordinates
@@ -310,7 +313,7 @@ function Game:botRescued(bot, botNumber)
     MemoryCard.setLevelCompletion(worldCurrent.filepath, { rescuedSprites = rescuedSprites })
 end
 
-function Game:worldComplete()
+function Game:worldComplete(args)
     if worldCurrent.isCompleted then
         return
     end
@@ -329,9 +332,11 @@ function Game:worldComplete()
 
     FilePlayer:fadeOut(msFadeOutWorld)
 
+    local shouldSkipTransition = args and args.skipTransition or false
+
     -- Set level complete in data
 
-    Transition:getInstance():fadeOut(msFadeOutWorld, function()
+    Transition:getInstance():fadeOut(not shouldSkipTransition and msFadeOutWorld or 0, function()
         -- Update level progress
 
         local saveData = { complete = true, currentLevel = LEVEL_NAME_INITIAL }

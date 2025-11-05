@@ -85,6 +85,8 @@ function playdate.update()
 
   updateDeltaTime()
 
+  _G.activation_time = playdate.getCurrentTimeMilliseconds()
+
   -- Safeguard against large delta_times (happens when loading)
   if _G.delta_time < 1 then
     -- Update sprites
@@ -98,8 +100,6 @@ function playdate.update()
 
   sceneManagerInstance:emit(EVENTS.Update)
   sceneManagerInstance:emit(EVENTS.Draw)
-
-  Camera.update()
 end
 
 playdate.timer.performAfterDelay(1000, init)
