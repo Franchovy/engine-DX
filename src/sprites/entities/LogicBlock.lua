@@ -3,6 +3,7 @@ local gfx <const> = playdate.graphics
 local imagetable = assert(gfx.imagetable.new(assets.imageTables.logicBlock))
 
 ---@class LogicBlock : Entity
+---@field fields {chipSet:string[], reverse:boolean}
 LogicBlock = Class("LogicBlock", Entity)
 
 function LogicBlock:init(data, levelName)

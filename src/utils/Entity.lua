@@ -1,3 +1,9 @@
+---@alias ldtkData {iid: string, fields: table, world_position: {x: number, y: number}, size: {width: number, height: number}, center: {x: number, y: number}, sprite: _Sprite}
+
+---@param self any
+---@param data ldtkData
+---@param levelName string
+---@param ... unknown
 local function _init(self, data, levelName, ...)
     _G[self.entityClassName].super.init(self, ...)
 
@@ -38,6 +44,7 @@ end
 --- @field fields table LDtk fields data
 --- @field entity table LDtk entity data
 --- @field levelName string Level name reference - should be kept up to date
+--- @field init fun(self:table, data: ldtkData, levelName: string, ...)
 Entity = Class("Entity", playdate.graphics.sprite, createEntityClassPrototype("Entity"))
 
 --- @class EntityAnimated : AnimatedSprite
@@ -45,4 +52,5 @@ Entity = Class("Entity", playdate.graphics.sprite, createEntityClassPrototype("E
 --- @field fields table LDtk fields data
 --- @field entity table LDtk entity data
 --- @field levelName string Level name reference - should be kept up to date
+--- @field init fun(self:table, data: ldtkData, levelName: stringlib, ...)
 EntityAnimated = Class("EntityAnimated", AnimatedSprite, createEntityClassPrototype("EntityAnimated"))

@@ -35,6 +35,8 @@ function Chip:init(entityData, levelName)
   assert(buttonImage, "Missing image for key name: " .. self.button)
 
   self:setImage(buttonImage)
+
+  self:setCollideRect(8, 8, 8, 8)
 end
 
 function Chip:activate()

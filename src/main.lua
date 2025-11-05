@@ -6,7 +6,7 @@ import "rooms"
 import "utils"
 import "sprites"
 import "modules"
-import "classes"
+import "scripts"
 
 local gfx <const> = playdate.graphics
 local timer <const> = playdate.timer
