@@ -127,7 +127,7 @@ function Elevator:update()
 
   -- If no activation happened
   if not self.didActivate then
-    if self.shouldReturnToStart then
+    if self.shouldReturnToStart and not self.spriteChild then
       local key = self:getDirectionForOffset(
         self.x - self.fields.startPosition.x,
         self.y - self.fields.startPosition.y
