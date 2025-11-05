@@ -120,7 +120,7 @@ function Player:init(entityData, levelName)
 
     -- "Sub-States"
 
-    ---@type Dialog|false
+    ---@type Bot|false
     self.activeDialog = false
     self.didPressedInvalidKey = false
     self.activations = {}
@@ -394,7 +394,7 @@ function Player:update()
 
     self:updateActivations()
 
-    -- Dialog / Interactions
+    -- Bot / Interactions
 
     self:updateInteractions()
 
@@ -606,7 +606,7 @@ function Player:updateActivations()
             if not warpCooldown then
                 otherSprite:activate()
             end
-        elseif tag == TAGS.Dialog and not self.activeDialog then
+        elseif tag == TAGS.Bot and not self.activeDialog then
             self.activeDialog = otherSprite
 
             self.activeDialog:activate()

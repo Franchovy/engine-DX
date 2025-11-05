@@ -33,11 +33,11 @@ local lettersToActions <const> = {
     ["D"] = KEYNAMES.Down,
 }
 
----@class Dialog: EntityAnimated
+---@class Bot: EntityAnimated
 ---@property timer _Timer|nil
-Dialog = Class("Dialog", EntityAnimated)
+Bot = Class("Bot", EntityAnimated)
 
-function Dialog:init(entityData, levelName)
+function Bot:init(entityData, levelName)
     -- Load image based on rescuable & entity ID
 
     local botAnimationSpeed = 2
@@ -72,7 +72,7 @@ function Dialog:init(entityData, levelName)
 
     -- Super init call
 
-    Dialog.super.init(self, entityData, levelName, imagetable)
+    Bot.super.init(self, entityData, levelName, imagetable)
 
     -- Add animation states
 
@@ -108,7 +108,7 @@ function Dialog:init(entityData, levelName)
     -- Sprite setup
 
     self:setGroups(GROUPS.Overlap)
-    self:setTag(TAGS.Dialog)
+    self:setTag(TAGS.Bot)
 
     -- Set whether is "rescuable"
 
@@ -123,7 +123,7 @@ function Dialog:init(entityData, levelName)
 
     self:setupDialogLines(text)
 
-    -- Dialog variables
+    -- Bot variables
 
     self.repeatLine = nil
 
@@ -160,19 +160,19 @@ function Dialog:init(entityData, levelName)
     )
 end
 
-function Dialog:add()
-    Dialog.super.add(self)
+function Bot:add()
+    Bot.super.add(self)
 
     GUILightingEffect:getInstance():addEffect(self, GUILightingEffect.imageSmallCircle)
 end
 
-function Dialog:remove()
-    Dialog.super.remove(self)
+function Bot:remove()
+    Bot.super.remove(self)
 
     GUILightingEffect:getInstance():removeEffect(self)
 end
 
-function Dialog:setupDialogLines(text)
+function Bot:setupDialogLines(text)
     if not text then
         return
     end
@@ -189,7 +189,7 @@ function Dialog:setupDialogLines(text)
     local props
 
     for lineRaw in string.gmatch(text, "([^\n]+)") do
-        -- Dialog Action condition
+        -- Bot Action condition
 
         local conditionRaw = string.match(lineRaw, "%$%u%u%u")
 
@@ -236,7 +236,7 @@ function Dialog:setupDialogLines(text)
     end
 end
 
-function Dialog:setFlip(shouldFlip)
+function Bot:setFlip(shouldFlip)
     local flipValue = shouldFlip and 1 or 0
     self.states[ANIMATION_STATES.Idle].flip = flipValue
     self.states[ANIMATION_STATES.Talking].flip = flipValue
@@ -248,15 +248,15 @@ function Dialog:setFlip(shouldFlip)
 end
 
 --- Called from the player class on collide.
-function Dialog:activate()
+function Bot:activate()
     self.isActivated = true
 end
 
-function Dialog:getShouldFreeze()
+function Bot:getShouldFreeze()
     return self.fields.freeze == true
 end
 
-function Dialog:setRescued()
+function Bot:setRescued()
     if not self.isRescued and self.isRescuable then
         local indexSfx = math.random(1, #assets.sounds.robotSave)
         local spRescue = playdate.sound.sampleplayer.new(assets.sounds.robotSave[indexSfx])
@@ -273,11 +273,11 @@ function Dialog:setRescued()
     end
 end
 
-function Dialog:getIsRescuable()
+function Bot:getIsRescuable()
     return self.isRescuable
 end
 
-function Dialog:expand()
+function Bot:expand()
     if self.isStateExpanded then
         return
     end
@@ -293,7 +293,7 @@ function Dialog:expand()
     self:changeState(ANIMATION_STATES.Talking)
 end
 
-function Dialog:collapse()
+function Bot:collapse()
     if self.dialogSprite then
         self.dialogSprite:remove()
         self.dialogSprite = nil
@@ -316,8 +316,8 @@ function Dialog:collapse()
     end
 end
 
-function Dialog:update()
-    Dialog.super.update(self)
+function Bot:update()
+    Bot.super.update(self)
 
     if self.timerMovement and not self.timerMovement.paused then
         return
@@ -347,7 +347,7 @@ function Dialog:update()
     self.currentLinePrevious = self.currentLine
 end
 
-function Dialog:updateDialog()
+function Bot:updateDialog()
     -- If line is greater than current lines, mimic collapse.
     if self.isStateExpanded and not (self.currentLine > #self.dialogs) then
         -- Update sprite size using dialog size
@@ -403,7 +403,7 @@ function Dialog:updateDialog()
     end
 end
 
-function Dialog:addDialogSprite(text, x, y, width)
+function Bot:addDialogSprite(text, x, y, width)
     local config = {
         x = x,
         y = y,
@@ -435,7 +435,7 @@ function Dialog:addDialogSprite(text, x, y, width)
     self.dialogSprite:add()
 end
 
-function Dialog:showNextLine()
+function Bot:showNextLine()
     -- Increment current line
     self.currentLine += 1
 
@@ -459,14 +459,14 @@ function Dialog:showNextLine()
     end
 end
 
-function Dialog:playDialogSound()
+function Bot:playDialogSound()
     self.synth:playNotes(
         self.bleepCount or 6,
         9 / (self.bleepDuration or 1)
     )
 end
 
-function Dialog:parseCondition(conditionRaw)
+function Bot:parseCondition(conditionRaw)
     local actions = {}
 
     for c in string.gmatch(string.sub(conditionRaw, 2), ".") do
@@ -476,7 +476,7 @@ function Dialog:parseCondition(conditionRaw)
     return actions
 end
 
-function Dialog:parseProps(props)
+function Bot:parseProps(props)
     -- Repeating line
 
     if props.repeats then

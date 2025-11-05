@@ -2384,7 +2384,7 @@
 			"fieldDefs": []
 		},
 		{
-			"identifier": "Dialog",
+			"identifier": "Bot",
 			"uid": 204,
 			"tags": [],
 			"exportToToc": false,
@@ -3394,7 +3394,7 @@
 							"__worldY": 1360
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [7,6],
 							"__pivot": [0.5,0.5],
 							"__tags": [],

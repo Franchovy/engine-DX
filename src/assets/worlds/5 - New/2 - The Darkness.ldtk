@@ -2384,7 +2384,7 @@
 			"fieldDefs": []
 		},
 		{
-			"identifier": "Dialog",
+			"identifier": "Bot",
 			"uid": 204,
 			"tags": [],
 			"exportToToc": false,
@@ -3477,7 +3477,7 @@
 							"__worldY": 1488
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [8,5],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -4307,7 +4307,7 @@
 					"gridTiles": [],
 					"entityInstances": [
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [3,9],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -5448,7 +5448,7 @@
 					"gridTiles": [],
 					"entityInstances": [
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [3,4],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -6149,7 +6149,7 @@
 						1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
 						2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
 						2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-						
+
 					],
 					"autoLayerTiles": [
 						{ "px": [0,64], "src": [128,192], "f": 0, "t": 76, "d": [493,30], "a": 1 },

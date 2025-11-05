@@ -2554,7 +2554,7 @@
 			]
 		},
 		{
-			"identifier": "Dialog",
+			"identifier": "Bot",
 			"uid": 204,
 			"tags": [],
 			"exportToToc": false,
@@ -3013,7 +3013,7 @@
 					"gridTiles": [],
 					"entityInstances": [
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [5,10],
 							"__pivot": [0,0],
 							"__tags": [],
@@ -4134,7 +4134,7 @@
 					"gridTiles": [],
 					"entityInstances": [
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [2,5],
 							"__pivot": [0,0],
 							"__tags": [],
@@ -4724,7 +4724,7 @@
 							"__worldY": 542
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [17,14],
 							"__pivot": [0,0],
 							"__tags": [],
@@ -5666,7 +5666,7 @@
 							"__worldY": 704
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [14,13],
 							"__pivot": [0,0],
 							"__tags": [],
@@ -6378,7 +6378,7 @@
 							"__worldY": 1214
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [10,2],
 							"__pivot": [0,0],
 							"__tags": [],
@@ -11641,7 +11641,7 @@
 					"gridTiles": [],
 					"entityInstances": [
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [6,9],
 							"__pivot": [0,0],
 							"__tags": [],

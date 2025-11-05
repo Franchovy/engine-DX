@@ -1,7 +1,7 @@
 import "entities/Player"
 import "entities/Elevator"
 import "entities/ElevatorTrack"
-import "entities/Dialog"
+import "entities/Bot"
 import "entities/SavePoint"
 import "entities/CameraPoint"
 import "entities/consumable"

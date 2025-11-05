@@ -2113,7 +2113,7 @@
 			"fieldDefs": []
 		},
 		{
-			"identifier": "Dialog",
+			"identifier": "Bot",
 			"uid": 204,
 			"tags": [],
 			"exportToToc": false,
@@ -2790,7 +2790,7 @@
 							"__worldY": -139
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [12,6],
 							"__pivot": [0,0],
 							"__tags": [],
@@ -2819,7 +2819,7 @@
 							"__worldY": -128
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [6,6],
 							"__pivot": [0,0],
 							"__tags": [],
@@ -3160,7 +3160,7 @@
 					"gridTiles": [],
 					"entityInstances": [
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [10,6],
 							"__pivot": [0,0],
 							"__tags": [],
@@ -3415,7 +3415,7 @@
 					"gridTiles": [],
 					"entityInstances": [
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [10,6],
 							"__pivot": [0,0],
 							"__tags": [],
@@ -3833,7 +3833,7 @@
 							"__worldY": 544
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [3,6],
 							"__pivot": [0,0],
 							"__tags": [],
@@ -4124,7 +4124,7 @@
 							"__worldY": 670
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [12,5],
 							"__pivot": [0,0],
 							"__tags": [],
@@ -4661,7 +4661,7 @@
 							"__worldY": 1054
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [11,5],
 							"__pivot": [0,0],
 							"__tags": [],
@@ -4685,7 +4685,7 @@
 							"__worldY": 1056
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [4,5],
 							"__pivot": [0,0],
 							"__tags": [],
@@ -4979,7 +4979,7 @@
 					"gridTiles": [],
 					"entityInstances": [
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [13,6],
 							"__pivot": [0,0],
 							"__tags": [],
@@ -5091,7 +5091,7 @@
 							"__worldY": 1438
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [26,8],
 							"__pivot": [0,0],
 							"__tags": [],
@@ -5115,7 +5115,7 @@
 							"__worldY": 1408
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [32,8],
 							"__pivot": [0,0],
 							"__tags": [],

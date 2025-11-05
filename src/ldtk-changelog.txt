@@ -15,7 +15,7 @@
 - Edit custom fields (for levels):
 --- Delete "HintCrank" field
 --- Add boolean field "power", nullable and false by default.
-- Entity "Dialog":
+- Entity "Bot":
 --- Remove field "save", "button", "freeze"
 --- Replace field "spriteNumber" (int) with nullable string field "asset"
 --- ** NOTE: do not confuse with "saveNumber" - which signifies the order in which the
@@ -43,7 +43,7 @@
 
 # Version 0.1.2
 
-* Dialog sprites can now save dynamic properties which can be used in the code. To set dynamic properties,
+* Bot sprites can now save dynamic properties which can be used in the code. To set dynamic properties,
 * simply write a new line in the dialog text in JSON format, like: {"repeats":true}
 * and this will set the variable "repeats" which will be readable in-code.
 
@@ -71,7 +71,7 @@
 
 # Version 0.0.7
 
-Dialog:
+Bot:
 - Boolean "flip" (true = faces left, false = faces right)
 - Integer (nullable) "saveNumber" - control order of bots that are rescued / REQUIRED for rescueable bots
 - Boolean "save" - if on, bot is rescuable.
@@ -83,4 +83,4 @@ Elevator should have an "initialDistance" field as well as a "distance" and "ori
 
 # Version 0.0.2
 
-Dialog should have a "text" multiline text field.
+Bot should have a "text" multiline text field.

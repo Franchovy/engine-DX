@@ -1,6 +1,6 @@
-- Dialog: {"flip":{"facing": "player"}}
+- Bot: {"flip":{"facing": "player"}}
 - Gamepoint: {"camera":{"focus":{"target":"self"}}}
-- Dialog: {"goto": {"iid": ""}}
+- Bot: {"goto": {"iid": ""}}
 
 ### Migrate Levels
 

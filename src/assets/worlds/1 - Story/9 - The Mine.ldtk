@@ -2384,7 +2384,7 @@
 			"fieldDefs": []
 		},
 		{
-			"identifier": "Dialog",
+			"identifier": "Bot",
 			"uid": 204,
 			"tags": [],
 			"exportToToc": false,
@@ -3314,7 +3314,7 @@
 							"__worldY": 1488
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [5,8],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -3336,7 +3336,7 @@
 							"__worldY": 1392
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [6,8],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -3358,7 +3358,7 @@
 							"__worldY": 1392
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [8,10],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -3380,7 +3380,7 @@
 							"__worldY": 1456
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [9,11],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -3410,7 +3410,7 @@
 							"__worldY": 1488
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [13,10],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -3435,7 +3435,7 @@
 							"__worldY": 1456
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [16,8],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -3460,7 +3460,7 @@
 							"__worldY": 1392
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [15,8],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -3485,7 +3485,7 @@
 							"__worldY": 1392
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [17,7],
 							"__pivot": [0.5,0.5],
 							"__tags": [],

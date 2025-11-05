@@ -2384,7 +2384,7 @@
 			"fieldDefs": []
 		},
 		{
-			"identifier": "Dialog",
+			"identifier": "Bot",
 			"uid": 204,
 			"tags": [],
 			"exportToToc": false,
@@ -3529,7 +3529,7 @@
 							"__worldY": 1376
 						},
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [15,9],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -6650,7 +6650,7 @@
 					"gridTiles": [],
 					"entityInstances": [
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [6,18],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
@@ -13829,7 +13829,7 @@
 					"gridTiles": [],
 					"entityInstances": [
 						{
-							"__identifier": "Dialog",
+							"__identifier": "Bot",
 							"__grid": [13,14],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
