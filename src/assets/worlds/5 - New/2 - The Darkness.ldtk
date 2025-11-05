@@ -6847,6 +6847,22 @@
 							}] }],
 							"__worldX": 5840,
 							"__worldY": 2320
+						},
+						{
+							"__identifier": "ElevatorTrackV",
+							"__grid": [5,9],
+							"__pivot": [0.5,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#0099DB",
+							"iid": "a4f5d950-ac70-11f0-ab85-c30a9d65a20c",
+							"width": 16,
+							"height": 96,
+							"defUid": 578,
+							"px": [176,288],
+							"fieldInstances": [{ "__identifier": "uid", "__type": "String", "__value": null, "__tile": null, "defUid": 579, "realEditorValues": [] }],
+							"__worldX": 5424,
+							"__worldY": 2464
 						}
 					]
 				},

@@ -65,9 +65,9 @@ local groundAcceleration <const> = 3.5
 local airAcceleration <const> = 0.9
 local dashSpeed <const> = 27.0
 local framesPostDashNoGravity <const> = 4
-local jumpSpeed <const> = 27
+local jumpSpeed <const> = 17
 local jumpSpeedDrilledBlock <const> = -14
-local jumpHoldTimeInTicks <const> = 4
+local jumpHoldTimeInTicks <const> = 5
 local VELOCITY_FALL_ANIMATION <const> = 6
 
 -- Setup
@@ -704,6 +704,8 @@ function Player:updateMovement()
         local isFirstJump = self.rigidBody:getIsTouchingGround() or self.coyoteFramesRemaining > 0
         if isFirstJump or self:canDoubleJump() then
             -- Handle jump start
+
+            self.jumpTimeLeftInTicks = jumpHoldTimeInTicks
 
             if self:didJumpStart() then
                 if not isFirstJump then
