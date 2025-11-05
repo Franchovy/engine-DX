@@ -308,10 +308,6 @@ function Game:botRescued(bot, botNumber)
     -- Save the rescued sprite list
     local rescuedSprites = spriteRescueCounter:getRescuedSprites()
     MemoryCard.setLevelCompletion(worldCurrent.filepath, { rescuedSprites = rescuedSprites })
-
-    if spriteRescueCounter:isAllSpritesRescued() then
-        self:worldComplete()
-    end
 end
 
 function Game:worldComplete()

@@ -1,6 +1,15 @@
 local gfx <const> = playdate.graphics
 local geo <const> = playdate.geometry
 
+-- Globally defined enum
+
+BOT_ANIMATION_STATES = {
+    Idle = 'idle',
+    Talking = 'talking',
+    Happy = 'happy',
+    Sad = 'sad',
+}
+
 -- Local Variables
 
 -- Assets
@@ -15,16 +24,6 @@ local distanceAboveSprite <const> = 6
 local durationDialog <const> = 2000
 local collideRectSize <const> = 90
 
-local botAnimationSpeeds <const> = BOT_ANIMATION_SPEEDS
-
----@type {number:number}
-local ANIMATION_STATES <const> = {
-    Idle = 1,
-    Talking = 2,
-    NeedsRescue = 3,
-    Rescued = 4
-}
-
 local lettersToActions <const> = {
     ["A"] = KEYNAMES.A,
     ["U"] = KEYNAMES.Up,
@@ -35,60 +34,45 @@ local lettersToActions <const> = {
 
 ---@class Bot: EntityAnimated
 ---@property timer _Timer|nil
+---@property config BotConfig
 Bot = Class("Bot", EntityAnimated)
 
 function Bot:init(entityData, levelName)
-    -- Load image based on rescuable & entity ID
+    -- Load bot using asset, set default asset if empty
 
-    local botAnimationSpeed = 2
-    local imagetable
+    entityData.fields.asset = entityData.fields.asset or "RUD"
 
-    -- Choose imagetable using sprite number
-
-    if entityData.fields.saveNumber and not entityData.fields.asset then
-        -- Set a random sprite number for rescuable bots without a spriteNumber
-        entityData.fields.asset = math.random(1, 7)
-    end
-
-    if entityData.fields.asset then
-        -- Set the rate at which the bot should animate
-        botAnimationSpeed = botAnimationSpeeds[entityData.fields.asset]
-
-        ---@type string | number
-        local assetName = entityData.fields.asset
-
-        if type(assetName) == "number" then
-            -- Convert number asset name to string for backwards compatibility
-
-            assetName = tostring(assetName)
-        end
-
-        -- Grab the imagetable corresponding to this sprite
-        imagetable = assert(gfx.imagetable.new(assets.imageTables.bots[assetName]))
-    else
-        -- Set imagetable to Helper Bot
-        imagetable = assert(gfx.imagetable.new(assets.imageTables.bots.helper))
-    end
+    -- Grab the imagetable corresponding to this sprite
+    local imagetable = assert(gfx.imagetable.new(assets.imageTables.bots[entityData.fields.asset]),
+        "No bot asset found matching: " .. entityData.fields.asset)
 
     -- Super init call
 
     Bot.super.init(self, entityData, levelName, imagetable)
 
-    -- Add animation states
+    -- Bot config
 
-    self:addState(ANIMATION_STATES.Idle, 1, 4, { tickStep = botAnimationSpeed }).asDefault()
-    self:addState(ANIMATION_STATES.Talking, 5, 8, { tickStep = botAnimationSpeed })
+    self.config = BotConfig[entityData.fields.asset]
+
+    if self.config then
+        -- Add animation states
+
+        for name, frames in pairs(self.config.animations) do
+            local state = self:addState(name, frames[1], frames[2], { tickStep = self.config.animationSpeed or 2 })
+
+            if name == BOT_ANIMATION_STATES.Idle then
+                state.asDefault()
+            end
+        end
+    end
 
     -- Set up animation states (Sad / Happy) if needs rescue
 
     if entityData.fields.saveNumber then
-        self:addState(ANIMATION_STATES.NeedsRescue, 9, 12, { tickStep = botAnimationSpeed })
-        self:addState(ANIMATION_STATES.Rescued, 12, 16, { tickStep = botAnimationSpeed })
-
         if entityData.fields.isRescued then
-            self:changeState(ANIMATION_STATES.Rescued)
+            self:changeState(BOT_ANIMATION_STATES.Happy)
         else
-            self:changeState(ANIMATION_STATES.NeedsRescue)
+            self:changeState(BOT_ANIMATION_STATES.Sad)
         end
     end
 
@@ -158,6 +142,12 @@ function Bot:init(entityData, levelName)
         collideRectSize,
         collideRectSize
     )
+
+    -- Config additional init call
+
+    if self.config.init then
+        self.config.init(self)
+    end
 end
 
 function Bot:add()
@@ -170,6 +160,14 @@ function Bot:remove()
     Bot.super.remove(self)
 
     GUILightingEffect:getInstance():removeEffect(self)
+end
+
+function Bot:changeState(stateNew)
+    -- Get state if available, fallback on Idle
+    local stateNewActual = self.config.animations[stateNew] and stateNew or
+        BOT_ANIMATION_STATES.Idle
+
+    Bot.super.changeState(self, stateNewActual)
 end
 
 function Bot:setupDialogLines(text)
@@ -237,14 +235,7 @@ function Bot:setupDialogLines(text)
 end
 
 function Bot:setFlip(shouldFlip)
-    local flipValue = shouldFlip and 1 or 0
-    self.states[ANIMATION_STATES.Idle].flip = flipValue
-    self.states[ANIMATION_STATES.Talking].flip = flipValue
-
-    if self.fields.saveNumber then
-        self.states[ANIMATION_STATES.NeedsRescue].flip = flipValue
-        self.states[ANIMATION_STATES.Rescued].flip = flipValue
-    end
+    self.globalFlip = shouldFlip and 1 or 0
 end
 
 --- Called from the player class on collide.
@@ -263,7 +254,7 @@ function Bot:setRescued()
         spRescue:play(1)
 
         -- Animate to rescued animation state
-        self:changeState(ANIMATION_STATES.Rescued)
+        self:changeState(BOT_ANIMATION_STATES.Happy)
 
         -- Send message that has been rescued
         self.isRescued = true
@@ -290,7 +281,7 @@ function Bot:expand()
     --self:playDialogSound()
 
     -- Play speaking animation if not a rescue bot
-    self:changeState(ANIMATION_STATES.Talking)
+    self:changeState(BOT_ANIMATION_STATES.Talking)
 end
 
 function Bot:collapse()
@@ -312,7 +303,7 @@ function Bot:collapse()
 
     -- Play idle animation if not a rescue bot
     if not self.isRescuable then
-        self:changeState(ANIMATION_STATES.Idle)
+        self:changeState(BOT_ANIMATION_STATES.Idle)
     end
 end
 
@@ -323,10 +314,16 @@ function Bot:update()
         return
     end
 
-    if not self.dialogs then
-        return
+    if self.dialogs then
+        self:updateDialog()
     end
 
+    if self.config.update then
+        self.config.update(self)
+    end
+end
+
+function Bot:updateDialog()
     if self.isActivated then
         -- Consume update variable
         self.isActivated = false
@@ -340,14 +337,14 @@ function Bot:update()
 
     if self.isStateExpandedPrevious ~= self.isStateExpanded
         or self.currentLinePrevious ~= self.currentLine then
-        self:updateDialog()
+        self:incrementDialog()
     end
 
     self.isStateExpandedPrevious = self.isStateExpanded
     self.currentLinePrevious = self.currentLine
 end
 
-function Bot:updateDialog()
+function Bot:incrementDialog()
     -- If line is greater than current lines, mimic collapse.
     if self.isStateExpanded and not (self.currentLine > #self.dialogs) then
         -- Update sprite size using dialog size
@@ -364,7 +361,7 @@ function Bot:updateDialog()
             else
                 -- Condition failed
                 self:showNextLine()
-                self:updateDialog()
+                self:incrementDialog()
                 return
             end
         end
@@ -399,7 +396,7 @@ function Bot:updateDialog()
             Manager.emitEvent(EVENTS.LevelEnd)
         end
 
-        self:changeState(ANIMATION_STATES.Idle)
+        self:changeState(BOT_ANIMATION_STATES.Idle)
     end
 end
 

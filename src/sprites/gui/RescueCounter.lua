@@ -3,15 +3,6 @@ local gfx <const> = playdate.graphics
 -- bot rescue counter
 
 local imagetableSprite <const> = assert(gfx.imagetable.new(assets.imageTables.guiRescueBots))
-local imageSpriteRescued <const> = {
-    [1] = assert(gfx.image.new(assets.images.botFaces[1])),
-    [2] = assert(gfx.image.new(assets.images.botFaces[2])),
-    [3] = assert(gfx.image.new(assets.images.botFaces[3])),
-    [4] = assert(gfx.image.new(assets.images.botFaces[4])),
-    [5] = assert(gfx.image.new(assets.images.botFaces[5])),
-    [6] = assert(gfx.image.new(assets.images.botFaces[6])),
-    [7] = assert(gfx.image.new(assets.images.botFaces[7])),
-}
 local padding <const> = 3
 
 local maxSpriteCounters <const> = 7
@@ -160,7 +151,7 @@ function SpriteRescueCounter:setSpriteRescued(number, spriteImageIndex)
     local spriteCounter = spriteCounters[indexSpriteCounter]
 
     -- Set image
-    local imageRescued = imageSpriteRescued[spriteImageIndex]
+    local imageRescued = imagetableSprite[2]
     spriteCounter:setImage(imageRescued)
 end
 
