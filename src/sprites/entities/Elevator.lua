@@ -22,7 +22,6 @@ function Elevator:init(entityData, levelName)
   self:setGroups({ GROUPS.Solid, GROUPS.Ground })
   self:setCollidesWithGroups(GROUPS.Solid)
 
-
   -- Elevator-specific fields
 
   self.deactivatedSpeed = 3.5
@@ -30,6 +29,12 @@ function Elevator:init(entityData, levelName)
   self.movement = 0                 -- Update scalar for movement.
   self.didActivationSuccess = false -- Update value for checking if activation was successful
   self.didMoveRemaining = false     -- Update value for checking if remaining/adjustment movement occurred
+
+  self.shouldReturnToStart = self.fields.returnToStart or false
+
+  if self.shouldReturnToStart and not self.fields.startPosition then
+    self.fields.startPosition = { x = self.entity.world_position.x, y = self.entity.world_position.y }
+  end
 
   -- Set collideRect to bottom half of sprite
   self:setCollideRect(0, 16, 32, 16)
@@ -80,6 +85,24 @@ function Elevator:getTrackForDirection(orientation)
   end
 end
 
+function Elevator:getDirectionForOffset(offsetX, offsetY)
+  if offsetX > 0 then
+    return KEYNAMES.Right
+  elseif offsetX < 0 then
+    return KEYNAMES.Left
+  elseif offsetY > 0 then
+    return KEYNAMES.Up
+  elseif offsetY < 0 then
+    return KEYNAMES.Down
+  end
+
+  return nil
+end
+
+function Elevator:getOrientationForOffset(offsetX, offsetY)
+  return offsetX ~= 0 and ORIENTATION.Horizontal or offsetY ~= 0 and ORIENTATION.Vertical or nil
+end
+
 function Elevator:savePosition(skipSaveToCheckpoint)
   local x, y = self:getPosition()
 
@@ -102,10 +125,23 @@ function Elevator:update()
   -- Update connected tracks for this elevator
   self:updateTrack()
 
-  -- Move elevator to nearest tile if applicable
-
+  -- If no activation happened
   if not self.didActivate then
-    self:updatePosition()
+    if self.shouldReturnToStart then
+      local key = self:getDirectionForOffset(
+        self.x - self.fields.startPosition.x,
+        self.y - self.fields.startPosition.y
+      )
+
+      local targetX, targetY, orientation = self:getTargetPositionFromKey(key, self.speed)
+
+      if orientation then
+        self:moveToTarget(targetX, targetY, orientation, self.spriteChild, 2)
+      end
+    else
+      -- Move elevator to nearest tile if applicable
+      self:updatePosition()
+    end
   end
 
   -- Reset collision check if not disabled for this frame
@@ -180,7 +216,7 @@ function Elevator:updatePosition()
     return
   end
 
-  local orientation = offsetX ~= 0 and ORIENTATION.Horizontal or ORIENTATION.Vertical
+  local orientation = self:getOrientationForOffset(offsetX, offsetY)
 
   if orientation == ORIENTATION.Horizontal then
     local targetX = self:getTargetPositionFromOffset(offsetX, self.x)
@@ -205,6 +241,28 @@ function Elevator:updatePosition()
       downwardsOffset
     )
   end
+end
+
+function Elevator:getTargetPositionFromKey(key, speed)
+  local speedX, speedY = 0, 0
+  local orientation
+  if key == KEYNAMES.Right then
+    speedX = speed
+    orientation = ORIENTATION.Horizontal
+  elseif key == KEYNAMES.Left then
+    speedX = -speed
+    orientation = ORIENTATION.Horizontal
+  elseif key == KEYNAMES.Down then
+    -- Vertical orientation, return positive if Down, negative if Up
+    speedY = speed
+    orientation = ORIENTATION.Vertical
+  elseif key == KEYNAMES.Up then
+    speedY = -speed
+    orientation = ORIENTATION.Vertical
+  end
+
+  -- Get destination point
+  return math.round(self.x + speedX * _G.delta_time, 2), math.round(self.y + speedY * _G.delta_time, 2), orientation
 end
 
 function Elevator:moveToTarget(targetX, targetY, orientation, spriteChild, downwardsOffset)
@@ -249,6 +307,10 @@ function Elevator:moveToTarget(targetX, targetY, orientation, spriteChild, downw
 
     return true
   end
+
+  -- Keep or remove downwardsOffset based on movement direction
+
+  downwardsOffset = (orientation == ORIENTATION.Vertical and destinationY > self.y) and downwardsOffset or 0
 
   -- Check collision for any children
 
@@ -310,29 +372,10 @@ function Elevator:activateDown(spriteChild, key)
 
   if #self.tracks == 0 then return end
 
-  local speedX, speedY = 0, 0
-  local orientation
-  if key == KEYNAMES.Right then
-    speedX = self.speed
-    orientation = ORIENTATION.Horizontal
-  elseif key == KEYNAMES.Left then
-    speedX = -self.speed
-    orientation = ORIENTATION.Horizontal
-  elseif key == KEYNAMES.Down then
-    -- Vertical orientation, return positive if Down, negative if Up
-    speedY = self.speed
-    orientation = ORIENTATION.Vertical
-  elseif key == KEYNAMES.Up then
-    speedY = -self.speed
-    orientation = ORIENTATION.Vertical
-  end
-
   -- Get destination point
-  local idealX, idealY = math.round(self.x + speedX * _G.delta_time, 2), math.round(self.y + speedY * _G.delta_time, 2)
+  local idealX, idealY, orientation = self:getTargetPositionFromKey(key, self.speed)
 
-  local downwardsOffset = key == KEYNAMES.Down and downwardsOffsetMax or 0
-
-  self.didActivate = self:moveToTarget(idealX, idealY, orientation, spriteChild, downwardsOffset)
+  self.didActivate = self:moveToTarget(idealX, idealY, orientation, spriteChild, downwardsOffsetMax)
 
   return self.didActivate
 end

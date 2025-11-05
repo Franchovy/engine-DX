@@ -11,7 +11,7 @@
 	"iid": "b12745f0-d7b0-11ee-9f72-7bc5a2cd12f0",
 	"jsonVersion": "1.5.3",
 	"appBuildId": 473703,
-	"nextUid": 610,
+	"nextUid": 611,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": "Free",
@@ -2646,6 +2646,43 @@
 					"type": "F_String",
 					"isArray": false,
 					"canBeNull": true,
+					"arrayMinLength": null,
+					"arrayMaxLength": null,
+					"editorDisplayMode": "Hidden",
+					"editorDisplayScale": 1,
+					"editorDisplayPos": "Above",
+					"editorLinkStyle": "StraightArrow",
+					"editorDisplayColor": null,
+					"editorAlwaysShow": false,
+					"editorShowInWorld": true,
+					"editorCutLongValues": true,
+					"editorTextSuffix": null,
+					"editorTextPrefix": null,
+					"useForSmartColor": false,
+					"exportToToc": false,
+					"searchable": false,
+					"min": null,
+					"max": null,
+					"regex": null,
+					"acceptFileTypes": null,
+					"defaultOverride": null,
+					"textLanguageMode": null,
+					"symmetricalRef": false,
+					"autoChainRef": true,
+					"allowOutOfLevelRef": true,
+					"allowedRefs": "OnlySame",
+					"allowedRefsEntityUid": null,
+					"allowedRefTags": [],
+					"tilesetUid": null
+				},
+				{
+					"identifier": "returnToStart",
+					"doc": null,
+					"__type": "Bool",
+					"uid": 610,
+					"type": "F_Bool",
+					"isArray": false,
+					"canBeNull": false,
 					"arrayMinLength": null,
 					"arrayMaxLength": null,
 					"editorDisplayMode": "Hidden",
@@ -5688,7 +5725,7 @@
 						},
 						{
 							"__identifier": "Elevator",
-							"__grid": [9,9],
+							"__grid": [9,11],
 							"__pivot": [0.5,0],
 							"__tags": [],
 							"__tile": null,
@@ -5697,14 +5734,20 @@
 							"width": 32,
 							"height": 16,
 							"defUid": 207,
-							"px": [304,288],
-							"fieldInstances": [{ "__identifier": "trackId", "__type": "String", "__value": null, "__tile": null, "defUid": 577, "realEditorValues": [] }],
+							"px": [304,352],
+							"fieldInstances": [
+								{ "__identifier": "trackId", "__type": "String", "__value": null, "__tile": null, "defUid": 577, "realEditorValues": [] },
+								{ "__identifier": "returnToStart", "__type": "Bool", "__value": true, "__tile": null, "defUid": 610, "realEditorValues": [{
+									"id": "V_Bool",
+									"params": [ true ]
+								}] }
+							],
 							"__worldX": 5424,
-							"__worldY": 2784
+							"__worldY": 2848
 						},
 						{
 							"__identifier": "Chip",
-							"__grid": [9,8],
+							"__grid": [9,10],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
@@ -5713,13 +5756,13 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [304,272],
+							"px": [304,336],
 							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Up"]
 							}] }],
 							"__worldX": 5424,
-							"__worldY": 2768
+							"__worldY": 2832
 						}
 					]
 				},
