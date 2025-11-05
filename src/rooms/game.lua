@@ -257,8 +257,11 @@ end
 
 function Game:leave(next, ...)
     -- Clear sprites in level
+    -- We do this because "gfx.sprite.removeAll" doesn't call the subclass ":remove()".
 
-    gfx.sprite.removeAll()
+    gfx.sprite.performOnAllSprites(function(sprite)
+        sprite:remove()
+    end)
 
     --
 
