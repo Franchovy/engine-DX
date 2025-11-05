@@ -247,10 +247,18 @@ end
 
 function Player:freeze()
     self.isFrozen = true
+
+    if self.isActivatingElevator then
+        self.isActivatingElevator:freeze()
+    end
 end
 
 function Player:unfreeze()
     self.isFrozen = false
+
+    if self.isActivatingElevator then
+        self.isActivatingElevator:unfreeze()
+    end
 
     -- Perform refresh on activations / update variables
 

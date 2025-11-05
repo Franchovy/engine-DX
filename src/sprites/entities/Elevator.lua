@@ -119,8 +119,20 @@ function Elevator:savePosition(skipSaveToCheckpoint)
   end
 end
 
+function Elevator:freeze()
+  self.isFrozen = true
+end
+
+function Elevator:unfreeze()
+  self.isFrozen = false
+end
+
 function Elevator:update()
   Elevator.super.update(self)
+
+  if self.isFrozen then
+    return
+  end
 
   -- Update connected tracks for this elevator
   self:updateTrack()
@@ -432,7 +444,6 @@ function Elevator:enterLevel(levelName, direction)
   local layersPreviousLevel = LDtk.get_layers(levelNamePrevious)
   local entitiesPreviousLevel = layersPreviousLevel["Entities"].entities
 
-
   local index = table.indexWhere(
     entitiesPreviousLevel,
     function(value)
@@ -448,17 +459,17 @@ function Elevator:enterLevel(levelName, direction)
   local entitiesNewLevel = layersNewLevel["Entities"].entities
   table.insert(entitiesNewLevel, self.entity)
 
-  -- Offset elevator to be centered underneath player (horizontal only)
+  -- Offset elevator to be centered underneath player
 
-  local x
-  if direction and (direction == DIRECTION.LEFT or direction == DIRECTION.RIGHT) and self.fields.orientation == ORIENTATION.Horizontal then
-    local player = Player.getInstance()
-    x = player:centerX()
-  else
-    x = self.x
+  local player = Player.getInstance()
+
+  if direction and (direction == DIRECTION.LEFT or direction == DIRECTION.RIGHT) then
+    -- Horizontal correction
+
+    self:moveTo(player:centerX(), self.y)
+  elseif direction and (direction == DIRECTION.TOP or direction == DIRECTION.BOTTOM) then
+    self:moveTo(self.x, player:centerY() + player:centerOffsetY() / 2)
   end
-
-  self:moveTo(x, self.y)
 
   self:savePosition()
 end
