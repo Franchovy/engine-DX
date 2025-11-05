@@ -79,6 +79,7 @@ Player = Class("Player", EntityAnimated)
 
 local _instance
 
+---@return Player
 function Player.getInstance() return _instance end
 
 function Player.destroy()
@@ -252,6 +253,13 @@ end
 
 function Player:unfreeze()
     self.isFrozen = false
+
+    -- Perform refresh on activations / update variables
+
+    self.isTouchingGroundPrevious = false
+    self.didPressedInvalidKey = false
+    self.activationsDown = {}
+    self.activations = {}
 end
 
 function Player:handleCheckpointRevert(state)

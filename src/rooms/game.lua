@@ -70,6 +70,10 @@ function Game:init(filepathLevel)
     -- Checkpoints
 
     self.checkpointHandler = CheckpointHandler.getOrCreate("game", self)
+
+    -- Level change field
+
+    Game.enableLevelChange = true
 end
 
 function Game:unload()
@@ -274,16 +278,14 @@ end
 ---------------------------------
 
 function Game:levelComplete(data)
-    if worldCurrent.isCompleted then
-        Player.getInstance():freeze()
+    Player.getInstance():freeze()
 
+    if worldCurrent.isCompleted or Game.enableLevelChange == false then
         return
     end
 
     local direction = data.direction
     local coordinates = data.coordinates
-
-    Player.getInstance():freeze()
 
     Transition:getInstance():fadeOut(msFadeOutLevel, function()
         -- Load next level
