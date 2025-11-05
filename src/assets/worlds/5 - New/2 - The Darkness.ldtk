@@ -3475,6 +3475,31 @@
 							} ] }],
 							"__worldX": 6736,
 							"__worldY": 1488
+						},
+						{
+							"__identifier": "Dialog",
+							"__grid": [8,5],
+							"__pivot": [0.5,0.5],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#FFFFFF",
+							"iid": "545eef70-ac70-11f0-ab85-61b1046b4e95",
+							"width": 16,
+							"height": 16,
+							"defUid": 204,
+							"px": [272,176],
+							"fieldInstances": [
+								{ "__identifier": "text", "__type": "String", "__value": null, "__tile": null, "defUid": 205, "realEditorValues": [] },
+								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
+								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
+								{ "__identifier": "asset", "__type": "String", "__value": "FFLY", "__tile": null, "defUid": 583, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["FFLY"]
+								}] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 585, "realEditorValues": [] }
+							],
+							"__worldX": 6640,
+							"__worldY": 1456
 						}
 					]
 				},

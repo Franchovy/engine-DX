@@ -58,6 +58,7 @@ _G.assets = {
             ELDR = "assets/images/bots/ELDR",
             RKD = "assets/images/bots/RKD",
             JMPY = "assets/images/bots/C",
+            FFLY = "assets/images/bots/FFLY",
             B = "assets/images/bots/B",
             D = "assets/images/bots/D",
             E = "assets/images/bots/E",

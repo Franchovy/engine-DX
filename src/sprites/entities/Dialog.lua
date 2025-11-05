@@ -6,20 +6,15 @@ local geo <const> = playdate.geometry
 -- Assets
 
 local nineSliceSpeech <const> = assert(gfx.nineSlice.new(assets.images.speech, 7, 7, 17, 17))
-local imageSpeechBButton <const> = assert(gfx.image.new(assets.images.speechBButton))
-local spSpeech <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.speech))
 local spCollect <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.collect))
 
 -- Constants
 
-local defaultSize <const> = 16
-local textMarginX <const>, textMarginY <const> = 10, 8
-local textMarginSpacing <const> = 4
+local textMarginX <const> = 10
 local distanceAboveSprite <const> = 6
 local durationDialog <const> = 2000
 local collideRectSize <const> = 90
 
-local yOffset <const> = 16
 local botAnimationSpeeds <const> = BOT_ANIMATION_SPEEDS
 
 ---@type {number:number}
