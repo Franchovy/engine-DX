@@ -61,7 +61,7 @@ function GUILightingEffect:init()
 end
 
 function GUILightingEffect:createBackgroundImages()
-    imageBackground = gfx.image.new(400, 240, gfx.kColorClear)
+    imageBackground = gfx.image.new(401, 241, gfx.kColorClear)
     maskImage = imageBackground:getMaskImage()
 end
 

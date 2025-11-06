@@ -90,14 +90,22 @@ end
 
 function Player.shouldSpawn(entityData, levelName)
     --- Return false if player instance already exists.
-    return not Player.getInstance()
+    -- return not Player.getInstance()
+
+    -- Return true, following should be a savepoint
+    return true
 end
 
 -----------------------
 -- LIFECYCLE METHODS --
 -----------------------
 
-function Player:init(entityData, levelName)
+function Player:init(entityData, levelName, ...)
+    -- If Instance exists, then create a savepoint instead.
+    if _instance then
+        return SavePoint(entityData, levelName, ...)
+    end
+
     _instance = self
 
     local imagetable = CONFIG.ADD_SUPER_DARKNESS_EFFECT and imagetablePlayerDarkness or imagetablePlayer

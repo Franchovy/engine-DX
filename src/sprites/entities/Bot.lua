@@ -311,8 +311,6 @@ function Bot:expand()
 
     -- Play SFX
 
-    --self:playDialogSound()
-
     -- Play speaking animation if not a rescue bot
     self:changeState(BOT_ANIMATION_STATES.Talking)
 end

@@ -33,7 +33,10 @@ function LDtkWorld:loadLevel(levelName)
         -- Load GamePoints on Load (first-time only)
 
         for _, idGamepoint in pairs(dataRaw["gamepointsOnLoad"] or {}) do
-            LDtk.entitiesById[idGamepoint].sprite:load()
+            local gamepoint = LDtk.entitiesById[idGamepoint]
+            if gamepoint and gamepoint.sprite then
+                gamepoint.sprite:load()
+            end
         end
 
         -- Set loaded on LDtk data
@@ -44,6 +47,9 @@ function LDtkWorld:loadLevel(levelName)
     -- Load GamePoints on Enter
 
     for _, idGamepoint in pairs(dataRaw["gamepointsOnEnter"] or {}) do
-        LDtk.entitiesById[idGamepoint].sprite:load()
+        local gamepoint = LDtk.entitiesById[idGamepoint]
+        if gamepoint and gamepoint.sprite then
+            gamepoint.sprite:load()
+        end
     end
 end

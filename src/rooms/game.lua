@@ -114,6 +114,21 @@ function Game:setupSystemMenu()
 
     systemMenu:removeAllMenuItems()
 
+    -- Return to checkpoint
+
+    systemMenu:addMenuItem("checkpoint", function()
+        local transition = Transition:getInstance()
+
+        transition:fadeOut(800, function()
+            Checkpoint.goToNamed("savepoint")
+            Camera.setOffsetInstantaneous()
+
+            transition:fadeIn(800, function()
+
+            end)
+        end)
+    end)
+
     -- Main menu return
     systemMenu:addMenuItem("main menu", function()
         Manager.getInstance():enter(SCENES.menu)
@@ -252,6 +267,10 @@ function Game:enter(previous, data)
 
     if isFirstTimeLoad then
         GUILevelName.getInstance():present()
+
+        -- Set initial checkpoint to spawn point
+
+        Checkpoint.incrementNamed("savepoint")
     end
 end
 
@@ -399,7 +418,7 @@ function Game:savePointSet()
     MemoryCard.setLevelCompletion(worldCurrent.filepath,
         { currentLevel = currentLevelName, rescuedSprites = rescuedSprites })
 
-    Checkpoint.clearAllPrevious()
+    Checkpoint.incrementNamed("savepoint")
 end
 
 function Game:checkpointRevert()

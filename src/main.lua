@@ -4,8 +4,8 @@ import "libs"
 import "extensions"
 import "rooms"
 import "utils"
-import "sprites"
 import "modules"
+import "sprites"
 import "scripts"
 
 local gfx <const> = playdate.graphics

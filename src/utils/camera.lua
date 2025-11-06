@@ -58,10 +58,12 @@ function Camera.load(config)
 
     if config.focus or config.softFocus then
         -- Load gamepoint x, y
-        local gamepoint = LDtk.entitiesById[config.focus or config.softFocus].sprite
+        local gamepoint = LDtk.entitiesById[config.focus or config.softFocus]
 
-        focusPoint = { x = gamepoint.x, y = gamepoint.y }
-        isSoftFocus = config.softFocus ~= nil
+        if gamepoint and gamepoint.sprite then
+            focusPoint = { x = gamepoint.sprite.x, y = gamepoint.sprite.y }
+            isSoftFocus = config.softFocus ~= nil
+        end
     else
         focusPoint = nil
     end

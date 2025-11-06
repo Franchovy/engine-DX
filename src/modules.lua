@@ -1,3 +1,5 @@
 import "modules/ScreenShake"
 import "modules/ConfigHandler"
 import "modules/LDtkWorld"
+import "modules/Entity"
+import "modules/Consumable"

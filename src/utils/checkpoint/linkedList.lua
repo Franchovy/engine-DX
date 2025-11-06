@@ -44,6 +44,15 @@ function LinkedList:pop(count)
 
     local element = self[index]
 
+    if not element then
+        -- Bug is sometimes happening where `last` element is no longer present in list.
+        -- Work-around is to set last and index to biggest number.
+
+        print("Warning: Linked List workaround occurred!")
+        index = #self
+        element = self[index]
+    end
+
     self[index] = nil
     self.last = element.prev
     return element.state

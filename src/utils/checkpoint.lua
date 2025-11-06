@@ -30,6 +30,8 @@ Checkpoint = Class("Checkpoint")
 local checkpointNumber = 1
 local checkpointHandlers = table.create(32, 0)
 
+local checkpointNames = {}
+
 -- Static methods - managing save state at the game level
 
 function Checkpoint.clearAll()
@@ -41,14 +43,16 @@ function Checkpoint.increment()
     checkpointNumber += 1
 end
 
+function Checkpoint.incrementNamed(name)
+    checkpointNumber += 1
+
+    checkpointNames[name] = checkpointNumber
+end
+
 function Checkpoint.goToPrevious()
     --debug: print("Performing Checkpoint revert operation...", DEBUG_PRINT)
 
-    local hasChanged = false
-    for _, handler in pairs(checkpointHandlers) do
-        local hasChangedNew = handler:revertState()
-        hasChanged = hasChanged or hasChangedNew
-    end
+    local hasChanged = Checkpoint.revertHandlersUntilCheckpointNumber()
 
     -- Only decrement the checkpoint number if no reset occurred.
     if not hasChanged then
@@ -64,6 +68,27 @@ function Checkpoint.goToPrevious()
         -- Recursive call to previous checkpoint.
         Checkpoint.goToPrevious()
     end
+end
+
+function Checkpoint.goToNamed(name)
+    local targetNumber = checkpointNames[name]
+
+    if not targetNumber then return end
+
+    checkpointNumber = targetNumber
+
+    Checkpoint.revertHandlersUntilCheckpointNumber()
+end
+
+function Checkpoint.revertHandlersUntilCheckpointNumber()
+    local hasChanged = false
+
+    for _, handler in pairs(checkpointHandlers) do
+        local hasChangedNew = handler:revertState()
+        hasChanged = hasChanged or hasChangedNew
+    end
+
+    return hasChanged
 end
 
 function Checkpoint.getCheckpointNumber()
