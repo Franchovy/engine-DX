@@ -80,14 +80,7 @@ function Bot:init(entityData, levelName)
 
     -- Utils
 
-    local num = math.random(3)
-    local voices = {
-        SCALES.BOT_LOW,
-        SCALES.BOT_MEDIUM,
-        SCALES.BOT_HIGH,
-    }
-    self.synth = Synth(
-        voices[num], 6 + num)
+    self:setupVoiceSynth()
 
     -- Sprite setup
 
@@ -234,6 +227,32 @@ function Bot:setupDialogLines(text)
     end
 end
 
+function Bot:setupVoiceSynth()
+    local voice
+    local bleepsPerSecond
+
+    if self.config.voice then
+        voice = SCALES[self.config.voice]
+    else
+        local num = math.random(3)
+        local voices = {
+            SCALES.BOT_LOW,
+            SCALES.BOT_MEDIUM,
+            SCALES.BOT_HIGH,
+        }
+        voice = voices[num]
+    end
+
+    if self.config.voiceBPS then
+        bleepsPerSecond = self.config.voiceBPS
+    else
+        bleepsPerSecond = 6 + math.random(3)
+    end
+
+    self.synth = Synth(
+        voice, bleepsPerSecond)
+end
+
 function Bot:setFlip(shouldFlip)
     self.globalFlip = shouldFlip and 1 or 0
 end
@@ -314,9 +333,19 @@ function Bot:update()
         return
     end
 
-    if self.dialogs then
-        self:updateDialog()
+    -- Update dialog
+
+    self:updateDialog()
+
+    -- Crank Indicator
+
+    if self.isStateExpanded and not self.isRescued and self.showCrankIndicator then
+        _G.showCrankIndicator = true
+    else
+        _G.showCrankIndicator = false
     end
+
+    -- Custom update callback for this sprite
 
     if self.config.update then
         self.config.update(self)
@@ -337,11 +366,21 @@ function Bot:updateDialog()
 
     if self.isStateExpandedPrevious ~= self.isStateExpanded
         or self.currentLinePrevious ~= self.currentLine then
+        self:executeProps()
+
         self:incrementDialog()
     end
 
     self.isStateExpandedPrevious = self.isStateExpanded
     self.currentLinePrevious = self.currentLine
+end
+
+function Bot:executeProps()
+    local dialog = self.dialogs[self.currentLine]
+    -- Read props
+    if dialog and dialog.props then
+        self:parseProps(dialog.props)
+    end
 end
 
 function Bot:incrementDialog()
@@ -366,29 +405,26 @@ function Bot:incrementDialog()
             end
         end
 
-        -- Read props
-        if dialog.props then
-            self:parseProps(dialog.props)
-        end
-
         -- Set timer to handle next line / collapse
         if self.timer then
             self.timer:remove()
         end
 
-        -- Set size and position
-        local width = dialog.width + textMarginX * 2
+        if dialog.text ~= "--no text--" then
+            -- Set size and position
+            local width = dialog.width + textMarginX * 2
 
-        self:addDialogSprite(
-            dialog.text,
-            self.x - width / 2,
-            self.y - distanceAboveSprite,
-            width
-        )
+            self:addDialogSprite(
+                dialog.text,
+                self.x - width / 2,
+                self.y - distanceAboveSprite,
+                width
+            )
 
-        -- Speak dialog
+            -- Speak dialog
 
-        self:playDialogSound()
+            self:playDialogSound()
+        end
     else
         -- If line is last one, send event
         if #self.dialogs < self.currentLine and self.fields.levelEnd then
@@ -532,6 +568,10 @@ function Bot:parseProps(props)
             -- Set repeat line not to repeat previous text.
             self.repeatLine = self.currentLine + 1
         end
+    end
+
+    if props.showCrankIndicator then
+        self.showCrankIndicator = true
     end
 
     -- Bleeps config

@@ -6,6 +6,6 @@ function GamePoint:init(...)
 end
 
 function GamePoint:load()
-    local config = json.decode(self.fields.config)
+    local config = assert(json.decode(self.fields.config), "GamePoint has invalid JSON!")
     ConfigHandler.loadConfig(config)
 end

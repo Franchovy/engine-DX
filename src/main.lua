@@ -100,6 +100,10 @@ function playdate.update()
 
   sceneManagerInstance:emit(EVENTS.Update)
   sceneManagerInstance:emit(EVENTS.Draw)
+
+  if _G.showCrankIndicator then
+    playdate.ui.crankIndicator:draw()
+  end
 end
 
 playdate.timer.performAfterDelay(1000, init)

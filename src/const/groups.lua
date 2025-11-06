@@ -1,5 +1,6 @@
 GROUPS = {
     Player = 1,
     Solid = 2,
-    Overlap = 3
+    SolidExceptElevator = 3,
+    Overlap = 4
 }

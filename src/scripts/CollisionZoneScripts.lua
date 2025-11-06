@@ -1,7 +1,27 @@
 CollisionZoneScripts = {
+    gamepoint = {
+        activate = function(self)
+            self.super.activate(self)
+
+            if self.isActivatedPrevious then
+                return
+            end
+
+            local idGamepoint = self.args["activate"]
+            if idGamepoint and LDtk.entitiesById[idGamepoint] and LDtk.entitiesById[idGamepoint].sprite then
+                ---@type GamePoint
+                local gamepoint = LDtk.entitiesById[idGamepoint].sprite
+                gamepoint:load()
+            end
+        end
+    },
     loadConfig = {
         activate = function(self)
             self.super.activate(self)
+
+            if self.isActivatedPrevious then
+                return
+            end
 
             ConfigHandler.loadConfig(self.args["activate"])
         end

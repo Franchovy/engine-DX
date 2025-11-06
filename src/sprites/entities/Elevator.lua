@@ -20,7 +20,7 @@ function Elevator:init(entityData, levelName)
 
   self:setTag(TAGS.Elevator)
   self:setGroups({ GROUPS.Solid, GROUPS.Ground })
-  self:setCollidesWithGroups(GROUPS.Solid)
+  self:setCollidesWithGroups(GROUPS.SolidExceptElevator)
 
   -- Elevator-specific fields
 
@@ -470,6 +470,8 @@ function Elevator:enterLevel(levelName, direction)
   elseif direction and (direction == DIRECTION.TOP or direction == DIRECTION.BOTTOM) then
     self:moveTo(self.x, player:centerY() + player:centerOffsetY() / 2)
   end
+
+  -- Save new position
 
   self:savePosition()
 end
