@@ -162,6 +162,7 @@ function GUILightingEffect:makeEffect() -- First loop to check for changes in li
 
     -- Get draw offset
     local xOffset, yOffset = gfx.getDrawOffset()
+    local xOffsetPhase, yOffsetPhase = xOffset & 1, yOffset & 1
 
     -- Clear image mask
 
@@ -184,6 +185,10 @@ function GUILightingEffect:makeEffect() -- First loop to check for changes in li
             -- Set draw x and y subtracting offset
             x = sprite.x + xOffset
             y = sprite.y + yOffset
+
+            -- "Phase" the x/y to be even-number only (using bitwise AND)
+            x = math.round(x) & ~1
+            y = math.round(y) & ~1
         end
 
         -- FRANCH: This is a work-around to the light not showing up on the first frame.
@@ -203,4 +208,8 @@ function GUILightingEffect:makeEffect() -- First loop to check for changes in li
     -- Mark sprite as dirty
 
     self:markDirty()
+
+    -- Move self to phase correctly with lighting
+
+    self:moveTo(0 - xOffsetPhase, 0 - yOffsetPhase)
 end
