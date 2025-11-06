@@ -292,8 +292,8 @@ function Bot:setRescued()
 
         Manager.emitEvent(EVENTS.BotRescued, self, self.rescueNumber)
 
-        -- Play next line
-        self:incrementDialog()
+        -- Force dialog to move on to enable next dialog lines
+        self:updateDialog()
     end
 end
 

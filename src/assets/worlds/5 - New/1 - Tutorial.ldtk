@@ -3687,36 +3687,6 @@
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": null, "__tile": null, "defUid": 588, "realEditorValues": [] }],
 							"__worldX": 7200,
 							"__worldY": 1440
-						},
-						{
-							"__identifier": "Bot",
-							"__grid": [17,7],
-							"__pivot": [0.5,0.5],
-							"__tags": [],
-							"__tile": null,
-							"__smartColor": "#FFFFFF",
-							"iid": "05a3ca90-ac70-11f0-8703-63a02af7dee9",
-							"width": 16,
-							"height": 16,
-							"defUid": 204,
-							"px": [560,240],
-							"fieldInstances": [
-								{ "__identifier": "text", "__type": "String", "__value": "$NEEDS_RESCUE\n{\"showCrankIndicator\": true}\n--no text--\n$IS_RESCUED\n{\"giveChip\": \"A\"}\n--no text--", "__tile": null, "defUid": 205, "realEditorValues": [{
-									"id": "V_String",
-									"params": [
-										"$NEEDS_RESCUE\\n{\"showCrankIndicator\": true}\\n--no text--\\n$IS_RESCUED\\n{\"giveChip\": \"A\"}\\n--no text--"
-									]
-								}] },
-								{ "__identifier": "saveNumber", "__type": "Int", "__value": 1, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [1] }] },
-								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "asset", "__type": "String", "__value": "WOP", "__tile": null, "defUid": 583, "realEditorValues": [{
-									"id": "V_String",
-									"params": ["WOP"]
-								}] },
-								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 585, "realEditorValues": [] }
-							],
-							"__worldX": 7632,
-							"__worldY": 1520
 						}
 					]
 				},
@@ -4547,7 +4517,7 @@
 							"px": [32,320],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"loadConfig\": { \"camera\": {\"offset\": {\"x\":0, \"y\": 40}} }\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"loadConfig\": { \"camera\": {\"offset\": {\"x\":0, \"y\": 40}} }\n}"]
+								"params": ["{\\n  \"loadConfig\": { \"camera\": {\"offset\": {\"x\":0, \"y\": 40}} }\\n}"]
 							}] }],
 							"__worldX": 6784,
 							"__worldY": 1440
@@ -4566,7 +4536,7 @@
 							"px": [256,256],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"gamepoint\": \"b9f8e4e0-ac70-11f0-ba8a-75836e8343c2\"\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"gamepoint\": \"b9f8e4e0-ac70-11f0-ba8a-75836e8343c2\"\n}"]
+								"params": ["{\\n  \"gamepoint\": \"b9f8e4e0-ac70-11f0-ba8a-75836e8343c2\"\\n}"]
 							}] }],
 							"__worldX": 7008,
 							"__worldY": 1376
@@ -4585,7 +4555,7 @@
 							"px": [64,192],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n    \"camera\": {\"softFocus\": \"d08b17a0-ac70-11f0-ba8a-13f4432a7d1e\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n    \"camera\": {\"softFocus\": \"d08b17a0-ac70-11f0-ba8a-13f4432a7d1e\"}\n}"]
+								"params": ["{\\n    \"camera\": {\"softFocus\": \"d08b17a0-ac70-11f0-ba8a-13f4432a7d1e\"}\\n}"]
 							}] }],
 							"__worldX": 6816,
 							"__worldY": 1312
@@ -5487,7 +5457,7 @@
 							"px": [32,544],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"restart\": {\"gamepoint\": \"4bd80570-ac70-11f0-ba8a-abc9d6e78112\"}\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"restart\": {\"gamepoint\": \"4bd80570-ac70-11f0-ba8a-abc9d6e78112\"}\n}"]
+								"params": ["{\\n  \"restart\": {\"gamepoint\": \"4bd80570-ac70-11f0-ba8a-abc9d6e78112\"}\\n}"]
 							}] }],
 							"__worldX": 4736,
 							"__worldY": 1472
@@ -5522,7 +5492,7 @@
 							"px": [0,0],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"restart\": {\"gamepoint\": \"4bd80570-ac70-11f0-ba8a-abc9d6e78112\"}\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"restart\": {\"gamepoint\": \"4bd80570-ac70-11f0-ba8a-abc9d6e78112\"}\n}"]
+								"params": ["{\\n  \"restart\": {\"gamepoint\": \"4bd80570-ac70-11f0-ba8a-abc9d6e78112\"}\\n}"]
 							}] }],
 							"__worldX": 4704,
 							"__worldY": 928
@@ -6394,7 +6364,7 @@
 							"px": [32,1408],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n \"levelEnd\": {\"skipTransition\": true}\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n \"levelEnd\": {\"skipTransition\": true}\n}"]
+								"params": ["{\\n \"levelEnd\": {\"skipTransition\": true}\\n}"]
 							}] }],
 							"__worldX": 5024,
 							"__worldY": 2912
@@ -6413,7 +6383,7 @@
 							"px": [32,320],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"loadConfig\": {\"transition\": {\"fadeOut\": {\"color\": 0, \"duration\": 2000}}}\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"loadConfig\": {\"transition\": {\"fadeOut\": {\"color\": 0, \"duration\": 2000}}}\n}"]
+								"params": ["{\\n  \"loadConfig\": {\"transition\": {\"fadeOut\": {\"color\": 0, \"duration\": 2000}}}\\n}"]
 							}] }],
 							"__worldX": 5024,
 							"__worldY": 1824
@@ -7762,7 +7732,7 @@
 							"px": [160,96],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"camera\": {\"softfocus\": \"a20c1c70-ac70-11f0-ba8a-d7041f0a4217\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"camera\": {\"softfocus\": \"a20c1c70-ac70-11f0-ba8a-d7041f0a4217\"}\n}"]
+								"params": ["{\\n  \"camera\": {\"softfocus\": \"a20c1c70-ac70-11f0-ba8a-d7041f0a4217\"}\\n}"]
 							}] }],
 							"__worldX": 5888,
 							"__worldY": 1120
