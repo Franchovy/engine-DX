@@ -164,6 +164,10 @@ function Bot:changeState(stateNew)
 end
 
 function Bot:setupDialogLines(text)
+    -- Initialize empty dialog array or map
+    self.dialogs = {}
+
+    -- If no text is provided, simply return.
     if not text then
         return
     end
@@ -172,9 +176,6 @@ function Bot:setupDialogLines(text)
 
     local font = gfx.getFont()
 
-    -- Initialize empty dialog array or map
-    self.dialogs = {}
-
     -- Condition, if used, is repeated for every line until changed.
     local condition
     local props
@@ -182,11 +183,21 @@ function Bot:setupDialogLines(text)
     for lineRaw in string.gmatch(text, "([^\n]+)") do
         -- Bot Action condition
 
-        local conditionRaw = string.match(lineRaw, "%$%u%u%u")
+        if string.match(lineRaw, "%$") then
+            local conditionChipset = string.match(lineRaw, "%$%u%u%u")
 
-        if conditionRaw then
-            condition = self:parseCondition(conditionRaw)
-            goto continue
+            if conditionChipset then
+                condition = {
+                    chipSet = self:parseCondition(conditionChipset)
+                }
+
+                goto continue
+            else
+                condition = {
+                    state = string.sub(lineRaw, 2)
+                }
+                goto continue
+            end
         end
 
         -- JSON for dynamic properties
@@ -280,6 +291,9 @@ function Bot:setRescued()
         self.fields.isRescued = true
 
         Manager.emitEvent(EVENTS.BotRescued, self, self.rescueNumber)
+
+        -- Play next line
+        self:incrementDialog()
     end
 end
 
@@ -384,23 +398,42 @@ function Bot:executeProps()
 end
 
 function Bot:incrementDialog()
-    -- If line is greater than current lines, mimic collapse.
-    if self.isStateExpanded and not (self.currentLine > #self.dialogs) then
-        -- Update sprite size using dialog size
+    local dialog = self.dialogs[self.currentLine]
 
-        local dialog = self.dialogs[self.currentLine]
+    local shouldIncrement = not (self.currentLine > #self.dialogs)
+        and (self.isStateExpanded or (dialog.text == "--no text--"))
+
+    -- If line is greater than current lines, mimic collapse.
+    if shouldIncrement then
+        -- Update sprite size using dialog size
 
         if dialog.condition then
             local guiChipSet = GUIChipSet.getInstance()
 
-            if guiChipSet.chipSet[1] == dialog.condition[1]
-                and guiChipSet.chipSet[2] == dialog.condition[2]
-                and guiChipSet.chipSet[3] == dialog.condition[3] then
+            local conditionFailed = false
+
+            if dialog.condition.chipSet then
                 -- Condition passed
-            else
+                if not (guiChipSet.chipSet[1] == dialog.condition.chipSet[1]
+                        and guiChipSet.chipSet[2] == dialog.condition.chipSet[2]
+                        and guiChipSet.chipSet[3] == dialog.condition.chipSet[3]) then
+                    conditionFailed = true
+                end
+            elseif dialog.condition.state then
+                if dialog.condition.state == "NEEDS_RESCUE" and (not self.isRescuable and self.isRescued) then
+                    conditionFailed = true
+                end
+
+                if dialog.condition.state == "IS_RESCUED" and (self.isRescuable and not self.isRescued) then
+                    conditionFailed = true
+                end
+            end
+
+            if conditionFailed then
                 -- Condition failed
                 self:showNextLine()
                 self:incrementDialog()
+
                 return
             end
         end

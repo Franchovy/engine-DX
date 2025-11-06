@@ -1,5 +1,5 @@
 import "gui/GUIChipSet"
-import "gui/RescueCounter"
+import "gui/SpriteRescueCounter"
 import "gui/GUILightingEffect"
 import "gui/Transition"
 import "gui/Background"

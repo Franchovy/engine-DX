@@ -41,15 +41,19 @@ function GUILevelName:init()
     self:setCenter(0, 0)
     self:moveTo(20, 180)
 
-    self.subHeader = "Level 1"
-    self.name = "Default Level"
+    self.subHeader = nil
+    self.name = nil
 
     _instance = self
 end
 
 function GUILevelName:rebuildImage()
-    local textSubHeader = self.subHeader or "Level 1"
-    local textName = self.name or "Default Level"
+    if self.name == nil and self.subHeader == nil then
+        return
+    end
+
+    local textSubHeader = self.subHeader or ""
+    local textName = self.name or ""
 
     -- Get current font context
     local fontPrevious = gfx.getFont()
@@ -111,6 +115,10 @@ function GUILevelName:rebuildImage()
 end
 
 function GUILevelName:present()
+    if self.name == nil and self.subHeader == nil then
+        return
+    end
+
     if not self.image then
         self:rebuildImage()
     end

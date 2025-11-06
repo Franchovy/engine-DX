@@ -200,8 +200,6 @@ function Game:enter(previous, data)
         self:setupSystemMenu()
         self:setupCheats()
         self:setupFonts()
-
-        GUILevelName.getInstance():present()
     else
         sfxSwoosh:play(1)
     end
@@ -249,6 +247,12 @@ function Game:enter(previous, data)
     GUILightingEffect.getInstance():add()
     GUICheatUnlock.getInstance():add()
     GUIChipSet.getInstance():add()
+
+    -- Present Level Name if first time load
+
+    if isFirstTimeLoad then
+        GUILevelName.getInstance():present()
+    end
 end
 
 function Game:update()
