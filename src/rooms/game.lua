@@ -14,7 +14,7 @@ local msFadeOutLevel <const> = 160
 local msFadeInWorld <const> = 600
 local msFadeOutWorld <const> = 1200
 
-local LEVEL_NAME_INITIAL <const> = "Level_8"
+local LEVEL_NAME_INITIAL <const> = "Level_0"
 local initialLevelNameSaveProgress
 local currentLevelName
 
