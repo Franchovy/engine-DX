@@ -114,21 +114,6 @@ function Game:setupSystemMenu()
 
     systemMenu:removeAllMenuItems()
 
-    -- Return to checkpoint
-
-    systemMenu:addMenuItem("checkpoint", function()
-        local transition = Transition:getInstance()
-
-        transition:fadeOut(800, function()
-            Checkpoint.goToNamed("savepoint")
-            Camera.setOffsetInstantaneous()
-
-            transition:fadeIn(800, function()
-
-            end)
-        end)
-    end)
-
     -- Main menu return
     systemMenu:addMenuItem("main menu", function()
         Manager.getInstance():enter(SCENES.menu)
@@ -145,18 +130,6 @@ function Game:setupSystemMenu()
 
         MemoryCard.setShouldEnableMusic(shouldEnableMusic)
     end)
-end
-
-function Game:setupMusic()
-    -- Load if music should play:
-
-    local shouldEnableMusic = MemoryCard.getShouldEnableMusic()
-
-    -- Play music if enabled
-
-    if shouldEnableMusic then
-        FilePlayer.play(assets.music.game)
-    end
 end
 
 function Game:setupCheats()
@@ -211,7 +184,6 @@ function Game:enter(previous, data)
     if isFirstTimeLoad then
         -- First-time load setup
 
-        self:setupMusic()
         self:setupSystemMenu()
         self:setupCheats()
         self:setupFonts()
@@ -411,12 +383,12 @@ end
 function Game:savePointSet()
     local levelData = LDtk.getAllLevels()
 
-    MemoryCard.saveLevelCheckpoint(worldCurrent.filepath, levelData)
+    --[[MemoryCard.saveLevelCheckpoint(worldCurrent.filepath, levelData)]]
 
     local spriteRescueCounter = SpriteRescueCounter.getInstance()
     local rescuedSprites = spriteRescueCounter:getRescuedSprites()
-    MemoryCard.setLevelCompletion(worldCurrent.filepath,
-        { currentLevel = currentLevelName, rescuedSprites = rescuedSprites })
+    --[[MemoryCard.setLevelCompletion(worldCurrent.filepath,
+        { currentLevel = currentLevelName, rescuedSprites = rescuedSprites })]]
 
     Checkpoint.incrementNamed("savepoint")
 end

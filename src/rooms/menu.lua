@@ -35,14 +35,6 @@ function Menu:enter(previous)
   local font = gfx.font.new(assets.fonts.menu.small)
   gfx.setFont(font)
 
-  -- Set Music
-
-  local shouldEnableMusic = MemoryCard.getShouldEnableMusic()
-
-  if not FilePlayer.isPlaying() and shouldEnableMusic then
-    FilePlayer.play(assets.music.menu)
-  end
-
   isFirstTimePlay = MemoryCard.getLastPlayed() == nil
 
   -- Draw player sprite

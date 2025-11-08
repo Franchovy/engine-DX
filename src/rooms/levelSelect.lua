@@ -20,14 +20,6 @@ function LevelSelect:enter(previous, data)
   local font = gfx.font.new(assets.fonts.menu.small)
   gfx.setFont(font)
 
-  -- Set Music
-
-  local shouldEnableMusic = MemoryCard.getShouldEnableMusic()
-
-  if not FilePlayer.isPlaying() and shouldEnableMusic then
-    FilePlayer.play(assets.music.menu)
-  end
-
   sceneManager = self.manager
 
   gfx.setDrawOffset(0, 0)

@@ -6,5 +6,6 @@ LDTK_CONFIG_ALIASES = {
     rescue = "SpriteRescueCounter",
     chipset = "GUIChipSet",
     transition = "Transition",
-    levelname = "GUILevelName"
+    levelname = "GUILevelName",
+    music = "FilePlayer"
 }
