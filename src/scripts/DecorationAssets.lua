@@ -5,5 +5,9 @@ DECORATION_ASSETS = {
         endFrame = 3,
         animationParams = { tickStep = 5 },
         lightSource = true
+    },
+    ["wheel-1"] = {
+        path = "assets/images/wheel-1",
+        lightSource = true
     }
 }

@@ -54,7 +54,9 @@ function FilePlayer.load(config)
         self.files = MUSIC_CONFIG[config.title].assets
     end
 
-    if config.loop then
+    if config.loop
+        and self.files -- Ensure a track is loaded.
+    then
         if self.fileplayer == nil then
             -- Load and play this track.
             print("Playing: " .. self.files[config.loop].file)
