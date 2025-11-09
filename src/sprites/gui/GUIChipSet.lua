@@ -13,6 +13,8 @@ GUIChipSet = Class("GUIChipSet", gfx.sprite)
 -- Button images (from imagetable)
 
 local imageTableButtons = gfx.imagetable.new(assets.imageTables.buttons)
+
+---@type {KEYNAMES: number}
 local imageTableIndexes = {
   [KEYNAMES.Right] = 1,
   [KEYNAMES.Left] = 2,
@@ -200,18 +202,19 @@ function GUIChipSet:getButtonEnabled(buttonToCheck)
 end
 
 ---comment
----@param spriteChip Chip
-function GUIChipSet:performPickUp(spriteChip)
+---@param button KEYNAMES
+---@param sprite _Sprite
+function GUIChipSet:performPickUp(button, sprite)
   -- Add button to chipset
 
-  -- self:addButton(spriteChip.button)
+  self:addButton(button)
 
   -- Animate chip moving to rightmost position
 
   local xDrawOffset, yDrawOffset = gfx.getDrawOffset()
-  local xChip, yChip = spriteChip.x + xDrawOffset, spriteChip.y + yDrawOffset
+  local xChip, yChip = sprite.x + xDrawOffset, sprite.y + yDrawOffset
 
-  local chipPickup = gfx.sprite.new(spriteChip:getImage())
+  local chipPickup = gfx.sprite.new(imageTableButtons[imageTableIndexes[button]])
   chipPickup:setIgnoresDrawOffset(true)
   chipPickup:setZIndex(Z_INDEX.HUD.Main)
   chipPickup:moveTo(xChip, yChip)
@@ -229,7 +232,7 @@ function GUIChipSet:performPickUp(spriteChip)
     playdate.easingFunctions.inOutExpo)
 
   table.insert(chipsPickUp,
-    { x = xChip, y = yChip, button = spriteChip.button, sprite = chipPickup, animator = animatorChipPickup })
+    { x = xChip, y = yChip, button = button, sprite = chipPickup, animator = animatorChipPickup })
 end
 
 function GUIChipSet:addButton(chip)
@@ -251,7 +254,7 @@ function GUIChipSet:addButton(chip)
   self:setChipSet(chipSetNew)
 end
 
-function GUIChipSet:setChipSet(chipSet)
+function GUIChipSet:setChipSet(chipSet, updateGUI)
   self.chipSet = chipSet or self.chipSet
 
   -- Update checkpoint state
@@ -260,7 +263,9 @@ function GUIChipSet:setChipSet(chipSet)
 
   -- Set needs update
 
-  chipSetNeedsUpdate = true
+  if updateGUI then
+    chipSetNeedsUpdate = true
+  end
 end
 
 function GUIChipSet:setIsPowered(shouldPower)

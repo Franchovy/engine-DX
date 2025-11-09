@@ -361,13 +361,13 @@ end
 function Game:chipSetNew(chipSet)
     local abilityPanel = GUIChipSet.getInstance()
 
-    abilityPanel:setChipSet(chipSet)
+    abilityPanel:setChipSet(chipSet, true)
 end
 
-function Game:chipSetAdd(chip)
+function Game:chipSetAdd(button, sprite)
     local chipSet = GUIChipSet.getInstance()
 
-    chipSet:performPickUp(chip)
+    chipSet:performPickUp(button, sprite)
 end
 
 function Game:chipSetPower(power)

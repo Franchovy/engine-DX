@@ -557,7 +557,7 @@ function Bot:parseProps(props)
     if props.giveChip then
         spCollect:play()
 
-        Manager.emitEvent(EVENTS.ChipSetAdd, props.giveChip)
+        Manager.emitEvent(EVENTS.ChipSetAdd, props.giveChip, self)
     end
 
     if props.worldComplete then
