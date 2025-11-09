@@ -1,7 +1,6 @@
 import "const/buildFlag"
 import "const/tags"
 import "const/events"
-import "const/constants"
 import "const/abilities"
 import "const/keynames"
 import "const/direction"

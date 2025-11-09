@@ -11,35 +11,45 @@ function Class(name, parentClass, ...)
     return _G[name]
 end
 
+-- Shortcut layout methods for playdate.graphics.sprite
+
 function playdate.graphics.sprite:centerOffsetX()
+    ---@cast self _Sprite
     return self:getCenterPoint().x * self.width
 end
 
 function playdate.graphics.sprite:centerOffsetY()
+    ---@cast self _Sprite
     return self:getCenterPoint().y * self.height
 end
 
 function playdate.graphics.sprite:right()
+    ---@cast self _Sprite
     return self.x - self:centerOffsetX() + self.width
 end
 
 function playdate.graphics.sprite:left()
+    ---@cast self _Sprite
     return self.x - self:centerOffsetX()
 end
 
 function playdate.graphics.sprite:top()
+    ---@cast self _Sprite
     return self.y - self:centerOffsetY()
 end
 
 function playdate.graphics.sprite:bottom()
+    ---@cast self _Sprite
     return self.y - self:centerOffsetY() + self.height
 end
 
 function playdate.graphics.sprite:centerX()
+    ---@cast self _Sprite
     return self.x - self:centerOffsetX() + self.width / 2
 end
 
 function playdate.graphics.sprite:centerY()
+    ---@cast self _Sprite
     return self.y - self:centerOffsetY() + self.height / 2
 end
 

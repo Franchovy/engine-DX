@@ -13,7 +13,7 @@ local imageTableIndexes <const> = {
   [KEYNAMES.B] = 6,
 }
 
---- @class ButtonPickup : Consumable
+--- @class Chip : Consumable
 Chip = Class('Chip', Consumable)
 
 function Chip:init(entityData, levelName)
@@ -46,7 +46,7 @@ function Chip:activate()
 
   -- Update chipset
 
-  Manager.emitEvent(EVENTS.ChipSetAdd, self.button)
+  Manager.emitEvent(EVENTS.ChipSetAdd, self)
 
   self:consume()
 end

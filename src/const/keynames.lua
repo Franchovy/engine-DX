@@ -1,3 +1,4 @@
+---@enum KEYNAMES
 KEYNAMES = {
     Up = "Up",
     Down = "Down",

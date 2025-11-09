@@ -3540,7 +3540,7 @@
 					"entityInstances": [
 						{
 							"__identifier": "Player",
-							"__grid": [21,7],
+							"__grid": [20,7],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
@@ -3549,7 +3549,7 @@
 							"width": 20,
 							"height": 24,
 							"defUid": 19,
-							"px": [688,240],
+							"px": [656,240],
 							"fieldInstances": [{ "__identifier": "chipSet", "__type": "Array<LocalEnum.Buttons>", "__value": [ "Up", "Left", "Right" ], "__tile": null, "defUid": 40, "realEditorValues": [ {
 								"id": "V_String",
 								"params": ["Up"]
@@ -3560,7 +3560,7 @@
 								"id": "V_String",
 								"params": ["Right"]
 							} ] }],
-							"__worldX": 7760,
+							"__worldX": 7728,
 							"__worldY": 1520
 						},
 						{
@@ -3653,23 +3653,23 @@
 						},
 						{
 							"__identifier": "CollisionZone",
-							"__grid": [15,4],
+							"__grid": [12,4],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#3E2731",
 							"iid": "63c64c30-ac70-11f0-ba8a-cfb59026ddaf",
 							"width": 32,
-							"height": 64,
+							"height": 32,
 							"defUid": 598,
-							"px": [480,128],
+							"px": [384,128],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n \"loadConfig\": {\n      \"camera\": {\"softFocus\": \"6c264f60-ac70-11f0-ba8a-a3b7e495e192\"}\n    }\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
 								"params": [
 									"{\\n \"loadConfig\": {\\n      \"camera\": {\"softFocus\": \"6c264f60-ac70-11f0-ba8a-a3b7e495e192\"}\\n    }\\n}"
 								]
 							}] }],
-							"__worldX": 7552,
+							"__worldX": 7456,
 							"__worldY": 1408
 						},
 						{
@@ -3687,6 +3687,25 @@
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": null, "__tile": null, "defUid": 588, "realEditorValues": [] }],
 							"__worldX": 7200,
 							"__worldY": 1440
+						},
+						{
+							"__identifier": "CollisionZone",
+							"__grid": [14,4],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#3E2731",
+							"iid": "f7ac7430-ac70-11f0-b610-ebb989cab7ff",
+							"width": 32,
+							"height": 32,
+							"defUid": 598,
+							"px": [448,128],
+							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n \"loadConfig\": {\n      \"camera\": {\"focus\": null}\n    }\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
+								"id": "V_String",
+								"params": ["{\\n \"loadConfig\": {\\n      \"camera\": {\"focus\": null}\\n    }\\n}"]
+							}] }],
+							"__worldX": 7520,
+							"__worldY": 1408
 						}
 					]
 				},
@@ -3787,7 +3806,6 @@
 						{ "px": [608,64], "src": [0,96], "f": 0, "t": 87, "d": [71], "a": 1 },
 						{ "px": [640,64], "src": [64,160], "f": 0, "t": 147, "d": [72], "a": 1 },
 						{ "px": [672,64], "src": [0,96], "f": 0, "t": 87, "d": [73], "a": 1 },
-						{ "px": [704,64], "src": [0,128], "f": 0, "t": 116, "d": [74], "a": 1 },
 						{ "px": [736,64], "src": [0,96], "f": 0, "t": 87, "d": [75], "a": 1 },
 						{ "px": [768,64], "src": [0,96], "f": 0, "t": 87, "d": [76], "a": 1 },
 						{ "px": [800,64], "src": [32,160], "f": 0, "t": 146, "d": [77], "a": 1 },
@@ -3797,7 +3815,7 @@
 						{ "px": [96,96], "src": [0,96], "f": 0, "t": 87, "d": [81], "a": 1 },
 						{ "px": [128,96], "src": [0,96], "f": 0, "t": 87, "d": [82], "a": 1 },
 						{ "px": [160,96], "src": [0,128], "f": 0, "t": 116, "d": [83], "a": 1 },
-						{ "px": [192,96], "src": [576,416], "f": 0, "t": 395, "d": [84], "a": 1 },
+						{ "px": [192,96], "src": [672,512], "f": 0, "t": 485, "d": [84], "a": 1 },
 						{ "px": [224,96], "src": [0,96], "f": 0, "t": 87, "d": [85], "a": 1 },
 						{ "px": [256,96], "src": [0,96], "f": 0, "t": 87, "d": [86], "a": 1 },
 						{ "px": [288,96], "src": [64,160], "f": 0, "t": 147, "d": [87], "a": 1 },
@@ -3994,7 +4012,7 @@
 					"intGridCsv": [
 						2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
 						2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-						2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+						2,2,2,2,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
 						2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
 						2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
 						2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
@@ -4677,7 +4695,6 @@
 						{ "px": [96,224], "src": [64,160], "f": 0, "t": 147, "d": [73], "a": 1 },
 						{ "px": [128,224], "src": [0,96], "f": 0, "t": 87, "d": [74], "a": 1 },
 						{ "px": [160,224], "src": [32,128], "f": 0, "t": 117, "d": [75], "a": 1 },
-						{ "px": [192,224], "src": [0,96], "f": 0, "t": 87, "d": [76], "a": 1 },
 						{ "px": [224,224], "src": [32,128], "f": 0, "t": 117, "d": [77], "a": 1 },
 						{ "px": [256,224], "src": [0,96], "f": 0, "t": 87, "d": [78], "a": 1 },
 						{ "px": [288,224], "src": [0,160], "f": 0, "t": 145, "d": [79], "a": 1 },
@@ -4687,7 +4704,6 @@
 						{ "px": [96,256], "src": [64,160], "f": 0, "t": 147, "d": [83], "a": 1 },
 						{ "px": [128,256], "src": [0,96], "f": 0, "t": 87, "d": [84], "a": 1 },
 						{ "px": [160,256], "src": [32,128], "f": 0, "t": 117, "d": [85], "a": 1 },
-						{ "px": [192,256], "src": [0,96], "f": 0, "t": 87, "d": [86], "a": 1 },
 						{ "px": [224,256], "src": [32,128], "f": 0, "t": 117, "d": [87], "a": 1 },
 						{ "px": [256,256], "src": [0,96], "f": 0, "t": 87, "d": [88], "a": 1 },
 						{ "px": [288,256], "src": [32,160], "f": 0, "t": 146, "d": [89], "a": 1 },
@@ -4697,7 +4713,7 @@
 						{ "px": [96,288], "src": [64,160], "f": 0, "t": 147, "d": [93], "a": 1 },
 						{ "px": [128,288], "src": [0,96], "f": 0, "t": 87, "d": [94], "a": 1 },
 						{ "px": [160,288], "src": [0,128], "f": 0, "t": 116, "d": [95], "a": 1 },
-						{ "px": [192,288], "src": [0,96], "f": 0, "t": 87, "d": [96], "a": 1 },
+						{ "px": [192,288], "src": [768,512], "f": 0, "t": 488, "d": [96], "a": 1 },
 						{ "px": [224,288], "src": [0,128], "f": 0, "t": 116, "d": [97], "a": 1 },
 						{ "px": [256,288], "src": [0,96], "f": 0, "t": 87, "d": [98], "a": 1 },
 						{ "px": [288,288], "src": [32,160], "f": 0, "t": 146, "d": [99], "a": 1 },
@@ -4735,7 +4751,7 @@
 						{ "px": [32,416], "src": [0,96], "f": 0, "t": 87, "d": [131], "a": 1 },
 						{ "px": [64,416], "src": [0,160], "f": 0, "t": 145, "d": [132], "a": 1 },
 						{ "px": [96,416], "src": [64,160], "f": 0, "t": 147, "d": [133], "a": 1 },
-						{ "px": [128,416], "src": [0,96], "f": 0, "t": 87, "d": [134], "a": 1 },
+						{ "px": [128,416], "src": [672,384], "f": 0, "t": 369, "d": [134], "a": 1 },
 						{ "px": [160,416], "src": [0,96], "f": 0, "t": 87, "d": [135], "a": 1 },
 						{ "px": [192,416], "src": [0,96], "f": 0, "t": 87, "d": [136], "a": 1 },
 						{ "px": [224,416], "src": [0,96], "f": 0, "t": 87, "d": [137], "a": 1 },
@@ -5457,7 +5473,7 @@
 							"px": [32,544],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"restart\": {\"gamepoint\": \"4bd80570-ac70-11f0-ba8a-abc9d6e78112\"}\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"restart\": {\"gamepoint\": \"4bd80570-ac70-11f0-ba8a-abc9d6e78112\"}\\n}"]
+								"params": ["{\n  \"restart\": {\"gamepoint\": \"4bd80570-ac70-11f0-ba8a-abc9d6e78112\"}\n}"]
 							}] }],
 							"__worldX": 4736,
 							"__worldY": 1472
@@ -5492,7 +5508,7 @@
 							"px": [0,0],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"restart\": {\"gamepoint\": \"4bd80570-ac70-11f0-ba8a-abc9d6e78112\"}\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"restart\": {\"gamepoint\": \"4bd80570-ac70-11f0-ba8a-abc9d6e78112\"}\\n}"]
+								"params": ["{\n  \"restart\": {\"gamepoint\": \"4bd80570-ac70-11f0-ba8a-abc9d6e78112\"}\n}"]
 							}] }],
 							"__worldX": 4704,
 							"__worldY": 928
@@ -6364,7 +6380,7 @@
 							"px": [32,1408],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n \"levelEnd\": {\"skipTransition\": true}\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n \"levelEnd\": {\"skipTransition\": true}\\n}"]
+								"params": ["{\n \"levelEnd\": {\"skipTransition\": true}\n}"]
 							}] }],
 							"__worldX": 5024,
 							"__worldY": 2912
@@ -6383,7 +6399,7 @@
 							"px": [32,320],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"loadConfig\": {\"transition\": {\"fadeOut\": {\"color\": 0, \"duration\": 2000}}}\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"loadConfig\": {\"transition\": {\"fadeOut\": {\"color\": 0, \"duration\": 2000}}}\\n}"]
+								"params": ["{\n  \"loadConfig\": {\"transition\": {\"fadeOut\": {\"color\": 0, \"duration\": 2000}}}\n}"]
 							}] }],
 							"__worldX": 5024,
 							"__worldY": 1824
@@ -7209,7 +7225,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "$NEEDS_RESCUE\n{\"showCrankIndicator\": true}\n--no text--\n$IS_RESCUED\n{\"giveChip\": \"A\"}\n--no text--", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"$NEEDS_RESCUE\\n{\"showCrankIndicator\": true}\\n--no text--\\n$IS_RESCUED\\n{\"giveChip\": \"A\"}\\n--no text--"
+										"$NEEDS_RESCUE\n{\"showCrankIndicator\": true}\n--no text--\n$IS_RESCUED\n{\"giveChip\": \"A\"}\n--no text--"
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 1, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [1] }] },
@@ -7732,7 +7748,7 @@
 							"px": [160,96],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"camera\": {\"softfocus\": \"a20c1c70-ac70-11f0-ba8a-d7041f0a4217\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"camera\": {\"softfocus\": \"a20c1c70-ac70-11f0-ba8a-d7041f0a4217\"}\\n}"]
+								"params": ["{\n  \"camera\": {\"softfocus\": \"a20c1c70-ac70-11f0-ba8a-d7041f0a4217\"}\n}"]
 							}] }],
 							"__worldX": 5888,
 							"__worldY": 1120
