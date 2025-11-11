@@ -66,15 +66,7 @@ function Bot:init(entityData, levelName)
         end
     end
 
-    -- Set up animation states (Sad / Happy) if needs rescue
-
-    if entityData.fields.saveNumber then
-        if entityData.fields.isRescued then
-            self:changeState(BOT_ANIMATION_STATES.Happy)
-        else
-            self:changeState(BOT_ANIMATION_STATES.Sad)
-        end
-    end
+    self:updateAnimationState()
 
     self:playAnimation()
 
@@ -283,9 +275,6 @@ function Bot:setRescued()
         local spRescue = playdate.sound.sampleplayer.new(assets.sounds.robotSave[indexSfx])
         spRescue:play(1)
 
-        -- Animate to rescued animation state
-        self:changeState(BOT_ANIMATION_STATES.Happy)
-
         -- Send message that has been rescued
         self.isRescued = true
         self.fields.isRescued = true
@@ -308,11 +297,6 @@ function Bot:expand()
 
     -- Show speech bubble
     self.isStateExpanded = true
-
-    -- Play SFX
-
-    -- Play speaking animation if not a rescue bot
-    self:changeState(BOT_ANIMATION_STATES.Talking)
 end
 
 function Bot:collapse()
@@ -330,11 +314,6 @@ function Bot:collapse()
     -- Stop any ongoing timers
     if self.timer then
         self.timer:pause()
-    end
-
-    -- Play idle animation if not a rescue bot
-    if not self.isRescuable then
-        self:changeState(BOT_ANIMATION_STATES.Idle)
     end
 end
 
@@ -357,10 +336,28 @@ function Bot:update()
         _G.showCrankIndicator = false
     end
 
+    -- Animation state
+
+    self:updateAnimationState()
+
     -- Custom update callback for this sprite
 
     if self.config.update then
         self.config.update(self)
+    end
+end
+
+function Bot:updateAnimationState()
+    if self.fields.saveNumber then
+        if self.fields.isRescued then
+            self:changeState(BOT_ANIMATION_STATES.Happy)
+        else
+            self:changeState(BOT_ANIMATION_STATES.Sad)
+        end
+    elseif self.isStateExpanded then
+        self:changeState(BOT_ANIMATION_STATES.Talking)
+    else
+        self:changeState(BOT_ANIMATION_STATES.Idle)
     end
 end
 
@@ -462,8 +459,6 @@ function Bot:incrementDialog()
             -- If level end sprite, show level end prompt
             Manager.emitEvent(EVENTS.LevelEnd)
         end
-
-        self:changeState(BOT_ANIMATION_STATES.Idle)
     end
 end
 
