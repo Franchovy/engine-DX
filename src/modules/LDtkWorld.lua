@@ -22,6 +22,10 @@ function LDtkWorld:loadLevel(levelName)
 
     LDtk.loadAllEntitiesAsSprites(levelName)
 
+    -- Load Pathfinding for world
+
+    LDTkPathFinding.load(levelName)
+
     -- Get custom data if exists
 
     local dataRaw = LDtk.get_custom_data(levelName)
