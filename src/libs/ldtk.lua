@@ -386,6 +386,9 @@ end
 
 -- return the position and site of the level in the world
 -- always available, the level doesn't need to be loaded
+---comment
+---@param level_name string
+---@return {x: number, y:number, width:number, height: number}
 function LDtk.get_rect(level_name)
     return _level_rects[level_name]
 end
