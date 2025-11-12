@@ -7186,10 +7186,10 @@
 							"defUid": 204,
 							"px": [48,272],
 							"fieldInstances": [
-								{ "__identifier": "text", "__type": "String", "__value": "{\"walkTo\": 1}\nHello!\nTalk to me again.\n{\"walkTo\": 2}\nI just keep running away!\nYoohoo!!\n{\"walkTo\": 3}\nOk, I'm pretty tired now.", "__tile": null, "defUid": 205, "realEditorValues": [{
+								{ "__identifier": "text", "__type": "String", "__value": "{\"walkTo\": 1}\nHello!\nTalk to me again.\n{\"walkTo\": 2}\nI just keep running away!\nYoohoo!!\n{\"walkTo\": 3}\nOk, I'm pretty tired now.\n{\"walkTo\": \"player\"}\nJust kidding!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"{\"walkTo\": 1}\\nHello!\\nTalk to me again.\\n{\"walkTo\": 2}\\nI just keep running away!\\nYoohoo!!\\n{\"walkTo\": 3}\\nOk, I'm pretty tired now."
+										"{\"walkTo\": 1}\\nHello!\\nTalk to me again.\\n{\"walkTo\": 2}\\nI just keep running away!\\nYoohoo!!\\n{\"walkTo\": 3}\\nOk, I'm pretty tired now.\\n{\"walkTo\": \"player\"}\\nJust kidding!"
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },

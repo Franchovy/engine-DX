@@ -277,13 +277,18 @@ function LDTkPathFinding.getPath(levelName, startX, startY, endX, endY)
     local graph = levels[levelName].graph
 
     local nodeStart = graph:nodeWithXY(math.round(xStartGraph), math.round(yStartGraph))
-    local nodeEnd = graph:nodeWithXY(xEndGraph, yEndGraph)
+    local nodeEnd = graph:nodeWithXY(math.round(xEndGraph), math.round(yEndGraph))
 
     if not nodeStart or not nodeEnd then
         return
     end
 
     local nodesPath = graph:findPath(nodeStart, nodeEnd)
+
+    if not nodesPath then
+        return
+    end
+
     local pointsPath = {}
 
     for _, point in ipairs(nodesPath) do

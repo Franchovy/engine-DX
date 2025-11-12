@@ -320,22 +320,34 @@ end
 function Bot:update()
     Bot.super.update(self)
 
-    if self.walkPath then
-        local nextPoint = self.walkPath[1]
+    if self.walkToPlayer and not self.walkPath then
+        self.walkToPlayer()
+    end
 
-        local xMovement, yMovement = nextPoint.x - self.x, nextPoint.y - self.y
+    if self.walkPath and #self.walkPath > 0 then
+        local nextPoint
+        local xMovement, yMovement
         local speed = 3
-        if math.abs(xMovement) > 3 or math.abs(yMovement) > 3 then
+
+        repeat
+            nextPoint = self.walkPath[1]
+            xMovement, yMovement = nextPoint.x - self.x, nextPoint.y - self.y
+            if not (math.abs(xMovement) > 3 or math.abs(yMovement) > 3) then
+                table.remove(self.walkPath, 1)
+            end
+        until math.abs(xMovement) > 3 or math.abs(yMovement) > 3 or #self.walkPath == 0
+
+        if #self.walkPath > 0 then
             -- Move towards next point
             local angle = math.atan(yMovement, xMovement)
             self:moveBy(math.cos(angle) * speed, math.sin(angle) * speed)
-        elseif #self.walkPath > 1 then
-            table.remove(self.walkPath, 1)
         else
             self.walkPath = nil
         end
 
         return
+    elseif self.walkPath and #self.walkPath == 0 then
+        self.walkPath = nil
     end
 
     -- Update dialog
@@ -513,7 +525,9 @@ function Bot:showNextLine()
     self.currentLine += 1
 
     -- If a movement is programmed, handle movement before next line.
-    if self.startWalkPath then
+    if self.startWalkToPlayer then
+        self.walkToPlayer = self.startWalkToPlayer
+    elseif self.startWalkPath then
         -- Enable movement
 
         self.startWalkPath()
@@ -579,7 +593,16 @@ function Bot:parseProps(props)
 
     if props.walkTo then
         local walkToPointNumber = props.walkTo
-        if self.fields.points and self.fields.points[walkToPointNumber] then
+
+        if props.walkTo == "player" then
+            self.startWalkToPlayer = function()
+                local player = Player.getInstance()
+                local finalX, finalY = player.x, player.y
+
+                local pathNodes = LDTkPathFinding.getPath(Game.getLevelName(), self.x, self.y, finalX, finalY)
+                self.walkPath = pathNodes
+            end
+        elseif self.fields.points and self.fields.points[walkToPointNumber] then
             local destinationPoint = self.fields.points[walkToPointNumber]
             local levelBounds = Game.getLevelBounds()
             local finalX, finalY = levelBounds.x + destinationPoint.cx * TILE_SIZE + TILE_SIZE / 2,
