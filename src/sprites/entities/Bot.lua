@@ -320,7 +320,21 @@ end
 function Bot:update()
     Bot.super.update(self)
 
-    if self.timerMovement and not self.timerMovement.paused then
+    if self.walkPath then
+        local nextPoint = self.walkPath[1]
+
+        local xMovement, yMovement = nextPoint.x - self.x, nextPoint.y - self.y
+        local speed = 3
+        if math.abs(xMovement) > 3 or math.abs(yMovement) > 3 then
+            -- Move towards next point
+            local angle = math.atan(yMovement, xMovement)
+            self:moveBy(math.cos(angle) * speed, math.sin(angle) * speed)
+        elseif #self.walkPath > 1 then
+            table.remove(self.walkPath, 1)
+        else
+            self.walkPath = nil
+        end
+
         return
     end
 
@@ -499,10 +513,10 @@ function Bot:showNextLine()
     self.currentLine += 1
 
     -- If a movement is programmed, handle movement before next line.
-    if self.timerMovement then
+    if self.startWalkPath then
         -- Enable movement
 
-        self.timerMovement:start()
+        self.startWalkPath()
 
         -- Set line to repeat at next line
         self.repeatLine = self.currentLine
@@ -571,25 +585,11 @@ function Bot:parseProps(props)
             local finalX, finalY = levelBounds.x + destinationPoint.cx * TILE_SIZE + TILE_SIZE / 2,
                 levelBounds.y + destinationPoint.cy * TILE_SIZE + TILE_SIZE / 2
 
-            local distance = math.sqrt((self.x - finalX) ^ 2 + (self.y - finalY) ^ 2)
-            local speed = props.speed or (TILE_SIZE / 8) -- 1/8th tile per frame
+            local pathNodes = LDTkPathFinding.getPath(Game.getLevelName(), self.x, self.y, finalX, finalY)
 
-            local vectorStart = geo.vector2D.new(self.x, self.y)
-            local vectorEnd = geo.vector2D.new(finalX, finalY)
-
-            -- Move slowly to point.
-            self.timerMovement = playdate.frameTimer.new(distance / speed, function(pointStart, pointEnd)
-                self.timerMovement:remove()
-                self.timerMovement = nil
-            end)
-
-            self.timerMovement.updateCallback = function()
-                local completion = self.timerMovement.frame / self.timerMovement.duration
-                local vectorDestination = vectorStart * (1 - completion) + vectorEnd * completion
-                self:moveTo(vectorDestination.dx, vectorDestination.dy)
+            self.startWalkPath = function()
+                self.walkPath = pathNodes
             end
-
-            self.timerMovement:pause()
 
             -- Set repeat line not to repeat previous text.
             self.repeatLine = self.currentLine + 1

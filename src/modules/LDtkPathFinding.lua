@@ -13,8 +13,10 @@ PATHFINDING_ADDITIONAL_CONFIGURATIONS = {
     LowerDoubleRight = 5
 }
 
+---@alias Level { bounds: playdate.geometry.rect, graph: playdate.pathfinder.graph, nodes: playdate.pathfinder.node, widthGraph: number, heightGraph: number }
+
+---@type {string: Level}
 local levels = {}
----@type {x: number, y: number, xGraph: number, yGraph: number}[]
 
 local function _hasOverlappingWallSprite(x, y)
     local obstacleSprites = gfx.sprite.querySpritesAtPoint(x, y)
@@ -48,6 +50,11 @@ local function _convertGridToIndex(x, y, widthGraph)
 end
 
 function LDTkPathFinding.load(levelName)
+    if levels[levelName] then
+        -- Level has already been loaded.
+        return
+    end
+
     local bounds = LDtk.get_rect(levelName)
 
     local widthGraph = bounds.width / 32
@@ -62,7 +69,9 @@ function LDTkPathFinding.load(levelName)
     local level = {
         bounds = bounds,
         graph = nil,
-        nodes = nodes
+        nodes = nodes,
+        widthGraph = widthGraph,
+        heightGraph = heightGraph
     }
 
     local allSprites = gfx.sprite.getAllSprites()
@@ -101,7 +110,53 @@ function LDTkPathFinding.load(levelName)
     -- FRANCH: Actually disable the diagonal linking just to be safe, until the SDK updates diagonals and we can remove some of the below config checks.
     level.graph = playdate.pathfinder.graph.new2DGrid(widthGraph, heightGraph, false, nodes)
 
+    -- Set reference to level
+    levels[levelName] = level
+
     -- Add diagonal and non-direct neighbour connections
+
+    LDTkPathFinding.addAdditionalConnections(levelName)
+
+    if playdate.isSimulator then
+        DebugDrawer.addDebugDrawCall(function()
+            ----[[
+            for i, node in pairs(nodes) do
+                if node == 1 then
+                    local xGrid, yGrid = _convertIndexToGrid(i, widthGraph)
+                    local x, y = _convertGridToLevel(xGrid, yGrid, bounds)
+                    gfx.drawCircleAtPoint(x, y, 2)
+                end
+            end
+            --]]
+
+            ----[[
+            for _, node in pairs(level.graph:allNodes()) do
+                if #node:connectedNodes() > 0 then
+                    local x, y = _convertGridToLevel(node.x, node.y, bounds)
+                    gfx.drawCircleAtPoint(x, y, 4)
+
+                    ----[[
+                    for _, connectedNode in pairs(node:connectedNodes()) do
+                        local x2, y2 = _convertGridToLevel(connectedNode.x, connectedNode.y, bounds)
+                        gfx.drawLine(
+                            x,
+                            y,
+                            x2,
+                            y2
+                        )
+                    end
+                end
+            end
+            --]]
+        end)
+    end
+end
+
+function LDTkPathFinding.addAdditionalConnections(levelName)
+    local level = levels[levelName]
+    local nodes = level.nodes
+    local widthGraph, heightGraph = level.widthGraph, level.heightGraph
+    local bounds = LDtk.get_rect(levelName)
 
     for i, isActive in pairs(nodes) do
         if isActive == 0 then
@@ -201,40 +256,40 @@ function LDTkPathFinding.load(levelName)
 
         ::continue::
     end
+end
 
-    levels[levelName] = level
-
-    if playdate.isSimulator then
-        DebugDrawer.addDebugDrawCall(function()
-            ----[[
-            for i, node in pairs(nodes) do
-                if node == 1 then
-                    local xGrid, yGrid = _convertIndexToGrid(i, widthGraph)
-                    local x, y = _convertGridToLevel(xGrid, yGrid, bounds)
-                    gfx.drawCircleAtPoint(x, y, 2)
-                end
-            end
-            --]]
-
-            ----[[
-            for _, node in pairs(level.graph:allNodes()) do
-                if #node:connectedNodes() > 0 then
-                    local x, y = _convertGridToLevel(node.x, node.y, bounds)
-                    gfx.drawCircleAtPoint(x, y, 4)
-
-                    ----[[
-                    for _, connectedNode in pairs(node:connectedNodes()) do
-                        local x2, y2 = _convertGridToLevel(connectedNode.x, connectedNode.y, bounds)
-                        gfx.drawLine(
-                            x,
-                            y,
-                            x2,
-                            y2
-                        )
-                    end
-                end
-            end
-            --]]
-        end)
+---comment
+---@param levelName string
+---@param startX number
+---@param startY number
+---@param endX number
+---@param endY number
+---@return {x: number, y: number}[]?
+function LDTkPathFinding.getPath(levelName, startX, startY, endX, endY)
+    if not levels[levelName] then
+        return
     end
+
+    local bounds = LDtk.get_rect(levelName)
+    local xStartGraph, yStartGraph = _convertLevelToGrid(startX, startY, bounds)
+    local xEndGraph, yEndGraph = _convertLevelToGrid(endX, endY, bounds)
+
+    local graph = levels[levelName].graph
+
+    local nodeStart = graph:nodeWithXY(math.round(xStartGraph), math.round(yStartGraph))
+    local nodeEnd = graph:nodeWithXY(xEndGraph, yEndGraph)
+
+    if not nodeStart or not nodeEnd then
+        return
+    end
+
+    local nodesPath = graph:findPath(nodeStart, nodeEnd)
+    local pointsPath = {}
+
+    for _, point in ipairs(nodesPath) do
+        local x, y = _convertGridToLevel(point.x, point.y, bounds)
+        table.insert(pointsPath, { x = x, y = y })
+    end
+
+    return pointsPath
 end
