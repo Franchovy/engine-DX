@@ -7,5 +7,6 @@ LDTK_CONFIG_ALIASES = {
     chipset = "GUIChipSet",
     transition = "Transition",
     levelname = "GUILevelName",
-    music = "FilePlayer"
+    music = "FilePlayer",
+    level = "LDtkWorld"
 }

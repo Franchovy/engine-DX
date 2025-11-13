@@ -9,5 +9,8 @@ DECORATION_ASSETS = {
     ["wheel-1"] = {
         path = "assets/images/wheel-1",
         lightSource = true
+    },
+    ["crystal-source"] = {
+        lightSource = true
     }
 }

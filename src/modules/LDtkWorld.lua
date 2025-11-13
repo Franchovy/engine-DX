@@ -2,6 +2,19 @@
 ---@property isCompleted boolean
 LDtkWorld = Class("LDtkWorld")
 
+function LDtkWorld.load(config)
+    if config.activate then
+        -- Call activate on sprites
+        if type(config.activate) == "string" then
+            local entity = LDtk.entitiesById[config.activate]
+
+            if entity and entity.sprite and entity.sprite.activate then
+                entity.sprite:activate()
+            end
+        end
+    end
+end
+
 function LDtkWorld:init(filepathLevel, progressEntitiesData)
     LDtk.load(filepathLevel)
 

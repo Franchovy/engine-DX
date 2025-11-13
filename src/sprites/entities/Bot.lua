@@ -426,6 +426,22 @@ function Bot:incrementDialog()
 
     -- If line is greater than current lines, mimic collapse.
     if shouldIncrement then
+        -- If a movement is programmed, handle movement before next line.
+
+        if self.startWalkToPlayer then
+            self.walkToPlayer = self.startWalkToPlayer
+        elseif self.startWalkPath then
+            -- Enable movement
+
+            self.startWalkPath()
+
+            -- Set line to repeat at next line
+            self.repeatLine = self.currentLine
+
+            -- Collapse bubble
+            self:collapse()
+        end
+
         -- Update sprite size using dialog size
 
         if dialog.condition then
@@ -523,21 +539,6 @@ end
 function Bot:showNextLine()
     -- Increment current line
     self.currentLine += 1
-
-    -- If a movement is programmed, handle movement before next line.
-    if self.startWalkToPlayer then
-        self.walkToPlayer = self.startWalkToPlayer
-    elseif self.startWalkPath then
-        -- Enable movement
-
-        self.startWalkPath()
-
-        -- Set line to repeat at next line
-        self.repeatLine = self.currentLine
-
-        -- Collapse bubble
-        self:collapse()
-    end
 
     -- Reset timer
 
