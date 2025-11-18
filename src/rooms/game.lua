@@ -63,6 +63,8 @@ function Game:init(filepathLevel)
 
     GUILevelName()
 
+    GUIEnergyLevel()
+
     -- Load Ability Panel
 
     GUIChipSet()
@@ -90,6 +92,7 @@ function Game:unload()
     GUICheatUnlock.destroy()
     GUIChipSet.destroy()
     SpriteRescueCounter.destroy()
+    GUIEnergyLevel.destroy()
 
     Checkpoint.clearAll()
 
@@ -164,6 +167,11 @@ function Game:setupFonts()
     gfx.setFont(fontDefault)
 end
 
+function Game:setupPowerLevel()
+    GUIEnergyLevel.getInstance():add()
+    PowerLevel.reset()
+end
+
 ---------------------------------
 ---
 ---------------------------------
@@ -187,6 +195,7 @@ function Game:enter(previous, data)
         self:setupSystemMenu()
         self:setupCheats()
         self:setupFonts()
+        self:setupPowerLevel()
     else
         sfxSwoosh:play(1)
     end
@@ -247,6 +256,7 @@ function Game:enter(previous, data)
 end
 
 function Game:update()
+    PowerLevel.update()
     Camera.update()
 end
 

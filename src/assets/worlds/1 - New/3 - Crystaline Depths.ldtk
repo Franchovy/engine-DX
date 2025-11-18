@@ -3629,7 +3629,7 @@
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"lighting\": {\"background\": \"medium\"},\n  \"camera\": {\"offset\": {\"x\":0, \"y\":60}}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
 								"params": [
-									"{\\n  \"lighting\": {\"background\": \"medium\"},\\n  \"camera\": {\"offset\": {\"x\":0, \"y\":60}}\\n}"
+									"{\n  \"lighting\": {\"background\": \"medium\"},\n  \"camera\": {\"offset\": {\"x\":0, \"y\":60}}\n}"
 								]
 							}] }],
 							"__worldX": 5056,
@@ -4252,7 +4252,7 @@
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"light\"},\n  \"music\": {\"loop\": 8},\n  \"camera\": {\"offset\": {\"x\":0, \"y\":45}}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
 								"params": [
-									"{\\n  \"parallax\": true,\\n  \"lighting\": {\"background\": \"light\"},\\n  \"music\": {\"loop\": 8},\\n  \"camera\": {\"offset\": {\"x\":0, \"y\":45}}\\n}"
+									"{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"light\"},\n  \"music\": {\"loop\": 8},\n  \"camera\": {\"offset\": {\"x\":0, \"y\":45}}\n}"
 								]
 							}] }],
 							"__worldX": 3040,
@@ -4891,7 +4891,7 @@
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"camera\": {\"offset\": {\"x\":0, \"y\":25}},\n  \"lighting\": {\"background\": \"light\"},\n  \"parallax\": true,\n  \"level\": {\n    \"activate\": \"6fe28b20-ac70-11f0-969d-f79bd0afdfe7\"\n  }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
 								"params": [
-									"{\\n  \"camera\": {\"offset\": {\"x\":0, \"y\":25}},\\n  \"lighting\": {\"background\": \"light\"},\\n  \"parallax\": true,\\n  \"level\": {\\n    \"activate\": \"6fe28b20-ac70-11f0-969d-f79bd0afdfe7\"\\n  }\\n}"
+									"{\n  \"camera\": {\"offset\": {\"x\":0, \"y\":25}},\n  \"lighting\": {\"background\": \"light\"},\n  \"parallax\": true,\n  \"level\": {\n    \"activate\": \"6fe28b20-ac70-11f0-969d-f79bd0afdfe7\"\n  }\n}"
 								]
 							}] }],
 							"__worldX": 928,
@@ -4948,7 +4948,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "{\"walkTo\": 1}\n--no text--\nDRLBOT!\nYou must come with me.\n{\"walkTo\": 2}\n--no text--\nThe HUB is the greatest refuge for us BOTs.\nIt must be protected, and it must be restored...\n{\"walkTo\": 3}\n--no text--\nThe most essential for the HUB is the POWER.\nBefore, we were able to move freely here.\nThat is no longer the case.\nI need your help to understand what may have gone wrong...\n...with the SOURCE.\nIt's down this way.\n{\"walkTo\": 4, \"changeLevel\": {\"name\": \"Level_6\", \"spawn\": \"86af8790-ac70-11f0-a5e1-3f498eb2d8e8\"}}\n--no text--", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"{\"walkTo\": 1}\\n--no text--\\nDRLBOT!\\nYou must come with me.\\n{\"walkTo\": 2}\\n--no text--\\nThe HUB is the greatest refuge for us BOTs.\\nIt must be protected, and it must be restored...\\n{\"walkTo\": 3}\\n--no text--\\nThe most essential for the HUB is the POWER.\\nBefore, we were able to move freely here.\\nThat is no longer the case.\\nI need your help to understand what may have gone wrong...\\n...with the SOURCE.\\nIt's down this way.\\n{\"walkTo\": 4, \"changeLevel\": {\"name\": \"Level_6\", \"spawn\": \"86af8790-ac70-11f0-a5e1-3f498eb2d8e8\"}}\\n--no text--"
+										"{\"walkTo\": 1}\n--no text--\nDRLBOT!\nYou must come with me.\n{\"walkTo\": 2}\n--no text--\nThe HUB is the greatest refuge for us BOTs.\nIt must be protected, and it must be restored...\n{\"walkTo\": 3}\n--no text--\nThe most essential for the HUB is the POWER.\nBefore, we were able to move freely here.\nThat is no longer the case.\nI need your help to understand what may have gone wrong...\n...with the SOURCE.\nIt's down this way.\n{\"walkTo\": 4, \"changeLevel\": {\"name\": \"Level_6\", \"spawn\": \"86af8790-ac70-11f0-a5e1-3f498eb2d8e8\"}}\n--no text--"
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 1, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [1] }] },
@@ -6558,7 +6558,7 @@
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"lighting\": {\"background\": \"medium\"},\n    \"camera\": {\"offset\": {\"x\":0, \"y\":60}}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
 								"params": [
-									"{\\n  \"lighting\": {\"background\": \"medium\"},\\n    \"camera\": {\"offset\": {\"x\":0, \"y\":60}}\\n}"
+									"{\n  \"lighting\": {\"background\": \"medium\"},\n    \"camera\": {\"offset\": {\"x\":0, \"y\":60}}\n}"
 								]
 							}] }],
 							"__worldX": 3392,
@@ -7474,7 +7474,7 @@
 					"entityInstances": [
 						{
 							"__identifier": "GamePoint",
-							"__grid": [10,8],
+							"__grid": [9,8],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -7483,9 +7483,9 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 587,
-							"px": [320,256],
+							"px": [288,256],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": null, "__tile": null, "defUid": 588, "realEditorValues": [] }],
-							"__worldX": 992,
+							"__worldX": 960,
 							"__worldY": 5248
 						},
 						{
@@ -7871,7 +7871,7 @@
 							"px": [320,96],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"parallax\": true\\n}"]
+								"params": ["{\n  \"parallax\": true\n}"]
 							}] }],
 							"__worldX": 1760,
 							"__worldY": 5280
@@ -8203,7 +8203,7 @@
 							"px": [160,64],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"powerwall\": true\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"powerwall\": true\\n}"]
+								"params": ["{\n  \"powerwall\": true\n}"]
 							}] }],
 							"__worldX": 2304,
 							"__worldY": 5536
@@ -8658,7 +8658,7 @@
 							"px": [96,416],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"powerwall\": true\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"powerwall\": true\\n}"]
+								"params": ["{\n  \"powerwall\": true\n}"]
 							}] }],
 							"__worldX": 2368,
 							"__worldY": 6144
