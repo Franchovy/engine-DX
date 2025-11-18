@@ -18,7 +18,7 @@ function CollisionZone:init(data, levelName, ...)
 
     -- Collisions
 
-    self:setGroups(GROUPS.Overlap)
+    self:setGroups(GROUPS.ActivatePlayer)
 
     -- Sprite config
 

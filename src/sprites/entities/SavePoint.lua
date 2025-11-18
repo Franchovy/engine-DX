@@ -15,7 +15,7 @@ function SavePoint:init(entityData, levelName)
     -- Collisions
 
     self:setTag(TAGS.SavePoint)
-    self:setGroups(GROUPS.Overlap)
+    self:setGroups(GROUPS.ActivatePlayer)
 
     -- State properties
 

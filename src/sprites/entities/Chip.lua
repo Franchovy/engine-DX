@@ -21,7 +21,7 @@ function Chip:init(entityData, levelName)
 
   -- Collisions
 
-  self:setGroups(GROUPS.Overlap)
+  self:setGroups(GROUPS.ActivatePlayer)
   self:setTag(TAGS.Chip)
 
   -- Set blueprint name from ldtk

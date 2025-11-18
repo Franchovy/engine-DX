@@ -122,7 +122,7 @@ function Player:init(entityData, levelName, ...)
     -- Collisions
 
     self:setGroups(GROUPS.Player)
-    self:setCollidesWithGroups({ GROUPS.Solid, GROUPS.SolidExceptElevator, GROUPS.Overlap })
+    self:setCollidesWithGroups({ GROUPS.Solid, GROUPS.SolidExceptElevator, GROUPS.ActivatePlayer })
     self:setTag(TAGS.Player)
 
     -- "Sub-States"

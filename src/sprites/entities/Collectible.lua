@@ -12,7 +12,7 @@ function Collectible:init(entityData, levelName)
     -- Collision Setup
 
     self:setTag(TAGS.Collectible)
-    self:setGroups(GROUPS.Overlap)
+    self:setGroups(GROUPS.ActivatePlayer)
 
     -- Setup image using index provided in LDtk
 

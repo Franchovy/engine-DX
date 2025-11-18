@@ -76,7 +76,7 @@ function Bot:init(entityData, levelName)
 
     -- Sprite setup
 
-    self:setGroups(GROUPS.Overlap)
+    self:setGroups(GROUPS.ActivatePlayer)
     self:setTag(TAGS.Bot)
 
     -- Set whether is "rescuable"
