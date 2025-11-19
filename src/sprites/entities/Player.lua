@@ -106,7 +106,28 @@ function Player:init(entityData, levelName, ...)
 
     Player.super.init(self, entityData, levelName, imagetable)
 
-    Moveable.init(self)
+    Moveable.init(self, {
+        gravity = 8,
+        movement = {
+            air = {
+                acceleration = 0.9,
+                friction = -0.00035
+            },
+            ground = {
+                acceleration = 3.5,
+                friction = -0.8
+            }
+        },
+        jump = {
+            speed = 27,
+            doubleJump = true,
+            coyoteFrames = 5
+        },
+        dash = {
+            frames = 4,
+            speed = 27
+        }
+    })
 
     -- Set original spawn property on LDtk data
 
@@ -370,6 +391,32 @@ function Player:animateInvalidKey()
     self.didPressedInvalidKey = true
 
     spError:play(1)
+end
+
+---comment
+---@return Elevator?
+function Player:getElevatorActivating()
+    if self.isActivatingElevator then
+        return self.isActivatingElevator
+    end
+end
+
+function Player:getIsDoubleJumpEnabled()
+    local chipSet = GUIChipSet.getInstance()
+    if not chipSet then return end
+
+    return chipSet:hasDoubleKey(KEYNAMES.A)
+end
+
+function Player:getIsDashEnabled(direction)
+    local chipSet = GUIChipSet.getInstance()
+    if not chipSet then return end
+
+    if direction == playdate.kButtonLeft then
+        return chipSet:hasDoubleKey(KEYNAMES.Left)
+    elseif direction == playdate.kButtonRight then
+        return chipSet:hasDoubleKey(KEYNAMES.Right)
+    end
 end
 
 --------------------

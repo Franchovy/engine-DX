@@ -5,45 +5,61 @@ local gfx <const> = pd.graphics
 --- @class Moveable: _Sprite
 Moveable = {}
 
-local gravity <const> = 8
-local airFrictionCoefficient <const> = -0.00035
-local groundFrictionCoefficient <const> = -0.8
-local coyoteFrames <const> = 5
-local groundAcceleration <const> = 3.5
-local airAcceleration <const> = 0.9
-local dashSpeed <const> = 27.0
-local framesPostDashNoGravity <const> = 4
-local jumpSpeed <const> = 27
+---@alias Config {gravity: number?, movement:number|{air: {acceleration:number,friction:number?}, ground: {acceleration:number,friction:number?}},dash: {frames:integer,speed:number}?,jump: {speed:number, doubleJump:boolean?, coyoteFrames: integer?}?}
 
+---@param config Config
 function Moveable:init(config)
     config = config or {}
 
     -- Config variables
 
-    self.gravityMax = config.gravity or gravity
-    self.airFrictionCoefficient = config.airFrictionCoefficient or airFrictionCoefficient
-    self.groundFrictionCoefficient = config.groundFrictionCoefficient or groundFrictionCoefficient
-    self.enableDash = config.enableDash or false
-    self.enableDoubleJump = config.enableDoubleJump or false
-    self.coyoteFramesMax = config.coyoteFramesMax or 0
-    self.speedJump = config.speedJump or jumpSpeed
-    self.dashFramesFloat = config.dashFramesFloat or framesPostDashNoGravity
-    self.dashSpeed = config.dashSpeed or dashSpeed
-    self.groundAcceleration = config.groundAcceleration or groundAcceleration
-    self.airAcceleration = config.airAcceleration or airAcceleration
+    if config.gravity then
+        self.gravityMax = config.gravity
+    end
+
+    if config.movement and type(config.movement) == "number" then
+        -- Flat 4-direction movement
+        self.speedMovement = config.movement
+    elseif config.movement then
+        self.frictionAir = config.movement.air.friction or 0
+        self.frictionGround = config.movement.ground.friction or 0
+        self.accelerationAir = config.movement.air.acceleration
+        self.accelerationGround = config.movement.ground.acceleration
+    end
+
+
+    if config.dash then
+        self.isEnabledDash = true
+        self.speedDash = config.dash.speed
+        self.framesDash = config.dash.frames
+    end
+
+    if config.jump then
+        self.framesCoyote = config.jump.coyoteFrames
+        self.speedJump = config.jump.speed
+        self.isEnabledDoubleJump = config.jump.doubleJump
+    end
 
     -- Dynamic variables
 
     self.gravity = self.gravityMax
     self.velocity = gmt.vector2D.new(0, 0)
-    self.coyoteFramesRemaining = self.coyoteFramesMax
-    self.hasDoubleJumpRemaining = self.enableDoubleJump
+    self.framesCoyoteRemaining = self.framesCoyote
+    self.hasDoubleJumpRemaining = self.isEnabledDoubleJump
 
     self.onGround = false
     self.onGroundPrevious = false
     self.didMoveLeft = false
     self.didMoveRight = false
     self.didJump = false
+end
+
+function Moveable:getIsDoubleJumpEnabled()
+    return self.isEnabledDoubleJump or false
+end
+
+function Moveable:getIsDashEnabled(direction)
+    return self.isEnabledDash or false
 end
 
 function Moveable:getIsTouchingGround()
@@ -76,6 +92,14 @@ end
 
 function Moveable:moveRight()
     self.didMoveRight = true
+end
+
+function Moveable:moveUp()
+    self.didMoveUp = true
+end
+
+function Moveable:moveDown()
+    self.didMoveDown = true
 end
 
 function Moveable:jump()
@@ -115,27 +139,29 @@ function Moveable:update()
 
     -- incorporate gravity
 
-    if self.onGround then
-        -- Resets velocity, still applying gravity vector
+    if self.gravity then
+        if self.onGround then
+            -- Resets velocity, still applying gravity vector
 
-        local dx, _ = self.velocity:unpack()
-        self.velocity = gmt.vector2D.new(dx, self.gravity * _G.delta_time)
+            local dx, _ = self.velocity:unpack()
+            self.velocity = gmt.vector2D.new(dx, self.gravity * _G.delta_time)
 
-        -- Apply Ground Friction to x-axis movement
+            -- Apply Ground Friction to x-axis movement
 
-        self.velocity.dx = self.velocity.dx +
-            (self.velocity.dx * self.groundFrictionCoefficient * _G.delta_time)
-    else
-        -- Adds gravity vector to current velocity
+            self.velocity.dx = self.velocity.dx +
+                (self.velocity.dx * self.frictionGround * _G.delta_time)
+        else
+            -- Adds gravity vector to current velocity
 
-        self.velocity.dy = self.velocity.dy + (self.gravity * _G.delta_time)
+            self.velocity.dy = self.velocity.dy + (self.gravity * _G.delta_time)
 
-        -- Apply Air Friction
+            -- Apply Air Friction
 
-        self.velocity.dx = self.velocity.dx +
-            (self.velocity.dx ^ 3 * self.airFrictionCoefficient * _G.delta_time)
-        self.velocity.dy = self.velocity.dy +
-            (self.velocity.dy ^ 3 * self.airFrictionCoefficient * _G.delta_time)
+            self.velocity.dx = self.velocity.dx +
+                (self.velocity.dx ^ 3 * self.frictionAir * _G.delta_time)
+            self.velocity.dy = self.velocity.dy +
+                (self.velocity.dy ^ 3 * self.frictionAir * _G.delta_time)
+        end
     end
 
     -- If x velocity is very small, reduce to zero.
@@ -154,47 +180,52 @@ function Moveable:update()
     end
 
     -- Reset movement variables
+    self.didMoveLeftPrevious = self.didMoveLeft
+    self.didMoveRightPrevious = self.didMoveRight
     self.didMoveLeft = false
     self.didMoveRight = false
+    self.didMoveUp = false
+    self.didMoveDown = false
     self.didJump = false
 end
 
 function Moveable:updateMovement()
     -- Movement handling (update velocity X and Y)
 
-    -- Handle Horizontal Movement
+    -- Register key press for dash
 
-    local didActivateElevatorSuccess = self.isActivatingElevator and self.isActivatingElevator:wasActivationSuccessful()
+    if self.didMoveLeft and not self.didMoveLeftPrevious and self:getIsDashEnabled(playdate.kButtonLeft) then
+        Dash:registerKeyPressed(KEYNAMES.Left)
+    elseif self.didMoveRight and not self.didMoveRightPrevious and self:getIsDashEnabled(playdate.kButtonRight) then
+        Dash:registerKeyPressed(KEYNAMES.Right)
+    end
 
-    if self.isActivatingDrillableBlock or didActivateElevatorSuccess then
-        -- Skip horizontal movement if activating a bottom block
-        self:setVelocityX(0.0)
-    elseif self.isActivatingElevator and self.isActivatingElevator:getDirectionsAvailable()[ORIENTATION.Horizontal]
-        and (pd.buttonJustPressed(pd.kButtonLeft) or pd.buttonJustPressed(pd.kButtonRight)) then
-        -- Skip upon pressing left or right to give collisions a frame to calculate horizontal elevator movement.
-        self:setVelocityX(0.0)
-    elseif self.isActivatingElevator and self.isActivatingElevator:getDirectionsAvailable()[ORIENTATION.Horizontal]
-        and (not self.onGroundPrevious and self:getIsTouchingGround()) then
-        -- Skip upon landing on a horizontal elevator
-        self:setVelocityX(0.0)
+    -- Set dash velocity if active
+
+    if self:isDashActivated() then
+        -- Apply dash acceleration
+        local directionScalar = Dash:getLastKey() == KEYNAMES.Left and -1 or 1
+        self:setVelocityX(directionScalar * self.speedDash)
     else
-        -- Register key press for dash
+        -- Handle Horizontal Movement
 
-        if self.didMoveLeft and playdate.buttonJustPressed(KEYNAMES.Left) then
-            Dash:registerKeyPressed(KEYNAMES.Left)
-        elseif self.didMoveRight and playdate.buttonJustPressed(KEYNAMES.Right) then
-            Dash:registerKeyPressed(KEYNAMES.Right)
-        end
+        if self.speedMovement then
+            -- Linear 4-directional movement
 
-        -- Set dash velocity if active
+            if self.didMoveLeft and not self.didMoveRight then
+                self:setVelocityX(-self.speedMovement)
+            elseif self.didMoveRight and not self.didMoveLeft then
+                self:setVelocityX(self.speedMovement)
+            end
 
-        if self:isDashActivated() then
-            -- Apply dash acceleration
-            local directionScalar = Dash:getLastKey() == KEYNAMES.Left and -1 or 1
-            self:setVelocityX(directionScalar * self.dashSpeed)
+            if self.didMoveUp and not self.didMoveDown then
+                self:setVelocityY(-self.speedMovement)
+            elseif self.didMoveDown and not self.didMoveUp then
+                self:setVelocityY(self.speedMovement)
+            end
         else
             local acceleration =
-                self.onGround and self.groundAcceleration or self.airAcceleration
+                self.onGround and self.accelerationGround or self.accelerationAir
 
             -- Add horizontal acceleration to velocity
 
@@ -208,23 +239,25 @@ function Moveable:updateMovement()
 
     -- Handle coyote frames
 
-    if self.coyoteFramesRemaining > 0 and not self.onGround then
-        -- Reduce coyote frames remaining
-        self.coyoteFramesRemaining -= 1
-    elseif self:getIsTouchingGround() then
-        -- Reset coyote frames
-        self.coyoteFramesRemaining = self.coyoteFramesMax
+    if self.framesCoyoteRemaining then
+        if self.framesCoyoteRemaining > 0 and not self.onGround then
+            -- Reduce coyote frames remaining
+            self.framesCoyoteRemaining -= 1
+        elseif self:getIsTouchingGround() then
+            -- Reset coyote frames
+            self.framesCoyoteRemaining = self.framesCoyote
 
-        -- Reset double jump
-        self.hasDoubleJumpRemaining = self.enableDoubleJump
+            -- Reset double jump
+            self.hasDoubleJumpRemaining = self:getIsDoubleJumpEnabled()
 
-        -- Reset dash (only one per air-time)
-        Dash:recharge()
+            -- Reset dash (only one per air-time)
+            Dash:recharge()
+        end
     end
 
     -- Handle Vertical Movement
 
-    if (self:isDashActivated() or self:isDashCoolingDown()) then
+    if self:isDashActivated() or self:isDashCoolingDown() then
         -- Dash movement (ignores gravity and removes vertical movement)
 
         self:setVelocityY(0)
@@ -232,7 +265,7 @@ function Moveable:updateMovement()
     else
         self:setGravity()
 
-        local isFirstJump = self:getIsTouchingGround() or self.coyoteFramesRemaining > 0
+        local isFirstJump = self:getIsTouchingGround() or (self.framesCoyote and self.framesCoyoteRemaining > 0)
         if isFirstJump or self.hasDoubleJumpRemaining then
             -- Handle jump start
 
@@ -243,7 +276,9 @@ function Moveable:updateMovement()
 
                 self:setVelocityY(-self.speedJump)
 
-                self.coyoteFramesRemaining = 0
+                if self.framesCoyote then
+                    self.framesCoyoteRemaining = 0
+                end
             end
         end
     end
@@ -285,7 +320,7 @@ function Moveable:updateCollisions()
         -- this appears to make the "slide" fail and no movement occurs.
 
         if horizontalCornerBlock and self:getIsTouchingGround() then
-            local isMovingLeft = self.velocity.x < 0
+            local isMovingLeft = self.velocity.dx < 0
 
             self:moveBy(isMovingLeft and 1 or -1, 0)
         end
@@ -303,7 +338,7 @@ function Moveable:isDashActivated()
 end
 
 function Moveable:isDashCoolingDown()
-    return Dash:getFramesSinceCooldownStarted() < self.dashFramesFloat
+    return Dash:getFramesSinceCooldownStarted() < self.framesDash
 end
 
 --------------------------

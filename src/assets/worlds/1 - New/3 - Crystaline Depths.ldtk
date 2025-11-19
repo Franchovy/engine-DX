@@ -7506,6 +7506,25 @@
 							}] }],
 							"__worldX": 896,
 							"__worldY": 5184
+						},
+						{
+							"__identifier": "Decoration",
+							"__grid": [11,8],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#E4A672",
+							"iid": "06ab86c0-ac70-11f0-a621-dd775fb9e051",
+							"width": 16,
+							"height": 16,
+							"defUid": 718,
+							"px": [352,256],
+							"fieldInstances": [{ "__identifier": "asset", "__type": "String", "__value": "crystal-1", "__tile": null, "defUid": 719, "realEditorValues": [{
+								"id": "V_String",
+								"params": ["crystal-1"]
+							}] }],
+							"__worldX": 1024,
+							"__worldY": 5248
 						}
 					]
 				},
