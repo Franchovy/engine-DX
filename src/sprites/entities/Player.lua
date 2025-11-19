@@ -282,10 +282,7 @@ function Player:unfreeze()
 
     -- Perform refresh on activations / update variables
 
-    self.isTouchingGroundPrevious = false
     self.didPressedInvalidKey = false
-    self.activationsDown = {}
-    self.activations = {}
 end
 
 function Player:handleCheckpointRevert(state)
@@ -463,10 +460,7 @@ function Player:update()
 
     -- Update variables set by collisions
 
-    self.isTouchingGroundPrevious = self:getIsTouchingGround()
     self.didPressedInvalidKey = false
-    self.activationsDown = {}
-    self.activations = {}
 
     -- Update state for checkpoint
 
@@ -670,7 +664,7 @@ function Player:updateAnimationState()
     if not shouldSkipStateCheck then
         if self.crankWarpController.crankMomentum > 20 then
             animationState = ANIMATION_STATES.Falling
-        elseif self:getIsTouchingGround() then
+        elseif self.onGround then
             if self.isActivatingDrillableBlock and self:isHoldingDownKeyGated() then
                 animationState = ANIMATION_STATES.Drilling
             elseif self.didPressedInvalidKey then

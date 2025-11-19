@@ -96,7 +96,7 @@ function Elevator:getDirectionForOffset(offsetX, offsetY)
   return nil
 end
 
-function Elevator:getOrientationForOffset(offsetX, offsetY)
+function Elevator:getOrientationFromMovement(offsetX, offsetY)
   return offsetX ~= 0 and ORIENTATION.Horizontal or offsetY ~= 0 and ORIENTATION.Vertical or nil
 end
 
@@ -147,6 +147,25 @@ function Elevator:update()
   self.spriteChild = nil
   self.isCollisionsDisabledForFrame = false
   self.didActivate = false
+end
+
+---comment
+---@param xTarget number
+---@param yTarget number
+---@return integer
+---@return integer
+function Elevator:constrainMovement(xTarget, yTarget)
+  local orientation = self:getOrientationFromMovement(xTarget - self.x, yTarget - self.y)
+
+  local track = self:getTrackForDirection(orientation)
+  if not track then
+    -- No track for direction, so no movement possible.
+    return self.x, self.y
+  end
+
+  -- Clamp point to track bounds
+
+  return track:clampElevatorPoint(xTarget, yTarget)
 end
 
 function Elevator:updateTrack()

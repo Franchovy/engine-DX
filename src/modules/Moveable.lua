@@ -53,6 +53,9 @@ function Moveable:init(config)
     self.didMoveRight = false
     self.didJump = false
 
+    self.activationsDown = {}
+    self.activations = {}
+
     ---@type Moveable?
     self.spriteParent = nil
     ---@type Moveable?
@@ -88,7 +91,7 @@ function Moveable:setVelocityY(dY)
 end
 
 function Moveable:setGravity(g)
-    self.gravity = g or self.gravityMax or gravity
+    self.gravity = g or self.gravityMax
 end
 
 function Moveable:moveLeft()
@@ -133,6 +136,10 @@ function Moveable:update()
 
     local actualX, actualY
     local sdkCollisions
+
+    if self.constrainMovement then
+        newPos.x, newPos.y = self:constrainMovement(newPos.x, newPos.y)
+    end
 
     if self.spriteChild then
         actualX, actualY, sdkCollisions = self:moveWithChild(newPos)
@@ -200,6 +207,11 @@ function Moveable:update()
     self:updateMovement()
 
     self.collisions = sdkCollisions
+
+    -- Reset activations
+
+    self.activationsDown = {}
+    self.activations = {}
 
     self:updateCollisions()
 
@@ -409,6 +421,16 @@ function Moveable:updateParent()
     self.didMoveRight = false
     self.didMoveUp = false
     self.didMoveDown = false
+end
+
+---comment
+---@param xTarget number
+---@param yTarget number
+---@return number, number
+function Moveable:constrainMovement(xTarget, yTarget)
+    --- Override me! :)
+    ---
+    return xTarget, yTarget
 end
 
 function Moveable:updateActivations()
