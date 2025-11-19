@@ -52,6 +52,11 @@ function Moveable:init(config)
     self.didMoveLeft = false
     self.didMoveRight = false
     self.didJump = false
+
+    ---@type Moveable?
+    self.spriteParent = nil
+    ---@type Moveable?
+    self.spriteChild = nil
 end
 
 function Moveable:getIsDoubleJumpEnabled()
@@ -106,11 +111,34 @@ function Moveable:jump()
     self.didJump = true
 end
 
+---comment
+---@param spriteParent Moveable?
+function Moveable:setParent(spriteParent)
+    self.spriteParent = spriteParent
+
+    if spriteParent then
+        spriteParent.spriteChild = self
+    end
+end
+
 function Moveable:update()
+    if self.spriteParent then
+        -- As a child, this sprite should not initiate movement.
+
+        self:updateParent()
+    end
+
     -- calculate new position by adding velocity to current position
     local newPos = gmt.vector2D.new(self.x, self.y) + (self.velocity * _G.delta_time)
 
-    local _, _, sdkCollisions = self:moveWithCollisions(newPos:unpack())
+    local actualX, actualY
+    local sdkCollisions
+
+    if self.spriteChild then
+        actualX, actualY, sdkCollisions = self:moveWithChild(newPos)
+    else
+        actualX, actualY, sdkCollisions = self:moveWithCollisions(newPos:unpack())
+    end
 
     -- Update/Reset ground variables
 
@@ -187,6 +215,44 @@ function Moveable:update()
     self.didMoveUp = false
     self.didMoveDown = false
     self.didJump = false
+
+    -- Update parent
+
+    if not self.spriteParent and self.spriteParentPrevious then
+        -- Remove child
+        self.spriteParentPrevious.spriteChild = nil
+    end
+
+    self.spriteParentPrevious = self.spriteParent
+end
+
+---comment
+---@param targetPosition _Point
+---@return number, number, _SpriteCollisionData
+function Moveable:moveWithChild(targetPosition)
+    assert(self.spriteChild)
+
+    local xTarget, yTarget = targetPosition:unpack()
+
+    self.spriteChild:setCollisionsEnabled(false)
+
+    local xActual, yActual, collisions = self:checkCollisions(xTarget, yTarget)
+    local xDiff, yDiff = xActual - self.x, yActual - self.y
+    local xChild, yChild = self.spriteChild.x, self.spriteChild.y
+
+    self.spriteChild:setCollisionsEnabled(true)
+
+    self:setCollisionsEnabled(false)
+
+    local xActualChild, yActualChild, collisionsChild = self.spriteChild:checkCollisions(xChild + xDiff, yChild + yDiff)
+    local xDiffChild, yDiffChild = xActualChild - xChild, yActualChild - yChild
+
+    self:setCollisionsEnabled(true)
+
+    self:moveBy(xDiffChild, yDiffChild)
+    self.spriteChild:moveBy(xDiffChild, yDiffChild)
+
+    return self.x + xDiffChild, self.y + yDiffChild, collisions
 end
 
 function Moveable:updateMovement()
@@ -194,15 +260,19 @@ function Moveable:updateMovement()
 
     -- Register key press for dash
 
-    if self.didMoveLeft and not self.didMoveLeftPrevious and self:getIsDashEnabled(playdate.kButtonLeft) then
-        Dash:registerKeyPressed(KEYNAMES.Left)
-    elseif self.didMoveRight and not self.didMoveRightPrevious and self:getIsDashEnabled(playdate.kButtonRight) then
-        Dash:registerKeyPressed(KEYNAMES.Right)
+    local dashDirection = (self.didMoveLeft and not self.didMoveLeftPrevious and self:getIsDashEnabled(playdate.kButtonLeft)) and
+        KEYNAMES.Left
+        or
+        (self.didMoveRight and not self.didMoveRightPrevious and self:getIsDashEnabled(playdate.kButtonRight)) and
+        KEYNAMES.Right
+
+    if dashDirection then
+        Dash:registerKeyPressed(dashDirection)
     end
 
     -- Set dash velocity if active
 
-    if self:isDashActivated() then
+    if dashDirection and self:isDashActivated() then
         -- Apply dash acceleration
         local directionScalar = Dash:getLastKey() == KEYNAMES.Left and -1 or 1
         self:setVelocityX(directionScalar * self.speedDash)
@@ -216,12 +286,16 @@ function Moveable:updateMovement()
                 self:setVelocityX(-self.speedMovement)
             elseif self.didMoveRight and not self.didMoveLeft then
                 self:setVelocityX(self.speedMovement)
+            else
+                self:setVelocityX(0)
             end
 
             if self.didMoveUp and not self.didMoveDown then
                 self:setVelocityY(-self.speedMovement)
             elseif self.didMoveDown and not self.didMoveUp then
                 self:setVelocityY(self.speedMovement)
+            else
+                self:setVelocityY(0)
             end
         else
             local acceleration =
@@ -257,7 +331,7 @@ function Moveable:updateMovement()
 
     -- Handle Vertical Movement
 
-    if self:isDashActivated() or self:isDashCoolingDown() then
+    if self.isEnabledDash and (self:isDashActivated() or self:isDashCoolingDown()) then
         -- Dash movement (ignores gravity and removes vertical movement)
 
         self:setVelocityY(0)
@@ -289,42 +363,52 @@ function Moveable:updateMovement()
 end
 
 function Moveable:updateCollisions()
-    function Player:updateCollisions()
-        -- Check for special case event
-        local horizontalCornerBlock = false
+    -- Check for special case event
+    local horizontalCornerBlock = false
 
-        for _, collisionData in pairs(self.collisions) do
-            local other = collisionData.other
-            local tag = other:getTag()
-            local normal = collisionData.normal
+    for _, collisionData in pairs(self.collisions) do
+        local other = collisionData.other
+        local tag = other:getTag()
+        local normal = collisionData.normal
 
-            -- Special case/corner check for horizontal collisions
+        -- Special case/corner check for horizontal collisions
 
-            if collisionData.normal.x ~= 0 and collisionData.otherRect.y == collisionData.spriteRect.y + collisionData.spriteRect.height then
-                horizontalCornerBlock = collisionData.other
-            end
-
-            -- Bottom activations
-            if normal.y == -1 and other.activateDown then
-                -- If colliding with bottom, activate
-                table.insert(self.activationsDown, other)
-            elseif other.activate then
-                -- Other activations
-                table.insert(self.activations, other)
-            end
+        if collisionData.normal.x ~= 0 and collisionData.otherRect.y == collisionData.spriteRect.y + collisionData.spriteRect.height then
+            horizontalCornerBlock = collisionData.other
         end
 
-        -- Special case move - this may be an SDK bug?
-        -- When player is on top of a block, and x coordinate is exactly on the tile +
-        -- There is a separate "wall" (like drillable block) corner touching drillbot corner
-        -- this appears to make the "slide" fail and no movement occurs.
-
-        if horizontalCornerBlock and self:getIsTouchingGround() then
-            local isMovingLeft = self.velocity.dx < 0
-
-            self:moveBy(isMovingLeft and 1 or -1, 0)
+        -- Bottom activations
+        if normal.y == -1 and other.activateDown then
+            -- If colliding with bottom, activate
+            table.insert(self.activationsDown, other)
+        elseif other.activate then
+            -- Other activations
+            table.insert(self.activations, other)
         end
     end
+
+    -- Special case move - this may be an SDK bug?
+    -- When player is on top of a block, and x coordinate is exactly on the tile +
+    -- There is a separate "wall" (like drillable block) corner touching drillbot corner
+    -- this appears to make the "slide" fail and no movement occurs.
+
+    if horizontalCornerBlock and self:getIsTouchingGround() then
+        local isMovingLeft = self.velocity.dx < 0
+
+        self:moveBy(isMovingLeft and 1 or -1, 0)
+    end
+end
+
+function Moveable:updateParent()
+    self.spriteParent.didMoveLeft = self.didMoveLeft
+    self.spriteParent.didMoveRight = self.didMoveRight
+    self.spriteParent.didMoveUp = self.didMoveUp
+    self.spriteParent.didMoveDown = self.didMoveDown
+
+    self.didMoveLeft = false
+    self.didMoveRight = false
+    self.didMoveUp = false
+    self.didMoveDown = false
 end
 
 function Moveable:updateActivations()

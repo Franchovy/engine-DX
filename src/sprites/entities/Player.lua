@@ -458,7 +458,7 @@ function Player:update()
         not (self.crankWarpController and self.crankWarpController:isActive()) and
         not playdate.buttonIsPressed(KEYNAMES.B)
     then
-        self:updateMovement()
+        --self:updateMovement()
     end
 
     -- Update variables set by collisions
@@ -488,6 +488,9 @@ function Player:update()
 end
 
 function Player:updateActivations()
+    ---@type Elevator?
+    local elevatorParent = nil
+
     for i, otherSprite in ipairs(self.activationsDown) do
         local tag = otherSprite:getTag()
         local isBelowCenter = self:centerX() < otherSprite:right() and self:centerX() > otherSprite:left()
@@ -536,45 +539,14 @@ function Player:updateActivations()
         end
 
         if tag == TAGS.Elevator then
-            local key
-            local directionsAvailable = otherSprite:getDirectionsAvailable()
-
-            if directionsAvailable[ORIENTATION.Horizontal] then
-                -- If horizontal, then the player must be near the center for the elevator to start.
-                local marginWithinCenterRange <const> = 12
-
-                if self:isHoldingLeftKeyGated() and self:centerX() < otherSprite:right() - marginWithinCenterRange then
-                    key = KEYNAMES.Left
-                elseif self:isHoldingRightKeyGated() and self:centerX() > otherSprite:left() + marginWithinCenterRange then
-                    key = KEYNAMES.Right
-                end
-            end
-
-            if directionsAvailable[ORIENTATION.Vertical] then
-                if self:isHoldingDownKeyGated() then
-                    key = KEYNAMES.Down
-                elseif self:isHoldingUpKeyGated() then
-                    key = KEYNAMES.Up
-                end
-            end
-
-            if self.didJump then
-                -- Disable collisions with elevator for this frame to avoid
-                -- jump / moving into elevator collision glitch.
-                otherSprite:disableCollisionsForFrame()
-            else
-                -- Otherwise, activate elevator (set self as child)
-                otherSprite:activateDown(self, key)
-
-                if key or (not self.isActivatingElevator and otherSprite:hasMovedRemaining()) then
-                    -- If activation happened or elevator is still moving with player
-                    self.isActivatingElevator = otherSprite
-                end
-            end
+            elevatorParent = otherSprite
         end
 
         ::continue::
     end
+
+    -- Set elevator parent if exists
+    self:setParent(elevatorParent)
 
     for i, otherSprite in ipairs(self.activations) do
         local tag = otherSprite:getTag()

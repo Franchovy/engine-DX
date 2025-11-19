@@ -273,25 +273,15 @@ function Game:update()
         end
 
         if playdate.buttonIsPressed(playdate.kButtonLeft) and chipset:getButtonEnabled(KEYNAMES.Left) then
-            if elevator then
-                elevator:moveLeft()
-            else
-                player:moveLeft()
-            end
+            player:moveLeft()
         elseif playdate.buttonIsPressed(playdate.kButtonRight) and chipset:getButtonEnabled(KEYNAMES.Right) then
-            if elevator then
-                elevator:moveRight()
-            else
-                player:moveRight()
-            end
+            player:moveRight()
         end
 
-        if elevator then
-            if playdate.buttonIsPressed(playdate.kButtonUp) and chipset:getButtonEnabled(KEYNAMES.Up) then
-                elevator:moveUp()
-            elseif playdate.buttonIsPressed(playdate.kButtonDown) and chipset:getButtonEnabled(KEYNAMES.Down) then
-                elevator:moveDown()
-            end
+        if playdate.buttonIsPressed(playdate.kButtonUp) and chipset:getButtonEnabled(KEYNAMES.Up) then
+            player:moveUp()
+        elseif playdate.buttonIsPressed(playdate.kButtonDown) and chipset:getButtonEnabled(KEYNAMES.Down) then
+            player:moveDown()
         end
     end
 end

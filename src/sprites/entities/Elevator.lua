@@ -9,18 +9,23 @@ local downwardsOffsetMax <const> = 2
 --- Private Static methods
 ---
 
----@class Elevator : Entity
+---@class Elevator : Entity, Moveable
 ---@field tracks ElevatorTrack[]
 Elevator = Class("Elevator", Entity)
+
+Elevator:implements(Moveable)
 
 function Elevator:init(entityData, levelName)
   Elevator.super.init(self, entityData, levelName, imagetableElevator[1])
 
+  Moveable.init(self, { movement = 7 })
+
   -- Collisions
 
   self:setTag(TAGS.Elevator)
-  self:setGroups({ GROUPS.Solid, GROUPS.Ground })
-  self:setCollidesWithGroups(GROUPS.SolidExceptElevator)
+  self:setGroups({ GROUPS.Solid })
+  self:setCollidesWithGroups({ GROUPS.Solid })
+  self.collisionResponse = gfx.sprite.kCollisionTypeSlide
 
   -- Elevator-specific fields
 
@@ -52,14 +57,6 @@ function Elevator:init(entityData, levelName)
     { x = self.x, y = self.y, levelName = self.levelName })
 
   self.latestCheckpointPosition = { x = 0, y = 0 }
-end
-
-function Elevator:collisionResponse(other)
-  if other:getGroupMask() & GROUPS.Solid ~= 0 then
-    return gfx.sprite.kCollisionTypeSlide
-  end
-
-  return gfx.sprite.kCollisionTypeOverlap
 end
 
 ---
@@ -134,27 +131,10 @@ function Elevator:update()
     return
   end
 
+  Moveable.update(self)
+
   -- Update connected tracks for this elevator
   self:updateTrack()
-
-  -- If no activation happened
-  if not self.didActivate then
-    if self.shouldReturnToStart and not self.spriteChild then
-      local key = self:getDirectionForOffset(
-        self.x - self.fields.startPosition.x,
-        self.y - self.fields.startPosition.y
-      )
-
-      local targetX, targetY, orientation = self:getTargetPositionFromKey(key, self.speed)
-
-      if orientation then
-        self:moveToTarget(targetX, targetY, orientation, self.spriteChild, 2)
-      end
-    else
-      -- Move elevator to nearest tile if applicable
-      self:updatePosition()
-    end
-  end
 
   -- Reset collision check if not disabled for this frame
 
@@ -164,7 +144,6 @@ function Elevator:update()
 
   -- Reset update variables
 
-  self.movement = 0
   self.spriteChild = nil
   self.isCollisionsDisabledForFrame = false
   self.didActivate = false
