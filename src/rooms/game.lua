@@ -256,8 +256,26 @@ function Game:enter(previous, data)
 end
 
 function Game:update()
+    -- System updates
+
     PowerLevel.update()
     Camera.update()
+
+    -- Input handling (for player)
+
+    local player = Player.getInstance()
+    local chipset = GUIChipSet.getInstance()
+    if not player or not chipset then return end
+
+    if playdate.buttonJustPressed(playdate.kButtonA) and chipset:getButtonEnabled(KEYNAMES.A) then
+        player:jump()
+    end
+
+    if playdate.buttonIsPressed(playdate.kButtonLeft) and chipset:getButtonEnabled(KEYNAMES.Left) then
+        player:moveLeft()
+    elseif playdate.buttonIsPressed(playdate.kButtonRight) and chipset:getButtonEnabled(KEYNAMES.Right) then
+        player:moveRight()
+    end
 end
 
 function Game:leave(next, ...)

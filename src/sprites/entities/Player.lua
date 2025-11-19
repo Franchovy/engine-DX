@@ -1,5 +1,3 @@
-import "player/dash"
-
 local pd <const> = playdate
 local sound <const> = pd.sound
 local gmt <const> = pd.geometry
@@ -60,19 +58,15 @@ KEYS = {
     [KEYNAMES.B] = pd.kButtonB
 }
 
-local coyoteFrames <const> = 5
-local groundAcceleration <const> = 3.5
-local airAcceleration <const> = 0.9
-local dashSpeed <const> = 27.0
-local framesPostDashNoGravity <const> = 4
-local jumpSpeed <const> = 27
-local jumpSpeedDrilledBlock <const> = -14
 local VELOCITY_FALL_ANIMATION <const> = 6
+local jumpSpeedDrilledBlock <const> = -14
 
 -- Setup
 
---- @class Player : EntityAnimated
+--- @class Player : EntityAnimated, Moveable
 Player = Class("Player", EntityAnimated)
+
+Player:implements(Moveable)
 
 -- Static Reference
 
@@ -109,7 +103,10 @@ function Player:init(entityData, levelName, ...)
     _instance = self
 
     local imagetable = CONFIG.ADD_SUPER_DARKNESS_EFFECT and imagetablePlayerDarkness or imagetablePlayer
+
     Player.super.init(self, entityData, levelName, imagetable)
+
+    Moveable.init(self)
 
     -- Set original spawn property on LDtk data
 
@@ -134,19 +131,13 @@ function Player:init(entityData, levelName, ...)
     self.activationsDown = {}
     self.activationsPrevious = {}
 
-    -- Jumping mechanic variables
-
-    self.coyoteFramesRemaining = coyoteFrames
-
     -- Setup keys array and starting keys
 
     assert(entityData.fields.chipSet, "Error: no chipset was set!")
 
     Manager.emitEvent(EVENTS.ChipSetNew, entityData.fields.chipSet)
 
-    -- RigidBody config
-
-    self.rigidBody = RigidBody(self, {})
+    -- Checkpoint config
 
     self.latestCheckpointPosition = gmt.point.new(self.x, self.y)
 
@@ -392,6 +383,8 @@ function Player:update()
 
     Player.super.update(self)
 
+    Moveable.update(self)
+
     if self.isFrozen then
         return
     end
@@ -405,8 +398,6 @@ function Player:update()
     self.isActivatingElevator = false
     self.isActivatingDrillableBlock = false
     self.activeDialog = false
-
-    self:updateActivations()
 
     -- Bot / Interactions
 
@@ -425,20 +416,10 @@ function Player:update()
 
     -- Update variables set by collisions
 
-    self.isTouchingGroundPrevious = self.rigidBody:getIsTouchingGround()
+    self.isTouchingGroundPrevious = self:getIsTouchingGround()
     self.didPressedInvalidKey = false
     self.activationsDown = {}
     self.activations = {}
-
-    -- RigidBody update
-
-    self:updateRigidBody()
-
-    self.rigidBody:setForcesCoefficient(1)
-
-    -- Collisions Update
-
-    self:updateCollisions()
 
     -- Update state for checkpoint
 
@@ -456,6 +437,123 @@ function Player:update()
 
     if not warpCooldown then
         self:updateLevelChange()
+    end
+end
+
+function Player:updateActivations()
+    for i, otherSprite in ipairs(self.activationsDown) do
+        local tag = otherSprite:getTag()
+        local isBelowCenter = self:centerX() < otherSprite:right() and self:centerX() > otherSprite:left()
+
+        -- If there are two bottom activations, choose only the one that is directly below the player.
+        if #self.activationsDown > 1 and not isBelowCenter then
+            goto continue
+        end
+
+        -- If Drilling
+        if tag == TAGS.DrillableBlock then
+            if self:isHoldingDownKeyGated() and isBelowCenter then
+                -- Play drilling sound
+                if not spDrill:isPlaying() then
+                    spDrill:play(1)
+
+                    self.particlesDrilling:startAnimation()
+                end
+
+                self.isActivatingDrillableBlock = otherSprite
+
+                -- Activate block drilling
+
+                otherSprite:activateDown()
+
+                -- If consumed or player stopped pressing, end animation.
+                if otherSprite:isConsumed() then
+                    spDrill:stop()
+
+                    self.particlesDrilling:endAnimation()
+
+                    self:setVelocityY(jumpSpeedDrilledBlock)
+                end
+
+                -- Move particles to same location
+
+                self.particlesDrilling:moveTo(self:centerX(), self:bottom())
+            end
+
+            -- Handle releasing the down key
+            if pd.buttonJustReleased(pd.kButtonDown) then
+                spDrill:stop()
+
+                self.particlesDrilling:endAnimation()
+            end
+        end
+
+        if tag == TAGS.Elevator then
+            local key
+            local directionsAvailable = otherSprite:getDirectionsAvailable()
+
+            if directionsAvailable[ORIENTATION.Horizontal] then
+                -- If horizontal, then the player must be near the center for the elevator to start.
+                local marginWithinCenterRange <const> = 12
+
+                if self:isHoldingLeftKeyGated() and self:centerX() < otherSprite:right() - marginWithinCenterRange then
+                    key = KEYNAMES.Left
+                elseif self:isHoldingRightKeyGated() and self:centerX() > otherSprite:left() + marginWithinCenterRange then
+                    key = KEYNAMES.Right
+                end
+            end
+
+            if directionsAvailable[ORIENTATION.Vertical] then
+                if self:isHoldingDownKeyGated() then
+                    key = KEYNAMES.Down
+                elseif self:isHoldingUpKeyGated() then
+                    key = KEYNAMES.Up
+                end
+            end
+
+            if self.didJump then
+                -- Disable collisions with elevator for this frame to avoid
+                -- jump / moving into elevator collision glitch.
+                otherSprite:disableCollisionsForFrame()
+            else
+                -- Otherwise, activate elevator (set self as child)
+                otherSprite:activateDown(self, key)
+
+                if key or (not self.isActivatingElevator and otherSprite:hasMovedRemaining()) then
+                    -- If activation happened or elevator is still moving with player
+                    self.isActivatingElevator = otherSprite
+                end
+            end
+        end
+
+        ::continue::
+    end
+
+    for i, otherSprite in ipairs(self.activations) do
+        local tag = otherSprite:getTag()
+
+        if tag == TAGS.Chip then
+            -- [FRANCH] This condition is useful in case there is more than one blueprint being picked up. However
+            -- we should be handling the multiple blueprints as a single checkpoint.
+            -- But it's also useful for debugging.
+
+            if not warpCooldown then
+                otherSprite:activate()
+            end
+        elseif tag == TAGS.Bot and not self.activeDialog then
+            self.activeDialog = otherSprite
+
+            self.activeDialog:activate()
+        else
+            otherSprite:activate()
+        end
+    end
+
+    -- Cancel any digging if jumping or releasing dig key
+    if self.isActivatingDrillableBlock and (self.didJump or pd.buttonJustReleased(pd.kButtonDown)) then
+        self.particlesDrilling:endAnimation()
+
+        self.isActivatingDrillableBlock = nil
     end
 end
 
@@ -510,232 +608,8 @@ function Player:updateWarp()
             for i = 1, math.floor(warpSpeedFinal) do
                 self:revertCheckpoint()
             end
-
-            self.rigidBody:setForcesCoefficient(0.1)
-        elseif crankMomentum > 1 and crankMomentum < crankThresholdWarp then
-            local coefficient = ((crankThresholdWarp - crankMomentum) / crankThresholdWarp) ^ 2
-
-            self.rigidBody:setForcesCoefficient(coefficient)
         end
     end
-end
-
-function Player:updateActivations()
-    for i, otherSprite in ipairs(self.activationsDown) do
-        local tag = otherSprite:getTag()
-        local isBelowCenter = self:centerX() < otherSprite:right() and self:centerX() > otherSprite:left()
-
-        -- If there are two bottom activations, choose only the one that is directly below the player.
-        if #self.activationsDown > 1 and not isBelowCenter then
-            goto continue
-        end
-
-        -- If Drilling
-        if tag == TAGS.DrillableBlock then
-            if self:isHoldingDownKeyGated() and isBelowCenter then
-                -- Play drilling sound
-                if not spDrill:isPlaying() then
-                    spDrill:play(1)
-
-                    self.particlesDrilling:startAnimation()
-                end
-
-                self.isActivatingDrillableBlock = otherSprite
-
-                -- Activate block drilling
-
-                otherSprite:activateDown()
-
-                -- If consumed or player stopped pressing, end animation.
-                if otherSprite:isConsumed() then
-                    spDrill:stop()
-
-                    self.particlesDrilling:endAnimation()
-
-                    self.rigidBody:setVelocityY(jumpSpeedDrilledBlock)
-                end
-
-                -- Move particles to same location
-
-                self.particlesDrilling:moveTo(self:centerX(), self:bottom())
-            end
-
-            -- Handle releasing the down key
-            if pd.buttonJustReleased(pd.kButtonDown) then
-                spDrill:stop()
-
-                self.particlesDrilling:endAnimation()
-            end
-        end
-
-        if tag == TAGS.Elevator then
-            local key
-            local directionsAvailable = otherSprite:getDirectionsAvailable()
-
-            if directionsAvailable[ORIENTATION.Horizontal] then
-                -- If horizontal, then the player must be near the center for the elevator to start.
-                local marginWithinCenterRange <const> = 12
-
-                if self:isHoldingLeftKeyGated() and self:centerX() < otherSprite:right() - marginWithinCenterRange then
-                    key = KEYNAMES.Left
-                elseif self:isHoldingRightKeyGated() and self:centerX() > otherSprite:left() + marginWithinCenterRange then
-                    key = KEYNAMES.Right
-                end
-            end
-
-            if directionsAvailable[ORIENTATION.Vertical] then
-                if self:isHoldingDownKeyGated() then
-                    key = KEYNAMES.Down
-                elseif self:isHoldingUpKeyGated() then
-                    key = KEYNAMES.Up
-                end
-            end
-
-            if self:didJumpStart() then
-                -- Disable collisions with elevator for this frame to avoid
-                -- jump / moving into elevator collision glitch.
-                otherSprite:disableCollisionsForFrame()
-            else
-                -- Otherwise, activate elevator (set self as child)
-                otherSprite:activateDown(self, key)
-
-                if key or (not self.isActivatingElevator and otherSprite:hasMovedRemaining()) then
-                    -- If activation happened or elevator is still moving with player
-                    self.isActivatingElevator = otherSprite
-                end
-            end
-        end
-
-        ::continue::
-    end
-
-    for i, otherSprite in ipairs(self.activations) do
-        local tag = otherSprite:getTag()
-
-        if tag == TAGS.Chip then
-            -- [FRANCH] This condition is useful in case there is more than one blueprint being picked up. However
-            -- we should be handling the multiple blueprints as a single checkpoint.
-            -- But it's also useful for debugging.
-
-            if not warpCooldown then
-                otherSprite:activate()
-            end
-        elseif tag == TAGS.Bot and not self.activeDialog then
-            self.activeDialog = otherSprite
-
-            self.activeDialog:activate()
-        else
-            otherSprite:activate()
-        end
-    end
-
-    -- Cancel any digging if jumping or releasing dig key
-    if self.isActivatingDrillableBlock and (self:didJumpStart() or pd.buttonJustReleased(pd.kButtonDown)) then
-        self.particlesDrilling:endAnimation()
-
-        self.isActivatingDrillableBlock = nil
-    end
-end
-
-function Player:updateMovement()
-    -- Movement handling (update velocity X and Y)
-
-    -- Handle Horizontal Movement
-
-    local didActivateElevatorSuccess = self.isActivatingElevator and self.isActivatingElevator:wasActivationSuccessful()
-
-    if self.isActivatingDrillableBlock or didActivateElevatorSuccess then
-        -- Skip horizontal movement if activating a bottom block
-        self.rigidBody:setVelocityX(0.0)
-    elseif self.isActivatingElevator and self.isActivatingElevator:getDirectionsAvailable()[ORIENTATION.Horizontal]
-        and (pd.buttonJustPressed(pd.kButtonLeft) or pd.buttonJustPressed(pd.kButtonRight)) then
-        -- Skip upon pressing left or right to give collisions a frame to calculate horizontal elevator movement.
-        self.rigidBody:setVelocityX(0.0)
-    elseif self.isActivatingElevator and self.isActivatingElevator:getDirectionsAvailable()[ORIENTATION.Horizontal]
-        and (not self.isTouchingGroundPrevious and self.rigidBody:getIsTouchingGround()) then
-        -- Skip upon landing on a horizontal elevator
-        self.rigidBody:setVelocityX(0.0)
-    else
-        local isHoldingLeft = self:isHoldingLeftKeyGated()
-        local isHoldingRight = self:isHoldingRightKeyGated()
-
-        -- Register key press for dash
-
-        if isHoldingLeft and playdate.buttonJustPressed(KEYNAMES.Left) then
-            Dash:registerKeyPressed(KEYNAMES.Left)
-        elseif isHoldingRight and playdate.buttonJustPressed(KEYNAMES.Right) then
-            Dash:registerKeyPressed(KEYNAMES.Right)
-        end
-
-        -- Set dash velocity if active
-
-        if self:isDashActivated() then
-            -- Apply dash acceleration
-            local directionScalar = Dash:getLastKey() == KEYNAMES.Left and -1 or 1
-            self.rigidBody:setVelocityX(directionScalar * dashSpeed)
-        else
-            local acceleration =
-                self.rigidBody:getIsTouchingGround() and groundAcceleration or
-                airAcceleration
-
-            -- Add horizontal acceleration to velocity
-
-            if isHoldingLeft and not isHoldingRight then
-                self.rigidBody:addVelocityX(-acceleration)
-            elseif isHoldingRight and not isHoldingLeft then
-                self.rigidBody:addVelocityX(acceleration)
-            end
-        end
-    end
-
-    -- Handle coyote frames
-
-    if self.coyoteFramesRemaining > 0 and not self.rigidBody:getIsTouchingGround() then
-        -- Reduce coyote frames remaining
-        self.coyoteFramesRemaining -= 1
-    elseif self.rigidBody:getIsTouchingGround() then
-        -- Reset coyote frames
-        self.coyoteFramesRemaining = coyoteFrames
-
-        -- Reset double jump
-        hasDoubleJumpRemaining = true
-
-        -- Reset dash (only one per air-time)
-        Dash:recharge()
-    end
-
-    -- Handle Vertical Movement
-
-    if (self:isDashActivated() or self:isDashCoolingDown()) then
-        -- Dash movement (ignores gravity and removes vertical movement)
-
-        self.rigidBody:setVelocityY(0)
-        self.rigidBody:setGravity(0)
-    else
-        self.rigidBody:setGravity()
-
-
-        local isFirstJump = self.rigidBody:getIsTouchingGround() or self.coyoteFramesRemaining > 0
-        if isFirstJump or self:canDoubleJump() then
-            -- Handle jump start
-
-            if self:didJumpStart() then
-                if not isFirstJump then
-                    hasDoubleJumpRemaining = false
-                end
-
-                spJump:play(1)
-
-                self.rigidBody:setVelocityY(-jumpSpeed)
-
-                self.coyoteFramesRemaining = 0
-            end
-        end
-    end
-
-    -- Dash cooldown / update
-
-    Dash:updateFrame()
 end
 
 function Player:updateInteractions()
@@ -747,47 +621,6 @@ function Player:updateInteractions()
         elseif self:justReleasedInteractionKey() then
             self.synth:stop()
         end
-    end
-end
-
-function Player:updateRigidBody()
-    self.collisions = self.rigidBody:update()
-end
-
-function Player:updateCollisions()
-    -- Check for special case event
-    local horizontalCornerBlock = false
-
-    for _, collisionData in pairs(self.collisions) do
-        local other = collisionData.other
-        local tag = other:getTag()
-        local normal = collisionData.normal
-
-        -- Special case/corner check for horizontal collisions
-
-        if collisionData.normal.x ~= 0 and collisionData.otherRect.y == collisionData.spriteRect.y + collisionData.spriteRect.height then
-            horizontalCornerBlock = collisionData.other
-        end
-
-        -- Bottom activations
-        if normal.y == -1 and other.activateDown then
-            -- If colliding with bottom, activate
-            table.insert(self.activationsDown, other)
-        elseif other.activate then
-            -- Other activations
-            table.insert(self.activations, other)
-        end
-    end
-
-    -- Special case move - this may be an SDK bug?
-    -- When player is on top of a block, and x coordinate is exactly on the tile +
-    -- There is a separate "wall" (like drillable block) corner touching drillbot corner
-    -- this appears to make the "slide" fail and no movement occurs.
-
-    if horizontalCornerBlock and self.rigidBody:getIsTouchingGround() then
-        local isMovingLeft = self.rigidBody.velocity.x < 0
-
-        self:moveBy(isMovingLeft and 1 or -1, 0)
     end
 end
 
@@ -807,7 +640,7 @@ end
 
 function Player:updateAnimationState()
     local animationState
-    local velocity = self.rigidBody:getCurrentVelocity()
+    local velocity = self:getCurrentVelocity()
     local isMoving = math.floor(math.abs(velocity.dx)) > 0
     local isMovingActive = self:isHoldingRightKeyGated() or self:isHoldingLeftKeyGated()
 
@@ -818,7 +651,7 @@ function Player:updateAnimationState()
     if not shouldSkipStateCheck then
         if self.crankWarpController.crankMomentum > 20 then
             animationState = ANIMATION_STATES.Falling
-        elseif self.rigidBody:getIsTouchingGround() then
+        elseif self:getIsTouchingGround() then
             if self.isActivatingDrillableBlock and self:isHoldingDownKeyGated() then
                 animationState = ANIMATION_STATES.Drilling
             elseif self.didPressedInvalidKey then
@@ -829,7 +662,7 @@ function Player:updateAnimationState()
                     -- Static Unsure
                     animationState = ANIMATION_STATES.Unsure
                 end
-            elseif not self.isTouchingGroundPrevious then
+            elseif not self.onGroundPrevious then
                 if isMoving and isMovingActive then
                     -- Moving Impact
                     animationState = ANIMATION_STATES.ImpactRun
@@ -943,25 +776,6 @@ end
 -------------------
 -- INPUT METHODS --
 -------------------
-
--- Stateless checks
-
-function Player:didJumpStart()
-    return pd.buttonJustPressed(KEYNAMES.A) and self:isHoldingJumpKeyGated()
-end
-
-function Player:canDoubleJump()
-    return self.abilities[ABILITIES.DoubleJump] and hasDoubleJumpRemaining and
-        GUIChipSet.getInstance():hasDoubleKey(KEYNAMES.A)
-end
-
-function Player:isDashActivated()
-    return self.abilities[ABILITIES.Dash] and Dash:getIsActivated()
-end
-
-function Player:isDashCoolingDown()
-    return self.abilities[ABILITIES.Dash] and Dash:getFramesSinceCooldownStarted() < framesPostDashNoGravity
-end
 
 -- Input Handlers
 

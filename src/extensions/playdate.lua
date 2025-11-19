@@ -11,6 +11,19 @@ function Class(name, parentClass, ...)
     return _G[name]
 end
 
+function Object:implements(module)
+    -- Simply loop over the functionality in "module" and assign to the object.
+
+    for k, v in pairs(module) do
+        -- Check we are not overriding other functionality
+        -- assert(self[k], "Error: Overriding existing functionality!")
+        if not self[k] then
+            -- Assign value to class using key.
+            self[k] = v
+        end
+    end
+end
+
 -- Shortcut layout methods for playdate.graphics.sprite
 
 function playdate.graphics.sprite:centerOffsetX()
