@@ -724,7 +724,7 @@ function Player:updateAnimationState()
                     -- Static Impact
                     animationState = ANIMATION_STATES.Impact
                 end
-            elseif isMoving and not (self.isActivatingElevator and self.isActivatingElevator:wasActivationSuccessful()) then
+            elseif isMoving and not (self.spriteChild and self.spriteChild:getTag() == TAGS.Elevator and self.spriteChild.didMoveSuccess) then
                 if GUIChipSet.getInstance():getIsPowered() then
                     animationState = ANIMATION_STATES.MovingPowerUp
                 else
