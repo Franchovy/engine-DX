@@ -47,12 +47,13 @@ function Moveable:init(config)
     self.framesCoyoteRemaining = self.framesCoyote
     self.hasDoubleJumpRemaining = self.isEnabledDoubleJump
 
-    self.onGround = false
+    self.onGround = true
     self.onGroundPrevious = false
     self.didMoveLeft = false
     self.didMoveRight = false
     self.didJump = false
 
+    self.didMoveSuccess = false
     self.activationsDown = {}
     self.activations = {}
 
@@ -131,46 +132,7 @@ function Moveable:update()
         self:updateParent()
     end
 
-    -- calculate new position by adding velocity to current position
-    local newPos = gmt.vector2D.new(self.x, self.y) + (self.velocity * _G.delta_time)
-
-    local actualX, actualY
-    local sdkCollisions
-
-    if self.constrainMovement then
-        newPos.x, newPos.y = self:constrainMovement(newPos.x, newPos.y)
-    end
-
-    if self.spriteChild then
-        actualX, actualY, sdkCollisions = self:moveWithChild(newPos)
-    else
-        actualX, actualY, sdkCollisions = self:moveWithCollisions(newPos:unpack())
-    end
-
-    -- Update/Reset ground variables
-
-    self.onGroundPrevious = self.onGround
-    self.onGround = false
-
-    for _, c in pairs(sdkCollisions) do
-        local tag = c.other:getTag()
-        local normal = c.normal
-        local collisionType = c.type
-
-        if collisionType == gfx.sprite.kCollisionTypeSlide then
-            -- Detect if ground collision
-
-            if normal.y == -1 then
-                self.onGround = true
-            elseif normal.y == 1 then
-                self.velocity.dy = 0
-            end
-
-            if normal.x ~= 0 then
-                self.velocity.dx = 0
-            end
-        end
-    end
+    -- Apply forces to velocity
 
     -- incorporate gravity
 
@@ -206,7 +168,57 @@ function Moveable:update()
 
     self:updateMovement()
 
+    -- calculate new position by adding velocity to current position
+    local xPrevious, yPrevious = self.x, self.y
+    local newPos = gmt.vector2D.new(self.x, self.y) + (self.velocity * _G.delta_time)
+
+    local actualX, actualY
+    local sdkCollisions
+
+    if self.constrainMovement then
+        newPos.x, newPos.y = self:constrainMovement(newPos.x, newPos.y)
+    end
+
+    if self.spriteChild then
+        actualX, actualY, sdkCollisions = self:moveWithChild(newPos)
+    else
+        actualX, actualY, sdkCollisions = self:moveWithCollisions(newPos:unpack())
+    end
+
     self.collisions = sdkCollisions
+
+    -- Update movement success flag
+
+    if self.didMoveLeft or self.didMoveRight or self.didMoveUp or self.didMoveDown then
+        self.didMoveSuccess = self.x ~= xPrevious or self.y ~= yPrevious
+    else
+        self.didMoveSuccess = nil
+    end
+
+    -- Update/Reset ground variables
+
+    self.onGroundPrevious = self.onGround
+    self.onGround = false
+
+    for _, c in pairs(sdkCollisions) do
+        local tag = c.other:getTag()
+        local normal = c.normal
+        local collisionType = c.type
+
+        if collisionType == gfx.sprite.kCollisionTypeSlide then
+            -- Detect if ground collision
+
+            if normal.y == -1 then
+                self.onGround = true
+            elseif normal.y == 1 then
+                self.velocity.dy = 0
+            end
+
+            if normal.x ~= 0 then
+                self.velocity.dx = 0
+            end
+        end
+    end
 
     -- Reset activations
 
@@ -222,6 +234,8 @@ function Moveable:update()
     -- Reset movement variables
     self.didMoveLeftPrevious = self.didMoveLeft
     self.didMoveRightPrevious = self.didMoveRight
+    self.didMoveUpPrevious = self.didMoveUp
+    self.didMoveDownPrevious = self.didMoveDown
     self.didMoveLeft = false
     self.didMoveRight = false
     self.didMoveUp = false
@@ -272,11 +286,11 @@ function Moveable:updateMovement()
 
     -- Register key press for dash
 
-    local dashDirection = (self.didMoveLeft and not self.didMoveLeftPrevious and self:getIsDashEnabled(playdate.kButtonLeft)) and
-        KEYNAMES.Left
+    local dashDirection = ((self.didMoveLeft and not self.didMoveLeftPrevious and self:getIsDashEnabled(playdate.kButtonLeft)) and
+            KEYNAMES.Left)
         or
-        (self.didMoveRight and not self.didMoveRightPrevious and self:getIsDashEnabled(playdate.kButtonRight)) and
-        KEYNAMES.Right
+        ((self.didMoveRight and not self.didMoveRightPrevious and self:getIsDashEnabled(playdate.kButtonRight)) and
+            KEYNAMES.Right)
 
     if dashDirection then
         Dash:registerKeyPressed(dashDirection)

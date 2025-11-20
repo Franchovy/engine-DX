@@ -190,6 +190,9 @@ function Player:init(entityData, levelName, ...)
     if CONFIG.ADD_SUPER_DARKNESS_EFFECT then
         self:setZIndex(Z_INDEX.HUD.Main)
     end
+
+    -- Workaround: Adjust player location by y = -5 (to avoid falling through the floor)
+    self:moveBy(0, -5)
 end
 
 function Player:collisionResponse(other)
@@ -481,6 +484,39 @@ function Player:update()
     end
 end
 
+function Player:updateParent()
+    if not self.spriteParent then return end
+
+    if not self.evelatorSkipMovement then
+        self.evelatorSkipMovement = {}
+    end
+
+    -- Encode horizontal direction into a bit (b01 or b10)
+    local direction = self.didMoveLeft and 1 or self.didMoveRight and 2 or 0
+
+    -- If movement previously failed in the direction of movement
+    if self.spriteParent.didMoveSuccess == false or self.evelatorSkipMovement[self.spriteParent] and (self.evelatorSkipMovement[self.spriteParent] & direction ~= 0) then
+        -- Set movement bit for elevator if nil
+        if not self.evelatorSkipMovement[self.spriteParent] then
+            self.evelatorSkipMovement[self.spriteParent] = 0
+        end
+
+        -- Add direction for elevator movement
+        self.evelatorSkipMovement[self.spriteParent] |= direction
+
+        -- Skip parent update (child moves and parent does not)
+        return
+    end
+
+    -- Reset movement bit for elevator if movement success / changed position
+    if self.spriteParent.didMoveSuccess == true then
+        self.evelatorSkipMovement[self.spriteParent] = 0
+    end
+
+    -- Transfer movement to parent
+    Moveable.updateParent(self)
+end
+
 function Player:updateActivations()
     ---@type Elevator?
     local elevatorParent = nil
@@ -541,6 +577,7 @@ function Player:updateActivations()
 
     -- Set elevator parent if exists
     self:setParent(elevatorParent)
+    self.isActivatingElevator = elevatorParent
 
     for i, otherSprite in ipairs(self.activations) do
         local tag = otherSprite:getTag()
