@@ -32,12 +32,32 @@ local lettersToActions <const> = {
     ["D"] = KEYNAMES.Down,
 }
 
----@class Bot: EntityAnimated
+---@class Bot: EntityAnimated, Moveable
 ---@property timer _Timer|nil
 ---@property config BotConfig
 Bot = Class("Bot", EntityAnimated)
 
+Bot:implements(Moveable)
+
 function Bot:init(entityData, levelName)
+    Moveable.init(self, {
+        gravity = 6,
+        movement = {
+            air = {
+                acceleration = 0.5,
+                friction = -0.0008
+            },
+            ground = {
+                acceleration = 1,
+                friction = -0.08
+            }
+        },
+        jump = {
+            speed = 30,
+            coyoteFrames = 6
+        }
+    })
+
     -- Load bot using asset, set default asset if empty
 
     entityData.fields.asset = entityData.fields.asset or "RUD"
@@ -77,6 +97,7 @@ function Bot:init(entityData, levelName)
     -- Sprite setup
 
     self:setGroups(GROUPS.ActivatePlayer)
+    self:setCollidesWithGroups({ GROUPS.Solid, GROUPS.SolidExceptElevator })
     self:setTag(TAGS.Bot)
 
     -- Set whether is "rescuable"
@@ -121,18 +142,24 @@ function Bot:init(entityData, levelName)
     end
 
     -- Set collide rect to full size, centered on current center.
-    self:setCollideRect(
-        (self.width - collideRectSize) / 2,
-        (self.height - collideRectSize) / 2,
-        collideRectSize,
-        collideRectSize
-    )
+    self:setCollideRect(4, 4, self.width - 8, self.height - 4)
+
 
     -- Config additional init call
 
     if self.config.init then
         self.config.init(self)
     end
+end
+
+---comment
+---@param other _Sprite
+function Bot:collisionResponse(other)
+    if other:getGroupMask() & GROUPS.Solid ~= 0 then
+        return gfx.sprite.kCollisionTypeSlide
+    end
+
+    return gfx.sprite.kCollisionTypeOverlap
 end
 
 function Bot:add()
@@ -339,16 +366,24 @@ function Bot:update()
 
         if #self.walkPath > 0 then
             -- Move towards next point
-            local angle = math.atan(yMovement, xMovement)
-            self:moveBy(math.cos(angle) * speed, math.sin(angle) * speed)
+            if yMovement < 0 and math.abs(xMovement) < 33 then
+                -- Jump and move left/right
+                self:jump()
+            end
+
+            if xMovement > 0 then
+                self:moveRight()
+            elseif xMovement < 0 then
+                self:moveLeft()
+            end
         else
             self.walkPath = nil
         end
-
-        return
     elseif self.walkPath and #self.walkPath == 0 then
         self.walkPath = nil
     end
+
+    Moveable.update(self)
 
     -- Update dialog
 
