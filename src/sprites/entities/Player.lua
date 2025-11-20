@@ -498,7 +498,9 @@ function Player:updateParent()
     if self.spriteParent.didMoveSuccess == false or self.evelatorSkipMovement[self.spriteParent] and (self.evelatorSkipMovement[self.spriteParent] & direction ~= 0) then
         -- Set movement bit for elevator if nil
         if not self.evelatorSkipMovement[self.spriteParent] then
-            self.evelatorSkipMovement[self.spriteParent] = 0
+            self.evelatorSkipMovement = {
+                [self.spriteParent] = 0
+            }
         end
 
         -- Add direction for elevator movement
@@ -510,7 +512,9 @@ function Player:updateParent()
 
     -- Reset movement bit for elevator if movement success / changed position
     if self.spriteParent.didMoveSuccess == true then
-        self.evelatorSkipMovement[self.spriteParent] = 0
+        self.evelatorSkipMovement = {
+            [self.spriteParent] = 0
+        }
     end
 
     -- Transfer movement to parent

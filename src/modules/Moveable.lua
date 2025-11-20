@@ -3,6 +3,7 @@ local gmt <const> = pd.geometry
 local gfx <const> = pd.graphics
 
 --- @class Moveable: _Sprite
+--- @field dashHandler Dash?
 Moveable = {}
 
 ---@alias Config {gravity: number?, movement:number|{air: {acceleration:number,friction:number?}, ground: {acceleration:number,friction:number?}},dash: {frames:integer,speed:number}?,jump: {speed:number, doubleJump:boolean?, coyoteFrames: integer?}?}
@@ -32,6 +33,8 @@ function Moveable:init(config)
         self.isEnabledDash = true
         self.speedDash = config.dash.speed
         self.framesDash = config.dash.frames
+
+        self.dashHandler = Dash()
     end
 
     if config.jump then
@@ -122,6 +125,12 @@ function Moveable:setParent(spriteParent)
 
     if spriteParent then
         spriteParent.spriteChild = self
+    end
+
+    if spriteParent and (not self.spriteParentPrevious or self.spriteParentPrevious ~= self.spriteParent) then
+        if self.dashHandler then
+            self.dashHandler:cancel()
+        end
     end
 end
 
@@ -286,25 +295,27 @@ function Moveable:updateMovement()
 
     -- Register key press for dash
 
-    local dashDirection = ((self.didMoveLeft and not self.didMoveLeftPrevious and self:getIsDashEnabled(playdate.kButtonLeft)) and
-            KEYNAMES.Left)
-        or
-        ((self.didMoveRight and not self.didMoveRightPrevious and self:getIsDashEnabled(playdate.kButtonRight)) and
-            KEYNAMES.Right)
+    if self.dashHandler then
+        local dashDirection = ((self.didMoveLeft and not self.didMoveLeftPrevious and self:getIsDashEnabled(playdate.kButtonLeft)) and
+                KEYNAMES.Left)
+            or
+            ((self.didMoveRight and not self.didMoveRightPrevious and self:getIsDashEnabled(playdate.kButtonRight)) and
+                KEYNAMES.Right)
 
-    if dashDirection then
-        Dash:registerKeyPressed(dashDirection)
+        if dashDirection then
+            self.dashHandler:registerKeyPressed(dashDirection)
+        end
     end
 
-    -- Set dash velocity if active
+    -- Handle Horizontal Movement
 
-    if dashDirection and self:isDashActivated() then
+    if self.dashHandler and self:isDashActivated() then
         -- Apply dash acceleration
-        local directionScalar = Dash:getLastKey() == KEYNAMES.Left and -1 or 1
+        local directionScalar = self.dashHandler:getLastKey() == KEYNAMES.Left and -1 or 1
+
+        -- Set dash velocity if active
         self:setVelocityX(directionScalar * self.speedDash)
     else
-        -- Handle Horizontal Movement
-
         if self.speedMovement then
             -- Linear 4-directional movement
 
@@ -351,13 +362,15 @@ function Moveable:updateMovement()
             self.hasDoubleJumpRemaining = self:getIsDoubleJumpEnabled()
 
             -- Reset dash (only one per air-time)
-            Dash:recharge()
+            if self.dashHandler then
+                self.dashHandler:recharge()
+            end
         end
     end
 
     -- Handle Vertical Movement
 
-    if self.isEnabledDash and (self:isDashActivated() or self:isDashCoolingDown()) then
+    if self.dashHandler and (self:isDashActivated() or self:isDashCoolingDown()) then
         -- Dash movement (ignores gravity and removes vertical movement)
 
         self:setVelocityY(0)
@@ -385,7 +398,9 @@ function Moveable:updateMovement()
 
     -- Dash cooldown / update
 
-    Dash:updateFrame()
+    if self.dashHandler then
+        self.dashHandler:updateFrame()
+    end
 end
 
 function Moveable:updateCollisions()
@@ -437,9 +452,6 @@ function Moveable:updateParent()
     self.didMoveRight = false
     self.didMoveUp = false
     self.didMoveDown = false
-
-    -- Cancel any dash keystrokes
-    Dash:cancel()
 end
 
 ---comment
@@ -459,103 +471,9 @@ end
 -- Stateless checks
 
 function Moveable:isDashActivated()
-    return Dash:getIsActivated()
+    return self.dashHandler and self.dashHandler:getIsActivated()
 end
 
 function Moveable:isDashCoolingDown()
-    return Dash:getFramesSinceCooldownStarted() < self.framesDash
-end
-
---------------------------
---- Dash
---------------------------
-
-Dash = {}
-
--- Local constants
-
-local framesDashRemainingMax <const> = 2
-local framesDashCooldownMax <const> = 25
-local msCooldownTime <const> = 500
-
--- Local variables
-
-local lastKeyPressed
-local timeLastKeyPressed
-local framesDashCooldown = 0
-local framesDashRemaining = framesDashRemainingMax
-local isActivated = false
-
-function Dash:registerKeyPressed(key)
-    local currentTime = playdate.getCurrentTimeMilliseconds()
-
-    -- Check if:
-    -- key press is same as last
-    -- key press is within timeframe
-    -- cooldown is finished
-    -- dash is not in progress
-
-    if key == lastKeyPressed
-        and timeLastKeyPressed > currentTime - msCooldownTime
-        and framesDashCooldown == 0
-        and framesDashRemaining > 0 then
-        isActivated = true
-    end
-
-    -- Log latest key press
-
-    lastKeyPressed = key
-    timeLastKeyPressed = currentTime
-end
-
-function Dash:getLastKey()
-    return lastKeyPressed
-end
-
-function Dash:cancel()
-    lastKeyPressed = nil
-    timeLastKeyPressed = nil
-end
-
-function Dash:getIsActivated()
-    return isActivated
-end
-
-function Dash:getIsCooldownActive()
-    return framesDashCooldown > 0
-end
-
-function Dash:getFramesSinceCooldownStarted()
-    return framesDashCooldownMax - framesDashCooldown
-end
-
-function Dash:recharge()
-    -- Reset dash frames remaining
-
-    if framesDashRemaining == 0 and framesDashCooldown == 0 then
-        framesDashRemaining = framesDashRemainingMax
-    end
-end
-
-function Dash:finish()
-    isActivated = false
-    framesDashCooldown = framesDashCooldownMax
-end
-
-function Dash:updateFrame()
-    -- Update variables for in-progress dash or cooldown if activated
-
-    if isActivated and framesDashRemaining == 0 then
-        -- End dash, set cooldown
-
-        self:finish()
-    elseif isActivated and framesDashRemaining > 0 then
-        -- If activated, reduce dash frames
-
-        framesDashRemaining -= 1
-    elseif framesDashCooldown > 0 then
-        -- If not activated, reduce cooldown if active
-
-        framesDashCooldown -= 1
-    end
+    return self.dashHandler and (self.dashHandler:getFramesSinceCooldownStarted() < self.framesDash)
 end
