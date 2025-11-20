@@ -3,11 +3,7 @@ local gfx <const> = playdate.graphics
 local imagetableElevator <const> = assert(gfx.imagetable.new(assets.imageTables.elevator))
 
 local downwardsOffsetMax <const> = 2
-
----
----
---- Private Static methods
----
+local speedMovement <const> = 7
 
 ---@class Elevator : Entity, Moveable
 ---@field tracks ElevatorTrack[]
@@ -18,7 +14,7 @@ Elevator:implements(Moveable)
 function Elevator:init(entityData, levelName)
   Elevator.super.init(self, entityData, levelName, imagetableElevator[1])
 
-  Moveable.init(self, { movement = 7 })
+  Moveable.init(self, { movement = speedMovement })
 
   -- Collisions
 
@@ -131,6 +127,14 @@ function Elevator:update()
     return
   end
 
+  if not self.spriteChild or not (self.didMoveLeft or self.didMoveRight or self.didMoveDown or self.didMoveUp) then
+    -- Move self to closest tile
+    self:setVelocityTowardsClosestTile()
+  else
+    -- Reset speed
+    self.speedMovement = speedMovement
+  end
+
   Moveable.update(self)
 
   -- Update connected tracks for this elevator
@@ -198,21 +202,55 @@ function Elevator:updateTrack()
   self.tracks = tracksNew
 end
 
-function Elevator:getTargetPositionFromOffset(offset, position)
+function Elevator:setVelocityTowardsClosestTile()
+  if #self.tracks == 0 then
+    return
+  end
+
+  local offsetX, offsetY = (self.x - 16) % TILE_SIZE, (self.y - 16) % TILE_SIZE
+
+  if offsetX == 0 and offsetY == 0 then
+    return
+  end
+
+  local orientation = self:getOrientationFromMovement(offsetX, offsetY)
+
+  local offsetToMove = self:getOffsetToMove(
+    orientation == ORIENTATION.Horizontal and offsetX or offsetY
+  )
+
+  if math.abs(offsetToMove) > 0.01 then
+    self.speedMovement = offsetToMove
+
+    if orientation == ORIENTATION.Horizontal then
+      self:moveRight()
+    else
+      self:moveDown()
+    end
+  else
+    local targetPosition = playdate.geometry.point.new(
+      self.x + (orientation == ORIENTATION.Horizontal and offsetToMove or 0),
+      self.y + (orientation == ORIENTATION.Vertical and offsetToMove or 0)
+    )
+
+    if self.spriteChild then
+      self:moveWithChild(targetPosition)
+    else
+      self:moveWithCollisions(targetPosition)
+    end
+  end
+end
+
+function Elevator:getOffsetToMove(offset)
   local offsetTarget = offset - (offset > 16 and TILE_SIZE or 0)
 
-  local offsetToMove = math.clamp(offsetTarget, -self.speed, self.speed)
+  return -math.clamp(offsetTarget, -self.speed, self.speed)
       * (
-        math.abs(offsetTarget) > 0.1
+        math.abs(offsetTarget) > 1
         and _G.delta_time
         -- Skip delta_time multiplication for small values
         or 1
       )
-
-  return math.round(
-    position - offsetToMove,
-    2
-  )
 end
 
 function Elevator:updatePosition()
