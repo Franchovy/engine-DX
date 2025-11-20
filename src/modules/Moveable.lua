@@ -426,6 +426,8 @@ function Moveable:updateCollisions()
 end
 
 function Moveable:updateParent()
+    -- Transfer movement from self to parent
+
     self.spriteParent.didMoveLeft = self.didMoveLeft
     self.spriteParent.didMoveRight = self.didMoveRight
     self.spriteParent.didMoveUp = self.didMoveUp
@@ -435,6 +437,9 @@ function Moveable:updateParent()
     self.didMoveRight = false
     self.didMoveUp = false
     self.didMoveDown = false
+
+    -- Cancel any dash keystrokes
+    Dash:cancel()
 end
 
 ---comment
@@ -505,6 +510,11 @@ end
 
 function Dash:getLastKey()
     return lastKeyPressed
+end
+
+function Dash:cancel()
+    lastKeyPressed = nil
+    timeLastKeyPressed = nil
 end
 
 function Dash:getIsActivated()
