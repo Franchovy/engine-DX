@@ -317,7 +317,7 @@ function Player:enterLevel(levelName, direction)
         -- ... except if moving up with elevator.
 
         local additionalBottomOffset = self.isActivatingElevator and 0 or 15
-        self:moveTo(self.x, levelBounds.bottom - 15 - additionalBottomOffset)
+        self:moveTo(self.x, levelBounds.bottom - 32 - additionalBottomOffset)
     end
 
     -- Bring any parents with player (for elevator)
@@ -430,6 +430,12 @@ function Player:update()
 
     Player.super.update(self)
 
+    -- Activatable sprite interactions before collisions
+
+    self.isActivatingElevator = false
+    self.isActivatingDrillableBlock = false
+    self.activeDialog = false
+
     Moveable.update(self)
 
     if self.isFrozen then
@@ -439,12 +445,6 @@ function Player:update()
     -- Checkpoint Handling
 
     self:updateWarp()
-
-    -- Activatable sprite interactions
-
-    self.isActivatingElevator = false
-    self.isActivatingDrillableBlock = false
-    self.activeDialog = false
 
     -- Bot / Interactions
 
