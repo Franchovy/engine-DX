@@ -137,6 +137,8 @@ function Elevator:update()
 
   Moveable.update(self)
 
+  self:savePosition()
+
   -- Update connected tracks for this elevator
   self:updateTrack()
 
