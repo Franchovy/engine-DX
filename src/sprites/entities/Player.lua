@@ -557,11 +557,11 @@ function Player:updateActivations()
                     self.particlesDrilling:endAnimation()
 
                     self:setVelocityY(jumpSpeedDrilledBlock)
+                else
+                    -- Move particles to same location
+
+                    self.particlesDrilling:moveTo(self:centerX(), self:bottom())
                 end
-
-                -- Move particles to same location
-
-                self.particlesDrilling:moveTo(self:centerX(), self:bottom())
             end
 
             -- Handle releasing the down key
