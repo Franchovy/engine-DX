@@ -5188,7 +5188,7 @@
 							"px": [576,192],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"lighting\": {\"background\": \"medium\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"lighting\": {\"background\": \"medium\"}\n}"]
+								"params": ["{\\n  \"lighting\": {\"background\": \"medium\"}\\n}"]
 							}] }],
 							"__worldX": -352,
 							"__worldY": 3712
@@ -5906,7 +5906,7 @@
 							"px": [256,64],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"lighting\": {\"background\": \"dark\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"lighting\": {\"background\": \"dark\"}\n}"]
+								"params": ["{\\n  \"lighting\": {\"background\": \"dark\"}\\n}"]
 							}] }],
 							"__worldX": -512,
 							"__worldY": 3968

@@ -49,8 +49,8 @@ end
 
 function Camera.load(config)
     if config.offset then
-        offsetView.x = viewOffsetXDefault + config.offset.x
-        offsetView.y = viewOffsetYDefault + config.offset.y
+        offsetView.x = viewOffsetXDefault + (config.offset.x or 0)
+        offsetView.y = viewOffsetYDefault + (config.offset.y or 0)
     else
         offsetView.x = viewOffsetXDefault
         offsetView.y = viewOffsetYDefault
