@@ -52,22 +52,6 @@ function DrillableBlock:consume()
     self:add()
 
     self:setCollisionsEnabled(false)
-
-    self.frameTimerPostConsumed = playdate.frameTimer.new(6, function(timer)
-        self:remove()
-
-        self:reset()
-
-        self.frameTimerPostConsumed = nil
-
-        timer:remove()
-    end)
-
-    self.frameTimerPostConsumed.updateCallback = function(timer)
-        local frame = math.ceil(timer.frame)
-
-        self:setImage(imagetable[6 + frame])
-    end
 end
 
 function DrillableBlock:reset()
@@ -79,8 +63,18 @@ function DrillableBlock:reset()
 end
 
 function DrillableBlock:update()
-    -- If a drilling has ended early, reset
-    if not self.isActivating and self.ticksToDrill > 0 then
+    if self:isConsumed() and (math.ceil(self.ticksToDrill / 2) <= #imagetable) then
+        -- Play end animation frames
+        local image = imagetable[math.ceil(self.ticksToDrill / 2)]
+        self:setImage(image)
+
+        self.ticksToDrill += 1
+    elseif self:isConsumed() and (math.ceil(self.ticksToDrill / 2) > #imagetable) then
+        -- Finished
+        self:reset()
+        self:remove()
+    elseif not self.isActivating and self.ticksToDrill > 0 then
+        -- If a drilling has ended early, reset
         self:reset()
     end
 

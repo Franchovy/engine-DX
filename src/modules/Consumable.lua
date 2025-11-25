@@ -38,7 +38,7 @@ local function _consume(self)
 end
 
 local function _isConsumed(self)
-    return self.fields.consumed
+    return self.fields.consumed or false
 end
 
 local function _handleCheckpointRevert(self, state)

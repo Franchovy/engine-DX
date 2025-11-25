@@ -210,7 +210,7 @@ function Player:add()
         self.crankWarpController:add()
     end
 
-    if self.particlesDrilling then
+    if self.isActivatingDrillableBlock and self.particlesDrilling then
         self.particlesDrilling:add()
     end
 
@@ -524,6 +524,7 @@ end
 function Player:updateActivations()
     ---@type Elevator?
     local elevatorParent = nil
+    local drillableBlockActive = nil
 
     for i, otherSprite in ipairs(self.activationsDown) do
         local tag = otherSprite:getTag()
@@ -543,6 +544,8 @@ function Player:updateActivations()
 
                     self.particlesDrilling:startAnimation()
                 end
+
+                drillableBlockActive = self.particlesDrilling
 
                 self.isActivatingDrillableBlock = otherSprite
 

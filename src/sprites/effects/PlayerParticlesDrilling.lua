@@ -20,6 +20,14 @@ function PlayerParticlesDrilling:init(player)
     self.isPlaying = false
 end
 
+function PlayerParticlesDrilling:add()
+    PlayerParticlesDrilling.super.add(self)
+end
+
+function PlayerParticlesDrilling:remove()
+    PlayerParticlesDrilling.super.remove(self)
+end
+
 function PlayerParticlesDrilling:startAnimation()
     self:setIndex(1)
 
