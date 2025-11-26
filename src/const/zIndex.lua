@@ -1,4 +1,5 @@
 Z_INDEX = {
+    Transition = { 200 },
     HUD = {
         Background = 99,
         Main = 100

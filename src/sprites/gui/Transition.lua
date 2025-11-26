@@ -51,7 +51,7 @@ function Transition:init()
 
     self:setSize(400, 240)
     self:setIgnoresDrawOffset(true)
-    self:setZIndex(Z_INDEX.HUD.Main)
+    self:setZIndex(Z_INDEX.HUD.Transition)
     self:setCenter(0, 0)
 
     fadeColor = gfx.kColorBlack

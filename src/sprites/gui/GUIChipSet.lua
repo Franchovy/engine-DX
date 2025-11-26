@@ -88,6 +88,8 @@ function GUIChipSet:init()
 
   -- Create individual button sprites
 
+  buttonSprites = {}
+
   for _ = 1, 3 do
     table.insert(buttonSprites, gfx.sprite.new())
   end
