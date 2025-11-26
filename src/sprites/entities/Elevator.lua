@@ -127,7 +127,7 @@ function Elevator:update()
     return
   end
 
-  if not self.spriteChild or not (self.didMoveLeft or self.didMoveRight or self.didMoveDown or self.didMoveUp) then
+  if not (self.didMoveLeft or self.didMoveRight or self.didMoveDown or self.didMoveUp) then
     -- Move self to closest tile
     self:setVelocityTowardsClosestTile()
   else
@@ -223,6 +223,7 @@ function Elevator:setVelocityTowardsClosestTile()
 
   if math.abs(offsetToMove) > 0.01 then
     self.speedMovement = offsetToMove
+    self.forceMoveWithoutChild = orientation == ORIENTATION.Horizontal
 
     if orientation == ORIENTATION.Horizontal then
       self:moveRight()

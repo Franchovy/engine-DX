@@ -43,12 +43,15 @@ function Moveable:init(config)
         self.isEnabledDoubleJump = config.jump.doubleJump
     end
 
+    self.forceMoveWithoutChild = false
+
     -- Dynamic variables
 
     self.gravity = self.gravityMax
     self.velocity = gmt.vector2D.new(0, 0)
     self.framesCoyoteRemaining = self.framesCoyote
     self.hasDoubleJumpRemaining = self.isEnabledDoubleJump
+
 
     self.onGround = true
     self.onGroundPrevious = false
@@ -285,8 +288,15 @@ function Moveable:moveWithChild(targetPosition)
 
     self:setCollisionsEnabled(true)
 
-    self:moveBy(xDiffChild, yDiffChild)
     self.spriteChild:moveBy(xDiffChild, yDiffChild)
+
+    if not self.forceMoveWithoutChild or math.abs(xDiffChild) > 0.1 or math.abs(yDiffChild) > 0.1 then
+        -- Move by distance that child is able to move
+        self:moveBy(xDiffChild, yDiffChild)
+    elseif self.forceMoveWithoutChild then
+        -- Move by distance that self is able to move / ignore child block
+        self:moveBy(xDiff, yDiff)
+    end
 
     return self.x + xDiffChild, self.y + yDiffChild, collisions
 end
