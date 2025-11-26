@@ -3616,7 +3616,7 @@
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"camera\": {\"offset\": {\"x\":0, \"y\":25}},\n  \"lighting\": {\"background\": \"light\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
 								"params": [
-									"{\\n  \"camera\": {\"offset\": {\"x\":0, \"y\":25}},\\n  \"lighting\": {\"background\": \"light\"}\\n}"
+									"{\n  \"camera\": {\"offset\": {\"x\":0, \"y\":25}},\n  \"lighting\": {\"background\": \"light\"}\n}"
 								]
 							}] }],
 							"__worldX": 928,
@@ -3636,7 +3636,7 @@
 							"px": [224,96],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"rescue\": { \"count\": 3 }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"rescue\": { \"count\": 3 }\\n}"]
+								"params": ["{\n  \"rescue\": { \"count\": 3 }\n}"]
 							}] }],
 							"__worldX": 864,
 							"__worldY": 3552
@@ -5071,7 +5071,7 @@
 						},
 						{
 							"__identifier": "Chip",
-							"__grid": [9,8],
+							"__grid": [5,8],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
@@ -5080,12 +5080,12 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [304,272],
+							"px": [176,272],
 							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Up", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Up"]
 							}] }],
-							"__worldX": -624,
+							"__worldX": -752,
 							"__worldY": 3792
 						},
 						{
@@ -5106,7 +5106,7 @@
 						},
 						{
 							"__identifier": "Chip",
-							"__grid": [5,8],
+							"__grid": [9,8],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
@@ -5115,17 +5115,17 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [176,272],
+							"px": [304,272],
 							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Right", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Right"]
 							}] }],
-							"__worldX": -752,
+							"__worldX": -624,
 							"__worldY": 3792
 						},
 						{
 							"__identifier": "Chip",
-							"__grid": [7,4],
+							"__grid": [7,5],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
@@ -5134,13 +5134,13 @@
 							"width": 28,
 							"height": 28,
 							"defUid": 21,
-							"px": [240,144],
+							"px": [240,176],
 							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Left", "__tile": null, "defUid": 38, "realEditorValues": [{
 								"id": "V_String",
 								"params": ["Left"]
 							}] }],
 							"__worldX": -688,
-							"__worldY": 3664
+							"__worldY": 3696
 						},
 						{
 							"__identifier": "DrillableBlock",
@@ -5906,7 +5906,7 @@
 							"px": [256,64],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"lighting\": {\"background\": \"dark\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"lighting\": {\"background\": \"dark\"}\\n}"]
+								"params": ["{\n  \"lighting\": {\"background\": \"dark\"}\n}"]
 							}] }],
 							"__worldX": -512,
 							"__worldY": 3968

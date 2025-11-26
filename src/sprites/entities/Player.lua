@@ -193,6 +193,9 @@ function Player:init(entityData, levelName, ...)
 
     -- Workaround: Adjust player location by y = -5 (to avoid falling through the floor)
     self:moveBy(0, -5)
+
+    -- Unlock warp ability
+    Player:unlockAbility(ABILITIES.CrankToWarp)
 end
 
 function Player:collisionResponse(other)
