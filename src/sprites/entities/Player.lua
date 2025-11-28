@@ -309,23 +309,28 @@ function Player:enterLevel(levelName, direction)
 
     -- Position player based on direction of entry
 
+    local offsetX, offsetY = 0, 0
+
     if direction == DIRECTION.RIGHT then
-        self:moveTo(levelBounds.x + 15, self.y)
+        offsetX = 15
     elseif direction == DIRECTION.LEFT then
-        self:moveTo(levelBounds.right - 15, self.y)
+        offsetX = -15
     elseif direction == DIRECTION.BOTTOM then
-        self:moveTo(self.x, levelBounds.y + 15)
+        offsetY = 15
     elseif direction == DIRECTION.TOP then
         -- Additional movement when jumping into bottom of level for reaching bottom tile
         -- ... except if moving up with elevator.
 
-        local additionalBottomOffset = self.isActivatingElevator and 0 or 15
-        self:moveTo(self.x, levelBounds.bottom - 32 - additionalBottomOffset)
+        offsetY = -32
     end
+
+    self:moveBy(offsetX, offsetY)
 
     -- Bring any parents with player (for elevator)
 
     if self.isActivatingElevator then
+        self.isActivatingElevator:moveBy(offsetX, offsetY)
+
         self.isActivatingElevator:enterLevel(levelName, direction)
     end
 

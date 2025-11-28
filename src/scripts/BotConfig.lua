@@ -1,38 +1,38 @@
 ---@alias BotConfig {animationSpeed:number, animations: {string:[number, number][]}[]}
 BotConfig = {
-    BKPK = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
-    ELDR = { animationSpeed = 4, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 }, [BOT_ANIMATION_STATES.Sad] = { 9, 12 }, [BOT_ANIMATION_STATES.Happy] = { 13, 16 } } },
-    GRN = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
+    BPK = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
+    ELR = { animationSpeed = 4, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 }, [BOT_ANIMATION_STATES.Sad] = { 9, 12 }, [BOT_ANIMATION_STATES.Happy] = { 13, 16 } } },
+    GRN = { animationSpeed = 4, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 } } },
     JPL = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
     MOP = { animationSpeed = 2, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 }, [BOT_ANIMATION_STATES.Sad] = { 9, 12 }, [BOT_ANIMATION_STATES.Happy] = { 13, 16 } } },
-    SNTRY = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
+    SNT = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
     WOP = { animationSpeed = 2, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 }, [BOT_ANIMATION_STATES.Sad] = { 9, 12 }, [BOT_ANIMATION_STATES.Happy] = { 13, 16 } } },
     BTL = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
     ELF = { animationSpeed = 2, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 }, [BOT_ANIMATION_STATES.Sad] = { 9, 12 }, [BOT_ANIMATION_STATES.Happy] = { 13, 16 } } },
-    HGHT = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
+    HGH = { animationSpeed = 3, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 } } },
     LFS = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
     PNG = { voice = "BOT_HIGH", animationSpeed = 2, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 }, [BOT_ANIMATION_STATES.Sad] = { 9, 12 }, [BOT_ANIMATION_STATES.Happy] = { 13, 16 } } },
     SPL = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
-    YNGR = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
+    YGR = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
     BZ = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
-    EYES = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
-    HGL = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
+    EYZ = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 } } },
+    HGL = { animationSpeed = 3, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 } } },
     LPL = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
-    PONY = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
+    PNY = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
     SPR = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
     ZUG = { animationSpeed = 2, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 }, [BOT_ANIMATION_STATES.Sad] = { 9, 12 }, [BOT_ANIMATION_STATES.Happy] = { 13, 16 } } },
-    CMT = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
-    FFLY = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 2 } } },
+    CMT = { animationSpeed = 2, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 } } },
+    FLT = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 2 } } },
     INF = { animationSpeed = 2, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 }, [BOT_ANIMATION_STATES.Sad] = { 9, 12 }, [BOT_ANIMATION_STATES.Happy] = { 13, 16 } } },
     MIPA = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
     RKD = { animationSpeed = 2, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 } } },
     VRP = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
-    DGR = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
-    GPL = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
+    DGR = { animationSpeed = 3, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 } } },
+    GPL = { animationSpeed = 4, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 } } },
     JPK = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
-    MNTS = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
+    MNT = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } },
     RUD = { animationSpeed = 2, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 } } },
-    WGHT = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } }
+    WGT = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 1 } } }
 }
 
 --- FFLY (firefly) Movement on-update
@@ -43,11 +43,11 @@ local speedOscillationFfly <const> = 7
 local radiusFflyMovement <const> = 15
 local radiusFflyOscillation <const> = 0.3
 
-function BotConfig.FFLY.init(self)
+function BotConfig.FLT.init(self)
     self.positionOriginal = { x = self.x, y = self.y }
 end
 
-function BotConfig.FFLY.update(self)
+function BotConfig.FLT.update(self)
     if self.isActivated or self.isStateExpanded then
         return
     end

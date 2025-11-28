@@ -32,12 +32,13 @@ local lettersToActions <const> = {
     ["D"] = KEYNAMES.Down,
 }
 
----@class Bot: EntityAnimated, Moveable
+---@class Bot: EntityAnimated, Moveable, ParentSprite
 ---@property timer _Timer|nil
 ---@property config BotConfig
 Bot = Class("Bot", EntityAnimated)
 
 Bot:implements(Moveable)
+Bot:implements(ParentSprite)
 
 function Bot:init(entityData, levelName)
     Moveable.init(self, {
@@ -96,9 +97,20 @@ function Bot:init(entityData, levelName)
 
     -- Sprite setup
 
-    self:setGroups(GROUPS.ActivatePlayer)
     self:setCollidesWithGroups({ GROUPS.Solid, GROUPS.SolidExceptElevator })
     self:setTag(TAGS.Bot)
+
+    -- Create collision field
+
+    self.collisionField = gfx.sprite.new()
+    self.collisionField:setCollideRect(0, 0, 64, 64)
+    self.collisionField:setGroups(GROUPS.ActivatePlayer)
+    self.collisionField:moveTo(self.x - 32, self.y - 32)
+
+    ---@diagnostic disable-next-line: inject-field
+    self.collisionField.activate = function() self.activate(self) end
+
+    self:addChild(self.collisionField)
 
     -- Set whether is "rescuable"
 
@@ -164,12 +176,14 @@ end
 
 function Bot:add()
     Bot.super.add(self)
+    ParentSprite.add(self)
 
     GUILightingEffect:getInstance():addEffect(self, GUILightingEffect.imageSmallCircle)
 end
 
 function Bot:remove()
     Bot.super.remove(self)
+    ParentSprite.remove(self)
 
     GUILightingEffect:getInstance():removeEffect(self)
 end
