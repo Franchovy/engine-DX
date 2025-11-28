@@ -3616,7 +3616,7 @@
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"camera\": {\"offset\": {\"x\":0, \"y\":25}},\n  \"lighting\": {\"background\": \"light\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
 								"params": [
-									"{\\n  \"camera\": {\"offset\": {\"x\":0, \"y\":25}},\\n  \"lighting\": {\"background\": \"light\"}\\n}"
+									"{\n  \"camera\": {\"offset\": {\"x\":0, \"y\":25}},\n  \"lighting\": {\"background\": \"light\"}\n}"
 								]
 							}] }],
 							"__worldX": 928,
@@ -3636,7 +3636,7 @@
 							"px": [224,96],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"rescue\": { \"count\": 3 }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"rescue\": { \"count\": 3 }\\n}"]
+								"params": ["{\n  \"rescue\": { \"count\": 3 }\n}"]
 							}] }],
 							"__worldX": 864,
 							"__worldY": 3552

@@ -304,6 +304,10 @@ end
 --- Called from the player class on collide.
 function Bot:activate()
     self.isActivated = true
+
+    if self.isRescuable and not self.isRescued then
+        self:setRescued()
+    end
 end
 
 function Bot:getShouldFreeze()
