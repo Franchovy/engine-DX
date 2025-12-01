@@ -4431,37 +4431,12 @@
 						},
 						{
 							"__identifier": "Bot",
-							"__grid": [2,8],
-							"__pivot": [0.5,0.5],
-							"__tags": [],
-							"__tile": null,
-							"__smartColor": "#FFFFFF",
-							"iid": "347c3a40-ac70-11f0-bbef-c7aeb8a36da3",
-							"width": 16,
-							"height": 16,
-							"defUid": 204,
-							"px": [80,272],
-							"fieldInstances": [
-								{ "__identifier": "text", "__type": "String", "__value": null, "__tile": null, "defUid": 205, "realEditorValues": [] },
-								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
-								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "asset", "__type": "String", "__value": "MNT", "__tile": null, "defUid": 583, "realEditorValues": [{
-									"id": "V_String",
-									"params": ["MNT"]
-								}] },
-								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 585, "realEditorValues": [] }
-							],
-							"__worldX": 368,
-							"__worldY": 3280
-						},
-						{
-							"__identifier": "Bot",
 							"__grid": [3,6],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
 							"__smartColor": "#FFFFFF",
-							"iid": "34e97b00-ac70-11f0-bbef-57105f185b68",
+							"iid": "347c3a40-ac70-11f0-bbef-c7aeb8a36da3",
 							"width": 16,
 							"height": 16,
 							"defUid": 204,
@@ -4831,7 +4806,7 @@
 						},
 						{
 							"__identifier": "Bot",
-							"__grid": [5,2],
+							"__grid": [2,8],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
@@ -4840,16 +4815,19 @@
 							"width": 16,
 							"height": 16,
 							"defUid": 204,
-							"px": [176,80],
+							"px": [80,272],
 							"fieldInstances": [
 								{ "__identifier": "text", "__type": "String", "__value": null, "__tile": null, "defUid": 205, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 583, "realEditorValues": [] },
+								{ "__identifier": "asset", "__type": "String", "__value": "RWBT", "__tile": null, "defUid": 583, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["RWBT"]
+								}] },
 								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 585, "realEditorValues": [] }
 							],
-							"__worldX": 464,
-							"__worldY": 3088
+							"__worldX": 368,
+							"__worldY": 3280
 						},
 						{
 							"__identifier": "Bot",

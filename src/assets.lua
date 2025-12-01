@@ -86,7 +86,8 @@ _G.assets = {
             JPK = "assets/images/bots/JPK",
             MNT = "assets/images/bots/MNT",
             RUD = "assets/images/bots/RUD",
-            WGT = "assets/images/bots/WGT"
+            WGT = "assets/images/bots/WGT",
+            RWBT = "assets/images/bots/RWBT"
         }
     },
     sounds = {
