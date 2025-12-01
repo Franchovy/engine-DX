@@ -3616,7 +3616,7 @@
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"camera\": {\"offset\": {\"x\":0, \"y\":25}},\n  \"lighting\": {\"background\": \"light\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
 								"params": [
-									"{\n  \"camera\": {\"offset\": {\"x\":0, \"y\":25}},\n  \"lighting\": {\"background\": \"light\"}\n}"
+									"{\\n  \"camera\": {\"offset\": {\"x\":0, \"y\":25}},\\n  \"lighting\": {\"background\": \"light\"}\\n}"
 								]
 							}] }],
 							"__worldX": 928,
@@ -3636,7 +3636,7 @@
 							"px": [224,96],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"rescue\": { \"count\": 3 }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"rescue\": { \"count\": 3 }\n}"]
+								"params": ["{\\n  \"rescue\": { \"count\": 3 }\\n}"]
 							}] }],
 							"__worldX": 864,
 							"__worldY": 3552
@@ -4941,6 +4941,31 @@
 							],
 							"__worldX": 592,
 							"__worldY": 3344
+						},
+						{
+							"__identifier": "Bot",
+							"__grid": [5,2],
+							"__pivot": [0.5,0.5],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#FFFFFF",
+							"iid": "1f0e4140-ac70-11f0-a030-4b50c9f0a280",
+							"width": 16,
+							"height": 16,
+							"defUid": 204,
+							"px": [176,80],
+							"fieldInstances": [
+								{ "__identifier": "text", "__type": "String", "__value": null, "__tile": null, "defUid": 205, "realEditorValues": [] },
+								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
+								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
+								{ "__identifier": "asset", "__type": "String", "__value": "TVR-A", "__tile": null, "defUid": 583, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["TVR-A"]
+								}] },
+								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 585, "realEditorValues": [] }
+							],
+							"__worldX": 464,
+							"__worldY": 3088
 						}
 					]
 				},
