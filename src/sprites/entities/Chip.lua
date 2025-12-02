@@ -36,7 +36,7 @@ function Chip:init(entityData, levelName)
 
   self:setImage(buttonImage)
 
-  self:setCollideRect(8, 8, 8, 8)
+  self:setCollideRect(4, 4, 16, 16)
 end
 
 function Chip:activate()
