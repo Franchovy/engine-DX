@@ -6,6 +6,8 @@ local gfx <const> = pd.graphics
 --- @field dashHandler Dash?
 Moveable = {}
 
+local coefficientTime = 1
+
 ---@alias Config {gravity: number?, movement:number|{air: {acceleration:number,friction:number?}, ground: {acceleration:number,friction:number?}},dash: {frames:integer,speed:number}?,jump: {speed:number, doubleJump:boolean?, coyoteFrames: integer?}?}
 
 ---@param config Config
@@ -27,7 +29,6 @@ function Moveable:init(config)
         self.accelerationAir = config.movement.air.acceleration
         self.accelerationGround = config.movement.ground.acceleration
     end
-
 
     if config.dash then
         self.isEnabledDash = true
@@ -121,6 +122,10 @@ function Moveable:jump()
     self.didJump = true
 end
 
+function Moveable.setTimeCoefficient(timeCoefficient)
+    coefficientTime = timeCoefficient
+end
+
 ---comment
 ---@param spriteParent Moveable?
 function Moveable:setParent(spriteParent)
@@ -144,6 +149,8 @@ function Moveable:update()
         self:updateParent()
     end
 
+    local delta_time = coefficientTime * _G.delta_time
+
     -- Apply forces to velocity
 
     -- incorporate gravity
@@ -153,24 +160,24 @@ function Moveable:update()
             -- Resets velocity, still applying gravity vector
 
             local dx, dy = self.velocity:unpack()
-            local dy = math.min(dy, self.gravity * _G.delta_time)
+            local dy = math.min(dy, self.gravity * delta_time)
             self.velocity = gmt.vector2D.new(dx, dy)
 
             -- Apply Ground Friction to x-axis movement
 
             self.velocity.dx = self.velocity.dx +
-                (self.velocity.dx * self.frictionGround * _G.delta_time)
+                (self.velocity.dx * self.frictionGround * delta_time)
         else
             -- Adds gravity vector to current velocity
 
-            self.velocity.dy = self.velocity.dy + (self.gravity * _G.delta_time)
+            self.velocity.dy = self.velocity.dy + (self.gravity * delta_time)
 
             -- Apply Air Friction
 
             self.velocity.dx = self.velocity.dx +
-                (self.velocity.dx ^ 3 * self.frictionAir * _G.delta_time)
+                (self.velocity.dx ^ 3 * self.frictionAir * delta_time)
             self.velocity.dy = self.velocity.dy +
-                (self.velocity.dy ^ 3 * self.frictionAir * _G.delta_time)
+                (self.velocity.dy ^ 3 * self.frictionAir * delta_time)
         end
     end
 
@@ -183,7 +190,7 @@ function Moveable:update()
 
     -- calculate new position by adding velocity to current position
     local xPrevious, yPrevious = self.x, self.y
-    local newPos = gmt.vector2D.new(self.x, self.y) + (self.velocity * _G.delta_time)
+    local newPos = gmt.vector2D.new(self.x, self.y) + (self.velocity * delta_time)
 
     local actualX, actualY
     local sdkCollisions

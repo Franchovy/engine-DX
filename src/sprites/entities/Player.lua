@@ -22,7 +22,6 @@ local hasDoubleJumpRemaining = true
 -- Timer for handling cooldown on checkpoint revert
 
 local warpCooldown
-local crankMomentum = 0
 
 -- Boolean to keep overlapping with GUI state
 
@@ -168,9 +167,26 @@ function Player:init(entityData, levelName, ...)
 
     -- Create child sprites
 
-    self.crankWarpController = PlayerCrankWarpController()
     self.questionMark = PlayerQuestionMark(self)
     self.particlesDrilling = PlayerParticlesDrilling(self)
+
+    --[[
+    self.particlesWarp = ParticleCircle()
+    self.particlesWarp:setMode(Particles.modes.DISAPPEAR)
+    self.particlesWarp:setSpeed(1, 5)
+    self.particlesWarp:setSize(2, 6)
+    self.particlesWarp:setThickness(1, 2)
+    self.particlesWarp:setLifespan(10, 30)
+    self.particlesWarp:setColor(1)
+    ]]
+
+    self.particlesWarp = ParticleCircle()
+    self.particlesWarp:setMode(Particles.modes.DISAPPEAR)
+    self.particlesWarp:setSize(1, 1)
+    self.particlesWarp:setThickness(1, 2)
+    self.particlesWarp:setSpeed(5, 10)
+    self.particlesWarp:setLifespan(3, 10)
+    self.particlesWarp:setColor(1)
 
     -- Utils
 
@@ -209,10 +225,6 @@ end
 function Player:add()
     Player.super.add(self)
 
-    if self.crankWarpController then
-        self.crankWarpController:add()
-    end
-
     if self.isActivatingDrillableBlock and self.particlesDrilling then
         self.particlesDrilling:add()
     end
@@ -228,10 +240,6 @@ end
 
 function Player:remove()
     Player.super.remove(self)
-
-    if self.crankWarpController then
-        self.crankWarpController:remove()
-    end
 
     if self.particlesDrilling then
         self.particlesDrilling:remove()
@@ -339,20 +347,6 @@ function Player:enterLevel(levelName, direction)
         x = self.x,
         y = self.y,
     })
-
-    -- TODO: - Can this code be removed?
-    -- Set a cooldown timer to prevent key presses on enter
-
-    warpCooldown = playdate.timer.new(50)
-    warpCooldown.timerEndedCallback = function(timer)
-        timer:remove()
-
-        -- Since there can be multiple checkpoint-reverts in sequence, we want to
-        -- ensure we're not removing a timer that's not this one.
-        if warpCooldown == timer then
-            warpCooldown = nil
-        end
-    end
 end
 
 --------------------
@@ -364,18 +358,10 @@ function Player:revertCheckpoint()
 
     Manager.emitEvent(EVENTS.CheckpointRevert)
 
-    -- Cooldown timer for checkpoint revert
+    -- Reset Moveable velocities
 
-    warpCooldown = playdate.timer.new(200)
-    warpCooldown.timerEndedCallback = function(timer)
-        timer:remove()
-
-        -- Since there can be multiple checkpoint-reverts in sequence, we want to
-        -- ensure we're not removing a timer that's not this one.
-        if warpCooldown == timer then
-            warpCooldown = nil
-        end
-    end
+    self:setVelocityX(0)
+    self:setVelocityY(0)
 end
 
 function Player:loadAbilities()
@@ -444,11 +430,14 @@ function Player:update()
     self.isActivatingDrillableBlock = false
     self.activeDialog = false
 
-    Moveable.update(self)
-
     if self.isFrozen then
         return
     end
+
+    if not CrankWatch.getDidPassThreshold() then
+        Moveable.update(self)
+    end
+
 
     -- Checkpoint Handling
 
@@ -457,17 +446,6 @@ function Player:update()
     -- Bot / Interactions
 
     self:updateInteractions()
-
-    -- Skip movement handling if:
-    -- timer cooldown is active
-    -- cooldown for warp is active
-
-    if not warpCooldown and
-        not (self.crankWarpController and self.crankWarpController:isActive()) and
-        not playdate.buttonIsPressed(KEYNAMES.B)
-    then
-        --self:updateMovement()
-    end
 
     -- Update variables set by collisions
 
@@ -623,58 +601,27 @@ function Player:updateActivations()
 end
 
 function Player:updateWarp()
-    local crankChange = playdate.getCrankChange()
-    local direction = self.crankWarpController:getDirection()
+    -- Update warp particles to originate at player pos
 
-    -- If reverse direction but no dialog active, do nothing
-    if (direction == -1 or crankChange < 0) and not (self.activeDialog and self.activeDialog:getIsRescuable()) then
-        return
+    self.particlesWarp:moveTo(self.x, self.y)
+
+    local timeCoefficient = 1
+
+    -- Revert checkpoint if crank change is larger than threshold
+
+    if CrankWatch.getDidPassThreshold() then
+        self:revertCheckpoint()
+
+        self.particlesWarp:add(2)
+
+        timeCoefficient = 0
+    else
+        timeCoefficient = CrankWatch.getThresholdProportion()
     end
 
-    -- If forward direction but ability is not yet unlocked, do nothing
-    if not self.abilities[ABILITIES.CrankToWarp] and (direction == 1 or crankChange > 0) then
-        return
-    end
+    -- How fast game time should move based on crank speed
 
-    -- Add crank movement
-
-    self.crankWarpController:addCrankMovement(crankChange)
-
-    -- Re-read crank direction
-
-    local directionNew = self.crankWarpController:getDirection()
-
-    if directionNew == 0 then
-        return
-    end
-
-    -- Position warp controller
-
-    if directionNew == -1 then
-        self.crankWarpController:moveTo(self.activeDialog.x, self.activeDialog.y)
-    elseif directionNew == 1 then
-        self.crankWarpController:moveTo(self.x, self.y)
-    end
-
-    -- Handle trigger
-
-    if self.crankWarpController:hasTriggered() then
-        if directionNew == -1 then
-            -- Rescue bot
-            self.activeDialog:setRescued()
-        end
-    elseif directionNew == 1 and self.crankWarpController:isActivated() then
-        crankMomentum = (crankChange + crankMomentum) * 0.85
-
-        local crankThresholdWarp = 100
-        if crankMomentum >= crankThresholdWarp then
-            local warpSpeedFinal = math.min(crankMomentum / crankThresholdWarp, 10)
-
-            for i = 1, math.floor(warpSpeedFinal) do
-                self:revertCheckpoint()
-            end
-        end
-    end
+    Moveable.setTimeCoefficient(timeCoefficient)
 end
 
 function Player:updateInteractions()
@@ -714,9 +661,7 @@ function Player:updateAnimationState()
     local shouldSkipStateCheck = self.states[self.currentState].nextAnimation == ANIMATION_STATES.Idle
 
     if not shouldSkipStateCheck then
-        if self.crankWarpController.crankMomentum > 20 then
-            animationState = ANIMATION_STATES.Falling
-        elseif self.onGround then
+        if self.onGround then
             if self.isActivatingDrillableBlock and self:isHoldingDownKeyGated() then
                 animationState = ANIMATION_STATES.Drilling
             elseif self.didPressedInvalidKey then
@@ -818,6 +763,12 @@ function Player:updateGUI()
 end
 
 function Player:updateLevelChange()
+    if CrankWatch.getDidPassThreshold() then
+        -- Currently warping, ignore.
+
+        return
+    end
+
     local direction
 
     if self.x > levelBounds.right then

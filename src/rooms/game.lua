@@ -287,6 +287,11 @@ function Game:update()
 end
 
 function Game:leave(next, ...)
+    -- Remove all particles
+
+    Particles:clearAll()
+    --Particles:removeAll()
+
     -- Clear sprites in level
     -- We do this because "gfx.sprite.removeAll" doesn't call the subclass ":remove()".
 

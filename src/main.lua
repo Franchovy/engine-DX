@@ -78,6 +78,8 @@ function playdate.update()
   timer.updateTimers()
   frameTimer.updateTimers()
 
+  CrankWatch.update()
+
   if showLogo then
     imageLogo:drawAnchored(200, 120, 0.5, 0.5)
     return
@@ -92,6 +94,8 @@ function playdate.update()
     -- Update sprites
     gfx.sprite.update()
   end
+
+  Particles:update()
 
   gfx.animation.blinker.updateAll()
 

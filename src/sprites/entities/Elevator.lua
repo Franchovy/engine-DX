@@ -135,6 +135,11 @@ function Elevator:update()
     self.speedMovement = speedMovement
   end
 
+  -- Skip if warp is in progress
+  if CrankWatch.getDidPassThreshold() then
+    return
+  end
+
   Moveable.update(self)
 
   self:savePosition()
