@@ -4845,7 +4845,10 @@
 								{ "__identifier": "text", "__type": "String", "__value": null, "__tile": null, "defUid": 205, "realEditorValues": [] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
 								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "asset", "__type": "String", "__value": null, "__tile": null, "defUid": 583, "realEditorValues": [] },
+								{ "__identifier": "asset", "__type": "String", "__value": "PONG", "__tile": null, "defUid": 583, "realEditorValues": [{
+									"id": "V_String",
+									"params": ["PONG"]
+								}] },
 								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 585, "realEditorValues": [] }
 							],
 							"__worldX": 528,

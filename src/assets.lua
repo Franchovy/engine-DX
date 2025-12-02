@@ -88,7 +88,8 @@ _G.assets = {
             RUD = "assets/images/bots/RUD",
             WGT = "assets/images/bots/WGT",
             RWBT = "assets/images/bots/RWBT",
-            ["TVR-A"] = "assets/images/bots/TVR-A"
+            ["TVR-A"] = "assets/images/bots/TVR-A",
+            PONG = "assets/images/bots/PONG"
         }
     },
     sounds = {
