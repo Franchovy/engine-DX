@@ -3634,9 +3634,11 @@
 							"height": 16,
 							"defUid": 587,
 							"px": [224,96],
-							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"rescue\": { \"count\": 3 }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"rescue\": { \"count\": 3 },\n  \"levelname\": {\"title\": \"Puzzle 3\", \"subtitle\": \"Playtest\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"rescue\": { \"count\": 3 }\\n}"]
+								"params": [
+									"{\\n  \"rescue\": { \"count\": 3 },\\n  \"levelname\": {\"title\": \"Puzzle 3\", \"subtitle\": \"Playtest\"}\\n}"
+								]
 							}] }],
 							"__worldX": 864,
 							"__worldY": 3552
@@ -3737,6 +3739,7 @@
 						{ "px": [512,96], "src": [544,384], "f": 0, "t": 365, "d": [67], "a": 1 },
 						{ "px": [0,128], "src": [576,448], "f": 0, "t": 424, "d": [68], "a": 1 },
 						{ "px": [32,128], "src": [608,448], "f": 0, "t": 425, "d": [69], "a": 1 },
+						{ "px": [288,128], "src": [768,480], "f": 0, "t": 459, "d": [77], "a": 1 },
 						{ "px": [352,128], "src": [512,256], "f": 0, "t": 248, "d": [79], "a": 1 },
 						{ "px": [384,128], "src": [320,192], "f": 0, "t": 184, "d": [80], "a": 1 },
 						{ "px": [480,128], "src": [576,416], "f": 0, "t": 395, "d": [83], "a": 1 },
@@ -3766,6 +3769,7 @@
 						{ "px": [0,256], "src": [32,96], "f": 0, "t": 88, "d": [136], "a": 1 },
 						{ "px": [32,256], "src": [576,416], "f": 0, "t": 395, "d": [137], "a": 1 },
 						{ "px": [64,256], "src": [608,416], "f": 0, "t": 396, "d": [138], "a": 1 },
+						{ "px": [96,256], "src": [576,416], "f": 0, "t": 395, "d": [139], "a": 1 },
 						{ "px": [128,256], "src": [608,416], "f": 0, "t": 396, "d": [140], "a": 1 },
 						{ "px": [160,256], "src": [544,384], "f": 0, "t": 365, "d": [141], "a": 1 },
 						{ "px": [192,256], "src": [576,384], "f": 0, "t": 366, "d": [142], "a": 1 },
@@ -5493,7 +5497,7 @@
 							"px": [0,384],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"loadConfig\": {\n  \"camera\": {\"offset\": {\"y\": 50}}\n}\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"loadConfig\": {\\n  \"camera\": {\"offset\": {\"y\": 50}}\\n}\\n}"]
+								"params": ["{\n  \"loadConfig\": {\n  \"camera\": {\"offset\": {\"y\": 50}}\n}\n}"]
 							}] }],
 							"__worldX": 800,
 							"__worldY": 3008
@@ -5512,7 +5516,7 @@
 							"px": [96,288],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"loadConfig\": {\n  \"camera\": {\"softFocus\": {\"offset\": {}}}\n}\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"loadConfig\": {\\n  \"camera\": {\"softFocus\": {\"offset\": {}}}\\n}\\n}"]
+								"params": ["{\n  \"loadConfig\": {\n  \"camera\": {\"softFocus\": {\"offset\": {}}}\n}\n}"]
 							}] }],
 							"__worldX": 896,
 							"__worldY": 2912

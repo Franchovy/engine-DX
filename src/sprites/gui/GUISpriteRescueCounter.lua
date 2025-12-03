@@ -8,17 +8,19 @@ local padding <const> = 3
 local maxSpriteCounters <const> = 7
 local spriteCounters <const> = {}
 
----@type {number:{value:boolean?, indexSpriteImage:number}}
+---@alias SpriteRescueCounter {value:boolean?, indexSpriteImage:number}
+
+---@type SpriteRescueCounter[]
 local stateSpriteCounters = {}
 
----@class SpriteRescueCounter : _Sprite
-SpriteRescueCounter = Class("SpriteRescueCounter", gfx.sprite)
+---@class GUISpriteRescueCounter : _Sprite
+GUISpriteRescueCounter = Class("GUISpriteRescueCounter", gfx.sprite)
 
 local _instance
 
 -- Static Methods
 
-function SpriteRescueCounter.loadProgressData(progressDataRescues)
+function GUISpriteRescueCounter.loadProgressData(progressDataRescues)
     if not _instance then return end
 
     if progressDataRescues and progressDataRescues.rescuedSprites then
@@ -26,7 +28,7 @@ function SpriteRescueCounter.loadProgressData(progressDataRescues)
     end
 end
 
-function SpriteRescueCounter.load(config)
+function GUISpriteRescueCounter.load(config)
     if not _instance then return end
 
     if #_instance:getRescuedSprites() == 0 and config.count then
@@ -34,9 +36,10 @@ function SpriteRescueCounter.load(config)
     end
 end
 
-function SpriteRescueCounter.getInstance() return assert(_instance, "No instance has been created.") end
+--- @return GUISpriteRescueCounter
+function GUISpriteRescueCounter.getInstance() return assert(_instance, "No instance has been created.") end
 
-function SpriteRescueCounter.destroy()
+function GUISpriteRescueCounter.destroy()
     if _instance then
         _instance:reset()
         _instance:remove()
@@ -46,8 +49,8 @@ end
 
 -- Instance Methods
 
-function SpriteRescueCounter:init()
-    SpriteRescueCounter.super.init(self)
+function GUISpriteRescueCounter:init()
+    GUISpriteRescueCounter.super.init(self)
 
     _instance = self
 
@@ -67,8 +70,8 @@ function SpriteRescueCounter:init()
     self.rescueSpriteCount = 1
 end
 
-function SpriteRescueCounter:add()
-    SpriteRescueCounter.super.add(self)
+function GUISpriteRescueCounter:add()
+    GUISpriteRescueCounter.super.add(self)
 
     for i = 1, self.rescueSpriteCount do
         spriteCounters[i]:add()
@@ -77,15 +80,15 @@ function SpriteRescueCounter:add()
     self:setPositionsSpriteCounter()
 end
 
-function SpriteRescueCounter:remove()
-    SpriteRescueCounter.super.remove(self)
+function GUISpriteRescueCounter:remove()
+    GUISpriteRescueCounter.super.remove(self)
 
     for i = 1, self.rescueSpriteCount do
         spriteCounters[i]:remove()
     end
 end
 
-function SpriteRescueCounter:setRescueSpriteCount(count)
+function GUISpriteRescueCounter:setRescueSpriteCount(count)
     assert(count < maxSpriteCounters,
         "max rescuable sprites does not support a number higher than " .. maxSpriteCounters .. ".")
 
@@ -109,7 +112,7 @@ function SpriteRescueCounter:setRescueSpriteCount(count)
     end
 end
 
-function SpriteRescueCounter:setPositionsSpriteCounter()
+function GUISpriteRescueCounter:setPositionsSpriteCounter()
     local spriteWidth = imagetableSprite[1]:getSize()
     local startX = 400 - self.rescueSpriteCount * (spriteWidth + padding)
     for i = 1, self.rescueSpriteCount do
@@ -119,7 +122,7 @@ function SpriteRescueCounter:setPositionsSpriteCounter()
     end
 end
 
-function SpriteRescueCounter:resetSpriteRescued(indexSpriteCounter)
+function GUISpriteRescueCounter:resetSpriteRescued(indexSpriteCounter)
     -- Create state table if not exists
     if not stateSpriteCounters[indexSpriteCounter] then
         stateSpriteCounters[indexSpriteCounter] = {}
@@ -136,7 +139,7 @@ function SpriteRescueCounter:resetSpriteRescued(indexSpriteCounter)
     spriteCounter:setImage(imagetableSprite[1])
 end
 
-function SpriteRescueCounter:setSpriteRescued(number, spriteImageIndex)
+function GUISpriteRescueCounter:setSpriteRescued(number, spriteImageIndex)
     local indexSpriteCounter = number
 
     -- Create state table if not exists
@@ -155,7 +158,7 @@ function SpriteRescueCounter:setSpriteRescued(number, spriteImageIndex)
     spriteCounter:setImage(imageRescued)
 end
 
-function SpriteRescueCounter:loadRescuedSprites(rescuedSprites)
+function GUISpriteRescueCounter:loadRescuedSprites(rescuedSprites)
     self:setRescueSpriteCount(#rescuedSprites)
 
     -- Clear current rescue states
@@ -173,18 +176,22 @@ function SpriteRescueCounter:loadRescuedSprites(rescuedSprites)
     end
 end
 
-function SpriteRescueCounter:reset()
+function GUISpriteRescueCounter:reset()
     -- Clear rescued sprites
     stateSpriteCounters = {}
 
     self.rescueSpriteCount = 0
 end
 
-function SpriteRescueCounter:getRescuedSprites()
+function GUISpriteRescueCounter:getRescuedSprites()
     return stateSpriteCounters
 end
 
-function SpriteRescueCounter:isAllSpritesRescued()
+function GUISpriteRescueCounter:getTotalSpritesToRescue()
+    return self.rescueSpriteCount
+end
+
+function GUISpriteRescueCounter:isAllSpritesRescued()
     for _, state in ipairs(stateSpriteCounters) do
         if not state or state.value == false then
             return false

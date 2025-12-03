@@ -3616,7 +3616,7 @@
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"camera\": {\"offset\": {\"x\":0, \"y\":25}},\n  \"lighting\": {\"background\": \"light\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
 								"params": [
-									"{\n  \"camera\": {\"offset\": {\"x\":0, \"y\":25}},\n  \"lighting\": {\"background\": \"light\"}\n}"
+									"{\\n  \"camera\": {\"offset\": {\"x\":0, \"y\":25}},\\n  \"lighting\": {\"background\": \"light\"}\\n}"
 								]
 							}] }],
 							"__worldX": 928,
@@ -3634,9 +3634,11 @@
 							"height": 16,
 							"defUid": 587,
 							"px": [224,96],
-							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"rescue\": { \"count\": 3 }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"rescue\": { \"count\": 3 },\n  \"levelname\": {\"title\": \"Puzzle 1\", \"subtitle\": \"Playtest\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"rescue\": { \"count\": 3 }\n}"]
+								"params": [
+									"{\\n  \"rescue\": { \"count\": 3 },\\n  \"levelname\": {\"title\": \"Puzzle 1\", \"subtitle\": \"Playtest\"}\\n}"
+								]
 							}] }],
 							"__worldX": 864,
 							"__worldY": 3552
@@ -3744,6 +3746,7 @@
 						{ "px": [512,192], "src": [576,416], "f": 0, "t": 395, "d": [118], "a": 1 },
 						{ "px": [0,224], "src": [576,416], "f": 0, "t": 395, "d": [119], "a": 1 },
 						{ "px": [32,224], "src": [608,416], "f": 0, "t": 396, "d": [120], "a": 1 },
+						{ "px": [128,224], "src": [672,512], "f": 0, "t": 485, "d": [123], "a": 1 },
 						{ "px": [192,224], "src": [544,384], "f": 0, "t": 365, "d": [125], "a": 1 },
 						{ "px": [224,224], "src": [576,384], "f": 0, "t": 366, "d": [126], "a": 1 },
 						{ "px": [256,224], "src": [576,416], "f": 0, "t": 395, "d": [127], "a": 1 },

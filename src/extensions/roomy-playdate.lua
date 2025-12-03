@@ -30,3 +30,11 @@ end
 function Manager.getInstance()
     return sceneManager
 end
+
+function Manager.gameWillPause()
+    Manager.emitEvent('gameWillPause')
+end
+
+function Manager.gameWillResume()
+    Manager.emitEvent('gameWillResume')
+end

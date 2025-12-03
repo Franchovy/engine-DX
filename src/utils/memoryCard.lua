@@ -82,6 +82,10 @@ function MemoryCard.setLevelCompletion(filepathLevel, data)
     fileDataLevel.rescuedSprites = data.rescuedSprites
   end
 
+  if data.collectibles then
+    fileDataLevel.collectibles = data.collectibles
+  end
+
   if data.complete then
     fileDataLevel.complete = data.complete
   end

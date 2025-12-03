@@ -109,4 +109,7 @@ function playdate.update()
   end
 end
 
+playdate.gameWillPause = Manager.gameWillPause
+playdate.gameWillResume = Manager.gameWillResume
+
 playdate.timer.performAfterDelay(1000, init)

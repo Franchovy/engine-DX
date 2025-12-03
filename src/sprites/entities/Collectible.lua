@@ -6,6 +6,12 @@ local spCollectiblePickup <const> = assert(playdate.sound.sampleplayer.new(asset
 --- @class Collectible : Consumable
 Collectible = Class("Collectible", Consumable)
 
+---@param index integer
+---@return _Image
+function Collectible.getImageForIndex(index)
+    return imageTableCollectibles[index]
+end
+
 function Collectible:init(entityData, levelName)
     Collectible.super.init(self, entityData, levelName)
 
@@ -53,6 +59,9 @@ end
 function Collectible:generateImageHash()
     local image = self:getImage()
 
-
     self.imageHash = image:getImageHash()
+end
+
+function Collectible:handleCheckpointRevert()
+    -- Override checkpoint revert
 end

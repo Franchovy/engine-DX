@@ -47,24 +47,18 @@ function Game:init(filepathLevel)
 
     -- Get last progress of level
 
-    SpriteRescueCounter()
+    GUISpriteRescueCounter()
 
     local progressData = MemoryCard.getLevelCompletion(filepathLevel)
 
-    SpriteRescueCounter:getInstance():loadProgressData(progressData)
+    GUISpriteRescueCounter:getInstance():loadProgressData(progressData)
 
     --
 
     Transition()
-
     GUILightingEffect()
-
     Background()
-
     GUILevelName()
-
-    GUIEnergyLevel()
-
     GUIModalMessage()
 
     -- Load Ability Panel
@@ -90,8 +84,7 @@ function Game:unload()
 
     Player.destroy()
     GUIChipSet.destroy()
-    SpriteRescueCounter.destroy()
-    GUIEnergyLevel.destroy()
+    GUISpriteRescueCounter.destroy()
 
     Checkpoint.clearAll()
 
@@ -141,7 +134,6 @@ function Game:setupFonts()
 end
 
 function Game:setupPowerLevel()
-    GUIEnergyLevel.getInstance():add()
     PowerLevel.reset()
 end
 
@@ -210,7 +202,7 @@ function Game:enter(previous, data)
 
     Camera.enterLevel(currentLevelName)
 
-    SpriteRescueCounter.getInstance():add()
+    GUISpriteRescueCounter.getInstance():add()
     Transition.getInstance():add()
     GUILightingEffect.getInstance():add()
     GUIChipSet.getInstance():add()
@@ -315,14 +307,14 @@ function Game:levelComplete(data)
 end
 
 function Game:botRescued(bot, botNumber)
-    local spriteRescueCounter = SpriteRescueCounter.getInstance()
+    local spriteRescueCounter = GUISpriteRescueCounter.getInstance()
     spriteRescueCounter:setSpriteRescued(botNumber, bot.fields.spriteNumber)
 
     -- Save the rescued sprite list
     local rescuedSprites = spriteRescueCounter:getRescuedSprites()
     MemoryCard.setLevelCompletion(worldCurrent.filepath, { rescuedSprites = rescuedSprites })
 
-    GUIModalMessage.showMessage("Go to menu to end the game.")
+    -- GUIModalMessage.showMessage("Go to menu to end the game.")
 end
 
 function Game:worldComplete(args)
@@ -399,7 +391,7 @@ function Game:savePointSet()
 
     --[[MemoryCard.saveLevelCheckpoint(worldCurrent.filepath, levelData)]]
 
-    local spriteRescueCounter = SpriteRescueCounter.getInstance()
+    local spriteRescueCounter = GUISpriteRescueCounter.getInstance()
     local rescuedSprites = spriteRescueCounter:getRescuedSprites()
     --[[MemoryCard.setLevelCompletion(worldCurrent.filepath,
         { currentLevel = currentLevelName, rescuedSprites = rescuedSprites })]]
@@ -424,4 +416,118 @@ end
 
 function Game:collectiblePickup(collectibleIndex, collectibleHash)
     MemoryCard.setCollectiblePickup(collectibleIndex, collectibleHash)
+
+    local levelCompletion = MemoryCard.getLevelCompletion(worldCurrent.filepath)
+
+    local collectibles = levelCompletion and levelCompletion.collectibles or {}
+
+    collectibles[collectibleIndex] = collectibleHash
+
+    MemoryCard.setLevelCompletion(worldCurrent.filepath, { collectibles = collectibles })
+end
+
+function Game:gameWillPause()
+    local pauseImage, offset = self:createPauseMenuImage()
+
+    playdate.setMenuImage(pauseImage, offset)
+end
+
+function Game:createPauseMenuImage()
+    local image = gfx.image.new(400, 240, gfx.kColorClear)
+    gfx.pushContext(image)
+
+    local offset = 100
+    local x, y, width, height, margin, border = 40, 50, 120, 140, 4, 2
+
+    gfx.setColor(gfx.kColorBlack)
+    gfx.setDitherPattern(0.5, gfx.image.kDitherTypeBayer4x4)
+    gfx.fillRect(0, 0, 400, 240)
+
+    gfx.setColor(gfx.kColorWhite)
+    gfx.fillRoundRect(offset + x, y, width, height, margin)
+
+    gfx.setColor(gfx.kColorBlack)
+
+    gfx.setLineWidth(border)
+    gfx.drawRoundRect(offset + x + border, y + border, width - border * 2, height - border * 2, border)
+
+    -- Draw level name
+
+    gfx.setFont(Fonts.Dialog)
+    local area, world = ReadFile.getAreaWorld(worldCurrent.filepath)
+    local w, heightText, wasTruncated = gfx.drawTextInRect(world, offset + x + margin, y + 16,
+        width - margin * 2,
+        height - margin * 2, nil, nil, kTextAlignment.center)
+
+    -- Get collectibles
+
+    local completionData = MemoryCard.getLevelCompletion(worldCurrent.filepath)
+    local collectibles = completionData and completionData.collectibles or {}
+
+    -- Get rescues
+
+    local rescueCountTotal = GUISpriteRescueCounter.getInstance():getTotalSpritesToRescue() + #collectibles
+    local rescues = GUISpriteRescueCounter.getInstance():getRescuedSprites()
+
+    -- Draw rescues & collectibles
+
+    local lineCount = 4
+    local widthIndicatorRescue, heightIndicatorRescue, spacing = 20, 20, 8
+    local lineCountMax = math.min(4, rescueCountTotal)
+    local xStart =
+        offset + x + width / 2 - (lineCountMax * widthIndicatorRescue +
+            math.max(lineCountMax - 1, 0) * spacing) / 2
+    local yStart = y + 16 + heightText + 8
+
+    local function getDrawPosFromIndex(index)
+        local index = index - 1
+        local indexOnLine = (index % lineCount)
+        local x = xStart + indexOnLine * (widthIndicatorRescue + spacing)
+        local y = yStart + math.floor(index / lineCount) * (heightIndicatorRescue + spacing)
+        return x, y
+    end
+
+    for i = 1, rescueCountTotal - #collectibles do
+        local isRescued = rescues[i] and rescues[i].value == true
+
+        local xDraw, yDraw = getDrawPosFromIndex(i)
+
+        -- Draw Rescue
+
+        gfx.setColor(gfx.kColorBlack)
+
+        gfx.drawRoundRect(
+            xDraw,
+            yDraw,
+            widthIndicatorRescue,
+            heightIndicatorRescue,
+            4
+        )
+
+        if isRescued then
+            gfx.setDitherPattern(0.5, gfx.image.kDitherTypeBayer4x4)
+
+            gfx.fillRoundRect(
+                xDraw,
+                yStart,
+                widthIndicatorRescue,
+                heightIndicatorRescue,
+                4
+            )
+        end
+    end
+
+    local i = 1
+    for index, _ in ipairs(collectibles) do
+        local xDraw, yDraw = getDrawPosFromIndex(#rescues + i)
+
+        -- Draw Collectible
+
+        local image = Collectible.getImageForIndex(index)
+        image:draw(xDraw, yDraw)
+
+        i += 1
+    end
+
+    return image, offset
 end

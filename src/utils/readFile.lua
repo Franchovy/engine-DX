@@ -1,7 +1,5 @@
 local fl <const> = playdate.file
 
-_ = {}
-
 ReadFile = {}
 
 --- Naming convention for levels:
@@ -73,7 +71,7 @@ end
 function ReadFile.getWorldFilepath(area, world)
     assert(isInitialized, "ReadFile:initialized() needs to be called.")
 
-    local filePath = _.buildFilePath(area, world)
+    local filePath = ReadFile.buildFilePath(area, world)
 
     assert(fl.exists(filePath))
 
@@ -110,11 +108,11 @@ end
 
 ---@return string|nil filepath for next world
 function ReadFile.getNextWorld(filepathLevel)
-    local areaName, worldName, areaIndex, worldIndex = _.getAreaWorld(filepathLevel)
+    local areaName, worldName, areaIndex, worldIndex = ReadFile.getAreaWorld(filepathLevel)
 
     local nextWorldName = worlds[areaName][worldIndex + 1]
     if nextWorldName then
-        return _.buildFilePath(areaName, nextWorldName)
+        return ReadFile.buildFilePath(areaName, nextWorldName)
     end
 
     -- Next world
@@ -122,7 +120,7 @@ function ReadFile.getNextWorld(filepathLevel)
     local nextWorldName = nextAreaName and worlds[nextAreaName][1]
 
     if nextAreaName and nextWorldName then
-        return _.buildFilePath(nextAreaName, nextWorldName)
+        return ReadFile.buildFilePath(nextAreaName, nextWorldName)
     end
 
     -- Game finished
@@ -132,7 +130,7 @@ end
 function ReadFile.getFirstWorld()
     local area = ReadFile.getAreaName(1)
     local world = ReadFile.getWorldName(1, 1)
-    return _.buildFilePath(area, world)
+    return ReadFile.buildFilePath(area, world)
 end
 
 function ReadFile.getWorldFromIndex(indexArea, indexWorld)
@@ -152,13 +150,13 @@ end
 --- @return string worldName
 --- @return number indexArea
 --- @return number indexWorld
-function _.getAreaWorld(filepathLevel)
+function ReadFile.getAreaWorld(filepathLevel)
     -- Example filepathLevel:
     local indexArea, area, indexWorld, world = string.match(filepathLevel, 'worlds/(%d+) %- ([^/]+)/(%d+) %- (.-).ldtk$')
     return area, world, indexArea, indexWorld
 end
 
-function _.buildFilePath(area, world)
+function ReadFile.buildFilePath(area, world)
     local indexArea = areasR[area]
     local indexWorld = worldsR[indexArea][world]
 
