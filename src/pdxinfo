@@ -1,7 +1,7 @@
 name=Discontrolled
-author=Spilaskopa
-description=Find your buttons in... Discontrolled!
+author=Franchovy
+description=A Time-Travelling Robot Puzzle-Platformer for Playdate.
 bundleID=io.franchovy.discontrolled
-version=0.1.4a1
-buildNumber=30
+version=0.2.0
+buildNumber=31
 imagePath=assets/images/launch
