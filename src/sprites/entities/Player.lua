@@ -282,16 +282,22 @@ end
 function Player:freeze()
     self.isFrozen = true
 
-    if self.isActivatingElevator then
-        self.isActivatingElevator:freeze()
+    if self.spriteParent and self.spriteParent:getTag() == TAGS.Elevator then
+        local spriteParent = self.spriteParent
+
+        ---@cast spriteParent Elevator
+        spriteParent:freeze()
     end
 end
 
 function Player:unfreeze()
     self.isFrozen = false
 
-    if self.isActivatingElevator then
-        self.isActivatingElevator:unfreeze()
+    if self.spriteParent and self.spriteParent:getTag() == TAGS.Elevator then
+        local spriteParent = self.spriteParent
+
+        ---@cast spriteParent Elevator
+        spriteParent:unfreeze()
     end
 
     -- Perform refresh on activations / update variables
@@ -336,10 +342,12 @@ function Player:enterLevel(levelName, direction)
 
     -- Bring any parents with player (for elevator)
 
-    if self.isActivatingElevator then
-        self.isActivatingElevator:moveBy(offsetX, offsetY)
+    if self.spriteParent and self.spriteParent:getTag() == TAGS.Elevator then
+        local spriteParent = self.spriteParent
+        ---@cast spriteParent Elevator
+        spriteParent:moveBy(offsetX, offsetY)
 
-        self.isActivatingElevator:enterLevel(levelName, direction)
+        spriteParent:enterLevel(levelName, direction)
     end
 
     -- Push level position
