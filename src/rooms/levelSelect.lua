@@ -17,8 +17,7 @@ local sceneManager
 function LevelSelect:enter(previous, data)
   local data = data or {}
 
-  local font = gfx.font.new(assets.fonts.menu.small)
-  gfx.setFont(font)
+  gfx.setFont(Fonts.Menu.Small)
 
   sceneManager = self.manager
 

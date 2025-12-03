@@ -35,11 +35,10 @@ end
 local function init()
   -- Playdate config
 
-  local fontDefault = gfx.font.new(assets.fonts.dialog)
-  gfx.setFont(fontDefault)
+  gfx.setFont(Fonts.Dialog)
 
   pdDialogue.setup({
-    font = fontDefault
+    font = Fonts.Dialog
   })
 
   gfx.setBackgroundColor(0)

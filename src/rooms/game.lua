@@ -65,6 +65,8 @@ function Game:init(filepathLevel)
 
     GUIEnergyLevel()
 
+    GUIModalMessage()
+
     -- Load Ability Panel
 
     GUIChipSet()
@@ -86,10 +88,7 @@ function Game:unload()
 
     initialLevelNameSaveProgress = nil
 
-    -- Remove active cheats
-
     Player.destroy()
-    GUICheatUnlock.destroy()
     GUIChipSet.destroy()
     SpriteRescueCounter.destroy()
     GUIEnergyLevel.destroy()
@@ -135,36 +134,10 @@ function Game:setupSystemMenu()
     end)
 end
 
-function Game:setupCheats()
-    local guiCheatUnlock = GUICheatUnlock()
-
-    -- Unlock Crank: LRLR-UDU-BAA
-    guiCheatUnlock:addCheat(
-        { pd.kButtonLeft, pd.kButtonRight, pd.kButtonLeft, pd.kButtonRight, pd
-            .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonB, pd.kButtonA, pd.kButtonA },
-        function() Player.getInstance():unlockAbility(ABILITIES.CrankToWarp) end
-    )
-
-    -- Unlock Double Jump: LRRL-UDU-BAA
-    guiCheatUnlock:addCheat(
-        { pd.kButtonLeft, pd.kButtonRight, pd.kButtonRight, pd.kButtonLeft, pd
-            .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonB, pd.kButtonA, pd.kButtonA },
-        function() Player.getInstance():unlockAbility(ABILITIES.DoubleJump) end
-    )
-
-    -- Unlock Dash: LLRR-UDU-BAA
-    guiCheatUnlock:addCheat(
-        { pd.kButtonLeft, pd.kButtonLeft, pd.kButtonRight, pd.kButtonRight, pd
-            .kButtonUp, pd.kButtonDown, pd.kButtonUp, pd.kButtonB, pd.kButtonA, pd.kButtonA },
-        function() Player.getInstance():unlockAbility(ABILITIES.Dash) end
-    )
-end
-
 function Game:setupFonts()
     -- Set Font
 
-    local fontDefault = gfx.font.new(assets.fonts.dialog)
-    gfx.setFont(fontDefault)
+    gfx.setFont(Fonts.Dialog)
 end
 
 function Game:setupPowerLevel()
@@ -193,7 +166,6 @@ function Game:enter(previous, data)
         -- First-time load setup
 
         self:setupSystemMenu()
-        self:setupCheats()
         self:setupFonts()
         self:setupPowerLevel()
     else
@@ -241,7 +213,6 @@ function Game:enter(previous, data)
     SpriteRescueCounter.getInstance():add()
     Transition.getInstance():add()
     GUILightingEffect.getInstance():add()
-    GUICheatUnlock.getInstance():add()
     GUIChipSet.getInstance():add()
 
     -- Present Level Name if first time load
@@ -350,6 +321,8 @@ function Game:botRescued(bot, botNumber)
     -- Save the rescued sprite list
     local rescuedSprites = spriteRescueCounter:getRescuedSprites()
     MemoryCard.setLevelCompletion(worldCurrent.filepath, { rescuedSprites = rescuedSprites })
+
+    GUIModalMessage.showMessage("Go to menu to end the game.")
 end
 
 function Game:worldComplete(args)

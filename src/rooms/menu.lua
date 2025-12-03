@@ -32,8 +32,7 @@ function Menu:enter(previous)
 
   -- Set font
 
-  local font = gfx.font.new(assets.fonts.menu.small)
-  gfx.setFont(font)
+  gfx.setFont(Fonts.Menu.Small)
 
   isFirstTimePlay = MemoryCard.getLastPlayed() == nil
 
