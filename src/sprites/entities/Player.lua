@@ -4,7 +4,6 @@ local gmt <const> = pd.geometry
 local gfx <const> = pd.graphics
 
 local imagetablePlayer <const> = assert(gfx.imagetable.new(assets.imageTables.player))
-local imagetablePlayerDarkness <const> = assert(gfx.imagetable.new(assets.imageTables.playerDarkness))
 
 local spJump <const> = assert(sound.sampleplayer.new(assets.sounds.jump))
 local spError <const> = assert(sound.sampleplayer.new(assets.sounds.errorAction))
@@ -101,9 +100,7 @@ function Player:init(entityData, levelName, ...)
 
     _instance = self
 
-    local imagetable = CONFIG.ADD_SUPER_DARKNESS_EFFECT and imagetablePlayerDarkness or imagetablePlayer
-
-    Player.super.init(self, entityData, levelName, imagetable)
+    Player.super.init(self, entityData, levelName, imagetablePlayer)
 
     Moveable.init(self, {
         gravity = 8,
@@ -200,12 +197,6 @@ function Player:init(entityData, levelName, ...)
     -- Add Checkpoint handling
 
     self.checkpointHandler = CheckpointHandler.getOrCreate(self.id, self)
-
-    -- Adjust for super darkness
-
-    if CONFIG.ADD_SUPER_DARKNESS_EFFECT then
-        self:setZIndex(Z_INDEX.HUD.Main)
-    end
 
     -- Workaround: Adjust player location by y = -5 (to avoid falling through the floor)
     self:moveBy(0, -5)

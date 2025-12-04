@@ -24,6 +24,7 @@ local DURATION_ANIMATION_PROGRESS_BAR_FILL <const> = 800
 local ANIMATOR_PROGRESS_BAR <const> = gfx.animator.new(DURATION_ANIMATION_PROGRESS_BAR_FILL, 0, 1,
   pd.easingFunctions.inOutQuad)
 
+---@enum LevelCompletionState
 local STATE_PROGRESS_WORLD <const> = {
   Complete = "complete",
   InProgress = "in progress",
@@ -32,7 +33,9 @@ local STATE_PROGRESS_WORLD <const> = {
 }
 
 local _ = {}
-local statesWorld = {}
+
+---@type { number: { number: { state: LevelCompletionState, percentComplete: number }}} 2-D array representing area & world index with reference to completion
+local cachedCompletionForAreaWorldIndex = {}
 
 MenuGridView = Class("MenuGridView")
 
@@ -92,12 +95,9 @@ local function drawCell(self, gridView, section, row, column, selected, x, y, wi
 
     local rectProgressBar = RECT_PROGRESS_BAR:offsetBy(x, y)
 
-    local statusWorld = _.getWorldProgressStatus(gridView, section, row)
+    local statusWorld, percentComplete = _.getWorldProgressStatus(gridView, section, row)
 
-    local completion = statusWorld == STATE_PROGRESS_WORLD.InProgress and 0.5 or
-        statusWorld == STATE_PROGRESS_WORLD.Complete and 1.0 or 0.0
-
-    local fillValue = selected and ANIMATOR_PROGRESS_BAR:currentValue() * rectProgressBar.width * completion or
+    local fillValue = selected and ANIMATOR_PROGRESS_BAR:currentValue() * rectProgressBar.width * percentComplete or
         rectProgressBar.width
 
     -- Draw Frame
@@ -154,7 +154,7 @@ local function drawCell(self, gridView, section, row, column, selected, x, y, wi
 
     gfx.setImageDrawMode(gfx.kDrawModeNXOR)
 
-    local textProgressBar = _.getProgressBarText(statusWorld)
+    local textProgressBar = _.getProgressBarText(statusWorld, percentComplete)
 
     gfx.drawTextAligned(textProgressBar, rectProgressBar.x + rectProgressBar.width / 2,
       rectProgressBar.y + rectProgressBar.height / 2 - fontHeight / 2,
@@ -253,6 +253,8 @@ end
 
 -- Private methods
 
+---@param status LevelCompletionState
+---@return string
 function _.getProgressBarText(status)
   if status == STATE_PROGRESS_WORLD.Complete then
     return "Complete"
@@ -263,17 +265,22 @@ function _.getProgressBarText(status)
   elseif status == STATE_PROGRESS_WORLD.Locked then
     return "Locked"
   end
+
+  return ""
 end
 
+---comment
+---@param gridView number
+---@param section number
+---@param row number
+---@return LevelCompletionState state
+---@return number percentComplete
 function _.getWorldProgressStatus(gridView, section, row)
-  if CONFIG.ALL_LEVELS_UNLOCKED then
-    return STATE_PROGRESS_WORLD.Complete
-  end
-
   -- If cached value is present, simply return it.
 
-  if statesWorld[section] and statesWorld[section][row] then
-    return statesWorld[section][row]
+  if cachedCompletionForAreaWorldIndex[section] and cachedCompletionForAreaWorldIndex[section][row] then
+    return cachedCompletionForAreaWorldIndex[section][row].state,
+        cachedCompletionForAreaWorldIndex[section][row].percentComplete
   end
 
   -- Calculate whether level is unlocked based on previous
@@ -284,7 +291,8 @@ function _.getWorldProgressStatus(gridView, section, row)
   if sectionPrevious and rowPrevious then
     local nameAreaPrevious = ReadFile.getAreaName(sectionPrevious)
     local nameWorldPrevious = ReadFile.getWorldName(sectionPrevious, rowPrevious)
-    completionPrevious = MemoryCard.getLevelCompletion(nameAreaPrevious, nameWorldPrevious)
+    local filename = ReadFile.buildFilePath(nameAreaPrevious, nameWorldPrevious)
+    completionPrevious = MemoryCard.getLevelCompletion(filename)
   else
     -- If first level, act like the "previous level" is complete.
     completionPrevious = { complete = true }
@@ -292,28 +300,46 @@ function _.getWorldProgressStatus(gridView, section, row)
 
   local nameArea = ReadFile.getAreaName(section)
   local nameWorld = ReadFile.getWorldName(section, row)
-  local completion = MemoryCard.getLevelCompletion(nameArea, nameWorld)
+  local filename = ReadFile.buildFilePath(nameArea, nameWorld)
+  local completion = MemoryCard.getLevelCompletion(filename)
+  local percentComplete = 0
 
   local state
 
-  if completion and completion.complete then
-    state = STATE_PROGRESS_WORLD.Complete
-  elseif completion then
-    state = STATE_PROGRESS_WORLD.InProgress
-  elseif not (completionPrevious and completionPrevious.complete) then
-    state = STATE_PROGRESS_WORLD.Locked
+  if completion then
+    if completion.rescuedSprites then
+      local spritesRescued = 0
+      local spritesTotal = 0
+
+      for _, isRescued in ipairs(completion.rescuedSprites) do
+        spritesTotal += 1
+        spritesRescued += isRescued.value and 1 or 0
+      end
+
+      percentComplete = spritesRescued / spritesTotal
+
+      if spritesTotal == spritesRescued then
+        state = STATE_PROGRESS_WORLD.Complete
+      else
+        state = STATE_PROGRESS_WORLD.InProgress
+      end
+    end
   else
     state = STATE_PROGRESS_WORLD.New
   end
 
   -- Cache value
-  if not statesWorld[section] then
-    statesWorld[section] = {}
+
+  if not cachedCompletionForAreaWorldIndex[section] then
+    cachedCompletionForAreaWorldIndex[section] = {}
   end
 
-  statesWorld[section][row] = state
+  cachedCompletionForAreaWorldIndex[section][row] = {
+    state = state,
+    percentComplete = percentComplete
+  }
 
-  return state
+  return state, percentComplete
 end
 
 --- Return previous section / row in the gridview. Returns nil otherwise.
