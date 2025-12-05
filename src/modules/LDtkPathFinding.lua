@@ -231,7 +231,7 @@ function LDTkPathFinding.addAdditionalConnections(levelName)
             not _hasOverlappingWallSprite(x + 32, y) and
             not _hasOverlappingWallSprite(x + 32, y - 32) then
             node:addConnectionToNodeWithXY(xGraph + 2,
-                yGraph - 1, 24, true)
+                yGraph - 1, 23, true)
 
             configurations[PATHFINDING_ADDITIONAL_CONFIGURATIONS.UpperDoubleRight] = true
         end
@@ -249,10 +249,41 @@ function LDTkPathFinding.addAdditionalConnections(levelName)
             not _hasOverlappingWallSprite(x + 32, y) and
             not _hasOverlappingWallSprite(x + 32, y + 32) then
             node:addConnectionToNodeWithXY(xGraph + 2,
-                yGraph + 1, 24, true)
+                yGraph + 1, 23, true)
 
             configurations[PATHFINDING_ADDITIONAL_CONFIGURATIONS.LowerDoubleRight] = true
         end
+
+
+        -- Check for >1-lower-right neighbor (Non-reciprocal)
+
+        if
+            xGraph < widthGraph and
+            -- yGraph + 1 < heightGraph and
+            not configurations[PATHFINDING_ADDITIONAL_CONFIGURATIONS.LowerRight] and
+            not configurations[PATHFINDING_ADDITIONAL_CONFIGURATIONS.UpperRight] and
+            -- Space between
+            not _hasOverlappingWallSprite(x + 32, y) then
+            for i = 1, 3 do
+                if yGraph + i < heightGraph and
+                    not _hasOverlappingWallSprite(x + 32, y + 32 * i) then
+                    -- Air with ground (Connection point)
+                    if nodes[_convertGridToIndex(xGraph + 1, yGraph + 1 + i, widthGraph)] == 1 then
+                        local weight = math.ceil(math.sqrt(100 + (10 + i * 10) ^ 2))
+                        node:addConnectionToNodeWithXY(xGraph + 1,
+                            yGraph + 1 + i, weight, false)
+
+                        goto breakloop
+                    end
+                else
+                    goto breakloop
+                end
+            end
+        end
+
+        ::breakloop::
+
+        -- Check for >1-upper-right neighbor
 
         ::continue::
     end
