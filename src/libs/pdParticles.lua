@@ -280,9 +280,6 @@ end
 function ParticleCircle:update()
     local w = playdate.graphics.getLineWidth()
     local c = playdate.graphics.getColor()
-    if type(c) == "table" then
-        c = c[1]
-    end
 
     playdate.graphics.setColor(self.colour)
     for part = 1, #self.particles, 1 do
@@ -302,7 +299,11 @@ function ParticleCircle:update()
         self.particles[part] = circ
     end
     playdate.graphics.setLineWidth(w)
-    playdate.graphics.setColor(c)
+
+    if type(c) ~= "table" then
+        playdate.graphics.setColor(c)
+    end
+
     if self.mode == 1 then
         decay(self.particles, self.decay)
     elseif self.mode == 0 then
