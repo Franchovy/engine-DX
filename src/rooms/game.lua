@@ -228,9 +228,10 @@ function Game:update()
 
     local player = Player.getInstance()
     local chipset = GUIChipSet.getInstance()
-    local elevator = player:getElevatorActivating()
 
-    if player and chipset then
+    if player and chipset and not playdate.buttonIsPressed(playdate.kButtonB) then
+        local elevator = player:getElevatorActivating()
+
         if playdate.buttonJustPressed(playdate.kButtonA) and chipset:getButtonEnabled(KEYNAMES.A) then
             player:jump()
         end
