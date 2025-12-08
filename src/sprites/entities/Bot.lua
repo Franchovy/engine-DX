@@ -10,6 +10,12 @@ BOT_ANIMATION_STATES = {
     Sad = 'sad',
 }
 
+local DIALOG_STATES = {
+    Unopened = 'unopened',
+    Expanded = 'expanded',
+    Finished = 'finished'
+}
+
 -- Local Variables
 
 -- Assets
@@ -130,7 +136,7 @@ function Bot:init(entityData, levelName)
     -- Bot variables
 
     self.repeatLine = nil
-    self.isStateExpanded = false
+    self.dialogState = DIALOG_STATES.Unopened
     self.currentLine = nil
 
     -- Variables to be consumed in update
@@ -220,6 +226,8 @@ function Bot:setupDialogLines(rawText)
             action = function() return true end
         else
             local _, data = pcall(json.decode, lineRaw)
+            local props = props
+            local condition = condition
 
             action = function()
                 -- Check condition
@@ -291,13 +299,13 @@ function Bot:activate()
     end
 end
 
-function Bot:getNextLine()
+function Bot:getNextLine(currentLine)
     if #self.lines == 0 then
         return
     end
 
     ---@type integer?
-    local currentLine = self.currentLine
+    local currentLine = currentLine or self.currentLine
     if currentLine == nil then
         -- First line index
         currentLine = self.repeatLine or 1
@@ -315,12 +323,18 @@ function Bot:getNextLine()
 
         -- Check condition; if failed then move onto next line.
         if not success then
-            self:getNextLine()
+            self:getNextLine(currentLine)
         else
             -- Set current line
             self.currentLine = currentLine
-            self.isStateExpanded = true
+            self.dialogState = DIALOG_STATES.Expanded
         end
+    else
+        -- Close dialog
+        self:closeDialogSprite()
+
+        self.currentLine = nil
+        self.dialogState = DIALOG_STATES.Finished
     end
 end
 
@@ -342,40 +356,26 @@ function Bot:getIsRescuable()
     return self.isRescuable
 end
 
-function Bot:collapse()
-    if self.dialogSprite then
-        self.dialogSprite:remove()
-        self.dialogSprite = nil
-    end
-
-    -- Hide speech bubble
-    self.isStateExpanded = false
-    self.currentLine = nil
-
-    -- Stop any ongoing timers
-    if self.timer then
-        self.timer:pause()
-    end
-end
-
 function Bot:update()
     Bot.super.update(self)
 
     -- Update dialog
 
-    if self.isActivated and not self.isStateExpanded then
+    if self.isActivated and self.dialogState == DIALOG_STATES.Unopened then
         -- Show next dialog line
 
         self:getNextLine()
-    elseif self.isActivated and self.isStateExpanded then
+    elseif self.isActivated and self.dialogState == DIALOG_STATES.Expanded then
         -- Continue dialog
-    elseif self.isStateExpanded then
-        -- Hide dialog
+    elseif not self.isActivated then
+        -- No longer activated, close dialog
 
-        self:collapse()
+        self:closeDialogSprite()
+
+        self.dialogState = DIALOG_STATES.Unopened
     end
 
-    -- Consume update variable
+    -- Reset update variable
 
     self.isActivated = false
 
@@ -385,7 +385,7 @@ function Bot:update()
 
     -- Crank Indicator
 
-    if self.isStateExpanded and not self.isRescued and self.showCrankIndicator then
+    if self.dialogState == DIALOG_STATES.Expanded and not self.isRescued and self.showCrankIndicator then
         _G.showCrankIndicator = true
     else
         _G.showCrankIndicator = false
@@ -445,73 +445,10 @@ function Bot:updateAnimationState()
         else
             self:changeState(BOT_ANIMATION_STATES.Sad)
         end
-    elseif self.isStateExpanded then
+    elseif self.dialogState == DIALOG_STATES.Expanded then
         self:changeState(BOT_ANIMATION_STATES.Talking)
     else
         self:changeState(BOT_ANIMATION_STATES.Idle)
-    end
-end
-
-function Bot:incrementDialog()
-    local dialog = self.lines[self.currentLine]
-
-    local shouldIncrement = not (self.currentLine > #self.lines)
-        and (self.isStateExpanded or (dialog.text == "--no text--"))
-
-    -- If line is greater than current lines, mimic collapse.
-    if shouldIncrement then
-        -- If a movement is programmed, handle movement before next line.
-
-        if self.startWalkToPlayer then
-            self.walkToPlayer = self.startWalkToPlayer
-        elseif self.startWalkPath then
-            -- Enable movement
-
-            self.startWalkPath()
-
-            -- Set line to repeat at next line
-            self.repeatLine = self.currentLine
-
-            -- Collapse bubble
-            self:collapse()
-        end
-
-        -- Update sprite size using dialog size
-
-        if dialog.condition then
-            local guiChipSet = GUIChipSet.getInstance()
-
-            local conditionFailed = false
-
-            --- TODO: CONDITION CHECK
-
-            if conditionFailed then
-                -- Condition failed
-                self:showNextLine()
-                self:incrementDialog()
-
-                return
-            end
-        end
-
-        -- Set timer to handle next line / collapse
-        if self.timer then
-            self.timer:remove()
-        end
-
-        if dialog.text ~= "--no text--" then
-            -- Set size and position
-            local width = dialog.width + textMarginX * 2
-
-            self:addDialogSprite(
-                dialog.text,
-                width
-            )
-
-            -- Speak dialog
-
-            self:playDialogSound()
-        end
     end
 end
 
@@ -528,7 +465,7 @@ function Bot:addDialogSprite(text)
         nineSlice = nineSliceSpeech,
         speed = 4.5,
         onPageComplete = function()
-            self.timer = playdate.timer.performAfterDelay(durationDialog, self.showNextLine, self)
+            self.timer = playdate.timer.performAfterDelay(durationDialog, self.getNextLine, self)
         end
     }
 
@@ -550,18 +487,16 @@ function Bot:addDialogSprite(text)
     self.dialogSprite:add()
 end
 
-function Bot:showNextLine()
-    -- Increment current line
-    self.currentLine += 1
-
-    -- Reset timer
-
-    if self.timer then
-        self.timer:reset()
+function Bot:closeDialogSprite()
+    if self.dialogSprite then
+        self.dialogSprite:remove()
+        self.dialogSprite = nil
     end
 
-    --
-    self.isStateExpanded = true
+    -- Stop any ongoing timers
+    if self.timer then
+        self.timer:pause()
+    end
 end
 
 function Bot:playDialogSound()
