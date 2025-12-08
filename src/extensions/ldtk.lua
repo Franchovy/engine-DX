@@ -53,7 +53,7 @@ function LDtk.loadAllEntitiesAsSprites(levelName)
             goto continue
         end
 
-        if not entityClass.shouldSpawn(entityData, levelName) then
+        if entityClass.shouldSpawn and not entityClass.shouldSpawn(entityData, levelName) then
             goto continue
         end
 

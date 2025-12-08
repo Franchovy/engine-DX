@@ -110,7 +110,7 @@ function Bot:init(entityData, levelName)
     -- Collision config
 
     self:setCollideRect(4, 4, self.width - 8, self.height - 4)
-    self:setCollidesWithGroups({ GROUPS.Solid, GROUPS.SolidExceptElevator })
+    self:setCollidesWithGroups({ GROUPS.Solid, GROUPS.SolidExceptElevator, GROUPS.ActivateBot })
     self:setTag(TAGS.Bot)
 
     -- Create activateable collision field
@@ -408,6 +408,14 @@ function Bot:update()
 
     Moveable.update(self)
 
+    if #self.collisions > 0 then
+        for i, collision in pairs(self.collisions) do
+            if collision.other.activate then
+                collision.other:activate(self)
+            end
+        end
+    end
+
     -- Reset update variable
 
     self.isActivated = false
@@ -488,8 +496,10 @@ function Bot:updateMoveToNextPoint()
 
         if xMovement > 0 then
             self:moveRight()
+            self:setFlip(false)
         elseif xMovement < 0 then
             self:moveLeft()
+            self:setFlip(true)
         end
     end
 end

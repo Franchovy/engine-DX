@@ -532,7 +532,7 @@ function Player:updateActivations()
 
                 -- Activate block drilling
 
-                otherSprite:activateDown()
+                otherSprite:activateDown(self)
 
                 -- If consumed or player stopped pressing, end animation.
                 if otherSprite:isConsumed() then
@@ -576,14 +576,14 @@ function Player:updateActivations()
             -- But it's also useful for debugging.
 
             if not warpCooldown then
-                otherSprite:activate()
+                otherSprite:activate(self)
             end
         elseif tag == TAGS.Bot and not self.activeDialog then
             self.activeDialog = otherSprite.spriteParent
 
-            self.activeDialog:activate()
+            self.activeDialog:activate(self)
         else
-            otherSprite:activate()
+            otherSprite:activate(self)
         end
     end
 
