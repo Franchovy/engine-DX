@@ -2,7 +2,9 @@ Z_INDEX = {
     Transition = 200,
     HUD = {
         Background = 99,
-        Main = 100
+        Main = 100,
+        MainPlus = 101,
+        Overlay = 102
     },
     Level = {
         Background = -3,

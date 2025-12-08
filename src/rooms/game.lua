@@ -60,6 +60,7 @@ function Game:init(filepathLevel)
     Background()
     GUILevelName()
     GUIModalMessage()
+    GUIScreenEdges()
 
     -- Load Ability Panel
 
@@ -206,6 +207,7 @@ function Game:enter(previous, data)
     Transition.getInstance():add()
     GUILightingEffect.getInstance():add()
     GUIChipSet.getInstance():add()
+    GUIScreenEdges.getInstance():add()
 
     -- Present Level Name if first time load
 
@@ -247,6 +249,12 @@ function Game:update()
         elseif playdate.buttonIsPressed(playdate.kButtonDown) and chipset:getButtonEnabled(KEYNAMES.Down) then
             player:moveDown()
         end
+    end
+
+    if player and playdate.buttonIsPressed(playdate.kButtonB) then
+        GUIScreenEdges:getInstance():animateIn()
+    else
+        GUIScreenEdges:getInstance():animateOut()
     end
 end
 

@@ -83,7 +83,7 @@ function GUIChipSet:init()
   _instance = self
 
   self:setCenter(0, 0)
-  self:setZIndex(Z_INDEX.HUD.Background)
+  self:setZIndex(Z_INDEX.HUD.Main)
   self:setIgnoresDrawOffset(true)
 
   -- Create individual button sprites
@@ -95,7 +95,7 @@ function GUIChipSet:init()
   end
 
   for _, sprite in pairs(buttonSprites) do
-    sprite:setZIndex(Z_INDEX.HUD.Main)
+    sprite:setZIndex(Z_INDEX.HUD.MainPlus)
     sprite:setIgnoresDrawOffset(true)
     sprite:setImage(imageButtonEmpty)
   end
