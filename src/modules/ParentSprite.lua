@@ -14,6 +14,8 @@ local function _performOnChildren(sprite, fun, ...)
 end
 
 function ParentSprite:addChild(childSprite)
+    childSprite.spriteParent = self
+
     if not self.children then
         self.children = {}
     end
@@ -22,6 +24,8 @@ function ParentSprite:addChild(childSprite)
 end
 
 function ParentSprite:removeChild(childSprite)
+    childSprite.spriteParent = nil
+
     for i, child in ipairs(self.children) do
         if child == childSprite then
             table.remove(self.children, i)

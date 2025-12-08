@@ -120,6 +120,7 @@ function Bot:init(entityData, levelName)
     self.collisionField:setCollideRect(0, 0, collideRectSize, collideRectSize)
     self.collisionField:setGroups(GROUPS.ActivatePlayer)
     self.collisionField:moveTo(self.x, self.y)
+    self.collisionField:setTag(TAGS.Bot)
 
     ---@diagnostic disable-next-line: inject-field
     self.collisionField.activate = function() self.activate(self) end
@@ -316,6 +317,12 @@ function Bot:activate()
 
     if self.isRescuable and not self.isRescued then
         self:setRescued()
+    end
+end
+
+function Bot:onBButtonPress()
+    if self.dialogState == DIALOG_STATES.Expanded then
+        self:getNextLine()
     end
 end
 

@@ -442,10 +442,6 @@ function Player:update()
 
     self:updateWarp()
 
-    -- Bot / Interactions
-
-    self:updateInteractions()
-
     -- Update variables set by collisions
 
     self.didPressedInvalidKey = false
@@ -583,7 +579,7 @@ function Player:updateActivations()
                 otherSprite:activate()
             end
         elseif tag == TAGS.Bot and not self.activeDialog then
-            self.activeDialog = otherSprite
+            self.activeDialog = otherSprite.spriteParent
 
             self.activeDialog:activate()
         else
@@ -621,18 +617,6 @@ function Player:updateWarp()
     -- How fast game time should move based on crank speed
 
     Moveable.setTimeCoefficient(timeCoefficient)
-end
-
-function Player:updateInteractions()
-    if self.activeDialog and self:justPressedInteractionKey() then
-        self.activeDialog:showNextLine()
-    else
-        if self:justPressedInteractionKey() then
-            self.synth:play()
-        elseif self:justReleasedInteractionKey() then
-            self.synth:stop()
-        end
-    end
 end
 
 function Player:updateCheckpointState()

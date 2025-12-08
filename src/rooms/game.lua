@@ -252,7 +252,13 @@ function Game:update()
     end
 
     if player and playdate.buttonIsPressed(playdate.kButtonB) then
-        GUIScreenEdges:getInstance():animateIn()
+        if player.activeDialog then
+            if playdate.buttonJustPressed(playdate.kButtonB) then
+                player.activeDialog:onBButtonPress()
+            end
+        else
+            GUIScreenEdges:getInstance():animateIn()
+        end
     else
         GUIScreenEdges:getInstance():animateOut()
     end
