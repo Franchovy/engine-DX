@@ -29,6 +29,8 @@ local textMarginX <const> = 10
 local distanceAboveSprite <const> = 6
 local durationDialog <const> = 2000
 local collideRectSize <const> = 64
+local distanceMinNextNode <const> = 25
+local distanceMinFinalNode <const> = 5
 
 local lettersToActions <const> = {
     ["A"] = KEYNAMES.A,
@@ -59,7 +61,7 @@ function Bot:init(entityData, levelName)
                 friction = -0.0008
             },
             ground = {
-                acceleration = 1,
+                acceleration = 2,
                 friction = -0.5
             }
         },
@@ -114,9 +116,10 @@ function Bot:init(entityData, levelName)
     -- Create activateable collision field
 
     self.collisionField = gfx.sprite.new()
+    self.collisionField:setSize(collideRectSize, collideRectSize)
     self.collisionField:setCollideRect(0, 0, collideRectSize, collideRectSize)
     self.collisionField:setGroups(GROUPS.ActivatePlayer)
-    self.collisionField:moveTo(self.x - collideRectSize / 2, self.y - collideRectSize / 2)
+    self.collisionField:moveTo(self.x, self.y)
 
     ---@diagnostic disable-next-line: inject-field
     self.collisionField.activate = function() self.activate(self) end
@@ -183,6 +186,10 @@ function Bot:remove()
     GUILightingEffect:getInstance():removeEffect(self)
 end
 
+function Bot:moveWithCollisions(destX, destY)
+    return ParentSprite.moveWithCollisions(self, destX, destY)
+end
+
 function Bot:changeState(stateNew)
     -- Get state if available, fallback on Idle
     local stateNewActual = self.config.animations[stateNew] and stateNew or
@@ -222,8 +229,23 @@ function Bot:setupDialogLines(rawText)
                 self:executeProps(data)
             end
         elseif string.match(lineRaw, "^%:") then
-            -- Actions (e.g. walk-to)
-            action = function() return true end
+            -- Actions
+            if string.match(lineRaw, "^%:walkTo%:") then
+                -- Walk-to action
+                local numberOrName = string.match(lineRaw, "^%:walkTo%:.+(%w+)$")
+                local targetPoint = numberOrName and self:getDestinationPoint(numberOrName)
+
+                if targetPoint then
+                    action = function()
+                        self.walkDestination = targetPoint
+
+                        self:closeDialogSprite()
+                        self.dialogState = DIALOG_STATES.Finished
+
+                        return true
+                    end
+                end
+            end
         else
             local _, data = pcall(json.decode, lineRaw)
             local props = props
@@ -255,8 +277,6 @@ function Bot:setupDialogLines(rawText)
                 props = nil
             end
         end
-
-        ::continue::
     end
 end
 
@@ -327,7 +347,6 @@ function Bot:getNextLine(currentLine)
         else
             -- Set current line
             self.currentLine = currentLine
-            self.dialogState = DIALOG_STATES.Expanded
         end
     else
         -- Close dialog
@@ -359,21 +378,28 @@ end
 function Bot:update()
     Bot.super.update(self)
 
-    -- Update dialog
+    if self.walkDestination then
+        -- Move Bot
+        self:updateMoveToNextPoint()
+    else
+        -- Update dialog
 
-    if self.isActivated and self.dialogState == DIALOG_STATES.Unopened then
-        -- Show next dialog line
+        if self.isActivated and self.dialogState == DIALOG_STATES.Unopened then
+            -- Show next dialog line
 
-        self:getNextLine()
-    elseif self.isActivated and self.dialogState == DIALOG_STATES.Expanded then
-        -- Continue dialog
-    elseif not self.isActivated then
-        -- No longer activated, close dialog
+            self:getNextLine()
+        elseif self.isActivated and self.dialogState == DIALOG_STATES.Expanded then
+            -- Continue dialog
+        elseif not self.isActivated then
+            -- No longer activated, close dialog
 
-        self:closeDialogSprite()
+            self:closeDialogSprite()
 
-        self.dialogState = DIALOG_STATES.Unopened
+            self.dialogState = DIALOG_STATES.Unopened
+        end
     end
+
+    Moveable.update(self)
 
     -- Reset update variable
 
@@ -398,44 +424,67 @@ function Bot:update()
     end
 end
 
-function Bot:updateMovement()
-    if self.walkToPlayer and not self.walkPath then
-        self.walkToPlayer()
+function Bot:updateMoveToNextPoint()
+    if not self.walkDestination then
+        return
     end
 
-    if self.walkPath and #self.walkPath > 0 then
-        local nextPoint
-        local xMovement, yMovement
-        local speed = 3
+    local targetPoint = self.walkDestination
 
-        repeat
-            nextPoint = self.walkPath[1]
-            xMovement, yMovement = nextPoint.x - self.x, nextPoint.y - self.y
-            if not (math.abs(xMovement) > 3 or math.abs(yMovement) > 3) then
-                table.remove(self.walkPath, 1)
-            end
-        until math.abs(xMovement) > 3 or math.abs(yMovement) > 3 or #self.walkPath == 0
+    -- Check if at target point
+    if math.abs(self.x - targetPoint.x) < distanceMinFinalNode and math.abs(self.y - targetPoint.y) < distanceMinFinalNode then
+        -- If arrived, then move to next line
+        self.walkDestination = nil
+        self.pathNodes = nil
+        self.nextPoint = nil
 
-        if #self.walkPath > 0 then
-            -- Move towards next point
-            if yMovement < 0 and math.abs(xMovement) < 33 then
-                -- Jump and move left/right
-                self:jump()
+        return
+    elseif self.nextPoint and (math.abs(self.x - self.nextPoint.x) < distanceMinNextNode and math.abs(self.y - self.nextPoint.y) < distanceMinNextNode) then
+        self.nextPoint = nil
+    elseif not self.nextPoint then
+        -- Get path to target point
+        if not self.pathNodes then
+            local pathNodes = LDTkPathFinding.getPath(Game.getLevelName(), self:centerX(), self:centerY(), targetPoint.x,
+                targetPoint.y)
+
+            if not pathNodes or #pathNodes == 0 then
+                -- No path returned, interrupt movement
+                self.walkDestination = nil
+                return
             end
 
-            if xMovement > 0 then
-                self:moveRight()
-            elseif xMovement < 0 then
-                self:moveLeft()
-            end
-        else
-            self.walkPath = nil
+            self.pathNodes = pathNodes
         end
-    elseif self.walkPath and #self.walkPath == 0 then
-        self.walkPath = nil
+
+        local xMovement, yMovement
+
+        if #self.pathNodes > 0 then
+            repeat
+                self.nextPoint = self.pathNodes[1]
+                xMovement, yMovement = self.nextPoint.x - self.x, self.nextPoint.y - self.y
+                if not (math.abs(xMovement) > distanceMinNextNode or math.abs(yMovement) > distanceMinNextNode) then
+                    table.remove(self.pathNodes, 1)
+                end
+            until math.abs(xMovement) > distanceMinNextNode or math.abs(yMovement) > distanceMinNextNode or #self.pathNodes == 0
+        end
     end
 
-    Moveable.update(self)
+    -- Move to next point on path
+
+    if self.nextPoint then
+        local xMovement, yMovement = self.nextPoint.x - self.x, self.nextPoint.y - self.y
+
+        if yMovement < 0 and math.abs(xMovement) < 33 then
+            -- Jump and move left/right
+            self:jump()
+        end
+
+        if xMovement > 0 then
+            self:moveRight()
+        elseif xMovement < 0 then
+            self:moveLeft()
+        end
+    end
 end
 
 function Bot:updateAnimationState()
@@ -472,7 +521,7 @@ function Bot:addDialogSprite(text)
     -- Clear previous dialog sprite
 
     if self.dialogSprite then
-        self.dialogSprite:remove()
+        self:closeDialogSprite()
     end
 
     -- Create and add new dialog sprite
@@ -482,13 +531,17 @@ function Bot:addDialogSprite(text)
     self.dialogSprite = dialogBox:asSprite()
 
     self.dialogSprite:setZIndex(Z_INDEX.HUD.Background)
-    self.dialogSprite:setCenter(0.5, 1)
-    self.dialogSprite:moveTo(self:centerX(), self:top() - distanceAboveSprite)
+    self.dialogSprite:setCenter(0.5, 1.5)
     self.dialogSprite:add()
+    self:addChild(self.dialogSprite)
+
+    self.dialogState = DIALOG_STATES.Expanded
 end
 
 function Bot:closeDialogSprite()
     if self.dialogSprite then
+        self:removeChild(self.dialogSprite)
+
         self.dialogSprite:remove()
         self.dialogSprite = nil
     end
@@ -569,34 +622,6 @@ function Bot:executeProps(props)
         self:setFlip(props.flip)
     end
 
-    if props.walkTo then
-        local walkToPointNumber = props.walkTo
-
-        if props.walkTo == "player" then
-            self.startWalkToPlayer = function()
-                local player = Player.getInstance()
-                local finalX, finalY = player.x, player.y
-
-                local pathNodes = LDTkPathFinding.getPath(Game.getLevelName(), self.x, self.y, finalX, finalY)
-                self.walkPath = pathNodes
-            end
-        elseif self.fields.points and self.fields.points[walkToPointNumber] then
-            local destinationPoint = self.fields.points[walkToPointNumber]
-            local levelBounds = Game.getLevelBounds()
-            local finalX, finalY = levelBounds.x + destinationPoint.cx * TILE_SIZE + TILE_SIZE / 2,
-                levelBounds.y + destinationPoint.cy * TILE_SIZE + TILE_SIZE / 2
-
-            local pathNodes = LDTkPathFinding.getPath(Game.getLevelName(), self.x, self.y, finalX, finalY)
-
-            self.startWalkPath = function()
-                self.walkPath = pathNodes
-            end
-
-            -- Set repeat line not to repeat previous text.
-            self.repeatLine = self.currentLine + 1
-        end
-    end
-
     if props.showCrankIndicator then
         self.showCrankIndicator = true
     end
@@ -617,5 +642,27 @@ function Bot:executeProps(props)
 
     if props.bleepVoice then
         self.synth:setVoice(SCALES[props.bleepVoice])
+    end
+end
+
+---@param numberOrName number|string
+---@return {x:number, y:number}|_Sprite|nil
+function Bot:getDestinationPoint(numberOrName)
+    if tonumber(numberOrName) then
+        local numberOrName = tonumber(numberOrName)
+        local point = self.fields.points and self.fields.points[numberOrName]
+
+        if not point then
+            return
+        end
+
+        -- Convert point to game coordinates
+        local levelBounds = Game.getLevelBounds()
+        local finalX, finalY = levelBounds.x + point.cx * TILE_SIZE + TILE_SIZE / 2,
+            levelBounds.y + point.cy * TILE_SIZE + TILE_SIZE / 2
+
+        return { x = finalX, y = finalY }
+    elseif numberOrName == "player" then
+        return Player.getInstance()
     end
 end

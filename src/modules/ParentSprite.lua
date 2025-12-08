@@ -21,6 +21,14 @@ function ParentSprite:addChild(childSprite)
     table.insert(self.children, childSprite)
 end
 
+function ParentSprite:removeChild(childSprite)
+    for i, child in ipairs(self.children) do
+        if child == childSprite then
+            table.remove(self.children, i)
+        end
+    end
+end
+
 function ParentSprite:add()
     gfx.sprite.add(self)
 
