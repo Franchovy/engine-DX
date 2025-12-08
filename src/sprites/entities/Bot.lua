@@ -22,7 +22,7 @@ local spCollect <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.c
 local textMarginX <const> = 10
 local distanceAboveSprite <const> = 6
 local durationDialog <const> = 2000
-local collideRectSize <const> = 90
+local collideRectSize <const> = 64
 
 local lettersToActions <const> = {
     ["A"] = KEYNAMES.A,
@@ -32,13 +32,17 @@ local lettersToActions <const> = {
     ["D"] = KEYNAMES.Down,
 }
 
+---@alias DialogLine fun():boolean
+
 ---@class Bot: EntityAnimated, Moveable, ParentSprite
 ---@property timer _Timer|nil
 ---@property config BotConfig
+---@property lines DialogLine[]
 Bot = Class("Bot", EntityAnimated)
 
 Bot:implements(Moveable)
 Bot:implements(ParentSprite)
+
 
 function Bot:init(entityData, levelName)
     Moveable.init(self, {
@@ -50,7 +54,7 @@ function Bot:init(entityData, levelName)
             },
             ground = {
                 acceleration = 1,
-                friction = -0.08
+                friction = -0.5
             }
         },
         jump = {
@@ -95,17 +99,18 @@ function Bot:init(entityData, levelName)
 
     self:setupVoiceSynth()
 
-    -- Sprite setup
+    -- Collision config
 
+    self:setCollideRect(4, 4, self.width - 8, self.height - 4)
     self:setCollidesWithGroups({ GROUPS.Solid, GROUPS.SolidExceptElevator })
     self:setTag(TAGS.Bot)
 
-    -- Create collision field
+    -- Create activateable collision field
 
     self.collisionField = gfx.sprite.new()
-    self.collisionField:setCollideRect(0, 0, 64, 64)
+    self.collisionField:setCollideRect(0, 0, collideRectSize, collideRectSize)
     self.collisionField:setGroups(GROUPS.ActivatePlayer)
-    self.collisionField:moveTo(self.x - 32, self.y - 32)
+    self.collisionField:moveTo(self.x - collideRectSize / 2, self.y - collideRectSize / 2)
 
     ---@diagnostic disable-next-line: inject-field
     self.collisionField.activate = function() self.activate(self) end
@@ -116,27 +121,17 @@ function Bot:init(entityData, levelName)
 
     self.isRescuable = entityData.fields.saveNumber ~= nil
     self.rescueNumber = entityData.fields.saveNumber
-
-    -- Get text from LDtk entity
-
-    local text = entityData.fields.text
+    self.isRescued = entityData.fields.isRescued or false
 
     -- Break up text into lines
 
-    self:setupDialogLines(text)
+    self:setupDialogLines(entityData.fields.text)
 
     -- Bot variables
 
     self.repeatLine = nil
-
-    -- Self state
-
-    self.isRescued = false
-
-    -- Set state
-
     self.isStateExpanded = false
-    self.currentLine = 1
+    self.currentLine = nil
 
     -- Variables to be consumed in update
 
@@ -149,13 +144,7 @@ function Bot:init(entityData, levelName)
 
     -- Set flip value
 
-    if self.fields.flip ~= nil then
-        self:setFlip(self.fields.flip)
-    end
-
-    -- Set collide rect to full size, centered on current center.
-    self:setCollideRect(4, 4, self.width - 8, self.height - 4)
-
+    self:setFlip(self.fields.flip or false)
 
     -- Config additional init call
 
@@ -196,76 +185,68 @@ function Bot:changeState(stateNew)
     Bot.super.changeState(self, stateNewActual)
 end
 
-function Bot:setupDialogLines(text)
-    -- Initialize empty dialog array or map
-    self.dialogs = {}
+function Bot:setupDialogLines(rawText)
+    -- Initialize empty dialog array
+    self.lines = {}
 
     -- If no text is provided, simply return.
-    if not text then
+    if not rawText then
         return
     end
 
-    -- Get font used for calculating text size
-
-    local font = gfx.getFont()
-
     -- Condition, if used, is repeated for every line until changed.
+    ---@type (fun(): boolean)?
     local condition
+    ---@type fun()?
     local props
 
-    for lineRaw in string.gmatch(text, "([^\n]+)") do
-        -- Bot Action condition
+    for lineRaw in string.gmatch(rawText, "([^\n]+)") do
+        local action
 
-        if string.match(lineRaw, "%$") then
-            local conditionChipset = string.match(lineRaw, "%$%u%u%u")
+        if string.match(lineRaw, "^%$") then
+            -- Parse bot condition
 
-            if conditionChipset then
-                condition = {
-                    chipSet = self:parseCondition(conditionChipset)
-                }
+            condition = self:parseCondition(lineRaw)
+        elseif string.match(lineRaw, "^%{") then
+            -- Props / Dynamic Properties to apply
 
-                goto continue
-            else
-                condition = {
-                    state = string.sub(lineRaw, 2)
-                }
-                goto continue
+            local _, data = pcall(json.decode, lineRaw)
+
+            props = function()
+                self:executeProps(data)
+            end
+        elseif string.match(lineRaw, "^%:") then
+            -- Actions (e.g. walk-to)
+            action = function() return true end
+        else
+            local _, data = pcall(json.decode, lineRaw)
+
+            action = function()
+                -- Check condition
+                if condition and not condition() then
+                    return false
+                end
+
+                -- Execute props if any
+                if props then
+                    props()
+                end
+
+                -- Show dialog line
+                self:addDialogSprite(lineRaw)
+
+                return true
             end
         end
 
-        -- JSON for dynamic properties
+        if action then
+            table.insert(self.lines, action)
 
-        if string.match(lineRaw, "^%{") then
-            local _, data = pcall(json.decode, lineRaw)
-
-            props = data
-
-            goto continue
+            -- Clear props if any
+            if props then
+                props = nil
+            end
         end
-
-        -- Else, create dialog object
-
-        local dialog = {
-            text = lineRaw,
-            props = props,
-            condition = condition,
-            width = 0,
-        }
-
-        -- Clear dynamic properties after use
-
-        if props then
-            props = nil
-        end
-
-        -- Calculate width and height of dialog box
-
-        local textWidth = font:getTextWidth(lineRaw)
-        dialog.width = math.min(textWidth, 200)
-
-        -- Add dialog to list
-
-        table.insert(self.dialogs, dialog)
 
         ::continue::
     end
@@ -310,8 +291,37 @@ function Bot:activate()
     end
 end
 
-function Bot:getShouldFreeze()
-    return self.fields.freeze == true
+function Bot:getNextLine()
+    if #self.lines == 0 then
+        return
+    end
+
+    ---@type integer?
+    local currentLine = self.currentLine
+    if currentLine == nil then
+        -- First line index
+        currentLine = self.repeatLine or 1
+    elseif currentLine <= #self.lines then
+        -- Next line index
+        currentLine += 1
+    else
+        -- No more lines, set nil
+        currentLine = nil
+    end
+
+    local line = self.lines[currentLine]
+    if line then
+        local success = line()
+
+        -- Check condition; if failed then move onto next line.
+        if not success then
+            self:getNextLine()
+        else
+            -- Set current line
+            self.currentLine = currentLine
+            self.isStateExpanded = true
+        end
+    end
 end
 
 function Bot:setRescued()
@@ -325,23 +335,11 @@ function Bot:setRescued()
         self.fields.isRescued = true
 
         Manager.emitEvent(EVENTS.BotRescued, self, self.rescueNumber)
-
-        -- Force dialog to move on to enable next dialog lines
-        self:updateDialog()
     end
 end
 
 function Bot:getIsRescuable()
     return self.isRescuable
-end
-
-function Bot:expand()
-    if self.isStateExpanded then
-        return
-    end
-
-    -- Show speech bubble
-    self.isStateExpanded = true
 end
 
 function Bot:collapse()
@@ -352,9 +350,7 @@ function Bot:collapse()
 
     -- Hide speech bubble
     self.isStateExpanded = false
-
-    -- Reset dialog progress
-    self.currentLine = self.repeatLine or 1
+    self.currentLine = nil
 
     -- Stop any ongoing timers
     if self.timer then
@@ -365,6 +361,44 @@ end
 function Bot:update()
     Bot.super.update(self)
 
+    -- Update dialog
+
+    if self.isActivated and not self.isStateExpanded then
+        -- Show next dialog line
+
+        self:getNextLine()
+    elseif self.isActivated and self.isStateExpanded then
+        -- Continue dialog
+    elseif self.isStateExpanded then
+        -- Hide dialog
+
+        self:collapse()
+    end
+
+    -- Consume update variable
+
+    self.isActivated = false
+
+    -- Animation state
+
+    self:updateAnimationState()
+
+    -- Crank Indicator
+
+    if self.isStateExpanded and not self.isRescued and self.showCrankIndicator then
+        _G.showCrankIndicator = true
+    else
+        _G.showCrankIndicator = false
+    end
+
+    -- Custom update callback for this sprite
+
+    if self.config.update then
+        self.config.update(self)
+    end
+end
+
+function Bot:updateMovement()
     if self.walkToPlayer and not self.walkPath then
         self.walkToPlayer()
     end
@@ -402,28 +436,6 @@ function Bot:update()
     end
 
     Moveable.update(self)
-
-    -- Update dialog
-
-    self:updateDialog()
-
-    -- Crank Indicator
-
-    if self.isStateExpanded and not self.isRescued and self.showCrankIndicator then
-        _G.showCrankIndicator = true
-    else
-        _G.showCrankIndicator = false
-    end
-
-    -- Animation state
-
-    self:updateAnimationState()
-
-    -- Custom update callback for this sprite
-
-    if self.config.update then
-        self.config.update(self)
-    end
 end
 
 function Bot:updateAnimationState()
@@ -440,41 +452,10 @@ function Bot:updateAnimationState()
     end
 end
 
-function Bot:updateDialog()
-    if self.isActivated then
-        -- Consume update variable
-        self.isActivated = false
-
-        if not self.isStateExpanded then
-            self:expand()
-        end
-    elseif self.isStateExpanded then
-        self:collapse()
-    end
-
-    if self.isStateExpandedPrevious ~= self.isStateExpanded
-        or self.currentLinePrevious ~= self.currentLine then
-        self:executeProps()
-
-        self:incrementDialog()
-    end
-
-    self.isStateExpandedPrevious = self.isStateExpanded
-    self.currentLinePrevious = self.currentLine
-end
-
-function Bot:executeProps()
-    local dialog = self.dialogs[self.currentLine]
-    -- Read props
-    if dialog and dialog.props then
-        self:parseProps(dialog.props)
-    end
-end
-
 function Bot:incrementDialog()
-    local dialog = self.dialogs[self.currentLine]
+    local dialog = self.lines[self.currentLine]
 
-    local shouldIncrement = not (self.currentLine > #self.dialogs)
+    local shouldIncrement = not (self.currentLine > #self.lines)
         and (self.isStateExpanded or (dialog.text == "--no text--"))
 
     -- If line is greater than current lines, mimic collapse.
@@ -502,22 +483,7 @@ function Bot:incrementDialog()
 
             local conditionFailed = false
 
-            if dialog.condition.chipSet then
-                -- Condition passed
-                if not (guiChipSet.chipSet[1] == dialog.condition.chipSet[1]
-                        and guiChipSet.chipSet[2] == dialog.condition.chipSet[2]
-                        and guiChipSet.chipSet[3] == dialog.condition.chipSet[3]) then
-                    conditionFailed = true
-                end
-            elseif dialog.condition.state then
-                if dialog.condition.state == "NEEDS_RESCUE" and (not self.isRescuable and self.isRescued) then
-                    conditionFailed = true
-                end
-
-                if dialog.condition.state == "IS_RESCUED" and (self.isRescuable and not self.isRescued) then
-                    conditionFailed = true
-                end
-            end
+            --- TODO: CONDITION CHECK
 
             if conditionFailed then
                 -- Condition failed
@@ -539,8 +505,6 @@ function Bot:incrementDialog()
 
             self:addDialogSprite(
                 dialog.text,
-                self.x - width / 2,
-                self.y - distanceAboveSprite,
                 width
             )
 
@@ -548,19 +512,16 @@ function Bot:incrementDialog()
 
             self:playDialogSound()
         end
-    else
-        -- If line is last one, send event
-        if #self.dialogs < self.currentLine and self.fields.levelEnd then
-            -- If level end sprite, show level end prompt
-            Manager.emitEvent(EVENTS.LevelEnd)
-        end
     end
 end
 
-function Bot:addDialogSprite(text, x, y, width)
+function Bot:addDialogSprite(text)
+    local font = Fonts.Dialog
+    local width = math.min(font:getTextWidth(text), 200)
+
     local config = {
-        x = x,
-        y = y,
+        x = self.x - width / 2,
+        y = self.y - distanceAboveSprite,
         z = Z_INDEX.Level.Overlay, -- z-index not implemented.
         width = width,
         padding = 8,
@@ -598,6 +559,9 @@ function Bot:showNextLine()
     if self.timer then
         self.timer:reset()
     end
+
+    --
+    self.isStateExpanded = true
 end
 
 function Bot:playDialogSound()
@@ -607,17 +571,42 @@ function Bot:playDialogSound()
     )
 end
 
-function Bot:parseCondition(conditionRaw)
-    local actions = {}
+---@param lineRaw string
+---@return fun(): boolean
+function Bot:parseCondition(lineRaw)
+    if string.match(lineRaw, "%$%u%u%u") then
+        -- CHIPSET CONDITION
+        local chips = {}
 
-    for c in string.gmatch(string.sub(conditionRaw, 2), ".") do
-        table.insert(actions, lettersToActions[c])
+        for c in string.gmatch(string.sub(lineRaw, 2), ".") do
+            table.insert(chips, lettersToActions[c])
+        end
+
+        return function()
+            local guiChipSet = GUIChipSet.getInstance()
+
+            -- Return if condition passed
+            return guiChipSet.chipSet[1] == chips[1]
+                and guiChipSet.chipSet[2] == chips[2]
+                and guiChipSet.chipSet[3] == chips[3]
+        end
+    else
+        -- STATE CONDITION
+        local keyword = string.sub(lineRaw, 2)
+
+        return function()
+            if keyword == "NEEDS_RESCUE" then
+                return (self.isRescuable and not self.isRescued)
+            elseif keyword == "IS_RESCUED" then
+                return (self.isRescuable and self.isRescued)
+            end
+
+            return true
+        end
     end
-
-    return actions
 end
 
-function Bot:parseProps(props)
+function Bot:executeProps(props)
     -- Repeating line
 
     if props.repeats then
