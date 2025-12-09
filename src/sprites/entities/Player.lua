@@ -491,7 +491,7 @@ function Player:updateParent()
     end
 
     -- Reset movement bit for elevator if movement success / changed position
-    if self.spriteParent.didMoveSuccess == true then
+    if self.spriteParent.didMoveSuccess ~= false then
         self.evelatorSkipMovement = {
             [self.spriteParent] = 0
         }
