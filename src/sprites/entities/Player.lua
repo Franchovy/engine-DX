@@ -841,3 +841,15 @@ function Player:isKeyPressedGated(key)
         return false
     end
 end
+
+function Player.__debugModifyCrankValue(value)
+    crankValue = value
+end
+
+function Player.__getCrankThreshold()
+    return crankThreshold
+end
+
+function Player.__getCrankThresholdIncrementAdditional()
+    return crankIncrememntAdditionalThreshold
+end

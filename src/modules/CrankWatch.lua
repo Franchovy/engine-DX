@@ -1,7 +1,8 @@
----@class CrankWatch
+---@class CrankWatch: _Object
 CrankWatch = Class("CrankWatch")
 
 local crankChange = 0
+local _crankChangeDebug = 0
 
 CrankWatch.watchers = {}
 
@@ -29,5 +30,10 @@ function CrankWatch:getThresholdProportion()
 end
 
 function CrankWatch.update()
-    crankChange = playdate.getCrankChange()
+    crankChange = _crankChangeDebug or playdate.getCrankChange()
+    _crankChangeDebug = 0
+end
+
+function CrankWatch.__setCrankChange(value)
+    _crankChangeDebug = value
 end

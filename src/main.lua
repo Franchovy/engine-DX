@@ -115,4 +115,26 @@ if not playdate.isSimulator then
   playdate.gameWillResume = Manager.gameWillResume
 end
 
+-- Debug methods to modify crank value
+
+if playdate.isSimulator then
+  local function _debugKeypress(key)
+    local debugCrankValue = nil
+    if key == "1" then
+      debugCrankValue = Player.__getCrankThreshold() * 2
+    elseif key == "2" then
+      debugCrankValue = Player.__getCrankThreshold() * 2 + Player.__getCrankThresholdIncrementAdditional()
+    elseif key == "3" then
+      debugCrankValue = Player.__getCrankThreshold() * 2 + Player.__getCrankThresholdIncrementAdditional() * 3
+    end
+
+    if debugCrankValue then
+      CrankWatch.__setCrankChange(debugCrankValue)
+      Player.__debugModifyCrankValue(debugCrankValue)
+    end
+  end
+
+  playdate.keyPressed = _debugKeypress
+end
+
 playdate.timer.performAfterDelay(1000, init)
