@@ -23,6 +23,8 @@ local DIALOG_STATES = {
 local nineSliceSpeech <const> = assert(gfx.nineSlice.new(assets.images.speech, 7, 7, 17, 17))
 local spCollect <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.collect))
 local imageIndicatorRescue <const> = assert(gfx.image.new(assets.images.indicatorBotRescue))
+local imageIndicatorRescueBlank <const> = assert(gfx.image.new(imageIndicatorRescue.width, imageIndicatorRescue.height,
+    gfx.kColorClear))
 
 -- Constants
 
@@ -441,6 +443,7 @@ function Bot:setRescued()
 
         self.blinkerSpriteRescueIndicator:stop()
         self.spriteRescueIndicator:remove()
+        self.spriteRescueIndicator:setImage(imageIndicatorRescue)
         self:removeChild(self.spriteRescueIndicator)
 
         Manager.emitEvent(EVENTS.BotRescued, self, self.rescueNumber)
@@ -505,11 +508,9 @@ function Bot:update()
 
     if self.isRescuable and not self.isRescued then
         if self.blinkerSpriteRescueIndicator.on then
-            self.spriteRescueIndicator:add()
-            self:addChild(self.spriteRescueIndicator)
+            self.spriteRescueIndicator:setImage(imageIndicatorRescue)
         else
-            self.spriteRescueIndicator:remove()
-            self:removeChild(self.spriteRescueIndicator)
+            self.spriteRescueIndicator:setImage(imageIndicatorRescueBlank)
         end
     end
 

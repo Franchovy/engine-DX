@@ -2,7 +2,7 @@
 CrankWatch = Class("CrankWatch")
 
 local crankChange = 0
-local _crankChangeDebug = 0
+local _crankChangeDebug = nil
 
 CrankWatch.watchers = {}
 
@@ -31,7 +31,7 @@ end
 
 function CrankWatch.update()
     crankChange = _crankChangeDebug or playdate.getCrankChange()
-    _crankChangeDebug = 0
+    _crankChangeDebug = nil
 end
 
 function CrankWatch.__setCrankChange(value)
