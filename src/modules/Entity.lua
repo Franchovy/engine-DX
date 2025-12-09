@@ -47,14 +47,16 @@ local function _enterLevel(self, levelName, direction)
     if layersPreviousLevel then
         local entitiesPreviousLevel = layersPreviousLevel["Entities"].entities
 
-        local index = table.indexWhere(
-            entitiesPreviousLevel,
-            function(value)
-                return self.id == value.iid
-            end
-        )
+        if entitiesPreviousLevel then
+            local index = table.indexWhere(
+                entitiesPreviousLevel,
+                function(value)
+                    return self.id == value.iid
+                end
+            )
 
-        table.remove(entitiesPreviousLevel, index)
+            table.remove(entitiesPreviousLevel, index)
+        end
     end
 
     -- Add elevator to new level
@@ -62,7 +64,10 @@ local function _enterLevel(self, levelName, direction)
     local layersNewLevel = LDtk.get_layers(levelName)
     if layersNewLevel then
         local entitiesNewLevel = layersNewLevel["Entities"].entities
-        table.insert(entitiesNewLevel, self.entity)
+
+        if entitiesNewLevel then
+            table.insert(entitiesNewLevel, self.entity)
+        end
     end
 end
 

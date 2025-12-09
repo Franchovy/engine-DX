@@ -45,7 +45,7 @@ function Teleporter:activate(sprite)
         end
 
         -- Fade out sprite
-        local frametimer = playdate.frameTimer.new(25, 1, 0)
+        local frametimer = playdate.frameTimer.new(15, 1, 0)
 
         if sprite.freeze then
             sprite:freeze()

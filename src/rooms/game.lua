@@ -61,6 +61,7 @@ function Game:init(filepathLevel)
     GUILevelName()
     GUIModalMessage()
     GUIScreenEdges()
+    FilePlayer()
 
     -- Load Ability Panel
 
@@ -98,7 +99,7 @@ function Game:unload()
 
     -- Stop the music!
 
-    FilePlayer.stop()
+    FilePlayer.getInstance():stop()
 end
 
 ---------------------------------
@@ -117,12 +118,9 @@ function Game:setupSystemMenu()
 
     -- Music enabled/disabled
     local shouldEnableMusic = MemoryCard.getShouldEnableMusic()
+
     systemMenu:addCheckmarkMenuItem("music", shouldEnableMusic, function(shouldEnableMusic)
-        if shouldEnableMusic then
-            FilePlayer.play(assets.music.game)
-        else
-            FilePlayer.stop()
-        end
+        FilePlayer.getInstance():setPaused(not shouldEnableMusic)
 
         MemoryCard.setShouldEnableMusic(shouldEnableMusic)
     end)
@@ -349,7 +347,7 @@ function Game:worldComplete(args)
 
     -- Fade out music - after same delay as transition
 
-    FilePlayer:fadeOut(msFadeOutWorld)
+    FilePlayer.getInstance():fadeOut(msFadeOutWorld)
 
     local shouldSkipTransition = args and args.skipTransition or false
 

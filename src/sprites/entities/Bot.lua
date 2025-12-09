@@ -166,6 +166,10 @@ function Bot:init(entityData, levelName)
     self.repeatLine = self.fields.repeatLine
     self.currentLine = self.fields.currentLine
 
+    -- "Part" setup
+
+    self.part = self.fields.part or 1
+
     -- Variables to be consumed in update
 
     self.isActivated = false
@@ -222,6 +226,11 @@ function Bot:changeState(stateNew)
     Bot.super.changeState(self, stateNewActual)
 end
 
+function Bot:setPart(part)
+    self.part = part
+    self.fields.part = self.part
+end
+
 function Bot:setupDialogLines(rawText)
     -- Initialize empty dialog array
     self.lines = {}
@@ -255,12 +264,25 @@ function Bot:setupDialogLines(rawText)
         elseif string.match(lineRaw, "^%:") then
             -- Actions
             if string.match(lineRaw, "^%:walkTo%:") then
+                local props = props
+                local condition = condition
+
                 -- Walk-to action
                 local numberOrName = string.match(lineRaw, "^%:walkTo%:.+(%w+)$")
                 local targetPoint = numberOrName and self:getDestinationPoint(numberOrName)
 
                 if targetPoint then
                     action = function()
+                        -- Check condition
+                        if condition and not condition() then
+                            return false
+                        end
+
+                        -- Execute props if any
+                        if props then
+                            props()
+                        end
+
                         self.walkDestination = targetPoint
 
                         self:closeDialogSprite()
@@ -288,6 +310,9 @@ function Bot:setupDialogLines(rawText)
 
                 -- Show dialog line
                 self:addDialogSprite(lineRaw)
+
+                -- Play dialog sound
+                self:playDialogSound()
 
                 return true
             end
@@ -377,16 +402,16 @@ function Bot:getNextLine(currentLine)
         else
             -- Set current line
             self.currentLine = currentLine
+            self.fields.currentLine = self.currentLine
         end
     else
         -- Close dialog
         self:closeDialogSprite()
 
         self.currentLine = nil
+        self.fields.currentLine = self.currentLine
         self.dialogState = DIALOG_STATES.Finished
     end
-
-    self.fields.currentLine = self.currentLine
 end
 
 function Bot:setRescued()
@@ -641,6 +666,14 @@ function Bot:parseCondition(lineRaw)
                 and guiChipSet.chipSet[2] == chips[2]
                 and guiChipSet.chipSet[3] == chips[3]
         end
+    elseif string.match(lineRaw, "%$%d") then
+        -- PART CONDITION
+        local part = string.match(lineRaw, "%$(%d+)")
+
+        return function()
+            -- Return if condition passed
+            return self.part == part
+        end
     else
         -- STATE CONDITION
         local keyword = string.sub(lineRaw, 2)
@@ -660,8 +693,8 @@ end
 function Bot:executeProps(props)
     -- Repeating line
 
-    if props.repeats then
-        self.repeatLine = self.currentLine
+    if props.repeats and self.currentLine ~= nil then
+        self.repeatLine = self.currentLine + 1
         self.fields.repeatLine = self.repeatLine
     end
 

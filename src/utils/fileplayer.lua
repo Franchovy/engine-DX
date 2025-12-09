@@ -2,20 +2,6 @@ local fileplayer <const> = playdate.sound.fileplayer
 
 ---@alias FileToPlay {file: string, loopCount: number, next: number}
 
----@class FilePlayer
----@field fileplayer playdate.sound.fileplayer
----@field fileCurrent FileToPlay currently playing file
----@field fileQueue FileToPlay[]
----@field files FileToPlay[]
-FilePlayer = Class("FilePlayer")
-
-
---- Used so that static class syntax looks like it uses instance.
-local self = FilePlayer
-
----@type FileToPlay[]
-FilePlayer.fileQueue = {}
-
 ---comment
 ---@param fileplayer _FilePlayer
 ---@param self FilePlayer
@@ -24,45 +10,58 @@ local function _finishCallback(fileplayer, self)
         ---@type FileToPlay
         local fileNext = table.remove(self.fileQueue, 1)
 
-        local fileplayerNext = fileplayer.new(fileNext.file)
-
         print("Switching track...")
 
-        local loopCount = fileNext.loopCount
-        local next = fileNext.next
-
-        -- Switch over to next track
-        fileplayerNext:play(loopCount or 1)
-        fileplayerNext:setFinishCallback(_finishCallback, self)
-
-        self.fileplayer = fileplayerNext
-
-        if next then
-            -- Add next to queue
-            table.insert(self.fileQueue, self.files[next])
-        end
+        self:play(fileNext)
     else
         -- Keep repeating this loop
         local loopCount = self.fileCurrent.loopCount
 
-        self.fileplayer:play(loopCount or 1)
+        if not self.isPaused then
+            self.fileplayer:play(loopCount or 1)
+        end
     end
 end
 
+---@class FilePlayer
+---@field fileplayer playdate.sound.fileplayer
+---@field fileCurrent FileToPlay currently playing file
+---@field fileQueue FileToPlay[]
+---@field files FileToPlay[]
+FilePlayer = Class("FilePlayer")
+
+local _instance
+
+function FilePlayer.getInstance()
+    return assert(_instance)
+end
+
+function FilePlayer.destroy()
+    _instance = nil
+end
+
 function FilePlayer.load(config)
+    --- Load instance since this is a static call
+    self = _instance
+
     if config.title then
         self.files = MUSIC_CONFIG[config.title].assets
+        self:clear()
     end
 
     if config.loop
         and self.files -- Ensure a track is loaded.
     then
-        if self.fileplayer == nil then
+        if self.isPaused then
+            -- If paused, remove current fileplayer and queue
+
+            self:clear()
+            self:play(self.files[config.loop])
+        elseif self.fileplayer == nil then
             -- Load and play this track.
             print("Playing: " .. self.files[config.loop].file)
 
-            self.fileCurrent = self.files[config.loop]
-            self.fileplayer = fileplayer.new(self.fileCurrent.file)
+            self:play(self.files[config.loop])
         else
             -- Add this track to queue.
 
@@ -70,39 +69,25 @@ function FilePlayer.load(config)
 
             -- For now, by default just pop the rest of the queue.
 
-            self.fileQueue = {}
+            if not self.fileQueue then
+                self.fileQueue = {}
+            end
+
             table.insert(self.fileQueue, self.files[config.loop])
         end
-
-        if not self.fileplayer:isPlaying() then
-            local loopCount = self.fileCurrent.loopCount
-            self.fileplayer:play(loopCount or 1)
-
-            self.fileplayer:setFinishCallback(_finishCallback, self)
-        end
     end
 end
 
-function FilePlayer.playFiles()
-    local file = self.files[1]
+function FilePlayer:init()
+    self.volume = 1.0
+    self.isPaused = false
 
-    self.fileplayer = fileplayer.new(file)
-    self.fileplayer:play(0)
-end
+    self:clear()
 
-function FilePlayer.play(file)
-    if self.fileCurrent == file and self.fileplayer:isPlaying() then
-        return
-    end
+    ---@type _FilePlayer?
+    self.fileplayer = nil
 
-    if file == nil and self.fileplayer then
-        self.fileplayer:play(0)
-        return
-    end
-
-    self.fileCurrent = file
-    self.fileplayer = fileplayer.new(file)
-    self.fileplayer:play(0)
+    _instance = self
 end
 
 function FilePlayer:fadeOut(durationInMs)
@@ -111,12 +96,59 @@ function FilePlayer:fadeOut(durationInMs)
     end
 end
 
-function FilePlayer.stop()
+function FilePlayer:stop()
     if self.fileplayer then
         self.fileplayer:stop()
+        self.fileplayer = nil
     end
 end
 
-function FilePlayer.isPlaying()
+function FilePlayer:clear()
+    self.fileCurrent = nil
+    self.fileplayer = nil
+    self.fileQueue = {}
+end
+
+function FilePlayer:setPaused(shouldPause)
+    self.isPaused = shouldPause
+
+    if self.fileplayer then
+        if shouldPause then
+            self.fileplayer:pause()
+        else
+            self:play()
+        end
+    end
+end
+
+function FilePlayer:isPlaying()
     return self.fileplayer and self.fileplayer:isPlaying()
+end
+
+---comment
+---@param fileConfig FileToPlay?
+function FilePlayer:play(fileConfig)
+    if fileConfig then
+        self.fileCurrent = fileConfig
+    end
+
+    local fileplayer = fileplayer.new(self.fileCurrent.file)
+    fileplayer:setVolume(self.volume)
+
+    local loopCount = self.fileCurrent.loopCount
+    local next = self.fileCurrent.next
+
+    -- Switch over to next track
+    if not self.isPaused then
+        fileplayer:play(loopCount or 1)
+    end
+
+    fileplayer:setFinishCallback(_finishCallback, self)
+
+    self.fileplayer = fileplayer
+
+    if next then
+        -- Add next to queue
+        table.insert(self.fileQueue, self.files[next])
+    end
 end

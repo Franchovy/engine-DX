@@ -12,5 +12,16 @@ MUSIC_CONFIG = {
             { file = "assets/music/darkened-caves/darkened-caves-8" },
             { file = "assets/music/darkened-caves/darkened-caves-9" },
         }
+    },
+    ["Factory"] = {
+        assets = {
+            { file = "assets/music/01_factory/01_factory_01" },
+            { file = "assets/music/01_factory/01_factory_02", loopCount = 1, next = 3 },
+            { file = "assets/music/01_factory/01_factory_03" },
+            { file = "assets/music/01_factory/01_factory_04" },
+            { file = "assets/music/01_factory/01_factory_05" },
+            { file = "assets/music/01_factory/01_factory_06" },
+            { file = "assets/music/01_factory/01_factory_07" },
+        }
     }
 }

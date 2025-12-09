@@ -55,8 +55,6 @@ end
 ---
 
 function LevelSelect:AButtonDown()
-  FilePlayer.stop()
-
   local indexArea, indexWorld = self.gridView:getSelection()
   local isWorldLocked = self.gridView:getSelectionIsLocked()
 

@@ -1,5 +1,7 @@
 Synth = Class("Synth")
 
+local volume <const> = 0.5
+
 function Synth:init(scale, bleepsPerSecond)
     -- Set scale
     self.scale = scale or SCALES.DEFAULT
@@ -7,13 +9,15 @@ function Synth:init(scale, bleepsPerSecond)
 
     -- Create synth
     self.synth = playdate.sound.synth.new()
-    self.synth:setVolume(0.5)
+    self.synth:setVolume(volume)
 
     -- Create sequence
     self.sequence = playdate.sound.sequence.new()
     self.sequence:setTempo(self.tempo)
 
     -- Create track
+    ---@type _Track
+    ---@diagnostic disable-next-line: assign-type-mismatch
     self.track = self.sequence:addTrack()
     self.track:setInstrument(self.synth)
 end
@@ -25,7 +29,7 @@ end
 function Synth:play(note)
     local note = note or math.random(1, 12)
 
-    self.synth:playNote(self.scale[note], 1.0, 0.1)
+    self.synth:playNote(self.scale[note], volume, 0.1)
 end
 
 function Synth:playNotes(notes, bleepsPerSecond)

@@ -96,12 +96,6 @@ function Menu:leave(next, ...)
   -- destroy entities and cleanup resources
 
   spriteRobot:remove()
-
-  -- Music
-
-  if next.super.class == Game then
-    FilePlayer.stop()
-  end
 end
 
 function Menu:AButtonDown()

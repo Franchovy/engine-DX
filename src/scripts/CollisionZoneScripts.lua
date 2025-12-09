@@ -59,7 +59,7 @@ CollisionZoneScripts = {
                 return
             end
 
-            local gamepointId = self.args["activate"].gamepoint
+            local gamepointId = self.args["activate"]
 
             if not gamepointId then return end
 
@@ -87,6 +87,36 @@ CollisionZoneScripts = {
                 end
                 )
             end)
+        end
+    },
+    showCrankIndicator = {
+        activate = function(self)
+            self.super.activate(self)
+
+            _G.showCrankIndicator = true
+        end
+    },
+    activateBot = {
+        activate = function(self)
+            self.super.activate(self)
+
+            if self.isActivatedPrevious then
+                return
+            end
+
+            local botId = self.args["activate"].id
+            local bot = botId and LDtk.entitiesById[botId]
+            local part = self.args["activate"].part
+            local spriteBot = bot and bot.sprite
+
+            if spriteBot then
+                if part then
+                    spriteBot:setPart(part)
+                end
+
+                spriteBot.dialogState = 'unopened'
+                spriteBot:activate()
+            end
         end
     }
 }

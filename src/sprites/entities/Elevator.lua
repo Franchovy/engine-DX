@@ -266,7 +266,7 @@ function Elevator:activateDown()
 end
 
 function Elevator:enterLevel(levelName, direction)
-  Elevator.super.enterLevel(levelName, direction)
+  Elevator.super.enterLevel(self, levelName, direction)
 
   self:add()
 
