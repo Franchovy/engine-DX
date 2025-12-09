@@ -31,11 +31,56 @@ local function _shouldSpawn(entityData, levelName)
     return true
 end
 
+local function _enterLevel(self, levelName, direction)
+    local levelNamePrevious = self.levelName
+    if self.levelName == levelName then
+        return
+    end
+
+    -- Update levelName
+
+    self.levelName = levelName
+
+    -- Remove elevator from previous level
+
+    local layersPreviousLevel = LDtk.get_layers(levelNamePrevious)
+    if layersPreviousLevel then
+        local entitiesPreviousLevel = layersPreviousLevel["Entities"].entities
+
+        local index = table.indexWhere(
+            entitiesPreviousLevel,
+            function(value)
+                return self.id == value.iid
+            end
+        )
+
+        table.remove(entitiesPreviousLevel, index)
+    end
+
+    -- Add elevator to new level
+
+    local layersNewLevel = LDtk.get_layers(levelName)
+    if layersNewLevel then
+        local entitiesNewLevel = layersNewLevel["Entities"].entities
+        table.insert(entitiesNewLevel, self.entity)
+    end
+end
+
+local function _moveEntity(self, levelX, levelY)
+    local levelBounds = LDtk.get_rect(self.levelName)
+    self:moveTo(levelBounds.x + levelX, levelBounds.y + levelY)
+
+    self.entity.world_position.x = self.x
+    self.entity.world_position.y = self.y
+end
+
 local function createEntityClassPrototype(className)
     return {
         entityClassName = className,
         init = _init,
-        shouldSpawn = _shouldSpawn
+        shouldSpawn = _shouldSpawn,
+        enterLevel = _enterLevel,
+        moveEntity = _moveEntity
     }
 end
 

@@ -266,37 +266,13 @@ function Elevator:activateDown()
 end
 
 function Elevator:enterLevel(levelName, direction)
-  local levelNamePrevious = self.levelName
+  Elevator.super.enterLevel(levelName, direction)
 
   self:add()
 
   -- Reset tracks
 
   self.tracks = {}
-
-  -- Update levelName
-
-  self.levelName = levelName
-
-  -- Remove elevator from previous level
-
-  local layersPreviousLevel = LDtk.get_layers(levelNamePrevious)
-  local entitiesPreviousLevel = layersPreviousLevel["Entities"].entities
-
-  local index = table.indexWhere(
-    entitiesPreviousLevel,
-    function(value)
-      return self.id == value.iid
-    end
-  )
-
-  table.remove(entitiesPreviousLevel, index)
-
-  -- Add elevator to new level
-
-  local layersNewLevel = LDtk.get_layers(levelName)
-  local entitiesNewLevel = layersNewLevel["Entities"].entities
-  table.insert(entitiesNewLevel, self.entity)
 
   -- Offset elevator to be centered underneath player
 

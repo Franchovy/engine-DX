@@ -2,13 +2,13 @@ local pd <const> = playdate
 local gfx <const> = pd.graphics
 -- Add all layers as tilemaps
 
-local function _applyWallTiles(levelName, layerName, tilemap, enumValue, levelBounds)
+local function _applyWallTiles(levelName, layerName, tilemap, enumValue, levelBounds, collisionGroup)
     local solidTiles = LDtk.get_empty_tileIDs(levelName, enumValue, layerName)
     if solidTiles then
         local stiles = gfx.sprite.addWallSprites(tilemap, solidTiles)
         for _, lsprite in ipairs(stiles) do
             lsprite:setTag(TAGS.Wall)
-            lsprite:setGroups({ GROUPS.Solid })
+            lsprite:setGroups(collisionGroup)
             lsprite:moveBy(levelBounds.x, levelBounds.y)
         end
     end
@@ -35,8 +35,9 @@ function LDtk.loadAllLayersAsSprites(levelName)
             end
             sprite:add()
 
-            _applyWallTiles(levelName, layerName, tilemap, "Solid", levelBounds)
-            _applyWallTiles(levelName, layerName, tilemap, "SolidExceptElevator", levelBounds)
+            _applyWallTiles(levelName, layerName, tilemap, "Solid", levelBounds, GROUPS.Solid)
+            _applyWallTiles(levelName, layerName, tilemap, "ElevatorPassthrough", levelBounds, GROUPS
+                .SolidExceptElevator)
         end
 
         ::continue::

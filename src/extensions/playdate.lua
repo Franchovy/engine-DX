@@ -24,6 +24,12 @@ function Object:implements(module)
     end
 end
 
+-- Shortcut for checking if sprite has group
+
+function playdate.graphics.sprite:hasGroup(group)
+    return self:getGroupMask() & 2 ^ (group - 1) ~= 0
+end
+
 -- Shortcut layout methods for playdate.graphics.sprite
 
 function playdate.graphics.sprite:centerOffsetX()

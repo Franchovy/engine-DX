@@ -29,8 +29,9 @@ local textMarginX <const> = 10
 local distanceAboveSprite <const> = 6
 local durationDialog <const> = 2000
 local collideRectSize <const> = 64
-local distanceMinNextNode <const> = 25
+local distanceMinNextNode <const> = 24
 local distanceMinFinalNode <const> = 5
+local dialogMargin <const> = 5
 
 local lettersToActions <const> = {
     ["A"] = KEYNAMES.A,
@@ -39,6 +40,29 @@ local lettersToActions <const> = {
     ["R"] = KEYNAMES.Right,
     ["D"] = KEYNAMES.Down,
 }
+
+--- Update method for the dialog bubble, to position itself in view
+function _dialogUpdate(self)
+    self.super.update(self)
+
+    local offsetX, offsetY = gfx.getDrawOffset()
+    local x, y = self.x, self.y
+    local width, height = self.width, self.height
+
+    if x - width / 2 < -offsetX + dialogMargin then
+        x = -offsetX + dialogMargin + width / 2
+    elseif x + width / 2 > -offsetX + 400 - dialogMargin * 2 then
+        x = -offsetX + 400 - dialogMargin * 2 - width / 2
+    end
+
+    if y - height / 2 < -offsetY + dialogMargin then
+        y = -offsetY + dialogMargin
+    elseif y + height / 2 > -offsetY + 240 - dialogMargin * 2 then
+        y = -offsetY + 240 - dialogMargin * 2 - height / 2
+    end
+
+    self:moveTo(x, y)
+end
 
 ---@alias DialogLine fun():boolean
 
@@ -50,7 +74,6 @@ Bot = Class("Bot", EntityAnimated)
 
 Bot:implements(Moveable)
 Bot:implements(ParentSprite)
-
 
 function Bot:init(entityData, levelName)
     Moveable.init(self, {
@@ -139,9 +162,9 @@ function Bot:init(entityData, levelName)
 
     -- Bot variables
 
-    self.repeatLine = nil
     self.dialogState = DIALOG_STATES.Unopened
-    self.currentLine = nil
+    self.repeatLine = self.fields.repeatLine
+    self.currentLine = self.fields.currentLine
 
     -- Variables to be consumed in update
 
@@ -166,7 +189,7 @@ end
 ---comment
 ---@param other _Sprite
 function Bot:collisionResponse(other)
-    if other:getGroupMask() & GROUPS.Solid ~= 0 then
+    if other:hasGroup(GROUPS.Solid) or other:hasGroup(GROUPS.SolidExceptElevator) then
         return gfx.sprite.kCollisionTypeSlide
     end
 
@@ -362,6 +385,8 @@ function Bot:getNextLine(currentLine)
         self.currentLine = nil
         self.dialogState = DIALOG_STATES.Finished
     end
+
+    self.fields.currentLine = self.currentLine
 end
 
 function Bot:setRescued()
@@ -382,7 +407,19 @@ function Bot:getIsRescuable()
     return self.isRescuable
 end
 
+function Bot:freeze()
+    self.isFrozen = true
+end
+
+function Bot:unfreeze()
+    self.isFrozen = false
+end
+
 function Bot:update()
+    if self.isFrozen then
+        return
+    end
+
     Bot.super.update(self)
 
     if self.walkDestination then
@@ -445,13 +482,19 @@ function Bot:updateMoveToNextPoint()
     end
 
     local targetPoint = self.walkDestination
+    local distanceToNextNode = self.pathNodes and #self.pathNodes > 0 and #self.pathNodes > 1 and distanceMinNextNode or
+        distanceMinFinalNode
 
     -- Check if at target point
     if math.abs(self.x - targetPoint.x) < distanceMinFinalNode and math.abs(self.y - targetPoint.y) < distanceMinFinalNode then
-        -- If arrived, then move to next line
+        -- If arrived, reset walk path
         self.walkDestination = nil
         self.pathNodes = nil
         self.nextPoint = nil
+
+        -- Trigger next line by resetting vars
+
+        self.dialogState = DIALOG_STATES.Unopened
 
         return
     elseif self.nextPoint and (math.abs(self.x - self.nextPoint.x) < distanceMinNextNode and math.abs(self.y - self.nextPoint.y) < distanceMinNextNode) then
@@ -550,6 +593,9 @@ function Bot:addDialogSprite(text)
     self.dialogSprite:setZIndex(Z_INDEX.HUD.Background)
     self.dialogSprite:setCenter(0.5, 1.5)
     self.dialogSprite:add()
+
+    self.dialogSprite.update = _dialogUpdate
+
     self:addChild(self.dialogSprite)
 
     self.dialogState = DIALOG_STATES.Expanded
@@ -616,6 +662,7 @@ function Bot:executeProps(props)
 
     if props.repeats then
         self.repeatLine = self.currentLine
+        self.fields.repeatLine = self.repeatLine
     end
 
     -- Player Interactions
