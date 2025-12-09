@@ -15,7 +15,7 @@ MUSIC_CONFIG = {
     },
     ["Factory"] = {
         assets = {
-            { file = "assets/music/01_factory/01_factory_01" },
+            { file = "assets/music/01_factory/01_factory_01", loopCount = 3, next = 3 },
             { file = "assets/music/01_factory/01_factory_02", loopCount = 1, next = 3 },
             { file = "assets/music/01_factory/01_factory_03" },
             { file = "assets/music/01_factory/01_factory_04" },

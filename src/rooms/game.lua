@@ -93,6 +93,7 @@ function Game:unload()
     -- Remove system/PD menu items
 
     playdate.getSystemMenu():removeAllMenuItems()
+    playdate.setMenuImage(nil)
 
     -- Remove currentGame reference from manager
     SCENES.currentGame = nil

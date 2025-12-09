@@ -17,7 +17,7 @@ local function _finishCallback(fileplayer, self)
         -- Keep repeating this loop
         local loopCount = self.fileCurrent.loopCount
 
-        if not self.isPaused then
+        if not self.isPaused and self.fileplayer then
             self.fileplayer:play(loopCount or 1)
         end
     end
