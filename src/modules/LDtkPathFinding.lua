@@ -118,8 +118,8 @@ function LDTkPathFinding.load(levelName)
     LDTkPathFinding.addAdditionalConnections(levelName)
 
     if playdate.isSimulator then
-        DebugDrawer.addDebugDrawCall(function()
-            ----[[
+        --DebugDrawer.addDebugDrawCall(function()
+        --[[
             for i, node in pairs(nodes) do
                 if node == 1 then
                     local xGrid, yGrid = _convertIndexToGrid(i, widthGraph)
@@ -129,7 +129,7 @@ function LDTkPathFinding.load(levelName)
             end
             --]]
 
-            ----[[
+        --[[
             for _, node in pairs(level.graph:allNodes()) do
                 if #node:connectedNodes() > 0 then
                     local x, y = _convertGridToLevel(node.x, node.y, bounds)
@@ -148,7 +148,7 @@ function LDTkPathFinding.load(levelName)
                 end
             end
             --]]
-        end)
+        --end)
     end
 end
 
