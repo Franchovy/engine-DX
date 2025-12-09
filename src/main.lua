@@ -109,7 +109,10 @@ function playdate.update()
   end
 end
 
-playdate.gameWillPause = Manager.gameWillPause
-playdate.gameWillResume = Manager.gameWillResume
+--- [FRANCH] Due to an SDK bug, let's avoid breaking the pause menu on simulator.
+if not playdate.isSimulator then
+  playdate.gameWillPause = Manager.gameWillPause
+  playdate.gameWillResume = Manager.gameWillResume
+end
 
 playdate.timer.performAfterDelay(1000, init)

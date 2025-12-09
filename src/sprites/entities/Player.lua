@@ -13,11 +13,6 @@ local spDrill <const> = assert(sound.sampleplayer.new(assets.sounds.drill))
 
 local levelBounds
 
--- Variables for double-jump
-
-local hasDoubleJumpUnlocked = true
-local hasDoubleJumpRemaining = true
-
 -- Timer for handling cooldown on checkpoint revert
 
 local warpCooldown
@@ -26,9 +21,13 @@ local warpCooldown
 
 local isOverlappingWithGUI = false
 
--- Animation state flip handling
+-- Crank variables
 
-local isFlipAnimation = 0
+local crankThreshold = 30
+local crankWatch = CrankWatch("player", crankThreshold)
+local crankValue = 0
+local crankIncrememntAdditionalThreshold = 30
+local crankValueDecreaseCoefficient = 0.45
 
 --
 
@@ -433,7 +432,7 @@ function Player:update()
         return
     end
 
-    if not CrankWatch.getDidPassThreshold() then
+    if not crankWatch:getDidPassThreshold() then
         Moveable.update(self)
     end
 
@@ -604,15 +603,23 @@ function Player:updateWarp()
 
     -- Revert checkpoint if crank change is larger than threshold
 
-    if CrankWatch.getDidPassThreshold() then
-        self:revertCheckpoint()
+    if crankWatch:getDidPassThreshold() then
+        crankValue += playdate.getCrankChange()
+        local warpCount = 1 + math.floor((crankValue - crankThreshold) / crankIncrememntAdditionalThreshold)
+
+        print(warpCount)
+
+        for i = 1, warpCount do
+            self:revertCheckpoint()
+        end
 
         self.particlesWarp:add(2)
-
         timeCoefficient = 0
     else
-        timeCoefficient = CrankWatch.getThresholdProportion()
+        timeCoefficient = crankWatch:getThresholdProportion()
     end
+
+    crankValue = crankValue * crankValueDecreaseCoefficient
 
     -- How fast game time should move based on crank speed
 
@@ -746,7 +753,7 @@ function Player:updateGUI()
 end
 
 function Player:updateLevelChange()
-    if CrankWatch.getDidPassThreshold() then
+    if crankWatch:getDidPassThreshold() then
         -- Currently warping, ignore.
 
         return

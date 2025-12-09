@@ -1,16 +1,33 @@
-CrankWatch = {
-    crankMaxThreshold = 30,
-    crankChange = 0
-}
+---@class CrankWatch
+CrankWatch = Class("CrankWatch")
+
+local crankChange = 0
+
+CrankWatch.watchers = {}
+
+function CrankWatch:init(id, threshold)
+    self.crankMaxThreshold = threshold
+    self.id = id
+
+    CrankWatch.watchers[id] = self
+end
+
+function CrankWatch:get(id)
+    return CrankWatch.watchers[id]
+end
+
+function CrankWatch:remove()
+    CrankWatch.watchers[self.id] = nil
+end
+
+function CrankWatch:getDidPassThreshold()
+    return math.abs(crankChange) > self.crankMaxThreshold
+end
+
+function CrankWatch:getThresholdProportion()
+    return math.max(0, 1 - (math.abs(crankChange) / self.crankMaxThreshold))
+end
 
 function CrankWatch.update()
-    CrankWatch.crankChange = playdate.getCrankChange()
-end
-
-function CrankWatch.getDidPassThreshold()
-    return math.abs(CrankWatch.crankChange) > CrankWatch.crankMaxThreshold
-end
-
-function CrankWatch.getThresholdProportion()
-    return math.max(0, 1 - (math.abs(CrankWatch.crankChange) / CrankWatch.crankMaxThreshold))
+    crankChange = playdate.getCrankChange()
 end

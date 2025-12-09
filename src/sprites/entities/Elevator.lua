@@ -136,7 +136,7 @@ function Elevator:update()
   end
 
   -- Skip if warp is in progress
-  if CrankWatch.getDidPassThreshold() then
+  if CrankWatch:get("player"):getDidPassThreshold() then
     return
   end
 
