@@ -607,8 +607,6 @@ function Player:updateWarp()
         crankValue += playdate.getCrankChange()
         local warpCount = 1 + math.floor((crankValue - crankThreshold) / crankIncrememntAdditionalThreshold)
 
-        print(warpCount)
-
         for i = 1, warpCount do
             self:revertCheckpoint()
         end
