@@ -98,7 +98,7 @@ end
 
 function FilePlayer:stop()
     if self.fileplayer then
-        self.fileplayer:stop()
+        self.fileplayer:stopWithoutCallback()
         self.fileplayer = nil
     end
 end

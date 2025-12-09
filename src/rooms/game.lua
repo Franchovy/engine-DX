@@ -114,7 +114,13 @@ function Game:setupSystemMenu()
 
     -- Main menu return
     systemMenu:addMenuItem("main menu", function()
-        Manager.getInstance():enter(SCENES.menu)
+        --- [FRANCH] A delay is necessary here, at least for now, since pushing the
+        --- new scene directly from the pause menu causes the new scene to be stuck in
+        --- the pause menu's draw context (?). Anyways, until that's fixed, this needs to stay.
+
+        playdate.frameTimer.performAfterDelay(10, function()
+            Manager.getInstance():enter(SCENES.menu)
+        end)
     end)
 
     -- Music enabled/disabled
