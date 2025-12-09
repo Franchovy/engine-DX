@@ -22,6 +22,7 @@ local DIALOG_STATES = {
 
 local nineSliceSpeech <const> = assert(gfx.nineSlice.new(assets.images.speech, 7, 7, 17, 17))
 local spCollect <const> = assert(playdate.sound.sampleplayer.new(assets.sounds.collect))
+local imageIndicatorRescue <const> = assert(gfx.image.new(assets.images.indicatorBotRescue))
 
 -- Constants
 
@@ -155,6 +156,18 @@ function Bot:init(entityData, levelName)
     self.isRescuable = entityData.fields.saveNumber ~= nil
     self.rescueNumber = entityData.fields.saveNumber
     self.isRescued = entityData.fields.isRescued or false
+
+    if self.isRescuable and not self.isRescued then
+        self.spriteRescueIndicator = gfx.sprite.new(imageIndicatorRescue)
+        self.spriteRescueIndicator:setZIndex(Z_INDEX.Level.Active)
+        self.spriteRescueIndicator:setCenter(0.5, 2)
+
+        self:addChild(self.spriteRescueIndicator)
+        self.spriteRescueIndicator:add()
+
+        self.blinkerSpriteRescueIndicator = gfx.animation.blinker.new(400, 200, true)
+        self.blinkerSpriteRescueIndicator:startLoop()
+    end
 
     -- Break up text into lines
 
@@ -424,6 +437,12 @@ function Bot:setRescued()
         self.isRescued = true
         self.fields.isRescued = true
 
+        -- Clear rescue indicator
+
+        self.blinkerSpriteRescueIndicator:stop()
+        self.spriteRescueIndicator:remove()
+        self:removeChild(self.spriteRescueIndicator)
+
         Manager.emitEvent(EVENTS.BotRescued, self, self.rescueNumber)
     end
 end
@@ -481,6 +500,18 @@ function Bot:update()
     -- Reset update variable
 
     self.isActivated = false
+
+    -- Blinker / rescue indicator
+
+    if self.isRescuable and not self.isRescued then
+        if self.blinkerSpriteRescueIndicator.on then
+            self.spriteRescueIndicator:add()
+            self:addChild(self.spriteRescueIndicator)
+        else
+            self.spriteRescueIndicator:remove()
+            self:removeChild(self.spriteRescueIndicator)
+        end
+    end
 
     -- Animation state
 
