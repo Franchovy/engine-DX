@@ -6,11 +6,18 @@ DECORATION_ASSETS = {
         animationParams = { tickStep = 5 },
         lightSource = true
     },
-    ["wheel-1"] = {
-        path = "assets/images/wheel-1",
-        lightSource = true
+    ["hanging-lightbulb"] = {
+        path = "assets/images/hanging-lightbulb",
+        lightSource = true,
+        startFrame = 1,
+        endFrame = 4,
+        animationParams = { tickStep = 12 },
     },
-    ["crystal-source"] = {
-        lightSource = true
+    ["standing-lightbulb"] = {
+        path = "assets/images/standing-lightbulb",
+        lightSource = true,
+        startFrame = 1,
+        endFrame = 4,
+        animationParams = { tickStep = 6 },
     }
 }

@@ -64,5 +64,9 @@ function BotConfig.FLT.update(self)
 
     self:moveTo(self.positionOriginal.x + xOffset, self.positionOriginal.y + yOffset)
 
+    for _, child in pairs(self.children) do
+        child:moveTo(self.positionOriginal.x, self.positionOriginal.y)
+    end
+
     indexFflyMovement += 1
 end

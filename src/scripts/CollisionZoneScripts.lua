@@ -89,6 +89,56 @@ CollisionZoneScripts = {
             end)
         end
     },
+    checkpoint = {
+        activate = function(self)
+            self.super.activate(self)
+
+            if self.isActivatedPrevious then
+                return
+            end
+
+            local nameCheckpoint = self.args["activate"]
+
+            if not nameCheckpoint then return end
+
+            Checkpoint.incrementNamed(nameCheckpoint)
+        end
+    },
+    restartCheckpoint = {
+        activate = function(self)
+            self.super.activate(self)
+
+            if self.isActivatedPrevious then
+                return
+            end
+
+            local nameCheckpoint = self.args["activate"]
+
+            if not nameCheckpoint then return end
+
+            local player = Player.getInstance()
+            if not player then return end
+
+            Game.enableLevelChange = false
+
+            Transition.getInstance():fadeOut(1000, function()
+                playdate.timer.performAfterDelay(2000, function()
+                    Checkpoint.goToNamed(nameCheckpoint)
+
+                    Camera.setOffsetInstantaneous()
+
+                    Transition.getInstance():fadeIn(500, function()
+                        Game.enableLevelChange = true
+
+                        player:unfreeze()
+
+                        self.isActivated = false
+                    end)
+                end
+                )
+            end)
+        end
+    },
     showCrankIndicator = {
         activate = function(self)
             self.super.activate(self)
