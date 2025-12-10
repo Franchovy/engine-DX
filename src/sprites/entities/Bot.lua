@@ -732,11 +732,6 @@ function Bot:executeProps(props)
 
     -- Player Interactions
 
-    if props.unlockCrank then
-        local player = Player.getInstance()
-        player:unlockAbility(ABILITIES.CrankToWarp)
-    end
-
     if props.giveChip then
         spCollect:play()
 

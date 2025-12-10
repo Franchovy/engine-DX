@@ -1,8 +1,6 @@
 import "utils/checkpoint"
 import "utils/readFile"
 import "utils/rigidBody"
-import "utils/memoryCard"
-import "utils/fileplayer"
 import "utils/screenshake"
 import "utils/fonts"
 import "utils/camera"

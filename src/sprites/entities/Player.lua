@@ -157,10 +157,6 @@ function Player:init(entityData, levelName, ...)
 
     self.latestCheckpointPosition = gmt.point.new(self.x, self.y)
 
-    -- Load abilities
-
-    self:loadAbilities()
-
     -- Create child sprites
 
     self.questionMark = PlayerQuestionMark(self)
@@ -199,9 +195,6 @@ function Player:init(entityData, levelName, ...)
 
     -- Workaround: Adjust player location by y = -5 (to avoid falling through the floor)
     self:moveBy(0, -5)
-
-    -- Unlock warp ability
-    Player:unlockAbility(ABILITIES.CrankToWarp)
 end
 
 function Player:collisionResponse(other)
@@ -360,20 +353,6 @@ function Player:revertCheckpoint()
 
     self:setVelocityX(0)
     self:setVelocityY(0)
-end
-
-function Player:loadAbilities()
-    self.abilities = MemoryCard.getAbilities() or {}
-end
-
-function Player:unlockAbility(ability)
-    -- Save ability to memory card
-
-    MemoryCard.setAbilities({ [ability] = true })
-
-    -- Reload abilities
-
-    self:loadAbilities()
 end
 
 function Player:animateInvalidKey()

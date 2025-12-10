@@ -306,23 +306,21 @@ function _.getWorldProgressStatus(gridView, section, row)
 
   local state
 
-  if completion then
-    if completion.rescuedSprites then
-      local spritesRescued = 0
-      local spritesTotal = 0
+  if completion and completion.rescuedSprites then
+    local spritesRescued = 0
+    local spritesTotal = 0
 
-      for _, isRescued in ipairs(completion.rescuedSprites) do
-        spritesTotal += 1
-        spritesRescued += isRescued.value and 1 or 0
-      end
+    for _, isRescued in ipairs(completion.rescuedSprites) do
+      spritesTotal += 1
+      spritesRescued += isRescued.value and 1 or 0
+    end
 
-      percentComplete = spritesRescued / spritesTotal
+    percentComplete = spritesRescued / spritesTotal
 
-      if spritesTotal == spritesRescued then
-        state = STATE_PROGRESS_WORLD.Complete
-      else
-        state = STATE_PROGRESS_WORLD.InProgress
-      end
+    if spritesTotal == spritesRescued then
+      state = STATE_PROGRESS_WORLD.Complete
+    else
+      state = STATE_PROGRESS_WORLD.InProgress
     end
   else
     state = STATE_PROGRESS_WORLD.New
