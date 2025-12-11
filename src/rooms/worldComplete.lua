@@ -11,6 +11,7 @@ end
 function WorldComplete:enter(previous, currentLevelName, nextLevelName)
     gfx.setDrawOffset(0, 0)
 
+    gfx.setFont(Fonts.Dialog)
     spriteWorldCompleteText = gfx.sprite.spriteWithText("World complete, congratulations!", 200, 60, nil, nil, nil,
         kTextAlignment.center)
     spriteWorldCompleteText:getImage():setInverted(true)
