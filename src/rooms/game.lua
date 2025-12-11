@@ -258,9 +258,9 @@ function Game:update()
     end
 
     if player and playdate.buttonIsPressed(playdate.kButtonB) then
-        if player.activeDialog then
+        if player.activeBot then
             if playdate.buttonJustPressed(playdate.kButtonB) then
-                player.activeDialog:onBButtonPress()
+                player.activeBot:onBButtonPress()
             end
         else
             GUIScreenEdges:getInstance():animateIn()

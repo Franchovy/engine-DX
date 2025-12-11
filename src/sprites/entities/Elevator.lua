@@ -228,7 +228,10 @@ function Elevator:setVelocityTowardsClosestTile()
 
   if math.abs(offsetToMove) > 0.01 then
     self.speedMovement = offsetToMove
-    self.forceMoveWithoutChild = orientation == ORIENTATION.Horizontal
+
+    if orientation == ORIENTATION.Vertical then
+      self.forceMoveWithoutChild = false
+    end
 
     if orientation == ORIENTATION.Horizontal then
       self:moveRight()

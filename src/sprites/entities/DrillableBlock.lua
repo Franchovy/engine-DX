@@ -52,6 +52,8 @@ function DrillableBlock:consume()
     self:add()
 
     self:setCollisionsEnabled(false)
+
+    self.ticksToDrill = maxTicksToDrill
 end
 
 function DrillableBlock:reset()
@@ -91,4 +93,8 @@ function DrillableBlock:handleCheckpointRevert(state)
     DrillableBlock.super.handleCheckpointRevert(self, state)
 
     self:reset()
+end
+
+function DrillableBlock:getTicksToDrillLeft()
+    return maxTicksToDrill - self.ticksToDrill
 end

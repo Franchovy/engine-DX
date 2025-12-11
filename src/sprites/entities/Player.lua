@@ -28,6 +28,7 @@ local crankWatch = CrankWatch("player", crankThreshold)
 local crankValue = 0
 local crankIncrememntAdditionalThreshold = 30
 local crankValueDecreaseCoefficient = 0.45
+local trimCollisionRectWidth, trimCollisionRectTop = 6, 8
 
 --
 
@@ -57,6 +58,7 @@ KEYS = {
 
 local VELOCITY_FALL_ANIMATION <const> = 6
 local jumpSpeedDrilledBlock <const> = -14
+local preBreakJumpTicks <const> = 6
 
 -- Setup
 
@@ -141,7 +143,7 @@ function Player:init(entityData, levelName, ...)
     -- "Sub-States"
 
     ---@type Bot|false
-    self.activeDialog = false
+    self.activeBot = false
     self.didPressedInvalidKey = false
     self.activations = {}
     self.activationsDown = {}
@@ -162,16 +164,6 @@ function Player:init(entityData, levelName, ...)
     self.questionMark = PlayerQuestionMark(self)
     self.particlesDrilling = PlayerParticlesDrilling(self)
 
-    --[[
-    self.particlesWarp = ParticleCircle()
-    self.particlesWarp:setMode(Particles.modes.DISAPPEAR)
-    self.particlesWarp:setSpeed(1, 5)
-    self.particlesWarp:setSize(2, 6)
-    self.particlesWarp:setThickness(1, 2)
-    self.particlesWarp:setLifespan(10, 30)
-    self.particlesWarp:setColor(1)
-    ]]
-
     self.particlesWarp = ParticleCircle()
     self.particlesWarp:setMode(Particles.modes.DISAPPEAR)
     self.particlesWarp:setSize(1, 1)
@@ -186,8 +178,8 @@ function Player:init(entityData, levelName, ...)
 
     -- Reduce hitbox sizes
 
-    local trimWidth, trimTop = 6, 8
-    self:setCollideRect(trimWidth, trimTop, self.width - trimWidth * 2, self.height - trimTop)
+    self:setCollideRect(trimCollisionRectWidth, trimCollisionRectTop, self.width - trimCollisionRectWidth * 2,
+        self.height - trimCollisionRectTop)
 
     -- Add Checkpoint handling
 
@@ -401,12 +393,6 @@ function Player:update()
 
     Player.super.update(self)
 
-    -- Activatable sprite interactions before collisions
-
-    self.isActivatingElevator = false
-    self.isActivatingDrillableBlock = false
-    self.activeDialog = false
-
     if self.isFrozen then
         return
     end
@@ -482,7 +468,10 @@ end
 function Player:updateActivations()
     ---@type Elevator?
     local elevatorParent = nil
+    ---@type DrillableBlock?
     local drillableBlockActive = nil
+    ---@type Bot?
+    local botActive = nil
 
     for i, otherSprite in ipairs(self.activationsDown) do
         local tag = otherSprite:getTag()
@@ -503,9 +492,7 @@ function Player:updateActivations()
                     self.particlesDrilling:startAnimation()
                 end
 
-                drillableBlockActive = self.particlesDrilling
-
-                self.isActivatingDrillableBlock = otherSprite
+                drillableBlockActive = otherSprite
 
                 -- Activate block drilling
 
@@ -533,8 +520,14 @@ function Player:updateActivations()
             end
         end
 
-        if tag == TAGS.Elevator then
+        if tag == TAGS.Elevator and isBelowCenter then
+            ---@cast otherSprite Elevator
             elevatorParent = otherSprite
+
+            -- If elevator direction is horizontal and player edges are within edges of elevator, then don't force move.
+
+            elevatorParent.forceMoveWithoutChild = self:left() + trimCollisionRectWidth < elevatorParent:left() or
+                self:right() - trimCollisionRectWidth > elevatorParent:right()
         end
 
         ::continue::
@@ -543,6 +536,26 @@ function Player:updateActivations()
     -- Set elevator parent if exists
     self:setParent(elevatorParent)
     self.isActivatingElevator = elevatorParent
+
+    -- Perform "Jump check" on drillable block BEFORE updating isActivatingDrillableBlock reference
+
+    if self.isActivatingDrillableBlock then
+        ---@type DrillableBlock
+        local drillableBlock = self.isActivatingDrillableBlock
+
+        if self.didJump and drillableBlock:getTicksToDrillLeft() <= preBreakJumpTicks then
+            -- Consume block (early break with jump)
+            drillableBlock:consume()
+            self.particlesDrilling:playEndAnimation()
+        elseif self.didJump or pd.buttonJustReleased(pd.kButtonDown) then
+            -- Cancel any digging if jumping or releasing dig key
+            self.particlesDrilling:endAnimation()
+
+            drillableBlockActive = nil
+        end
+    end
+
+    self.isActivatingDrillableBlock = drillableBlockActive
 
     for i, otherSprite in ipairs(self.activations) do
         local tag = otherSprite:getTag()
@@ -555,21 +568,16 @@ function Player:updateActivations()
             if not warpCooldown then
                 otherSprite:activate(self)
             end
-        elseif tag == TAGS.Bot and not self.activeDialog then
-            self.activeDialog = otherSprite.spriteParent
+        elseif tag == TAGS.Bot and not self.activeBot then
+            botActive = otherSprite.spriteParent
 
-            self.activeDialog:activate(self)
+            botActive:activate(self)
         else
             otherSprite:activate(self)
         end
     end
 
-    -- Cancel any digging if jumping or releasing dig key
-    if self.isActivatingDrillableBlock and (self.didJump or pd.buttonJustReleased(pd.kButtonDown)) then
-        self.particlesDrilling:endAnimation()
-
-        self.isActivatingDrillableBlock = nil
-    end
+    self.activeBot = botActive
 end
 
 function Player:updateWarp()
@@ -591,6 +599,12 @@ function Player:updateWarp()
 
         self.particlesWarp:add(2)
         timeCoefficient = 0
+
+        warpCooldown = playdate.frameTimer.new(3, function(timer)
+            if timer == warpCooldown then
+                warpCooldown = nil
+            end
+        end)
     else
         timeCoefficient = crankWatch:getThresholdProportion()
     end
@@ -729,12 +743,6 @@ function Player:updateGUI()
 end
 
 function Player:updateLevelChange()
-    if crankWatch:getDidPassThreshold() then
-        -- Currently warping, ignore.
-
-        return
-    end
-
     local direction
 
     if self.x > levelBounds.right then

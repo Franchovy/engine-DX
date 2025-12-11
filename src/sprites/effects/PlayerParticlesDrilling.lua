@@ -36,9 +36,13 @@ function PlayerParticlesDrilling:startAnimation()
     self:add()
 end
 
+function PlayerParticlesDrilling:playEndAnimation()
+    self.index = indexAnimationEnd
+end
+
 function PlayerParticlesDrilling:endAnimation()
     if self.index > indexAnimationPre and self.index < indexAnimationEnd then
-        self.index = indexAnimationEnd
+        self:playEndAnimation()
     else
         self:stop()
     end
