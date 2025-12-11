@@ -438,20 +438,22 @@ function Player:updateParent()
     -- Encode horizontal direction into a bit (b01 or b10)
     local direction = self.didMoveLeft and 1 or self.didMoveRight and 2 or 0
 
-    -- If movement previously failed in the direction of movement
-    if self.spriteParent.didMoveSuccess == false or self.evelatorSkipMovement[self.spriteParent] and (self.evelatorSkipMovement[self.spriteParent] & direction ~= 0) then
-        -- Set movement bit for elevator if nil
-        if not self.evelatorSkipMovement[self.spriteParent] then
-            self.evelatorSkipMovement = {
-                [self.spriteParent] = 0
-            }
+    if direction ~= 0 then
+        -- If movement previously failed in the direction of movement
+        if self.spriteParent.didMoveSuccess == false or (self.evelatorSkipMovement[self.spriteParent] and (self.evelatorSkipMovement[self.spriteParent] & direction ~= 0)) then
+            -- Set movement bit for elevator if nil
+            if not self.evelatorSkipMovement[self.spriteParent] then
+                self.evelatorSkipMovement = {
+                    [self.spriteParent] = 0
+                }
+            end
+
+            -- Add direction for elevator movement
+            self.evelatorSkipMovement[self.spriteParent] |= direction
+
+            -- Skip parent update (child moves and parent does not)
+            return
         end
-
-        -- Add direction for elevator movement
-        self.evelatorSkipMovement[self.spriteParent] |= direction
-
-        -- Skip parent update (child moves and parent does not)
-        return
     end
 
     -- Reset movement bit for elevator if movement success / changed position
