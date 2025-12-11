@@ -36,14 +36,6 @@ local distanceMinNextNode <const> = 24
 local distanceMinFinalNode <const> = 5
 local dialogMargin <const> = 5
 
-local lettersToActions <const> = {
-    ["A"] = KEYNAMES.A,
-    ["U"] = KEYNAMES.Up,
-    ["L"] = KEYNAMES.Left,
-    ["R"] = KEYNAMES.Right,
-    ["D"] = KEYNAMES.Down,
-}
-
 --- Update method for the dialog bubble, to position itself in view
 function _dialogUpdate(self)
     self.super.update(self)
@@ -687,7 +679,7 @@ function Bot:parseCondition(lineRaw)
         local chips = {}
 
         for c in string.gmatch(string.sub(lineRaw, 2), ".") do
-            table.insert(chips, lettersToActions[c])
+            table.insert(chips, LETTERS_TO_KEYNAMES[c])
         end
 
         return function()

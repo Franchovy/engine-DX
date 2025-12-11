@@ -1,8 +1,8 @@
 local gfx <const> = playdate.graphics
 
-local FADE_IN_TIME_MS <const> = 4000
+local FADE_IN_TIME_MS <const> = 2000
 local FADE_OUT_TIME_MS <const> = 3000
-local DISPLAY_DURATION_MS <const> = 7000
+local DISPLAY_DURATION_MS <const> = 3000
 
 local animatorFadeIn = gfx.animator.new(FADE_IN_TIME_MS, 0, 1, playdate.easingFunctions.inOutCirc)
 local animatorFadeOut = gfx.animator.new(FADE_OUT_TIME_MS, 1, 0, playdate.easingFunctions.inOutCirc)

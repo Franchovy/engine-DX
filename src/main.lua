@@ -118,14 +118,100 @@ end
 -- Debug methods to modify crank value
 
 if playdate.isSimulator then
+  local keyCombinationChipset = nil
+  local keyCombinationTeleport = nil
+
   local function _debugKeypress(key)
     local debugCrankValue = nil
-    if key == "1" then
-      debugCrankValue = Player.__getCrankThreshold() * 2
-    elseif key == "2" then
-      debugCrankValue = Player.__getCrankThreshold() * 2 + Player.__getCrankThresholdIncrementAdditional()
-    elseif key == "3" then
-      debugCrankValue = Player.__getCrankThreshold() * 2 + Player.__getCrankThresholdIncrementAdditional() * 3
+
+    if not (keyCombinationTeleport or keyCombinationChipset) then
+      if key == "1" then
+        debugCrankValue = Player.__getCrankThreshold() * 2
+      elseif key == "2" then
+        debugCrankValue = Player.__getCrankThreshold() * 2 + Player.__getCrankThresholdIncrementAdditional()
+      elseif key == "3" then
+        debugCrankValue = Player.__getCrankThreshold() * 2 + Player.__getCrankThresholdIncrementAdditional() * 3
+      end
+    end
+
+    if SCENES.currentGame and key == "t" then
+      keyCombinationTeleport = {}
+      print("Open key combination for teleport...")
+
+      playdate.timer.performAfterDelay(1000, function()
+        if keyCombinationTeleport then
+          local targetNumber = 0
+          for _, n in ipairs(keyCombinationTeleport) do
+            targetNumber *= 10
+            targetNumber += n
+          end
+
+          print("Teleporting to level: " .. targetNumber)
+
+          local levelName = "Level_" .. targetNumber
+          local gamepointIds = LDtk.get_custom_data(levelName, "gamepointsOnEnter") or
+              LDtk.get_custom_data(levelName, "gamepointsOnLoad")
+          local levelBounds = LDtk.get_rect(levelName)
+
+          if gamepointIds and #gamepointIds > 0 then
+            local gamepoint = LDtk.entitiesById[gamepointIds[1]]
+            -- Teleport to level with number
+            local player = Player:getInstance()
+
+            player:freeze()
+            player:moveTo(gamepoint.world_position.x, gamepoint.world_position.y)
+
+            Manager:getInstance():enter(SCENES.currentGame,
+              { level = { name = levelName, bounds = levelBounds } })
+          end
+        end
+
+        print("Closed teleport key combination.")
+
+        keyCombinationTeleport = nil
+      end)
+    elseif keyCombinationTeleport and tonumber(key) then
+      table.insert(keyCombinationTeleport, tonumber(key))
+    end
+
+    if SCENES.currentGame and key == "k" then
+      print("Open key combination for chipset...")
+      keyCombinationChipset = {}
+
+      playdate.timer.performAfterDelay(1000, function()
+        if keyCombinationChipset then
+          local chipset = {}
+          local stringChipsetDebug = ""
+
+          for i, key in ipairs(keyCombinationChipset) do
+            if not LETTERS_TO_KEYNAMES[key] then
+              break
+            end
+
+            table.insert(chipset, LETTERS_TO_KEYNAMES[key])
+
+            stringChipsetDebug = (i > 1 and (stringChipsetDebug .. ", ") or "") .. LETTERS_TO_KEYNAMES[key]
+          end
+
+          if #chipset == 3 then
+            print("Loading chipset: " .. stringChipsetDebug)
+            GUIChipSet:getInstance():setChipSet(chipset, true)
+          else
+            print("Invalid chipset: " .. stringChipsetDebug)
+          end
+        end
+
+        print("Closed chipset key combination.")
+
+        keyCombinationChipset = nil
+      end)
+    elseif keyCombinationChipset and (key == "r" or key == "l" or key == "u" or key == "d" or key == "j") then
+      if key == "j" then
+        -- "A" is not available as debug key.
+        key = "a"
+      end
+
+      table.insert(keyCombinationChipset, key:upper())
     end
 
     if debugCrankValue then
