@@ -8,5 +8,6 @@ LDTK_CONFIG_ALIASES = {
     transition = "Transition",
     levelname = "GUILevelName",
     music = "FilePlayer",
-    level = "LDtkWorld"
+    level = "LDtkWorld",
+    energy = "GUIPowerLevel"
 }

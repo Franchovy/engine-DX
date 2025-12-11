@@ -44,6 +44,8 @@ function GUILevelName:init()
     self.subHeader = nil
     self.name = nil
 
+    self.isPresenting = false
+
     _instance = self
 end
 
@@ -126,6 +128,8 @@ function GUILevelName:present()
     self:add()
     self:moveTo(20, 190)
 
+    self.isPresenting = true
+
     animatorFade = animatorFadeIn
     animatorFadeIn:reset()
 
@@ -134,6 +138,8 @@ function GUILevelName:present()
         animatorFadeOut:reset()
 
         playdate.timer.performAfterDelay(FADE_OUT_TIME_MS, function()
+            self.isPresenting = false
+
             self:remove()
         end)
     end)

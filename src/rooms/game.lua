@@ -62,6 +62,7 @@ function Game:init(filepathLevel)
     GUIModalMessage()
     GUIScreenEdges()
     FilePlayer()
+    GUIPowerLevel()
 
     -- Load Ability Panel
 
@@ -92,6 +93,7 @@ function Game:unload()
     GUIChipSet.destroy()
     GUIScreenEdges.destroy()
     GUISpriteRescueCounter.destroy()
+    GUIPowerLevel:destroy()
 
     Checkpoint.clearAll()
 
@@ -132,16 +134,6 @@ function Game:setupSystemMenu()
     end)
 end
 
-function Game:setupFonts()
-    -- Set Font
-
-    gfx.setFont(Fonts.Dialog)
-end
-
-function Game:setupPowerLevel()
-    PowerLevel.reset()
-end
-
 ---------------------------------
 ---
 ---------------------------------
@@ -163,8 +155,6 @@ function Game:enter(previous, data)
         -- First-time load setup
 
         self:setupSystemMenu()
-        self:setupFonts()
-        self:setupPowerLevel()
     else
         sfxSwoosh:play(1)
     end
@@ -218,8 +208,12 @@ function Game:enter(previous, data)
     -- Present Level Name if first time load
 
     if isFirstTimeLoad then
-        --GUILevelName.getInstance():present()
+        GUILevelName.getInstance():present()
+    elseif GUILevelName.getInstance().isPresenting then
+        GUILevelName.getInstance():add()
+    end
 
+    if isFirstTimeLoad then
         -- Set initial checkpoint to spawn point
 
         Checkpoint.incrementNamed("savepoint")
@@ -229,7 +223,6 @@ end
 function Game:update()
     -- System updates
 
-    PowerLevel.update()
     Camera.update()
 
     -- Input handling (for player)
