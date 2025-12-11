@@ -1,6 +1,9 @@
 --- @class CollisionZone : Entity
 CollisionZone = Class("CollisionZone", Entity)
 
+--- Slightly shrink the CollisionZone's colliderect to avoid triggering when not actually in the block.
+local margin <const> = 2
+
 ---@param data ldtkData
 ---@param levelName string
 ---@param ... unknown
@@ -24,6 +27,7 @@ function CollisionZone:init(data, levelName, ...)
 
     self:setCenter(0, 0)
     self:setSize(data.size.width, data.size.height)
+    self:setCollideRect(margin, margin, data.size.width - margin * 2, data.size.height - margin * 2)
 end
 
 function CollisionZone:loadConfig(config)

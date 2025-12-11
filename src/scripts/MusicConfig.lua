@@ -23,5 +23,14 @@ MUSIC_CONFIG = {
             { file = "assets/music/02_darkened_caves/02_darkened_caves_08" },
             { file = "assets/music/02_darkened_caves/02_darkened_caves_09" },
         }
+    },
+    ["The Mines"] = {
+        assets = {
+            { file = "assets/music/03_mines/03 Mine A0", loopCount = 1, next = 2 },
+            { file = "assets/music/03_mines/03 Mine A1", loopCount = 1, next = 3 },
+            { file = "assets/music/03_mines/03 Mine A2" },
+            { file = "assets/music/03_mines/03 Mine B1", next = 3 },
+            { file = "assets/music/03_mines/03 Mine C1", next = 4 }
+        }
     }
 }
