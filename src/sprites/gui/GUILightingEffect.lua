@@ -1,9 +1,9 @@
 local gfx <const> = playdate.graphics
 
---- @class GUILightingEffect: _Sprite
-GUILightingEffect = Class("GUILightingEffect", gfx.sprite)
-
-local _instance
+--- @class GUILightingEffect: GuiSprite
+--- @field instance GUILightingEffect
+--- @field getInstance fun():GUILightingEffect
+GUILightingEffect = Class("GUILightingEffect", GuiSprite)
 
 local maskImage
 local imageBackground
@@ -20,22 +20,27 @@ local effects <const> = {}
 
 -- Static methods
 
----@return GUILightingEffect
-function GUILightingEffect.getInstance() return assert(_instance) end
-
 function GUILightingEffect.load(config)
-    if not _instance then return end
+    if not GUILightingEffect.instance then return end
 
     if config.background == "light" then
-        _instance:addEffect("background", GUILightingEffect.imageFadeLight)
+        GUILightingEffect.instance:addEffect("background", GUILightingEffect.imageFadeLight)
     elseif config.background == "medium" then
-        _instance:addEffect("background", GUILightingEffect.imageFadeMedium)
+        GUILightingEffect.instance:addEffect("background", GUILightingEffect.imageFadeMedium)
     else
-        _instance:removeEffect("background")
+        GUILightingEffect.instance:removeEffect("background")
     end
 end
 
 -- Instance methods
+
+function GUILightingEffect:destroy()
+    for i = 1, #effects do
+        table.remove(effects)
+    end
+
+    GUILightingEffect.super.destroy(self)
+end
 
 function GUILightingEffect:init()
     GUILightingEffect.super.init(self)
@@ -56,8 +61,6 @@ function GUILightingEffect:init()
     self:setCenter(0, 0)
     self:setIgnoresDrawOffset(true)
     self:setZIndex(Z_INDEX.Level.Overlay)
-
-    _instance = self
 end
 
 function GUILightingEffect:createBackgroundImages()

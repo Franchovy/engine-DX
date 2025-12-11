@@ -415,7 +415,6 @@ function Player:update()
         Moveable.update(self)
     end
 
-
     -- Checkpoint Handling
 
     self:updateWarp()

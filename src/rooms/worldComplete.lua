@@ -20,8 +20,6 @@ function WorldComplete:enter(previous, currentLevelName, nextLevelName)
     playdate.timer.performAfterDelay(5000, function()
         Transition:getInstance():fadeOut(1600, function()
             Game.loadAndEnter(nextLevelName)
-
-            Transition:getInstance():fadeIn(1200)
         end)
     end)
 end

@@ -4201,7 +4201,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Hey, DRLBOT!\nLooks like you're getting the hang of this!\nWe're a similar model, you and I.\nBut only you have the special ability we all need.\n{\"showCrankIndicator\": true}\nUsing the CRANK will help you rewind in time.\nIf you ever get stuck, it will restore your chips, too.\nUse it to get out from sticky situations.\n{\"showCrankIndicator\": false}\n...And don't forget to help us, too!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hey, DRLBOT!\\nLooks like you're getting the hang of this!\\nWe're a similar model, you and I.\\nBut only you have the special ability we all need.\\n{\"showCrankIndicator\": true}\\nUsing the CRANK will help you rewind in time.\\nIf you ever get stuck, it will restore your chips, too.\\nUse it to get out from sticky situations.\\n{\"showCrankIndicator\": false}\\n...And don't forget to help us, too!"
+										"Hey, DRLBOT!\nLooks like you're getting the hang of this!\nWe're a similar model, you and I.\nBut only you have the special ability we all need.\n{\"showCrankIndicator\": true}\nUsing the CRANK will help you rewind in time.\nIf you ever get stuck, it will restore your chips, too.\nUse it to get out from sticky situations.\n{\"showCrankIndicator\": false}\n...And don't forget to help us, too!"
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -4249,7 +4249,7 @@
 							"fieldInstances": [
 								{ "__identifier": "config", "__type": "String", "__value": "{\n  \"music\": {\n    \"loop\": 4\n  },\n  \"parallax\": true\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["{\\n  \"music\": {\\n    \"loop\": 4\\n  },\\n  \"parallax\": true\\n}"]
+									"params": ["{\n  \"music\": {\n    \"loop\": 4\n  },\n  \"parallax\": true\n}"]
 								}] },
 								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 678, "realEditorValues": [] }
 							],
@@ -4760,7 +4760,7 @@
 							"px": [32,320],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"loadConfig\": { \"camera\": {\"offset\": {\"x\":0, \"y\": 40}} }\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"loadConfig\": { \"camera\": {\"offset\": {\"x\":0, \"y\": 40}} }\\n}"]
+								"params": ["{\n  \"loadConfig\": { \"camera\": {\"offset\": {\"x\":0, \"y\": 40}} }\n}"]
 							}] }],
 							"__worldX": 6784,
 							"__worldY": 1440
@@ -4779,7 +4779,7 @@
 							"px": [256,256],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"gamepoint\": \"b9f8e4e0-ac70-11f0-ba8a-75836e8343c2\"\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"gamepoint\": \"b9f8e4e0-ac70-11f0-ba8a-75836e8343c2\"\\n}"]
+								"params": ["{\n  \"gamepoint\": \"b9f8e4e0-ac70-11f0-ba8a-75836e8343c2\"\n}"]
 							}] }],
 							"__worldX": 7008,
 							"__worldY": 1376
@@ -4799,7 +4799,7 @@
 							"fieldInstances": [
 								{ "__identifier": "config", "__type": "String", "__value": "{\n  \"camera\": {\"softFocus\": \"d08b17a0-ac70-11f0-ba8a-13f4432a7d1e\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["{\\n  \"camera\": {\"softFocus\": \"d08b17a0-ac70-11f0-ba8a-13f4432a7d1e\"}\\n}"]
+									"params": ["{\n  \"camera\": {\"softFocus\": \"d08b17a0-ac70-11f0-ba8a-13f4432a7d1e\"}\n}"]
 								}] },
 								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 678, "realEditorValues": [] }
 							],
@@ -4841,7 +4841,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "You don't have to listen to us, by the way.\nJust if you're curious, or if you want some help.\n{\"repeats\": true}\nGood luck getting UP this elevator!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"You don't have to listen to us, by the way.\\nJust if you're curious, or if you want some help.\\n{\"repeats\": true}\\nGood luck getting UP this elevator!"
+										"You don't have to listen to us, by the way.\nJust if you're curious, or if you want some help.\n{\"repeats\": true}\nGood luck getting UP this elevator!"
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -4876,7 +4876,7 @@
 							"fieldInstances": [
 								{ "__identifier": "config", "__type": "String", "__value": "{\n  \"music\": {\n    \"loop\": 5\n  }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["{\\n  \"music\": {\\n    \"loop\": 5\\n  }\\n}"]
+									"params": ["{\n  \"music\": {\n    \"loop\": 5\n  }\n}"]
 								}] },
 								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 678, "realEditorValues": [] }
 							],
@@ -5313,7 +5313,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "This is a BOT that needs your help!\nYou can save them by going near them.\nKeep an eye on your indicator UP RIGHT.\nYou can see how many BOTs you need to save.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"This is a BOT that needs your help!\\nYou can save them by going near them.\\nKeep an eye on your indicator UP RIGHT.\\nYou can see how many BOTs you need to save."
+										"This is a BOT that needs your help!\nYou can save them by going near them.\nKeep an eye on your indicator UP RIGHT.\nYou can see how many BOTs you need to save."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -5361,7 +5361,7 @@
 							"fieldInstances": [
 								{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true,\n  \"music\": {\n    \"loop\": 6\n  }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["{\\n  \"parallax\": true,\\n  \"music\": {\\n    \"loop\": 6\\n  }\\n}"]
+									"params": ["{\n  \"parallax\": true,\n  \"music\": {\n    \"loop\": 6\n  }\n}"]
 								}] },
 								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 678, "realEditorValues": [] }
 							],
@@ -5681,10 +5681,10 @@
 							"defUid": 587,
 							"px": [256,128],
 							"fieldInstances": [
-								{ "__identifier": "config", "__type": "String", "__value": "{\n  \"rescue\": {\"count\": 2},\n  \"transition\": {\"color\":1, \"fadeIn\": {\"duration\": 2000}},\n  \"lighting\": {\"background\":\"light\"},\n  \"level\": {\n    \"activate\": \"87a5f6e0-ac70-11f0-a152-ab6557508d93\"\n  },\n  \"music\": {\n    \"title\": \"Factory\",\n    \"loop\": 1\n  }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
+								{ "__identifier": "config", "__type": "String", "__value": "{\n  \"rescue\": {\"count\": 2},\n  \"transition\": {\"color\":1},\n  \"lighting\": {\"background\":\"light\"},\n  \"level\": {\n    \"activate\": \"87a5f6e0-ac70-11f0-a152-ab6557508d93\"\n  },\n  \"music\": {\n    \"title\": \"Factory\",\n    \"loop\": 1\n  }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"{\\n  \"rescue\": {\"count\": 2},\\n  \"transition\": {\"color\":1, \"fadeIn\": {\"duration\": 2000}},\\n  \"lighting\": {\"background\":\"light\"},\\n  \"level\": {\\n    \"activate\": \"87a5f6e0-ac70-11f0-a152-ab6557508d93\"\\n  },\\n  \"music\": {\\n    \"title\": \"Factory\",\\n    \"loop\": 1\\n  }\\n}"
+										"{\\n  \"rescue\": {\"count\": 2},\\n  \"transition\": {\"color\":1},\\n  \"lighting\": {\"background\":\"light\"},\\n  \"level\": {\\n    \"activate\": \"87a5f6e0-ac70-11f0-a152-ab6557508d93\"\\n  },\\n  \"music\": {\\n    \"title\": \"Factory\",\\n    \"loop\": 1\\n  }\\n}"
 									]
 								}] },
 								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 678, "realEditorValues": [] }
@@ -6087,7 +6087,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "You see those blocks over there?\nThose are drillable using DOWN. \nBut you'll need the right chip to activate your drill.\nSee if you can grab one above.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"You see those blocks over there?\\nThose are drillable using DOWN. \\nBut you'll need the right chip to activate your drill.\\nSee if you can grab one above."
+										"You see those blocks over there?\nThose are drillable using DOWN. \nBut you'll need the right chip to activate your drill.\nSee if you can grab one above."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -6271,7 +6271,7 @@
 							"px": [96,352],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"showCrankIndicator\": true\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"showCrankIndicator\": true\\n}"]
+								"params": ["{\n  \"showCrankIndicator\": true\n}"]
 							}] }],
 							"__worldX": 7456,
 							"__worldY": 1216
@@ -6290,7 +6290,7 @@
 							"px": [224,352],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"showCrankIndicator\": true\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"showCrankIndicator\": true\\n}"]
+								"params": ["{\n  \"showCrankIndicator\": true\n}"]
 							}] }],
 							"__worldX": 7584,
 							"__worldY": 1216
@@ -6310,7 +6310,7 @@
 							"fieldInstances": [
 								{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["{\\n  \"parallax\": true\\n}"]
+									"params": ["{\n  \"parallax\": true\n}"]
 								}] },
 								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 678, "realEditorValues": [] }
 							],
@@ -6689,7 +6689,7 @@
 								{ "__identifier": "config", "__type": "String", "__value": "{\n  \"loader\": {\n    \"id\": \"87a5f6e0-ac70-11f0-a152-ab6557508d93\",\n    \"addPoints\": true\n  }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"{\\n  \"loader\": {\\n    \"id\": \"87a5f6e0-ac70-11f0-a152-ab6557508d93\",\\n    \"addPoints\": true\\n  }\\n}"
+										"{\n  \"loader\": {\n    \"id\": \"87a5f6e0-ac70-11f0-a152-ab6557508d93\",\n    \"addPoints\": true\n  }\n}"
 									]
 								}] },
 								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 678, "realEditorValues": [] }
@@ -7131,7 +7131,7 @@
 							"px": [96,160],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"restart\": \"7ec49700-d380-11f0-9063-b71cea49bc33\"\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"restart\": \"7ec49700-d380-11f0-9063-b71cea49bc33\"\\n}"]
+								"params": ["{\n  \"restart\": \"7ec49700-d380-11f0-9063-b71cea49bc33\"\n}"]
 							}] }],
 							"__worldX": 8000,
 							"__worldY": 1440
@@ -7151,7 +7151,7 @@
 							"fieldInstances": [
 								{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["{\\n  \"parallax\": true\\n}"]
+									"params": ["{\n  \"parallax\": true\n}"]
 								}] },
 								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 678, "realEditorValues": [] }
 							],
@@ -7174,7 +7174,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Time to test some jumping skills.\nDon't worry if you fall.\nWe've got backup mechanisms in place.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Time to test some jumping skills.\\nDon't worry if you fall.\\nWe've got backup mechanisms in place."
+										"Time to test some jumping skills.\nDon't worry if you fall.\nWe've got backup mechanisms in place."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -7570,7 +7570,7 @@
 							"fieldInstances": [
 								{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true,\n  \"music\": {\n    \"loop\": 7\n  }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["{\\n  \"parallax\": true,\\n  \"music\": {\\n    \"loop\": 7\\n  }\\n}"]
+									"params": ["{\n  \"parallax\": true,\n  \"music\": {\n    \"loop\": 7\n  }\n}"]
 								}] },
 								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 678, "realEditorValues": [] }
 							],
@@ -7677,7 +7677,7 @@
 							"px": [0,160],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"levelEnd\": true\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"levelEnd\": true\\n}"]
+								"params": ["{\n  \"levelEnd\": true\n}"]
 							}] }],
 							"__worldX": 5248,
 							"__worldY": 1088

@@ -72,12 +72,12 @@ CollisionZoneScripts = {
 
             Game.enableLevelChange = false
 
-            Transition.getInstance():fadeOut(1000, function()
+            Transition:getInstance():fadeOut(1000, function()
                 playdate.timer.performAfterDelay(2000, function()
                     player:moveTo(gamepoint.sprite.x, gamepoint.sprite.y)
                     Camera.setOffsetInstantaneous()
 
-                    Transition.getInstance():fadeIn(500, function()
+                    Transition:getInstance():fadeIn(500, function()
                         Game.enableLevelChange = true
 
                         player:unfreeze()
@@ -121,13 +121,13 @@ CollisionZoneScripts = {
 
             Game.enableLevelChange = false
 
-            Transition.getInstance():fadeOut(1000, function()
+            Transition:getInstance():fadeOut(1000, function()
                 playdate.timer.performAfterDelay(2000, function()
                     Checkpoint.goToNamed(nameCheckpoint)
 
                     Camera.setOffsetInstantaneous()
 
-                    Transition.getInstance():fadeIn(500, function()
+                    Transition:getInstance():fadeIn(500, function()
                         Game.enableLevelChange = true
 
                         player:unfreeze()

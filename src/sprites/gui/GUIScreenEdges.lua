@@ -15,7 +15,10 @@ function GUIScreenEdges.getInstance()
 end
 
 function GUIScreenEdges.destroy()
-    _instance = nil
+    if _instance then
+        _instance:remove()
+        _instance = nil
+    end
 end
 
 function GUIScreenEdges:init()

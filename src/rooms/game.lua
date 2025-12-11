@@ -11,7 +11,7 @@ local sfxSwoosh <const> = assert(sound.sampleplayer.new(assets.sounds.swoosh))
 
 local msFadeInLevel <const> = 220
 local msFadeOutLevel <const> = 160
-local msFadeInWorld <const> = 600
+local msFadeInWorld <const> = 2000
 local msFadeOutWorld <const> = 1200
 
 local LEVEL_NAME_INITIAL <const> = "Level_0"
@@ -84,8 +84,13 @@ function Game:unload()
 
     initialLevelNameSaveProgress = nil
 
+
+    -- Destroy game-specific singletons (excludes Transition)
+
     Player.destroy()
+    GUILightingEffect:destroy()
     GUIChipSet.destroy()
+    GUIScreenEdges.destroy()
     GUISpriteRescueCounter.destroy()
 
     Checkpoint.clearAll()
@@ -114,13 +119,7 @@ function Game:setupSystemMenu()
 
     -- Main menu return
     systemMenu:addMenuItem("main menu", function()
-        --- [FRANCH] A delay is necessary here, at least for now, since pushing the
-        --- new scene directly from the pause menu causes the new scene to be stuck in
-        --- the pause menu's draw context (?). Anyways, until that's fixed, this needs to stay.
-
-        playdate.frameTimer.performAfterDelay(10, function()
-            Manager.getInstance():enter(SCENES.menu)
-        end)
+        Manager.getInstance():enter(SCENES.menu)
     end)
 
     -- Music enabled/disabled
@@ -200,24 +199,26 @@ function Game:enter(previous, data)
     local player = Player.getInstance()
     if player then
         player:add()
-    end
 
-    if player then
+        Player.getInstance():unfreeze()
+
         player:enterLevel(currentLevelName, direction)
     end
 
     Camera.enterLevel(currentLevelName)
 
     GUISpriteRescueCounter.getInstance():add()
-    Transition.getInstance():add()
-    GUILightingEffect.getInstance():add()
+    Transition:getInstance():add()
+    GUILightingEffect:getInstance():add()
     GUIChipSet.getInstance():add()
     GUIScreenEdges.getInstance():add()
+
+    Transition:getInstance():fadeIn(isFirstTimeLoad and msFadeInWorld or msFadeInLevel)
 
     -- Present Level Name if first time load
 
     if isFirstTimeLoad then
-        GUILevelName.getInstance():present()
+        --GUILevelName.getInstance():present()
 
         -- Set initial checkpoint to spawn point
 
@@ -319,10 +320,6 @@ function Game:levelComplete(data)
 
         Manager:getInstance():enter(SCENES.currentGame,
             { direction = direction, level = { name = nextLevel, bounds = nextLevelBounds } })
-
-        Player.getInstance():unfreeze()
-
-        Transition:getInstance():fadeIn(msFadeInLevel)
     end)
 end
 

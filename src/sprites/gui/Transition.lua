@@ -3,10 +3,10 @@ local sound <const> = playdate.sound
 
 local _ = {}
 
---- @class Transition: _Sprite
-Transition = Class("Transition", gfx.sprite)
-
-local _instance
+--- @class Transition: GuiSprite
+--- @field instance Transition
+--- @field getInstance fun():Transition
+Transition = Class("Transition", GuiSprite)
 
 local fadeColor
 
@@ -14,11 +14,6 @@ local fadeColor
 
 ---@type FadeConfig?
 local fadeTriggered
-
--- Static Methods
-
----@return Transition
-function Transition.getInstance() return assert(_instance) end
 
 function Transition.load(config)
     if config.color then
@@ -55,8 +50,6 @@ function Transition:init()
     self:setCenter(0, 0)
 
     fadeColor = gfx.kColorBlack
-
-    _instance = self
 end
 
 function Transition:fadeOut(fadeInTimeMs, finishCallback)
@@ -74,9 +67,6 @@ function Transition:animateFade(fadeInTimeMs, animator, finishCallback)
     self.fader = animator
 
     playdate.timer.performAfterDelay(fadeInTimeMs, function()
-        --self:remove()
-        --self.fader = nil
-
         if finishCallback then
             finishCallback()
         end

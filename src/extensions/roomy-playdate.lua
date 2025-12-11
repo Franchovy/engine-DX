@@ -3,8 +3,16 @@
 -- Swizzle enter method – adds reference from scene to the manager.
 local enterSwizzled = Manager.enter
 function Manager.enter(self, next, ...)
+    local args = { ... }
     next.manager = self
-    enterSwizzled(self, next, ...)
+
+    --- [FRANCH] A delay is necessary here, at least for now, since pushing the
+    --- new scene directly from the pause menu causes the new scene to be stuck in
+    --- the pause menu's draw context (?). Anyways, until that's fixed, this needs to stay.
+
+    playdate.frameTimer.performAfterDelay(1, function()
+        enterSwizzled(self, next, table.unpack(args))
+    end)
 end
 
 --- @class sceneManager : Manager
