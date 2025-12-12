@@ -35,6 +35,8 @@ function Teleporter:activate(sprite)
     local targetLevel = self.targetLevel
     local spriteDestination = LDtk.entitiesById[destination]
 
+    assert(spriteDestination, "Destination for Teleporter was not found!")
+
     if targetLevel and destination then
         local imagePrevious = sprite:getImage()
         local imageMaskBase = imagePrevious:getMaskImage()

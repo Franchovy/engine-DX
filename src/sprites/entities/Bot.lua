@@ -37,22 +37,22 @@ local distanceMinFinalNode <const> = 5
 local dialogMargin <const> = 5
 
 --- Update method for the dialog bubble, to position itself in view
-function _dialogUpdate(self)
+local function _dialogUpdate(self)
     self.super.update(self)
 
     local offsetX, offsetY = gfx.getDrawOffset()
     local x, y = self.x, self.y
     local width, height = self.width, self.height
 
-    if x - width / 2 < -offsetX + dialogMargin then
+    if self:left() < -offsetX + dialogMargin then
         x = -offsetX + dialogMargin + width / 2
-    elseif x + width / 2 > -offsetX + 400 - dialogMargin * 2 then
+    elseif self:right() > -offsetX + 400 - dialogMargin * 2 then
         x = -offsetX + 400 - dialogMargin * 2 - width / 2
     end
 
-    if y - height / 2 < -offsetY + dialogMargin then
-        y = -offsetY + dialogMargin
-    elseif y + height / 2 > -offsetY + 240 - dialogMargin * 2 then
+    if self:top() < -offsetY + dialogMargin then
+        y = -offsetY + dialogMargin - self:centerOffsetY()
+    elseif self:bottom() > -offsetY + 240 - dialogMargin * 2 then
         y = -offsetY + 240 - dialogMargin * 2 - height / 2
     end
 
@@ -454,6 +454,16 @@ function Bot:unfreeze()
     self.isFrozen = false
 end
 
+function Bot:enterLevel(targetLevel)
+    Bot.super.enterLevel(self, targetLevel)
+
+    if self.isActivated then
+        self.currentLine -= 1
+        self:closeDialogSprite()
+        self.isActivated = false
+    end
+end
+
 function Bot:update()
     if self.isFrozen then
         return
@@ -494,7 +504,7 @@ function Bot:update()
 
     -- Reset update variable
 
-    self.isActivated = false
+    self.isActivated = self.continueTalking or false
 
     -- Blinker / rescue indicator
 
@@ -612,7 +622,7 @@ end
 
 function Bot:addDialogSprite(text)
     local font = Fonts.Dialog
-    local width = math.min(font:getTextWidth(text), 200)
+    local width = math.min(math.max(font:getTextWidth(text), 60), 200)
 
     local config = {
         x = self.x - width / 2,
@@ -639,7 +649,7 @@ function Bot:addDialogSprite(text)
 
     self.dialogSprite = dialogBox:asSprite()
 
-    self.dialogSprite:setZIndex(Z_INDEX.HUD.Background)
+    self.dialogSprite:setZIndex(Z_INDEX.HUD.MainPlus)
     self.dialogSprite:setCenter(0.5, 1.5)
     self.dialogSprite:add()
 
@@ -728,6 +738,10 @@ function Bot:executeProps(props)
         spCollect:play()
 
         Manager.emitEvent(EVENTS.ChipSetAdd, props.giveChip, self)
+    end
+
+    if props.continueTalking then
+        self.continueTalking = true
     end
 
     if props.worldComplete then

@@ -468,6 +468,9 @@ function Player:updateParent()
                     return
                 end
             end
+        else
+            -- Elevator not able to move in this direction. Cancel passing update to parent
+            return
         end
     end
 

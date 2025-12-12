@@ -38,6 +38,7 @@ _G.assets = {
         }
     },
     imageTables = {
+        elevatorLarge = "assets/images/elevator-large",
         logicBlock = "assets/images/logic-block",
         collectibles = "assets/images/collectibles",
         questionMark = "assets/images/questionmark",

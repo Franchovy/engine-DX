@@ -1,18 +1,50 @@
 local gfx <const> = playdate.graphics
+local gmt <const> = playdate.geometry
 
 local imagetableElevator <const> = assert(gfx.imagetable.new(assets.imageTables.elevator))
+local imagetableElevatorLarge <const> = assert(gfx.imagetable.new(assets.imageTables.elevatorLarge))
 
 local downwardsOffsetMax <const> = 2
 local speedMovement <const> = 7
 
----@class Elevator : Entity, Moveable
+local ANIMATION_STATES <const> = {
+  Idle = 'idle',
+  StepOn = 'step-on',
+  StepOff = 'step-off',
+  Active = 'active',
+  MoveLeft = 'move-left',
+  MoveRight = 'move-right'
+}
+
+local ASSETS = {
+  ["elevator"] = {
+    imagetable = imagetableElevator,
+    offsetCenterX = 1,
+    collideRect = gmt.rect.new(0, 16, 32, 16)
+  },
+  ["elevator-large"] = {
+    imagetable = imagetableElevatorLarge,
+    collideRect = gmt.rect.new(0, 16, 96, 16)
+  }
+}
+
+---@class Elevator : EntityAnimated, Moveable
 ---@field tracks ElevatorTrack[]
-Elevator = Class("Elevator", Entity)
+Elevator = Class("Elevator", EntityAnimated)
 
 Elevator:implements(Moveable)
 
 function Elevator:init(entityData, levelName)
-  Elevator.super.init(self, entityData, levelName, imagetableElevator[1])
+  local assetData = ASSETS[entityData.fields.asset]
+  Elevator.super.init(self, entityData, levelName, assetData.imagetable)
+
+  self:addState(ANIMATION_STATES.Idle, 1, 1, {}, true).asDefault()
+  self:addState(ANIMATION_STATES.StepOn, 2, 8, { nextAnimation = ANIMATION_STATES.Active })
+  self:addState(ANIMATION_STATES.StepOff, nil, nil,
+    { frames = { 8, 7, 6, 5, 4, 3, 2 }, nextAnimation = ANIMATION_STATES.Idle })
+  self:addState(ANIMATION_STATES.Active, 9, 12, { tickStep = 2 })
+  self:addState(ANIMATION_STATES.MoveRight, 13, 16, { tickStep = 2 })
+  self:addState(ANIMATION_STATES.MoveLeft, 17, 20, { tickStep = 2 })
 
   Moveable.init(self, { movement = speedMovement })
 
@@ -38,7 +70,14 @@ function Elevator:init(entityData, levelName)
   end
 
   -- Set collideRect to bottom half of sprite
-  self:setCollideRect(0, 16, 32, 16)
+  self:setCollideRect(assetData.collideRect)
+  local centerX, centerY = self:getCenter()
+
+  -- Adjust the sprite center for the 2 extra pixels on the right
+  local offsetCenterX = assetData.offsetCenterX
+  if offsetCenterX then
+    self:setCenter(centerX - (offsetCenterX / self.width), centerY)
+  end
 
   -- Offset upwards to occupy upper portion of tile, if needed.
   local tileOffsetY = (self.y - TILE_SIZE / 2) % TILE_SIZE
@@ -140,6 +179,8 @@ function Elevator:update()
     return
   end
 
+  self:updateAnimationState()
+
   Moveable.update(self)
 
   self:savePosition()
@@ -227,16 +268,24 @@ function Elevator:setVelocityTowardsClosestTile()
   )
 
   if math.abs(offsetToMove) > 0.01 then
-    self.speedMovement = offsetToMove
+    self.speedMovement = math.abs(offsetToMove)
 
     if orientation == ORIENTATION.Vertical then
       self.forceMoveWithoutChild = false
     end
 
     if orientation == ORIENTATION.Horizontal then
-      self:moveRight()
+      if offsetToMove > 0 then
+        self:moveRight()
+      else
+        self:moveLeft()
+      end
     else
-      self:moveDown()
+      if offsetToMove > 0 then
+        self:moveDown()
+      else
+        self:moveUp()
+      end
     end
   else
     local targetPosition = playdate.geometry.point.new(
@@ -264,8 +313,32 @@ function Elevator:getOffsetToMove(offset)
       )
 end
 
-function Elevator:activateDown()
+function Elevator:activateDown(sprite)
+  -- Set self as sprite parent
+  sprite.spriteParent = self
+end
 
+function Elevator:updateAnimationState()
+  if self.spriteChild then
+    if self.didMoveLeft or self.didMoveDown then
+      -- Move Left
+      self:changeState(ANIMATION_STATES.MoveLeft)
+    elseif self.didMoveRight or self.didMoveUp then
+      -- Move Right
+      self:changeState(ANIMATION_STATES.MoveRight)
+    elseif self.currentState == ANIMATION_STATES.MoveRight or self.currentState == ANIMATION_STATES.MoveLeft then
+      -- Switch back to "active"
+      self:changeState(ANIMATION_STATES.Active)
+    elseif self.currentState ~= ANIMATION_STATES.Active then
+      -- Transition to moving
+      self:changeState(ANIMATION_STATES.StepOn)
+    end
+  else
+    if self.currentState ~= ANIMATION_STATES.Idle then
+      -- Transition to stopped
+      self:changeState(ANIMATION_STATES.StepOff)
+    end
+  end
 end
 
 function Elevator:enterLevel(levelName, direction)

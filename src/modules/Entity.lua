@@ -32,6 +32,8 @@ local function _shouldSpawn(entityData, levelName)
 end
 
 local function _enterLevel(self, levelName, direction)
+    assert(levelName)
+
     local levelNamePrevious = self.levelName
     if self.levelName == levelName then
         return
