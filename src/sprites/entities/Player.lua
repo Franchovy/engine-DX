@@ -431,36 +431,44 @@ end
 function Player:updateParent()
     if not self.spriteParent then return end
 
-    if not self.evelatorSkipMovement then
-        self.evelatorSkipMovement = {}
-    end
+    if self.spriteParent.class == Elevator then
+        local elevator = self.spriteParent
 
-    -- Encode horizontal direction into a bit (b01 or b10)
-    local direction = self.didMoveLeft and 1 or self.didMoveRight and 2 or 0
+        local orientation = ((self.didMoveLeft or self.didMoveRight) and ORIENTATION.Horizontal) or
+            ((self.didMoveUp or self.didMoveDown) and ORIENTATION.Vertical)
 
-    if direction ~= 0 then
-        -- If movement previously failed in the direction of movement
-        if self.spriteParent.didMoveSuccess == false or (self.evelatorSkipMovement[self.spriteParent] and (self.evelatorSkipMovement[self.spriteParent] & direction ~= 0)) then
-            -- Set movement bit for elevator if nil
-            if not self.evelatorSkipMovement[self.spriteParent] then
-                self.evelatorSkipMovement = {
-                    [self.spriteParent] = 0
-                }
+        ---@cast elevator Elevator
+        if orientation and elevator:getDirectionsAvailable()[orientation] then
+            -- Check-ahead on the left, right, up or down of the elevator to see if there's an overlapping sprite
+
+            local sprites
+
+            if self.didMoveLeft then
+                local x = elevator:left() - 1
+
+                sprites = gfx.sprite.querySpritesAlongLine(x, elevator:top(), x, elevator:bottom())
+            elseif self.didMoveRight then
+                local x = elevator:right() + 1
+
+                sprites = gfx.sprite.querySpritesAlongLine(x, elevator:top(), x, elevator:bottom())
+            elseif self.didMoveUp then
+                local y = elevator:top() - 1
+
+                sprites = gfx.sprite.querySpritesAlongLine(elevator:left(), y, elevator:right(), y)
+            elseif self.didMoveDown then
+                local y = elevator:bottom() + 1
+
+                sprites = gfx.sprite.querySpritesAlongLine(elevator:left(), y, elevator:right(), y)
             end
 
-            -- Add direction for elevator movement
-            self.evelatorSkipMovement[self.spriteParent] |= direction
-
-            -- Skip parent update (child moves and parent does not)
-            return
+            for _, sprite in pairs(sprites) do
+                -- Check for collision
+                if sprite:hasGroup(GROUPS.Solid) then
+                    -- Had collision. Cancel passing update to parent
+                    return
+                end
+            end
         end
-    end
-
-    -- Reset movement bit for elevator if movement success / changed position
-    if self.spriteParent.didMoveSuccess ~= false then
-        self.evelatorSkipMovement = {
-            [self.spriteParent] = 0
-        }
     end
 
     -- Transfer movement to parent
