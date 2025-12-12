@@ -4,7 +4,6 @@ local gmt <const> = playdate.geometry
 local imagetableElevator <const> = assert(gfx.imagetable.new(assets.imageTables.elevator))
 local imagetableElevatorLarge <const> = assert(gfx.imagetable.new(assets.imageTables.elevatorLarge))
 
-local downwardsOffsetMax <const> = 2
 local speedMovement <const> = 7
 
 local ANIMATION_STATES <const> = {
@@ -19,7 +18,7 @@ local ANIMATION_STATES <const> = {
 local ASSETS = {
   ["elevator"] = {
     imagetable = imagetableElevator,
-    offsetCenterX = 1,
+    offsetRight = 2,
     collideRect = gmt.rect.new(0, 16, 32, 16)
   },
   ["elevator-large"] = {
@@ -35,7 +34,7 @@ Elevator = Class("Elevator", EntityAnimated)
 Elevator:implements(Moveable)
 
 function Elevator:init(entityData, levelName)
-  local assetData = ASSETS[entityData.fields.asset]
+  local assetData = ASSETS[entityData.fields.asset or "elevator"]
   Elevator.super.init(self, entityData, levelName, assetData.imagetable)
 
   self:addState(ANIMATION_STATES.Idle, 1, 1, {}, true).asDefault()
@@ -74,9 +73,9 @@ function Elevator:init(entityData, levelName)
   local centerX, centerY = self:getCenter()
 
   -- Adjust the sprite center for the 2 extra pixels on the right
-  local offsetCenterX = assetData.offsetCenterX
-  if offsetCenterX then
-    self:setCenter(centerX - (offsetCenterX / self.width), centerY)
+  local offsetRight = assetData.offsetRight
+  if offsetRight then
+    self:setCenter(centerX - (offsetRight / 2 / self.width), centerY)
   end
 
   -- Offset upwards to occupy upper portion of tile, if needed.
@@ -383,4 +382,8 @@ function Elevator:handleCheckpointRevert(state)
   if state.levelName ~= self.levelName then
     self:enterLevel(state.levelName)
   end
+end
+
+function Elevator:right()
+  return Elevator.super.right(self) - 2
 end

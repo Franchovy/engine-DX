@@ -454,7 +454,7 @@ function Player:updateParent()
             elseif self.didMoveUp then
                 local y = elevator:top() - 1
 
-                sprites = gfx.sprite.querySpritesAlongLine(elevator:left(), y, elevator:right(), y)
+                sprites = gfx.sprite.querySpritesAlongLine(elevator:left() + 1, y, elevator:right() - 1, y)
             elseif self.didMoveDown then
                 local y = elevator:bottom() + 1
 
@@ -463,10 +463,17 @@ function Player:updateParent()
 
             for _, sprite in pairs(sprites) do
                 -- Check for collision
-                if sprite:hasGroup(GROUPS.Solid) then
-                    -- Had collision. Cancel passing update to parent
+                if sprite ~= elevator and sprite:hasGroup(GROUPS.Solid) then
                     return
                 end
+            end
+
+            local track = elevator:getTrackForDirection(orientation)
+
+            if self.didMoveRight and track:right() - 8 < elevator:centerX() then
+                return
+            elseif self.didMoveLeft and track:left() + 8 > elevator:centerX() then
+                return
             end
         else
             -- Elevator not able to move in this direction. Cancel passing update to parent

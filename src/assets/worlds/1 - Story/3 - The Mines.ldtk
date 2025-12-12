@@ -4091,7 +4091,7 @@
 							"px": [384,32],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"music\": {\"loop\": 9},\n  \"parallax\": true\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"music\": {\"loop\": 9},\n  \"parallax\": true\n}"]
+								"params": ["{\\n  \"music\": {\"loop\": 9},\\n  \"parallax\": true\\n}"]
 							}] }],
 							"__worldX": -2272,
 							"__worldY": 3744
@@ -4463,7 +4463,7 @@
 							"px": [480,96],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"medium\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"medium\"}\n}"]
+								"params": ["{\\n  \"parallax\": true,\\n  \"lighting\": {\"background\": \"medium\"}\\n}"]
 							}] }],
 							"__worldX": -2560,
 							"__worldY": 4128
@@ -4482,7 +4482,7 @@
 							"px": [0,64],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"levelEnd\": true\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"levelEnd\": true\n}"]
+								"params": ["{\\n  \"levelEnd\": true\\n}"]
 							}] }],
 							"__worldX": -3040,
 							"__worldY": 4096
@@ -5292,7 +5292,7 @@
 							"px": [384,128],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"medium\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"medium\"}\n}"]
+								"params": ["{\\n  \"parallax\": true,\\n  \"lighting\": {\"background\": \"medium\"}\\n}"]
 							}] }],
 							"__worldX": -2016,
 							"__worldY": 3456
