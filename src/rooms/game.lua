@@ -257,9 +257,20 @@ function Game:update()
             end
         else
             GUIScreenEdges:getInstance():animateIn()
+
+            -- Update camera if pressing a direction + B button
+
+            local directionX, directionY =
+                playdate.buttonIsPressed(KEYNAMES.Left) and 1 or playdate.buttonIsPressed(KEYNAMES.Right) and -1 or 0,
+                playdate.buttonIsPressed(KEYNAMES.Up) and 1 or playdate.buttonIsPressed(KEYNAMES.Down) and -1 or 0
+
+            local panOffsetX, panOffsetY = 150, 100
+
+            Camera.setOffset(directionX * panOffsetX, directionY * panOffsetY)
         end
     else
         GUIScreenEdges:getInstance():animateOut()
+        Camera.setOffset(0, 0)
     end
 end
 

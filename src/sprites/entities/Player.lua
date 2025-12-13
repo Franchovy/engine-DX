@@ -588,7 +588,7 @@ function Player:updateActivations()
             if not warpCooldown then
                 otherSprite:activate(self)
             end
-        elseif tag == TAGS.Bot and not self.activeBot then
+        elseif tag == TAGS.Bot then
             botActive = otherSprite.spriteParent
 
             botActive:activate(self)
@@ -731,20 +731,6 @@ function Player:updateAnimationState()
 end
 
 function Player:updateGUI()
-    -- Update camera if pressing a direction + B button
-
-    if playdate.buttonIsPressed(KEYNAMES.B) then
-        local directionX, directionY =
-            playdate.buttonIsPressed(KEYNAMES.Left) and 1 or playdate.buttonIsPressed(KEYNAMES.Right) and -1 or 0,
-            playdate.buttonIsPressed(KEYNAMES.Up) and 1 or playdate.buttonIsPressed(KEYNAMES.Down) and -1 or 0
-
-        local panOffsetX, panOffsetY = 150, 100
-
-        Camera.setOffset(directionX * panOffsetX, directionY * panOffsetY)
-    else
-        Camera.setOffset(0, 0)
-    end
-
     -- GUI Overlap check
 
     local isOverlappingWithGUIPrevious = isOverlappingWithGUI
@@ -812,24 +798,11 @@ function Player:isHoldingDownKeyGated()
     return self:isKeyPressedGated(KEYNAMES.Down)
 end
 
-function Player:justPressedInteractionKey()
-    return playdate.buttonJustPressed(KEYNAMES.B)
-end
-
-function Player:justReleasedInteractionKey()
-    return playdate.buttonJustReleased(KEYNAMES.B)
-end
-
 -- Generic gated input handler
 
 function Player:isKeyPressedGated(key)
     if not pd.buttonIsPressed(key) then
         -- Button is not pressed.
-        return false
-    end
-
-    if playdate.buttonIsPressed(KEYNAMES.B) then
-        -- If B is pressed, disable all input (movement)
         return false
     end
 
