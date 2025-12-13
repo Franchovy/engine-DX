@@ -3765,7 +3765,7 @@
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"music\": {\"title\": \"The Mines\",\"loop\": 1},\n  \"lighting\": {\"background\": \"light\"},\n  \"levelname\": {\"title\": \"The Mines\", \"subtitle\": \"Level 3\"},\n  \"rescue\": {\"count\": 3}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
 								"params": [
-									"{\\n  \"music\": {\"title\": \"The Mines\",\"loop\": 1},\\n  \"lighting\": {\"background\": \"light\"},\\n  \"levelname\": {\"title\": \"The Mines\", \"subtitle\": \"Level 3\"},\\n  \"rescue\": {\"count\": 3}\\n}"
+									"{\n  \"music\": {\"title\": \"The Mines\",\"loop\": 1},\n  \"lighting\": {\"background\": \"light\"},\n  \"levelname\": {\"title\": \"The Mines\", \"subtitle\": \"Level 3\"},\n  \"rescue\": {\"count\": 3}\n}"
 								]
 							}] }],
 							"__worldX": -3200,
@@ -3846,7 +3846,7 @@
 							"px": [448,160],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"parallax\": true\\n}"]
+								"params": ["{\n  \"parallax\": true\n}"]
 							}] }],
 							"__worldX": -3200,
 							"__worldY": 4160
@@ -3865,7 +3865,7 @@
 							"px": [224,288],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"restartCheckpoint\": \"savepoint\"\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"restartCheckpoint\": \"savepoint\"\\n}"]
+								"params": ["{\n  \"restartCheckpoint\": \"savepoint\"\n}"]
 							}] }],
 							"__worldX": -3424,
 							"__worldY": 4288
@@ -4465,7 +4465,7 @@
 							"px": [480,96],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"medium\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"parallax\": true,\\n  \"lighting\": {\"background\": \"medium\"}\\n}"]
+								"params": ["{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"medium\"}\n}"]
 							}] }],
 							"__worldX": -2560,
 							"__worldY": 4128
@@ -4484,7 +4484,7 @@
 							"px": [0,64],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"levelEnd\": true\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"levelEnd\": true\\n}"]
+								"params": ["{\n  \"levelEnd\": true\n}"]
 							}] }],
 							"__worldX": -3040,
 							"__worldY": 4096
@@ -6788,7 +6788,7 @@
 							"px": [512,224],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"parallax\": true\n}"]
+								"params": ["{\\n  \"parallax\": true\\n}"]
 							}] }],
 							"__worldX": -3744,
 							"__worldY": 4064
@@ -6810,59 +6810,23 @@
 							"__worldY": 4032
 						},
 						{
-							"__identifier": "Bot",
-							"__grid": [6,5],
+							"__identifier": "Chip",
+							"__grid": [7,5],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": null,
-							"__smartColor": "#FFFFFF",
-							"iid": "04aabee0-d380-11f0-876a-db22c51e9ea5",
-							"width": 16,
-							"height": 16,
-							"defUid": 204,
-							"px": [208,176],
-							"fieldInstances": [
-								{ "__identifier": "text", "__type": "String", "__value": "DRLBOT!\n{\"giveChip\": \"Down\"}\nYou're just on time. Let's get going DOWN.\n{\"continueTalking\": true}\nWe've received a signal that multiple BOTs have been lost...\n...during a mining operation.\nIt could be that some walls have collapsed.\nWithout you we'd have no way of rescuing them.\nThe first one will be up here on the LEFT.\nIt's just further DOWN that tunnel.\nMake sure to get them as they have an important role in the colony!\nI'll see you back here after you're done.\nGood luck.", "__tile": null, "defUid": 205, "realEditorValues": [{
-									"id": "V_String",
-									"params": [
-										"DRLBOT!\n{\"giveChip\": \"Down\"}\nYou're just on time. Let's get going DOWN.\n{\"continueTalking\": true}\nWe've received a signal that multiple BOTs have been lost...\n...during a mining operation.\nIt could be that some walls have collapsed.\nWithout you we'd have no way of rescuing them.\nThe first one will be up here on the LEFT.\nIt's just further DOWN that tunnel.\nMake sure to get them as they have an important role in the colony!\nI'll see you back here after you're done.\nGood luck."
-									]
-								}] },
-								{ "__identifier": "saveNumber", "__type": "Int", "__value": 1, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [1] }] },
-								{ "__identifier": "flip", "__type": "Bool", "__value": false, "__tile": null, "defUid": 432, "realEditorValues": [] },
-								{ "__identifier": "asset", "__type": "String", "__value": "RKD", "__tile": null, "defUid": 583, "realEditorValues": [{
-									"id": "V_String",
-									"params": ["RKD"]
-								}] },
-								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 585, "realEditorValues": [] }
-							],
-							"__worldX": -4048,
+							"__smartColor": "#15F1D3",
+							"iid": "e2b4b160-d380-11f0-bbee-f951b83094a2",
+							"width": 28,
+							"height": 28,
+							"defUid": 21,
+							"px": [240,176],
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Down", "__tile": null, "defUid": 38, "realEditorValues": [{
+								"id": "V_String",
+								"params": ["Down"]
+							}] }],
+							"__worldX": -4016,
 							"__worldY": 4016
-						},
-						{
-							"__identifier": "Teleporter",
-							"__grid": [6,10],
-							"__pivot": [0.5,0.5],
-							"__tags": [],
-							"__tile": null,
-							"__smartColor": "#FEAE34",
-							"iid": "43f67100-d380-11f0-876a-997bba15e3c7",
-							"width": 16,
-							"height": 16,
-							"defUid": 791,
-							"px": [208,336],
-							"fieldInstances": [
-								{ "__identifier": "destination_level", "__type": "String", "__value": "Level_10", "__tile": null, "defUid": 792, "realEditorValues": [{
-									"id": "V_String",
-									"params": ["Level_10"]
-								}] },
-								{ "__identifier": "config", "__type": "String", "__value": "{\n \"type\": \"Bot\",\n \"destination\": \"d8329ac0-d380-11f0-876a-83b01a8e7017\"\n}", "__tile": null, "defUid": 794, "realEditorValues": [{
-									"id": "V_String",
-									"params": ["{\n \"type\": \"Bot\",\n \"destination\": \"d8329ac0-d380-11f0-876a-83b01a8e7017\"\n}"]
-								}] }
-							],
-							"__worldX": -4048,
-							"__worldY": 4176
 						}
 					]
 				},
@@ -7479,7 +7443,7 @@
 							"px": [562,0],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"light\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"parallax\": true,\\n  \"lighting\": {\"background\": \"light\"}\\n}"]
+								"params": ["{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"light\"}\n}"]
 							}] }],
 							"__worldX": -4046,
 							"__worldY": 4192
@@ -7498,7 +7462,7 @@
 							"px": [64,224],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"checkpoint\": \"puzzle_1\"\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"checkpoint\": \"puzzle_1\"\\n}"]
+								"params": ["{\n  \"checkpoint\": \"puzzle_1\"\n}"]
 							}] }],
 							"__worldX": -4544,
 							"__worldY": 4416
@@ -8391,7 +8355,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "Want a hint?\n...\nPay attention to only what's necessary.\nAnother one?\n...\nTo dig DOWN and move LEFT, what keys do you need?\nCan you avoid the other two?", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Want a hint?\\n...\\nPay attention to only what's necessary.\\nAnother one?\\n...\\nTo dig DOWN and move LEFT, what keys do you need?\\nCan you avoid the other two?"
+										"Want a hint?\n...\nPay attention to only what's necessary.\nAnother one?\n...\nTo dig DOWN and move LEFT, what keys do you need?\nCan you avoid the other two?"
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -8795,7 +8759,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "DRLBOT... \nThis quest of yours is a great one.\nYou'll need all the help you can get.\nWe'll meet each other again soon.\nThanks for having saved me this time.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"DRLBOT... \\nThis quest of yours is a great one.\\nYou'll need all the help you can get.\\nWe'll meet each other again soon.\\nThanks for having saved me this time."
+										"DRLBOT... \nThis quest of yours is a great one.\nYou'll need all the help you can get.\nWe'll meet each other again soon.\nThanks for having saved me this time."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": 2, "__tile": null, "defUid": 412, "realEditorValues": [{ "id": "V_Int", "params": [2] }] },
@@ -9369,7 +9333,7 @@
 							"px": [160,160],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"camera\": {\"offset\": {\"y\": -80}}\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"camera\": {\"offset\": {\"y\": -80}}\\n}"]
+								"params": ["{\n  \"camera\": {\"offset\": {\"y\": -80}}\n}"]
 							}] }],
 							"__worldX": -6528,
 							"__worldY": 4672
@@ -9388,7 +9352,7 @@
 							"px": [96,96],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"camera\": {\"offset\": {\"y\": -60}}\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"camera\": {\"offset\": {\"y\": -60}}\\n}"]
+								"params": ["{\n  \"camera\": {\"offset\": {\"y\": -60}}\n}"]
 							}] }],
 							"__worldX": -6592,
 							"__worldY": 4608
@@ -9407,7 +9371,7 @@
 							"px": [32,224],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"camera\": {\"softFocus\": \"d50c57b0-d380-11f0-876a-87a0bd500466\"}\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"camera\": {\"softFocus\": \"d50c57b0-d380-11f0-876a-87a0bd500466\"}\\n}"]
+								"params": ["{\n  \"camera\": {\"softFocus\": \"d50c57b0-d380-11f0-876a-87a0bd500466\"}\n}"]
 							}] }],
 							"__worldX": -6656,
 							"__worldY": 4736
@@ -10362,7 +10326,7 @@
 							"px": [288,224],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"lighting\": {\"background\": \"medium\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"lighting\": {\"background\": \"medium\"}\\n}"]
+								"params": ["{\n  \"lighting\": {\"background\": \"medium\"}\n}"]
 							}] }],
 							"__worldX": -4672,
 							"__worldY": 4480
@@ -10778,7 +10742,7 @@
 							"px": [96,448],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"restartCheckpoint\": \"puzzle_1\"\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"restartCheckpoint\": \"puzzle_1\"\\n}"]
+								"params": ["{\n  \"restartCheckpoint\": \"puzzle_1\"\n}"]
 							}] }],
 							"__worldX": -5824,
 							"__worldY": 4480
