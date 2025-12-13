@@ -69,7 +69,12 @@ function MemoryCard.getValue(file, keyOrKeys, default)
     for i, key in ipairs(keyOrKeys) do
       if i < #keyOrKeys then
         -- Get next nested element in table
-        t = t[key]
+        if t[key] then
+          t = t[key]
+        else 
+          -- Or return default, if table doesn't exist.
+          return default
+        end
       else
         -- Return value
         if t[key] ~= nil then
