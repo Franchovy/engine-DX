@@ -139,6 +139,10 @@ function GUIChipSet:add()
   for _, sprite in ipairs(buttonSprites) do
     sprite:add()
   end
+
+  for _, chipPickUp in ipairs(chipsPickUp) do
+    chipPickUp.sprite:add()
+  end
 end
 
 function GUIChipSet:remove()
