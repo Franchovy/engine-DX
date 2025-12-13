@@ -34,12 +34,18 @@ function CollisionZone:loadConfig(config)
     for key, args in pairs(config) do
         local scripts = CollisionZoneScripts[key]
 
-        for name, func in pairs(scripts) do
-            -- Set args for this script
-            self.args[name] = args
+        if scripts then
+            for name, func in pairs(scripts) do
+                -- Set args for this script
+                self.args[name] = args
 
-            -- Set script as named function
-            self[name] = func
+                -- Set script as named function
+                self[name] = func
+            end
+        elseif LDTK_CONFIG_ALIASES[key] then
+            self.activate = function() ConfigHandler.loadConfig(config) end
+        else
+            print("Unrecognized script or config key option: ".. key)
         end
     end
 end
