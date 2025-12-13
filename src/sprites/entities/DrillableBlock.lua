@@ -31,8 +31,6 @@ end
 
 function DrillableBlock:activateDown()
     if self.ticksToDrill >= maxTicksToDrill then
-        local index = math.random(1, 4)
-        spListBlockCrush[index]:play()
 
         self:consume()
     else
@@ -46,6 +44,8 @@ end
 
 function DrillableBlock:consume()
     DrillableBlock.super.consume(self)
+
+    spListBlockCrush[math.random(1, 4)]:play()
 
     -- Re-add drillable block for post-consumed animation
 
