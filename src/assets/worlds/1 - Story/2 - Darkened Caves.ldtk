@@ -3416,7 +3416,7 @@
 			"savedSelections": [],
 			"cachedPixelData": {
 				"opaqueTiles": "00000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011110000000000000000000001110000000011100000000000000011111111111110000000000000000111111111011000000000000000001111111110110000000000000000000000000000100000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000111100000000000000000111000111111000000000000000000101101110100000000000000000011000011111000000000000000000110000000000000000000000000001111110000000010000000000000011111100000001111000000000000111111000000001000000000000001111100000000010000000000000000000000000001111000000000000",
-				"averageColors": "000000000000000000000000799999997aaa0000000000000000000000000000000000000000000000000000000000000000faaa7aaa7aaa00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ebbbaaaa9bbb0000000000000000000000000000799979997aaaaaaa58885999c999cccc99994aaa3aaa39990000000000000000000000000000cbbbdbbbdbbb0000f777fddd00000000000000000000000000000000000000007aaa8aaa8aaa9aaa699900000000000000000000000000000000aaaaebbbebbb0000f777fcccf777fbbb000000000000000000000000000000007888f999f999faaaf999677740007aaafbbb7aaafbbb00000000aaaaaaaaeaaaeaaaf777fcccf777fccc00000000000000000000f777f666f6669777c777c7778888b99958885888dcccfbbbfbbbfbbb6aaa00000000aaaadaaadaaa76667ddd00000000f8887aaa000000000000f777f666f666f888f777f777f888f777f777fbbbfbbbfbbbfbbbfbbb5aaa00000000eaaaaccc00004bbbcbbb0000c99979997aaa000000000000f777f777f777f999f888f777f999f777f777ccccfbbbfbbb8999000000004bbb00000000000000004bbb0000000000004aaa4aaa000000000000f777f666f666f777f777f777f888f777f777ecccfbbbfaaa9bbbabbb4aaa4bbb00009aaac999000000000000000000000000000000000000000087778999b999977797777888788800000000dcccfcccfbbb9aaa6aaa4bbb4aaa4aaac9998888b99900000000000000000000000000004777977787778999a999000000006999a99948889999fbbbfcccfccc4aaa4aaa0000a777799979996999699900000000000000006aaa6999788847779777000000000000000000006aaaa99948889999fdddfbbbfccc7aaaaaaabaaab77779997888699969990000000000000000a999a99978884777477700000000000000000000000000000000fdddfdddebbbecccc88828881777277709996999699907770000000000000000488848880000977797770000000000000000000000000000fccc9cccfdddedddfddd799937773777477769990aaa099969990000000000000000999999990000000000000000000000000000000000000000fccc4bbbfdddfeeefddd0000488810004777499949990aaa0999faaaf999faaafaaafaaafaaafaaaf999f555f444f555f44400000000000000000000f666e777f777f7777bbb7aaa6bbb6bbb39994aaa07770999f777f444f777faaafaaa0000f666f666f444f555f444f44400000000000000000000f666f666ebbbeccc7aaa6bbb6bbb6bbb0000000000000000f777f666f888f555f9990000f777f777f777f999f333000000000000000000000000b555c666000000002ccc1aaa000000000000000000000000f444f555faaafaaaf9990000f777f777f666f777f44400000000000000000000000000000000000000001fff3ccc000000000000000000000000f555f333f777f8880000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f444f333f444f555f222f111c5555555b5550000544495558555fbbbfbbbfcccfbbbfbbb00000000000000000000000000000000000000000000f333f222f333f444f111f1117444000064440000544475559555faaafbbbfbbbfbbbfaaa00000000000000000000000000000000000000000000f444f333f444f555f333f11195555555a5552444355575558555faaafaaafbbbfaaafccc00000000000000000000000000000000000000000000f555f444f555f555f00000003666355545554555355565557555faaafbbbfbbbfbbbfbbb000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000fbbbfbbbfbbbfaaa000000000000000000000000000000000000000000000000"
+				"averageColors": "000000000000000000000000799999997aaa8ccc8ccc8bbb5ccc5ccc8ccc0000000000000000000000000000000000000000faaa7aaa7aaa000000000000000000000000000000000000bccc6ccc6ccc6ccc8ccc8ccc00000000000000000000000000000000000000000000ebbbaaaa9bbb0000000000000000000000000000799979997aaaaaaa58885999c999cccc99994aaa3aaa39990000000000000000000000000000cbbbdbbbdbbb0000f777fddd00000000000000000000000000000000000000007aaa8aaa8aaa9aaa699900000000000000000000000000000000aaaaebbbebbb0000f777fcccf777fbbb000000000000000000000000000000007888f999f999faaaf999688847777aaafbbb7aaafbbb00000000aaaaaaaaeaaaeaaaf777fcccf777fccc00000000000000000000f777f666f6669777c777c7778888b99958885888dcccfbbbfbbbfbbb6aaa00000000aaaadaaadaaa76667ddd00000000f8887aaa000000000000f777f666f666f888f777f777f888f777f777fbbbfbbbfbbbfbbbfbbb5aaa00000000eaaaaccc00004bbbcbbb0000c99979997aaa000000000000f777f777f777f999f888f777f999f777f777ccccfbbbfbbb8999000000004bbb00000000000000004bbb0000000000004aaa4aaa000000000000f777f666f666f777f777f777f888f777f777ecccfbbbfaaa9bbbabbb4aaa4bbb00009aaac999000000000000000000000000000000000000000087778999b999977797777888788800000000dcccfcccfbbb9aaa6aaa4bbb4aaa4aaac9990000000000000000000000000000000000004777977787778999a999000000006999a99948889999fbbbfcccfccc4aaa4aaa0000a777799979996999699900000000000000006aaa6999788847779777000000000000000000006aaaa99948889999fdddfbbbfccc7aaaaaaabaaab77779997888699969990000000000000000a999a99978884777477700000000000000000000000000000000fdddfdddebbbecccc88828881777277709996999699907770000000000000000488848880000977797770000000000000000000000000000fccc9cccfdddedddfddd799937773777477769990aaa099969990000000000000000999999990000000000000000000000000000000000000000fccc4bbbfdddfeeefddd00004888100047774999499900000000faaaf999faaafaaafaaafaaafaaaf999f555f444f555f44400000000000000000000f666e777f777f7777bbb7aaa6bbb6bbb39994aaa00000000f777f444f777faaafaaa0000f666f666f444f555f444f44400000000000000000000f666f666ebbbeccc7aaa6bbb6bbb6bbb0000000000000000f777f666f888f555f9990000f777f777f777f999f333000000000000000000000000b555c666000000002ccc1aaa1ccc2bbb0000000000000000f444f555faaafaaaf9990000f777f777f666f777f44400000000000000000000000000000000000000001fff3ccc1ccc3ccc0000000000000000f555f333f777f8880000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f444f333f444f555f222f111c5555555b5550000544495558555fbbbfbbbfcccfbbbfbbb00000000000000000000000000000000000000000000f333f222f333f444f111f1117444000064440000544475559555faaafbbbfbbbfbbbfaaa00000000000000000000000000000000000000000000f444f333f444f555f333f11195555555a5552444355575558555faaafaaafbbbfaaafccc00000000000000000000000000000000000000000000f555f444f555f555f00000003666355545554555355565557555faaafbbbfbbbfbbbfbbb000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000fbbbfbbbfbbbfaaa000000000000000000000000000000000000000000000000"
 			}
 		}
 	], "enums": [
@@ -3613,7 +3613,7 @@
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"lighting\": {\"background\": \"medium\"},\n  \"rescue\": { \"count\": 3 },\n  \"levelname\": {\"title\": \"Darkened Caves\", \"subtitle\": \"Level 2\"},\n  \"music\": {\"title\": \"Darkened Caves\", \"loop\": 1}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
 								"params": [
-									"{\n  \"lighting\": {\"background\": \"medium\"},\n  \"rescue\": { \"count\": 3 },\n  \"levelname\": {\"title\": \"Darkened Caves\", \"subtitle\": \"Level 2\"},\n  \"music\": {\"title\": \"Darkened Caves\", \"loop\": 1}\n}"
+									"{\\n  \"lighting\": {\"background\": \"medium\"},\\n  \"rescue\": { \"count\": 3 },\\n  \"levelname\": {\"title\": \"Darkened Caves\", \"subtitle\": \"Level 2\"},\\n  \"music\": {\"title\": \"Darkened Caves\", \"loop\": 1}\\n}"
 								]
 							}] }],
 							"__worldX": 3840,
@@ -4125,7 +4125,7 @@
 							"px": [608,352],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"music\": {\"loop\": 4}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"music\": {\"loop\": 4}\n}"]
+								"params": ["{\\n  \"music\": {\"loop\": 4}\\n}"]
 							}] }],
 							"__worldX": 1568,
 							"__worldY": 3680
@@ -4766,7 +4766,7 @@
 							"px": [736,96],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"music\": {\"loop\": 5}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"music\": {\"loop\": 5}\n}"]
+								"params": ["{\\n  \"music\": {\"loop\": 5}\\n}"]
 							}] }],
 							"__worldX": 1056,
 							"__worldY": 3904
@@ -4925,7 +4925,7 @@
 							"px": [576,160],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"checkpoint\": \"puzzle_2\"\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"checkpoint\": \"puzzle_2\"\n}"]
+								"params": ["{\\n  \"checkpoint\": \"puzzle_2\"\\n}"]
 							}] }],
 							"__worldX": 896,
 							"__worldY": 3968
@@ -5537,7 +5537,7 @@
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"energy\": {\n    \"time\": 120,\n    \"objective\": \"066bc0f1-d380-11f0-8398-eba42b23614f\",\n    \"checkpoint\": \"puzzle_2\"\n  }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
 								"params": [
-									"{\n  \"energy\": {\n    \"time\": 120,\n    \"objective\": \"066bc0f1-d380-11f0-8398-eba42b23614f\",\n    \"checkpoint\": \"puzzle_2\"\n  }\n}"
+									"{\\n  \"energy\": {\\n    \"time\": 120,\\n    \"objective\": \"066bc0f1-d380-11f0-8398-eba42b23614f\",\\n    \"checkpoint\": \"puzzle_2\"\\n  }\\n}"
 								]
 							}] }],
 							"__worldX": 672,
@@ -5898,7 +5898,7 @@
 							"px": [544,192],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"lighting\": {\"background\": \"medium\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"lighting\": {\"background\": \"medium\"}\n}"]
+								"params": ["{\\n  \"lighting\": {\"background\": \"medium\"}\\n}"]
 							}] }],
 							"__worldX": 3328,
 							"__worldY": 3328
@@ -6378,7 +6378,7 @@
 							"px": [640,128],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"lighting\": {\"background\": \"dark\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"lighting\": {\"background\": \"dark\"}\n}"]
+								"params": ["{\\n  \"lighting\": {\"background\": \"dark\"}\\n}"]
 							}] }],
 							"__worldX": 2304,
 							"__worldY": 3552
@@ -8347,7 +8347,7 @@
 							"px": [704,128],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"music\": {\"loop\": 8},\n  \"lighting\": {\"background\": \"dark\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"music\": {\"loop\": 8},\n  \"lighting\": {\"background\": \"dark\"}\n}"]
+								"params": ["{\\n  \"music\": {\"loop\": 8},\\n  \"lighting\": {\"background\": \"dark\"}\\n}"]
 							}] }],
 							"__worldX": -864,
 							"__worldY": 3456
@@ -8867,7 +8867,7 @@
 							"px": [32,160],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"lighting\": {\"background\": \"dark\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"lighting\": {\"background\": \"dark\"}\n}"]
+								"params": ["{\\n  \"lighting\": {\"background\": \"dark\"}\\n}"]
 							}] }],
 							"__worldX": -1824,
 							"__worldY": 3488
@@ -9372,7 +9372,7 @@
 							"px": [384,32],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"music\": {\"loop\": 9},\n  \"parallax\": true\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"music\": {\"loop\": 9},\n  \"parallax\": true\n}"]
+								"params": ["{\\n  \"music\": {\"loop\": 9},\\n  \"parallax\": true\\n}"]
 							}] }],
 							"__worldX": -2272,
 							"__worldY": 3744
@@ -9744,7 +9744,7 @@
 							"px": [480,96],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"medium\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"medium\"}\n}"]
+								"params": ["{\\n  \"parallax\": true,\\n  \"lighting\": {\"background\": \"medium\"}\\n}"]
 							}] }],
 							"__worldX": -2560,
 							"__worldY": 4128
@@ -9763,7 +9763,7 @@
 							"px": [0,64],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"levelEnd\": true\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"levelEnd\": true\n}"]
+								"params": ["{\\n  \"levelEnd\": true\\n}"]
 							}] }],
 							"__worldX": -3040,
 							"__worldY": 4096
@@ -10573,7 +10573,7 @@
 							"px": [64,96],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"lighting\": {\"background\": \"dark\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"lighting\": {\"background\": \"dark\"}\n}"]
+								"params": ["{\\n  \"lighting\": {\"background\": \"dark\"}\\n}"]
 							}] }],
 							"__worldX": 64,
 							"__worldY": 3616
@@ -10904,7 +10904,7 @@
 							"px": [384,128],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"medium\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"medium\"}\n}"]
+								"params": ["{\\n  \"parallax\": true,\\n  \"lighting\": {\"background\": \"medium\"}\\n}"]
 							}] }],
 							"__worldX": -2016,
 							"__worldY": 3456
@@ -11435,7 +11435,14 @@
 					"autoLayerTiles": [],
 					"seed": 3766246,
 					"overrideTilesetUid": null,
-					"gridTiles": [{ "px": [96,320], "src": [672,512], "f": 0, "t": 485, "d": [133], "a": 1 }],
+					"gridTiles": [
+						{ "px": [192,128], "src": [736,544], "f": 0, "t": 516, "d": [58], "a": 1 },
+						{ "px": [224,128], "src": [768,544], "f": 0, "t": 517, "d": [59], "a": 1 },
+						{ "px": [192,160], "src": [736,576], "f": 0, "t": 545, "d": [71], "a": 1 },
+						{ "px": [224,160], "src": [768,576], "f": 0, "t": 546, "d": [72], "a": 1 },
+						{ "px": [32,192], "src": [736,576], "f": 0, "t": 545, "d": [79], "a": 1 },
+						{ "px": [96,320], "src": [672,512], "f": 0, "t": 485, "d": [133], "a": 1 }
+					],
 					"entityInstances": []
 				},
 				{
@@ -11458,8 +11465,8 @@
 					"optionalRules": [],
 					"intGridCsv": [
 						1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-						1,1,1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,1,1,1,1,1,1,2,2,
-						2,2,2,2,2,2,2,1,1,1,1,1,1,2,2,2,1,1,2,2,2,1,1,1,1,1,1,2,2,1,1,1,2,2,1,
+						1,1,1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1,1,1,2,2,2,0,0,2,2,1,1,1,1,1,1,2,2,
+						2,2,0,2,2,2,2,1,1,1,1,1,1,2,2,2,1,1,2,2,2,1,1,1,1,1,1,2,2,1,1,1,2,2,1,
 						1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,2,2,2,2,2,2,2,2,1,1,
 						1,1,1,2,1,1,1,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 						1,1,1,1,1,1,1
@@ -11467,11 +11474,8 @@
 					"autoLayerTiles": [
 						{ "px": [128,128], "src": [160,704], "f": 0, "t": 643, "d": [493,56], "a": 1 },
 						{ "px": [160,128], "src": [128,736], "f": 0, "t": 671, "d": [493,57], "a": 1 },
-						{ "px": [192,128], "src": [32,672], "f": 0, "t": 610, "d": [493,58], "a": 1 },
-						{ "px": [224,128], "src": [128,640], "f": 0, "t": 584, "d": [493,59], "a": 1 },
 						{ "px": [160,160], "src": [128,736], "f": 0, "t": 671, "d": [493,70], "a": 1 },
 						{ "px": [192,160], "src": [160,704], "f": 0, "t": 643, "d": [493,71], "a": 1 },
-						{ "px": [224,160], "src": [128,672], "f": 0, "t": 613, "d": [493,72], "a": 1 },
 						{ "px": [192,192], "src": [32,672], "f": 0, "t": 610, "d": [493,84], "a": 1 },
 						{ "px": [352,192], "src": [160,672], "f": 0, "t": 614, "d": [493,89], "a": 1 },
 						{ "px": [128,160], "src": [32,704], "f": 0, "t": 639, "d": [491,69], "a": 1 },
