@@ -89,3 +89,11 @@ function playdate.graphics.image:getImageHash()
 
     return hash
 end
+
+--- Animator stubs
+--- 
+
+---@class _Animator
+---@field endValue _Point|number
+---@field startValue _Point|number
+---@field change _Point|number

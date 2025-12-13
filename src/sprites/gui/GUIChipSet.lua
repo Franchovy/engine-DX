@@ -45,7 +45,9 @@ local chipSetNeedsUpdate = false
 local isHidden = false
 local timerAnimation = nil
 
----@type { x : number, y : number, button : KEYNAMES, sprite : _Sprite, animator: _Animator }[]
+---@alias ChipPickup { x : number, y : number, button : KEYNAMES, sprite : _Sprite, animator: _Animator }
+
+---@type ChipPickup[]
 local chipsPickUp = {}
 ---@type _Animator?
 local animatorChipPickup = nil
@@ -457,4 +459,40 @@ function GUIChipSet:handleCheckpointRevert(state)
   self.chipSet = state.chipSet
 
   chipSetNeedsUpdate = true
+
+  -- Update chipset GUI images
+  self:updateButtonSprites()
+
+  -- Remove any chips that are in-progress pickups
+  for i = 1, #chipsPickUp do
+    chipsPickUp[i].sprite:remove()
+    chipsPickUp[i].sprite = nil
+
+    table.remove(chipsPickUp)
+  end
+
+  -- Re-position images properly
+  for i = 1, #buttonSprites do
+    local sprite = buttonSprites[i]
+
+    if i <= 3 then
+      local xPosition, yPosition = _makeButtonSpritePosition(i)
+      sprite:moveTo(xPosition, yPosition)
+    else
+      table.remove(buttonSprites)
+    end
+  end
+
+  -- Clear two in-progress animators
+
+  if animatorChipPickup then
+    animatorChipPickup:reset(0)
+    animatorChipPickup = nil
+  end
+
+  if animatorChipPush then
+    animatorChipPush:reset(0)
+
+    animatorChipPush = nil
+  end
 end
