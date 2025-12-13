@@ -3613,7 +3613,7 @@
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"lighting\": {\"background\": \"medium\"},\n  \"rescue\": { \"count\": 3 },\n  \"levelname\": {\"title\": \"Darkened Caves\", \"subtitle\": \"Level 2\"},\n  \"music\": {\"title\": \"Darkened Caves\", \"loop\": 1}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
 								"params": [
-									"{\\n  \"lighting\": {\"background\": \"medium\"},\\n  \"rescue\": { \"count\": 3 },\\n  \"levelname\": {\"title\": \"Darkened Caves\", \"subtitle\": \"Level 2\"},\\n  \"music\": {\"title\": \"Darkened Caves\", \"loop\": 1}\\n}"
+									"{\n  \"lighting\": {\"background\": \"medium\"},\n  \"rescue\": { \"count\": 3 },\n  \"levelname\": {\"title\": \"Darkened Caves\", \"subtitle\": \"Level 2\"},\n  \"music\": {\"title\": \"Darkened Caves\", \"loop\": 1}\n}"
 								]
 							}] }],
 							"__worldX": 3840,
@@ -4125,7 +4125,7 @@
 							"px": [608,352],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"music\": {\"loop\": 4}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"music\": {\"loop\": 4}\\n}"]
+								"params": ["{\n  \"music\": {\"loop\": 4}\n}"]
 							}] }],
 							"__worldX": 1568,
 							"__worldY": 3680
@@ -4766,7 +4766,7 @@
 							"px": [736,96],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"music\": {\"loop\": 5}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"music\": {\"loop\": 5}\\n}"]
+								"params": ["{\n  \"music\": {\"loop\": 5}\n}"]
 							}] }],
 							"__worldX": 1056,
 							"__worldY": 3904
@@ -4925,7 +4925,7 @@
 							"px": [576,160],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"checkpoint\": \"puzzle_2\"\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"checkpoint\": \"puzzle_2\"\\n}"]
+								"params": ["{\n  \"checkpoint\": \"puzzle_2\"\n}"]
 							}] }],
 							"__worldX": 896,
 							"__worldY": 3968
@@ -5537,7 +5537,7 @@
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"energy\": {\n    \"time\": 120,\n    \"objective\": \"066bc0f1-d380-11f0-8398-eba42b23614f\",\n    \"checkpoint\": \"puzzle_2\"\n  }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
 								"params": [
-									"{\\n  \"energy\": {\\n    \"time\": 120,\\n    \"objective\": \"066bc0f1-d380-11f0-8398-eba42b23614f\",\\n    \"checkpoint\": \"puzzle_2\"\\n  }\\n}"
+									"{\n  \"energy\": {\n    \"time\": 120,\n    \"objective\": \"066bc0f1-d380-11f0-8398-eba42b23614f\",\n    \"checkpoint\": \"puzzle_2\"\n  }\n}"
 								]
 							}] }],
 							"__worldX": 672,
@@ -5898,7 +5898,7 @@
 							"px": [544,192],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"lighting\": {\"background\": \"medium\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"lighting\": {\"background\": \"medium\"}\\n}"]
+								"params": ["{\n  \"lighting\": {\"background\": \"medium\"}\n}"]
 							}] }],
 							"__worldX": 3328,
 							"__worldY": 3328
@@ -6378,7 +6378,7 @@
 							"px": [640,128],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"lighting\": {\"background\": \"dark\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"lighting\": {\"background\": \"dark\"}\\n}"]
+								"params": ["{\n  \"lighting\": {\"background\": \"dark\"}\n}"]
 							}] }],
 							"__worldX": 2304,
 							"__worldY": 3552
@@ -8347,7 +8347,7 @@
 							"px": [704,128],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"music\": {\"loop\": 8},\n  \"lighting\": {\"background\": \"dark\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"music\": {\"loop\": 8},\\n  \"lighting\": {\"background\": \"dark\"}\\n}"]
+								"params": ["{\n  \"music\": {\"loop\": 8},\n  \"lighting\": {\"background\": \"dark\"}\n}"]
 							}] }],
 							"__worldX": -864,
 							"__worldY": 3456
@@ -8867,7 +8867,7 @@
 							"px": [32,160],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"lighting\": {\"background\": \"dark\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"lighting\": {\"background\": \"dark\"}\\n}"]
+								"params": ["{\n  \"lighting\": {\"background\": \"dark\"}\n}"]
 							}] }],
 							"__worldX": -1824,
 							"__worldY": 3488
@@ -9372,7 +9372,7 @@
 							"px": [384,32],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"music\": {\"loop\": 9},\n  \"parallax\": true\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"music\": {\"loop\": 9},\\n  \"parallax\": true\\n}"]
+								"params": ["{\n  \"music\": {\"loop\": 9},\n  \"parallax\": true\n}"]
 							}] }],
 							"__worldX": -2272,
 							"__worldY": 3744
@@ -9744,7 +9744,7 @@
 							"px": [480,96],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"medium\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"parallax\": true,\\n  \"lighting\": {\"background\": \"medium\"}\\n}"]
+								"params": ["{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"medium\"}\n}"]
 							}] }],
 							"__worldX": -2560,
 							"__worldY": 4128
@@ -9763,7 +9763,7 @@
 							"px": [0,64],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"levelEnd\": true\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"levelEnd\": true\\n}"]
+								"params": ["{\n  \"levelEnd\": true\n}"]
 							}] }],
 							"__worldX": -3040,
 							"__worldY": 4096
@@ -10573,7 +10573,7 @@
 							"px": [64,96],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"lighting\": {\"background\": \"dark\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"lighting\": {\"background\": \"dark\"}\\n}"]
+								"params": ["{\n  \"lighting\": {\"background\": \"dark\"}\n}"]
 							}] }],
 							"__worldX": 64,
 							"__worldY": 3616
@@ -10904,7 +10904,7 @@
 							"px": [384,128],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"medium\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"parallax\": true,\\n  \"lighting\": {\"background\": \"medium\"}\\n}"]
+								"params": ["{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"medium\"}\n}"]
 							}] }],
 							"__worldX": -2016,
 							"__worldY": 3456
