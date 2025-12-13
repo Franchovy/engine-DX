@@ -1,6 +1,6 @@
 Synth = Class("Synth")
 
-local volume <const> = 0.5
+local volume <const> = 0.1
 
 function Synth:init(scale, bleepsPerSecond)
     -- Set scale
