@@ -4532,10 +4532,7 @@
 			"externalRelPath": null,
 			"fieldInstances": [
 				{ "__identifier": "gamepointsOnLoad", "__type": "Array<String>", "__value": [], "__tile": null, "defUid": 589, "realEditorValues": [] },
-				{ "__identifier": "gamepointsOnEnter", "__type": "Array<String>", "__value": ["e7484120-d380-11f0-9063-f359cfb4ec99"], "__tile": null, "defUid": 590, "realEditorValues": [{
-					"id": "V_String",
-					"params": ["e7484120-d380-11f0-9063-f359cfb4ec99"]
-				}] },
+				{ "__identifier": "gamepointsOnEnter", "__type": "Array<String>", "__value": [], "__tile": null, "defUid": 590, "realEditorValues": [] },
 				{ "__identifier": "Biome", "__type": "LocalEnum.Biome", "__value": "Blocks", "__tile": null, "defUid": 603, "realEditorValues": [{
 					"id": "V_String",
 					"params": ["Blocks"]
@@ -4860,28 +4857,6 @@
 							],
 							"__worldX": 6896,
 							"__worldY": 1424
-						},
-						{
-							"__identifier": "GamePoint",
-							"__grid": [9,6],
-							"__pivot": [0.5,0.5],
-							"__tags": [],
-							"__tile": null,
-							"__smartColor": "#D77643",
-							"iid": "e7484120-d380-11f0-9063-f359cfb4ec99",
-							"width": 16,
-							"height": 16,
-							"defUid": 587,
-							"px": [304,208],
-							"fieldInstances": [
-								{ "__identifier": "config", "__type": "String", "__value": "{\n  \"music\": {\n    \"loop\": 5\n  }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
-									"id": "V_String",
-									"params": ["{\n  \"music\": {\n    \"loop\": 5\n  }\n}"]
-								}] },
-								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 678, "realEditorValues": [] }
-							],
-							"__worldX": 7056,
-							"__worldY": 1328
 						}
 					]
 				},
@@ -5297,7 +5272,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": "This is a BOT that needs your help!\nYou can save them by going near them.\nKeep an eye on your indicator UP RIGHT.\nYou can see how many BOTs you need to save.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"This is a BOT that needs your help!\nYou can save them by going near them.\nKeep an eye on your indicator UP RIGHT.\nYou can see how many BOTs you need to save."
+										"This is a BOT that needs your help!\\nYou can save them by going near them.\\nKeep an eye on your indicator UP RIGHT.\\nYou can see how many BOTs you need to save."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -5343,9 +5318,9 @@
 							"defUid": 587,
 							"px": [496,208],
 							"fieldInstances": [
-								{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true,\n  \"music\": {\n    \"loop\": 6\n  }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
+								{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true,\n  \"music\": {\n    \"loop\": 5\n  }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["{\n  \"parallax\": true,\n  \"music\": {\n    \"loop\": 6\n  }\n}"]
+									"params": ["{\\n  \"parallax\": true,\\n  \"music\": {\\n    \"loop\": 5\\n  }\\n}"]
 								}] },
 								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 678, "realEditorValues": [] }
 							],
@@ -5648,7 +5623,7 @@
 								{ "__identifier": "text", "__type": "String", "__value": ":walkTo: 1\nHey, DRLBOT! Welcome back to the F-CTRY!\nFollow me, I'll show you around quickly.\n:walkTo: 2\n:walkTo: 3\nYou've got three buttons you can see UP LEFT.\nThose will control how you move.\nIf you pick up another chip, you'll lose one as well.\nSo be aware about what you pick up.\n:walkTo: 4\nNow that you've made it until here, see if you can make it back!\n{\"repeats\": true}\nI'll wait for you to pick up those chips!\n$ULA\nGreat! You can now continue towards the LEFT.\n{\"repeats\": true}\nYou'll be able to move UP with the elevator in the other room.", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										":walkTo: 1\\nHey, DRLBOT! Welcome back to the F-CTRY!\\nFollow me, I'll show you around quickly.\\n:walkTo: 2\\n:walkTo: 3\\nYou've got three buttons you can see UP LEFT.\\nThose will control how you move.\\nIf you pick up another chip, you'll lose one as well.\\nSo be aware about what you pick up.\\n:walkTo: 4\\nNow that you've made it until here, see if you can make it back!\\n{\"repeats\": true}\\nI'll wait for you to pick up those chips!\\n$ULA\\nGreat! You can now continue towards the LEFT.\\n{\"repeats\": true}\\nYou'll be able to move UP with the elevator in the other room."
+										":walkTo: 1\nHey, DRLBOT! Welcome back to the F-CTRY!\nFollow me, I'll show you around quickly.\n:walkTo: 2\n:walkTo: 3\nYou've got three buttons you can see UP LEFT.\nThose will control how you move.\nIf you pick up another chip, you'll lose one as well.\nSo be aware about what you pick up.\n:walkTo: 4\nNow that you've made it until here, see if you can make it back!\n{\"repeats\": true}\nI'll wait for you to pick up those chips!\n$ULA\nGreat! You can now continue towards the LEFT.\n{\"repeats\": true}\nYou'll be able to move UP with the elevator in the other room."
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },
@@ -5684,7 +5659,7 @@
 								{ "__identifier": "config", "__type": "String", "__value": "{\n  \"rescue\": {\"count\": 2},\n  \"transition\": {\"color\":1},\n  \"lighting\": {\"background\":\"light\"},\n  \"level\": {\n    \"activate\": \"87a5f6e0-ac70-11f0-a152-ab6557508d93\"\n  },\n  \"levelname\": {\"title\": \"The Factory\", \"subtitle\": \"Level 1\"},\n  \"music\": {\n    \"title\": \"Factory\",\n    \"loop\": 1\n  }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"{\\n  \"rescue\": {\"count\": 2},\\n  \"transition\": {\"color\":1},\\n  \"lighting\": {\"background\":\"light\"},\\n  \"level\": {\\n    \"activate\": \"87a5f6e0-ac70-11f0-a152-ab6557508d93\"\\n  },\\n  \"levelname\": {\"title\": \"The Factory\", \"subtitle\": \"Level 1\"},\\n  \"music\": {\\n    \"title\": \"Factory\",\\n    \"loop\": 1\\n  }\\n}"
+										"{\n  \"rescue\": {\"count\": 2},\n  \"transition\": {\"color\":1},\n  \"lighting\": {\"background\":\"light\"},\n  \"level\": {\n    \"activate\": \"87a5f6e0-ac70-11f0-a152-ab6557508d93\"\n  },\n  \"levelname\": {\"title\": \"The Factory\", \"subtitle\": \"Level 1\"},\n  \"music\": {\n    \"title\": \"Factory\",\n    \"loop\": 1\n  }\n}"
 									]
 								}] },
 								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 678, "realEditorValues": [] }
@@ -5711,7 +5686,7 @@
 								}] },
 								{ "__identifier": "config", "__type": "String", "__value": "{\n \"type\": \"Bot\",\n    \"destination\": \"be244df0-d380-11f0-9063-b7dfd6b41b02\"\n}", "__tile": null, "defUid": 677, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["{\\n \"type\": \"Bot\",\\n    \"destination\": \"be244df0-d380-11f0-9063-b7dfd6b41b02\"\\n}"]
+									"params": ["{\n \"type\": \"Bot\",\n    \"destination\": \"be244df0-d380-11f0-9063-b7dfd6b41b02\"\n}"]
 								}] }
 							],
 							"__worldX": 9040,
@@ -7571,7 +7546,7 @@
 							"fieldInstances": [
 								{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true,\n  \"music\": {\n    \"loop\": 7\n  }\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["{\n  \"parallax\": true,\n  \"music\": {\n    \"loop\": 7\n  }\n}"]
+									"params": ["{\\n  \"parallax\": true,\\n  \"music\": {\\n    \"loop\": 7\\n  }\\n}"]
 								}] },
 								{ "__identifier": "points", "__type": "Array<Point>", "__value": [], "__tile": null, "defUid": 678, "realEditorValues": [] }
 							],
@@ -7678,7 +7653,7 @@
 							"px": [0,160],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"levelEnd\": true\n}", "__tile": null, "defUid": 599, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\n  \"levelEnd\": true\n}"]
+								"params": ["{\\n  \"levelEnd\": true\\n}"]
 							}] }],
 							"__worldX": 5248,
 							"__worldY": 1088
@@ -7696,10 +7671,10 @@
 							"defUid": 204,
 							"px": [528,272],
 							"fieldInstances": [
-								{ "__identifier": "text", "__type": "String", "__value": "Hi DRLBOT!\nSometimes you'll see me, I'm here to give you hints.\nHere's an example:\nIf you see a BOT in need...\n...and you walk past it...\n...chances are, you won't see it again.\nKeep that in mind as you go forward!", "__tile": null, "defUid": 205, "realEditorValues": [{
+								{ "__identifier": "text", "__type": "String", "__value": "Hi DRLBOT!\nSometimes you'll see me, I'm here to give you hints.\nHere's an example:\nIf you see a BOT in need...\n...don't walk past it!\nSee if you can rescue it before moving forwards.\nKeep that in mind as you continue!", "__tile": null, "defUid": 205, "realEditorValues": [{
 									"id": "V_String",
 									"params": [
-										"Hi DRLBOT!\nSometimes you'll see me, I'm here to give you hints.\nHere's an example:\nIf you see a BOT in need...\n...and you walk past it...\n...chances are, you won't see it again.\nKeep that in mind as you go forward!"
+										"Hi DRLBOT!\\nSometimes you'll see me, I'm here to give you hints.\\nHere's an example:\\nIf you see a BOT in need...\\n...don't walk past it!\\nSee if you can rescue it before moving forwards.\\nKeep that in mind as you continue!"
 									]
 								}] },
 								{ "__identifier": "saveNumber", "__type": "Int", "__value": null, "__tile": null, "defUid": 412, "realEditorValues": [] },

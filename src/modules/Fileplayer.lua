@@ -79,7 +79,7 @@ function FilePlayer.load(config)
 end
 
 function FilePlayer:init()
-    self.volume = 1.0
+    self.volume = 0.7
     self.isPaused = false
 
     self:clear()
