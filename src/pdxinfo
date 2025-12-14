@@ -3,5 +3,5 @@ author=Franchovy
 description=A Time-Travelling Robot Puzzle-Platformer for Playdate.
 bundleID=io.franchovy.discontrolled
 version=0.2.7
-buildNumber=43
+buildNumber=44
 imagePath=assets/images/launch
