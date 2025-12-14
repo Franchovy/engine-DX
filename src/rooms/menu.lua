@@ -70,9 +70,24 @@ function Menu:enter(previous)
       end
     end
   end
+
+  self.image = self:createMenuImage()
+  self.sprite = gfx.sprite.new(self.image)
+  self.sprite:setCenter(0, 0)
+  self.sprite:add()
 end
 
-function Menu:draw()
+function Menu:leave(next, ...)
+  -- destroy entities and cleanup resources
+
+  spriteRobot:remove()
+end
+
+function Menu:createMenuImage()
+  local image = gfx.image.new(400, 240)
+
+  gfx.pushContext(image)
+
   -- Draw Title Image
   imageTitle:drawAnchored(200, 20, 0.5, 0)
 
@@ -90,12 +105,10 @@ function Menu:draw()
     gfx.drawTextAligned("Collectibles: " .. self.collectiblesCount, 4, 4, kTextAlignment.left)
     gfx.setImageDrawMode(gfx.kDrawModeCopy)
   end
-end
 
-function Menu:leave(next, ...)
-  -- destroy entities and cleanup resources
+  gfx.popContext()
 
-  spriteRobot:remove()
+  return image
 end
 
 function Menu:AButtonDown()
@@ -127,6 +140,28 @@ function Menu:AButtonDown()
   end
 end
 
+local isBButtonHeld = nil
+
 function Menu:BButtonDown()
-  sceneManager:enter(SCENES.levelSelect)
+  isBButtonHeld = false
+end
+
+function Menu:BButtonUp()
+  if isBButtonHeld == false then
+    isBButtonHeld = nil
+
+    sceneManager:enter(SCENES.levelSelect)
+  end
+end
+
+function Menu:BButtonHeld()
+  isBButtonHeld = true
+
+  local performanceMode = Settings.get(SETTINGS.PerformanceMode)
+  local shouldActivatePerformanceMode = not performanceMode
+  Settings.set(SETTINGS.PerformanceMode, shouldActivatePerformanceMode)
+
+  GUIModalMessage.showMessage(
+    shouldActivatePerformanceMode and "Performance Mode Activated." or "Performance Mode Turned Off."
+  )
 end

@@ -471,7 +471,9 @@ function Bot:update()
 
     Bot.super.update(self)
 
-    if self.walkDestination then
+    local performanceMode = Settings.get(SETTINGS.PerformanceMode)
+
+    if self.walkDestination and not performanceMode then
         -- Move Bot
         self:updateMoveToNextPoint()
     else
@@ -492,12 +494,14 @@ function Bot:update()
         end
     end
 
-    Moveable.update(self)
+    if not performanceMode then
+        Moveable.update(self)
 
-    if #self.collisions > 0 then
-        for i, collision in pairs(self.collisions) do
-            if collision.other.activate then
-                collision.other:activate(self)
+        if self.collisions and #self.collisions > 0 then
+            for i, collision in pairs(self.collisions) do
+                if collision.other.activate then
+                    collision.other:activate(self)
+                end
             end
         end
     end

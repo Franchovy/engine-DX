@@ -44,6 +44,16 @@ local function init()
   gfx.setBackgroundColor(0)
   gfx.clear(0)
 
+  -- Modal message
+
+  GUIModalMessage()
+
+  -- Settings
+
+  Settings.create({
+    performanceMode = false
+  })
+
   -- DEBUG: - Memory Clear
 
   -- MemoryCard.clearAll()
@@ -94,7 +104,7 @@ function playdate.update()
     gfx.sprite.update()
   end
 
-  Particles:update()
+  --Particles:update()
 
   gfx.animation.blinker.updateAll()
 

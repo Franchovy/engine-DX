@@ -1,0 +1,3 @@
+SETTINGS = {
+    PerformanceMode = "performanceMode"
+}

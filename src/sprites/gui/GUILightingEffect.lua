@@ -142,6 +142,10 @@ end
 function GUILightingEffect:update()
     GUILightingEffect.super.update(self)
 
+    if Settings.get(SETTINGS.PerformanceMode) then
+        return
+    end
+
     self:makeEffect()
 end
 

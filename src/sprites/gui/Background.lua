@@ -108,6 +108,10 @@ end
 function Background:update()
     Background.super.update(self)
 
+    if Settings.get(SETTINGS.PerformanceMode) then
+        return
+    end
+
     local offsetX, offsetY = gfx.getDrawOffset()
 
     if self.previousOffset.x ~= offsetX or self.previousOffset.y ~= offsetY then

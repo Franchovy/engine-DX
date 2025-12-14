@@ -5,6 +5,7 @@ GUIModalMessage = Class("GUIModalMessage", gfx.sprite)
 
 local _instance
 
+---@return GUIModalMessage
 function GUIModalMessage.getInstance()
     return _instance
 end
@@ -50,7 +51,7 @@ function GUIModalMessage:init()
     GUIModalMessage.super.init(self)
 
     self:setIgnoresDrawOffset(true)
-    self:setZIndex(Z_INDEX.HUD.Main)
+    self:setZIndex(Z_INDEX.HUD.MainPlus)
     self:setCenter(0, 0)
 
     _instance = self

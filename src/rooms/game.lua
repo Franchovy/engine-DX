@@ -59,7 +59,6 @@ function Game:init(filepathLevel)
     GUILightingEffect()
     Background()
     GUILevelName()
-    GUIModalMessage()
     GUIScreenEdges()
     FilePlayer()
     GUIPowerLevel()
@@ -334,8 +333,6 @@ function Game:botRescued(bot, botNumber)
     -- Save the rescued sprite list
     local rescuedSprites = spriteRescueCounter:getRescuedSprites()
     MemoryCard.setLevelCompletion(worldCurrent.filepath, { rescuedSprites = rescuedSprites })
-
-    -- GUIModalMessage.showMessage("Go to menu to end the game.")
 end
 
 function Game:worldComplete(args)
