@@ -190,7 +190,7 @@ function Player:init(entityData, levelName, ...)
 end
 
 function Player:collisionResponse(other)
-    if other:getGroupMask() & GROUPS.Solid ~= 0 then
+    if other:hasGroup(GROUPS.Solid) or other:hasGroup(GROUPS.SolidExceptElevator) then
         return gfx.sprite.kCollisionTypeSlide
     else
         return gfx.sprite.kCollisionTypeOverlap
