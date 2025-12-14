@@ -221,10 +221,6 @@ function Bot:remove()
     GUILightingEffect:getInstance():removeEffect(self)
 end
 
-function Bot:moveWithCollisions(destX, destY)
-    return ParentSprite.moveWithCollisions(self, destX, destY)
-end
-
 function Bot:changeState(stateNew)
     -- Get state if available, fallback on Idle
     local stateNewActual = self.config.animations[stateNew] and stateNew or
@@ -236,6 +232,18 @@ end
 function Bot:setPart(part)
     self.part = part
     self.fields.part = self.part
+end
+
+function Bot:moveWithCollisions(destX, destY)
+    return ParentSprite.moveWithCollisions(self, destX, destY)
+end
+
+function Bot:moveTo(destX, destY)
+    return ParentSprite.moveTo(self, destX, destY)
+end
+
+function Bot:moveBy(x, y)
+    return ParentSprite.moveBy(self, x, y)
 end
 
 function Bot:setupDialogLines(rawText)
@@ -471,9 +479,9 @@ function Bot:update()
 
     Bot.super.update(self)
 
-    local performanceMode = Settings.get(SETTINGS.PerformanceMode)
 
-    if self.walkDestination and not performanceMode then
+
+    if self.walkDestination then
         -- Move Bot
         self:updateMoveToNextPoint()
     else
@@ -494,14 +502,12 @@ function Bot:update()
         end
     end
 
-    if not performanceMode then
-        Moveable.update(self)
+    Moveable.update(self)
 
-        if self.collisions and #self.collisions > 0 then
-            for i, collision in pairs(self.collisions) do
-                if collision.other.activate then
-                    collision.other:activate(self)
-                end
+    if self.collisions and #self.collisions > 0 then
+        for i, collision in pairs(self.collisions) do
+            if collision.other.activate then
+                collision.other:activate(self)
             end
         end
     end

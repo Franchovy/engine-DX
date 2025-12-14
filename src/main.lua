@@ -80,6 +80,8 @@ local function init()
   -- Hide logo
 
   showLogo = false
+
+  gfx.sprite.setAlwaysRedraw(true)
 end
 
 ---@diagnostic disable-next-line: duplicate-set-field
