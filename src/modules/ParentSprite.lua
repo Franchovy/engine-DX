@@ -48,13 +48,13 @@ end
 function ParentSprite:moveTo(x, y)
     gfx.sprite.moveTo(self, x, y)
 
-    _performOnChildren(self, "moveTo")
+    _performOnChildren(self, "moveTo", x, y)
 end
 
 function ParentSprite:moveBy(dx, dy)
     gfx.sprite.moveBy(self, dx, dy)
 
-    _performOnChildren(self, "moveBy")
+    _performOnChildren(self, "moveBy", dx, dy)
 end
 
 function ParentSprite:moveWithCollisions(goalX, goalY)

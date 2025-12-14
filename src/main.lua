@@ -106,7 +106,10 @@ function playdate.update()
     gfx.sprite.update()
   end
 
-  --Particles:update()
+  local performanceMode = Settings.get(SETTINGS.PerformanceMode)
+  if not performanceMode then
+    Particles:update()
+  end
 
   gfx.animation.blinker.updateAll()
 

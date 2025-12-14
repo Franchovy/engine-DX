@@ -139,6 +139,7 @@ function Bot:init(entityData, levelName)
     self.collisionField:setGroups(GROUPS.ActivatePlayer)
     self.collisionField:moveTo(self.x, self.y)
     self.collisionField:setTag(TAGS.Bot)
+    self.collisionField:add()
 
     ---@diagnostic disable-next-line: inject-field
     self.collisionField.activate = function() self.activate(self) end
@@ -479,9 +480,9 @@ function Bot:update()
 
     Bot.super.update(self)
 
-
-
     if self.walkDestination then
+        Moveable.update(self)
+
         -- Move Bot
         self:updateMoveToNextPoint()
     else
@@ -502,14 +503,21 @@ function Bot:update()
         end
     end
 
-    Moveable.update(self)
+    local performanceMode = Settings.get(SETTINGS.PerformanceMode)
 
-    if self.collisions and #self.collisions > 0 then
-        for i, collision in pairs(self.collisions) do
-            if collision.other.activate then
-                collision.other:activate(self)
+    if not performanceMode then
+        if self.collisions and #self.collisions > 0 then
+            for i, collision in pairs(self.collisions) do
+                if collision.other.activate then
+                    collision.other:activate(self)
+                end
             end
         end
+    end
+
+    if self.dialogSprite then
+        self.dialogSprite:add()
+        self.dialogSprite:moveTo(self.x, self.y)
     end
 
     -- Reset update variable
