@@ -75,12 +75,24 @@ function Menu:enter(previous)
   self.sprite = gfx.sprite.new(self.image)
   self.sprite:setCenter(0, 0)
   self.sprite:add()
+
+  -- Play music
+
+  local shouldPlayMusic = MemoryCard.getShouldEnableMusic()
+
+  if shouldPlayMusic and not FilePlayer.getInstance():isPlaying() then
+    FilePlayer.getInstance():play({ file = assets.tracks.menu })
+  end
 end
 
 function Menu:leave(next, ...)
   -- destroy entities and cleanup resources
 
   spriteRobot:remove()
+
+  if next.class == Game then
+    FilePlayer.getInstance():stop()
+  end
 end
 
 function Menu:createMenuImage()

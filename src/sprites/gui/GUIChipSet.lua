@@ -308,13 +308,13 @@ function GUIChipSet:update()
   if self:getIsPowered() and not isPoweredUpPrevious then
     -- Power turned on
 
-    spPowerUp:play(0)
+    spPowerUp:play(1)
 
     self:updateButtonSpriteMasks()
   elseif not self:getIsPowered() and isPoweredUpPrevious then
     -- Power turned off
 
-    spPowerDown:play(0)
+    spPowerDown:play(1)
 
     self:updateButtonSpriteMasks()
   end
@@ -469,10 +469,12 @@ function GUIChipSet:handleCheckpointRevert(state)
 
   -- Remove any chips that are in-progress pickups
   for i = 1, #chipsPickUp do
-    chipsPickUp[i].sprite:remove()
-    chipsPickUp[i].sprite = nil
+    if chipsPickUp[i] then
+      chipsPickUp[i].sprite:remove()
+      chipsPickUp[i].sprite = nil
 
-    table.remove(chipsPickUp)
+      table.remove(chipsPickUp)
+    end
   end
 
   -- Re-position images properly

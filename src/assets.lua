@@ -122,8 +122,7 @@ _G.assets = {
         drill = "assets/sfx/drill",
         swoosh = "assets/sfx/swoosh"
     },
-    music = {
-        game = "assets/music/playtester-theme",
-        menu = "assets/music/menu-theme"
+    tracks = {
+        menu = "assets/music/00 Discontrolled"
     }
 }

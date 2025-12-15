@@ -31,5 +31,19 @@ MUSIC_CONFIG = {
             { file = "assets/music/03_mines/03 Mine B1", next = 3 },
             { file = "assets/music/03_mines/03 Mine C1", next = 4 }
         }
+    },
+    ["The City"] = {
+        assets = {
+            { file = "assets/music/04_the_city/04 The City A0", loopCount = 2 },           -- Intro: 1
+            { file = "assets/music/04_the_city/04 The City A1", loopCount = 2, next = 3 }, -- Group 1: 2
+            { file = "assets/music/04_the_city/04 The City A2", loopCount = 2, next = 4 },
+            { file = "assets/music/04_the_city/04 The City A3", loopCount = 2, next = 5 },
+            { file = "assets/music/04_the_city/04 The City A0", loopCount = 2, next = 2 },
+            { file = "assets/music/04_the_city/04 The City B1", loopCount = 1, next = 7 }, -- Group 2: 6
+            { file = "assets/music/04_the_city/04 The City A2", loopCount = 2, next = 8 },
+            { file = "assets/music/04_the_city/04 The City A1", loopCount = 2, next = 9 },
+            { file = "assets/music/04_the_city/04 The City A2", loopCount = 2, next = 10 },
+            { file = "assets/music/04_the_city/04 The City A0", loopCount = 2, next = 6 },
+        }
     }
 }

@@ -35,6 +35,10 @@ CollisionZoneScripts = {
         activate = function(self)
             self.super.activate(self)
 
+            if self.isActivatedPrevious then
+                return
+            end
+
             Manager.emitEvent(EVENTS.ChipSetPower, true)
         end
     },

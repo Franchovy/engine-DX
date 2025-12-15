@@ -58,6 +58,10 @@ local function init()
 
   -- MemoryCard.clearAll()
 
+  -- FilePlayer instantiation
+
+  FilePlayer()
+
   -- Read file paths
 
   ReadFile.initialize()

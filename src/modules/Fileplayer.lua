@@ -32,6 +32,7 @@ FilePlayer = Class("FilePlayer")
 
 local _instance
 
+---@return FilePlayer
 function FilePlayer.getInstance()
     return assert(_instance)
 end

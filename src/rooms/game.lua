@@ -60,7 +60,6 @@ function Game:init(filepathLevel)
     Background()
     GUILevelName()
     GUIScreenEdges()
-    FilePlayer()
     GUIPowerLevel()
 
     -- Load Ability Panel

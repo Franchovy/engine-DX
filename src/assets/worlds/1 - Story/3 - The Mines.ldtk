@@ -5144,7 +5144,7 @@
 							"px": [960,0],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"parallax\": true\\n}"]
+								"params": ["{\n  \"parallax\": true\n}"]
 							}] }],
 							"__worldX": -3328,
 							"__worldY": 4800
@@ -6086,7 +6086,7 @@
 							"px": [480,64],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"parallax\": true\\n}"]
+								"params": ["{\n  \"parallax\": true\n}"]
 							}] }],
 							"__worldX": -3840,
 							"__worldY": 5504
@@ -10757,7 +10757,7 @@
 							"px": [704,128],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"light\"}\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"parallax\": true,\\n  \"lighting\": {\"background\": \"light\"}\\n}"]
+								"params": ["{\n  \"parallax\": true,\n  \"lighting\": {\"background\": \"light\"}\n}"]
 							}] }],
 							"__worldX": -4416,
 							"__worldY": 4064
@@ -11384,7 +11384,7 @@
 							"px": [480,32],
 							"fieldInstances": [{ "__identifier": "config", "__type": "String", "__value": "{\n  \"parallax\": true\n}", "__tile": null, "defUid": 588, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["{\\n  \"parallax\": true\\n}"]
+								"params": ["{\n  \"parallax\": true\n}"]
 							}] }],
 							"__worldX": -3968,
 							"__worldY": 5824
@@ -12286,6 +12286,25 @@
 							"fieldInstances": [{ "__identifier": "uid", "__type": "String", "__value": null, "__tile": null, "defUid": 581, "realEditorValues": [] }],
 							"__worldX": -3840,
 							"__worldY": 7008
+						},
+						{
+							"__identifier": "Chip",
+							"__grid": [5,5],
+							"__pivot": [0.5,0.5],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#15F1D3",
+							"iid": "207e1f80-d380-11f0-bbee-61d21695e54f",
+							"width": 28,
+							"height": 28,
+							"defUid": 21,
+							"px": [176,176],
+							"fieldInstances": [{ "__identifier": "button", "__type": "LocalEnum.Buttons", "__value": "Down", "__tile": null, "defUid": 38, "realEditorValues": [{
+								"id": "V_String",
+								"params": ["Down"]
+							}] }],
+							"__worldX": -4400,
+							"__worldY": 6928
 						}
 					]
 				},

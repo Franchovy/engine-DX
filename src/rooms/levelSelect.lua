@@ -33,8 +33,12 @@ function LevelSelect:enter(previous, data)
   end)
 end
 
-function LevelSelect:leave()
+function LevelSelect:leave(next, ...)
   systemMenu:removeAllMenuItems()
+
+  if next.class == Game then
+    FilePlayer.getInstance():stop()
+  end
 end
 
 function LevelSelect:update()
