@@ -472,7 +472,7 @@ function Player:updateParent()
 
             if self.didMoveRight and track:right() - 8 < elevator:centerX() then
                 return
-            elseif self.didMoveLeft and track:left() + 8 > elevator:centerX() then
+            elseif self.didMoveLeft and track:left() + 10 > elevator:centerX() then
                 return
             end
         else
