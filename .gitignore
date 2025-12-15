@@ -4,6 +4,9 @@
 .DS_Store
 src/assets/worlds/**/backups
 
+# Ignore worlds (You gotta buy the game!)
+src/assets/worlds/
+
 # VSCode settings - Included in repo, but don't commit changes.
 .vscode/
 .vscode/settings.json
