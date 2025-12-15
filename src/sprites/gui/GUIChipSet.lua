@@ -303,8 +303,6 @@ end
 --- Update Method
 
 function GUIChipSet:update()
-  isPoweredUp = shouldPowerUpNextTick
-
   if self:getIsPowered() and not isPoweredUpPrevious then
     -- Power turned on
 
@@ -330,8 +328,9 @@ function GUIChipSet:update()
 
   -- Set update variables
 
-  shouldPowerUpNextTick = false or isPoweredPermanent
   isPoweredUpPrevious = isPoweredUp
+  isPoweredUp = shouldPowerUpNextTick
+  shouldPowerUpNextTick = false or isPoweredPermanent
   chipSetNeedsUpdate = false
 end
 
@@ -460,12 +459,14 @@ end
 -- Checkpoint handling
 
 function GUIChipSet:handleCheckpointRevert(state)
+  printTable(state)
   self.chipSet = state.chipSet
 
   chipSetNeedsUpdate = true
 
   -- Update chipset GUI images
   self:updateButtonSprites()
+  self:updateButtonSpriteMasks()
 
   -- Remove any chips that are in-progress pickups
   for i = 1, #chipsPickUp do
