@@ -1,31 +1,19 @@
-Level 1: GPL (others not valid)
+Level 1: GPL, SNT, GRN (others not valid)
 Level 2: BTL, MOP, VRP
 Level 3: ELR, HGL, CMT
+Level 4: EYZ, JPL, PNY, WOP
+Level 5: BPK, MNT, JPK
+Level 6: MIPA, TVR-A, INF
+Level 7: RKD, RUD, DGR
+
+FLT
 
 Remaining:
-BPK
-ELR
-HGL
-MIPA
-RKD
-TVR-A
-EYZ
-INF
-MNT
-RUD
-FLT
-JPK
 RWBT
 GT
-DGR
-JPL
 PNG
-SNT
-WOP
 DRZ
-GRN
 LFS
-PNY
 SPL
 YGR
 ELF
