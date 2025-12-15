@@ -19,5 +19,8 @@ DECORATION_ASSETS = {
         startFrame = 1,
         endFrame = 4,
         animationParams = { tickStep = 6 },
+    },
+    ["wheel-of-time"] = {
+        path = "assets/images/wheel-1"
     }
 }
