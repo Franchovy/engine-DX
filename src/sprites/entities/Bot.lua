@@ -156,6 +156,7 @@ function Bot:init(entityData, levelName)
         self.spriteRescueIndicator = gfx.sprite.new(imageIndicatorRescue)
         self.spriteRescueIndicator:setZIndex(Z_INDEX.Level.Active)
         self.spriteRescueIndicator:setCenter(0.5, 2)
+        self.spriteRescueIndicator:moveTo(self.x, self.y)
 
         self:addChild(self.spriteRescueIndicator)
         self.spriteRescueIndicator:add()
