@@ -18,6 +18,9 @@ local imageFadeLight
 ---@type {any : {image: _Image, xPrevious: number, yPrevious: number}}
 local effects <const> = {}
 
+-- Phase size to avoid dither glitches
+local phaseSize <const> = 4
+
 -- Static methods
 
 function GUILightingEffect.load(config)
@@ -64,27 +67,30 @@ function GUILightingEffect:init()
 end
 
 function GUILightingEffect:createBackgroundImages()
-    imageBackground = gfx.image.new(401, 241, gfx.kColorClear)
+    local phaseAdditionalSize = phaseSize / 2
+    imageBackground = gfx.image.new(400 + phaseAdditionalSize, 241 + phaseAdditionalSize, gfx.kColorClear)
     maskImage = imageBackground:getMaskImage()
 end
 
 function GUILightingEffect:createFadeImages()
+    local widthImage, heightImage = 400 + phaseSize, 240 + phaseSize
+
     -- Medium-dark background
-    imageFadeMedium = gfx.image.new(400, 240, gfx.kColorBlack)
+    imageFadeMedium = gfx.image.new(widthImage, heightImage, gfx.kColorBlack)
 
     gfx.pushContext(imageFadeMedium)
     gfx.setColor(gfx.kColorWhite)
     gfx.setDitherPattern(0.3, gfx.image.kDitherTypeDiagonalLine)
-    gfx.fillRect(0, 0, 400, 240)
+    gfx.fillRect(0, 0, widthImage, heightImage)
     gfx.popContext()
 
     -- Light background
-    imageFadeLight = gfx.image.new(400, 240, gfx.kColorBlack)
+    imageFadeLight = gfx.image.new(widthImage, heightImage, gfx.kColorBlack)
 
     gfx.pushContext(imageFadeLight)
     gfx.setColor(gfx.kColorWhite)
     gfx.setDitherPattern(0.7, gfx.image.kDitherTypeDiagonalLine)
-    gfx.fillRect(0, 0, 400, 240)
+    gfx.fillRect(0, 0, widthImage, heightImage)
     gfx.popContext()
 
     GUILightingEffect.imageFadeMedium = imageFadeMedium
@@ -169,7 +175,8 @@ function GUILightingEffect:makeEffect() -- First loop to check for changes in li
 
     -- Get draw offset
     local xOffset, yOffset = gfx.getDrawOffset()
-    local xOffsetPhase, yOffsetPhase = xOffset & 1, yOffset & 1
+    local xOffsetPhase = xOffset % phaseSize
+    local yOffsetPhase = yOffset % phaseSize
 
     -- Clear image mask
 
@@ -193,9 +200,12 @@ function GUILightingEffect:makeEffect() -- First loop to check for changes in li
             x = sprite.x + xOffset
             y = sprite.y + yOffset
 
+            x = math.round(x)
+            y = math.round(y)
+
             -- "Phase" the x/y to be even-number only (using bitwise AND)
-            x = math.round(x) & ~1
-            y = math.round(y) & ~1
+            x -= x % phaseSize
+            y -= y % phaseSize
         end
 
         -- FRANCH: This is a work-around to the light not showing up on the first frame.
