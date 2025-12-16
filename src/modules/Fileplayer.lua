@@ -10,8 +10,6 @@ local function _finishCallback(fileplayer, self)
         ---@type FileToPlay
         local fileNext = table.remove(self.fileQueue, 1)
 
-        print("Switching track...")
-
         self:play(fileNext)
     else
         -- Keep repeating this loop
@@ -60,15 +58,10 @@ function FilePlayer.load(config)
             self:play(self.files[config.loop])
         elseif self.fileplayer == nil then
             -- Load and play this track.
-            print("Playing: " .. self.files[config.loop].file)
 
             self:play(self.files[config.loop])
         else
             -- Add this track to queue.
-
-            print("Loading: " .. self.files[config.loop].file)
-
-            -- For now, by default just pop the rest of the queue.
 
             if not self.fileQueue then
                 self.fileQueue = {}
