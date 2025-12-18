@@ -126,7 +126,7 @@ function FilePlayer:play(fileConfig)
         self.fileCurrent = fileConfig
     end
 
-    local fileplayer = fileplayer.new(self.fileCurrent.file)
+    local fileplayer = assert(fileplayer.new(self.fileCurrent.file), "File not found!")
     fileplayer:setVolume(self.volume)
 
     local loopCount = self.fileCurrent.loopCount

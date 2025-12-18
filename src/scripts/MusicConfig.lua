@@ -63,5 +63,19 @@ MUSIC_CONFIG = {
             { file = "assets/music/05_the_vault/05 The Vault C1", loopCount = 2, next = 13 },
             { file = "assets/music/05_the_vault/05 The Vault A3", loopCount = 2, next = 9 },
         }
+    },
+    ["The Source"] = {
+        assets = {
+            { file = "assets/music/06_the_source/06 Reflection A1", loopCount = 2, next = 2 },
+            { file = "assets/music/06_the_source/06 Reflection A2", loopCount = 2, next = 3 },
+            { file = "assets/music/06_the_source/06 Reflection A3", loopCount = 2, next = 4 },
+            { file = "assets/music/06_the_source/06 Reflection B1", loopCount = 2, next = 5 },
+            { file = "assets/music/06_the_source/06 Reflection A3", loopCount = 4, next = 6 },
+            { file = "assets/music/06_the_source/06 Reflection B1", loopCount = 2, next = 7 },
+            { file = "assets/music/06_the_source/06 Reflection C0", loopCount = 2, next = 8 },
+            { file = "assets/music/06_the_source/06 Reflection C1", loopCount = 2, next = 9 },
+            { file = "assets/music/06_the_source/06 Reflection C2", loopCount = 2, next = 10 },
+            { file = "assets/music/06_the_source/06 Reflection C3", loopCount = 2, next = 7 },
+        }
     }
 }
