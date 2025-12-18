@@ -121,8 +121,8 @@ function Player:init(entityData, levelName, ...)
             coyoteFrames = 5
         },
         dash = {
-            frames = 4,
-            speed = 27
+            frames = 6,
+            speed = 32
         }
     })
 

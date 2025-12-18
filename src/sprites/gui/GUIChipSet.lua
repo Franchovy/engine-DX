@@ -459,7 +459,6 @@ end
 -- Checkpoint handling
 
 function GUIChipSet:handleCheckpointRevert(state)
-  printTable(state)
   self.chipSet = state.chipSet
 
   chipSetNeedsUpdate = true

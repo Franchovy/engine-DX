@@ -46,5 +46,22 @@ MUSIC_CONFIG = {
             { file = "assets/music/04_the_city/04 The City A2", loopCount = 2, next = 11 },
             { file = "assets/music/04_the_city/04 The City A0", loopCount = 2, next = 7 },
         }
+    },
+    ["The Vault"] = {
+        assets = {
+            { file = "assets/music/05_the_vault/05 The Vault A0", loopCount = 2, next = 2 }, -- Intro: 1
+            { file = "assets/music/05_the_vault/05 The Vault A1", loopCount = 2, next = 3 },
+            { file = "assets/music/05_the_vault/05 The Vault A2", loopCount = 2, next = 4 }, -- Group 1: 3
+            { file = "assets/music/05_the_vault/05 The Vault A3", loopCount = 2, next = 3 },
+            { file = "assets/music/05_the_vault/05 The Vault A2", loopCount = 2, next = 6 }, -- Group 2: 5
+            { file = "assets/music/05_the_vault/05 The Vault A3", loopCount = 2, next = 7 },
+            { file = "assets/music/05_the_vault/05 The Vault B1", loopCount = 2, next = 8 },
+            { file = "assets/music/05_the_vault/05 The Vault A1", loopCount = 2, next = 5 },
+            { file = "assets/music/05_the_vault/05 The Vault A2", loopCount = 2, next = 10 }, -- Group 3: 9
+            { file = "assets/music/05_the_vault/05 The Vault A3", loopCount = 2, next = 11 },
+            { file = "assets/music/05_the_vault/05 The Vault B1", loopCount = 2, next = 12 },
+            { file = "assets/music/05_the_vault/05 The Vault C1", loopCount = 2, next = 13 },
+            { file = "assets/music/05_the_vault/05 The Vault A3", loopCount = 2, next = 9 },
+        }
     }
 }
