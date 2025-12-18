@@ -34,7 +34,7 @@ BotConfig = {
     RUD = { animationSpeed = 2, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 } } },
     WGT = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 7 } } },
     RWBT = { animationSpeed = 2, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 } } },
-    ["TVR-A"] = { animationSpeed = 3, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 6 }, [BOT_ANIMATION_STATES.Talking] = { 6, 10 } } },
+    ["TVR-A"] = { animationSpeed = 3, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 6 }, [BOT_ANIMATION_STATES.Talking] = { 6, 10 } }, offset = { y = -7 } },
     PONG = { animationSpeed = 2, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 15 } } }
 }
 

@@ -115,6 +115,12 @@ function Bot:init(entityData, levelName)
                 state.asDefault()
             end
         end
+
+        -- Offset sprite position by "offset".
+        if self.config.offset then
+            local x, y = self.config.offset.x or 0, self.config.offset.y or 0
+            self:moveBy(x, y)
+        end
     end
 
     self:updateAnimationState()
@@ -141,7 +147,6 @@ function Bot:init(entityData, levelName)
     self.collisionField:setTag(TAGS.Bot)
     self.collisionField:add()
 
-    ---@diagnostic disable-next-line: inject-field
     self.collisionField.activate = function() self.activate(self) end
 
     self:addChild(self.collisionField)
