@@ -226,24 +226,23 @@ function Game:update()
     -- Input handling (for player)
 
     local player = Player.getInstance()
-    local chipset = GUIChipSet.getInstance()
 
-    if player and chipset and not playdate.buttonIsPressed(playdate.kButtonB) then
+    if player and not playdate.buttonIsPressed(playdate.kButtonB) then
         local elevator = player:getElevatorActivating()
 
-        if playdate.buttonJustPressed(playdate.kButtonA) and chipset:getButtonEnabled(KEYNAMES.A) then
+        if playdate.buttonJustPressed(playdate.kButtonA) then
             player:jump()
         end
 
-        if playdate.buttonIsPressed(playdate.kButtonLeft) and chipset:getButtonEnabled(KEYNAMES.Left) then
+        if playdate.buttonIsPressed(playdate.kButtonLeft) then
             player:moveLeft()
-        elseif playdate.buttonIsPressed(playdate.kButtonRight) and chipset:getButtonEnabled(KEYNAMES.Right) then
+        elseif playdate.buttonIsPressed(playdate.kButtonRight) then
             player:moveRight()
         end
 
-        if playdate.buttonIsPressed(playdate.kButtonUp) and chipset:getButtonEnabled(KEYNAMES.Up) then
+        if playdate.buttonIsPressed(playdate.kButtonUp) then
             player:moveUp()
-        elseif playdate.buttonIsPressed(playdate.kButtonDown) and chipset:getButtonEnabled(KEYNAMES.Down) then
+        elseif playdate.buttonIsPressed(playdate.kButtonDown) then
             player:moveDown()
         end
     end

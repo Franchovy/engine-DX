@@ -287,6 +287,56 @@ function Player:handleCheckpointRevert(state)
     self.latestCheckpointPosition.y = state.y
 end
 
+function Player:moveLeft()
+    local chipset = GUIChipSet.getInstance()
+
+    if chipset:getButtonEnabled(KEYNAMES.Left) then
+        Moveable.moveLeft(self)
+    else
+        self:animateInvalidKey()
+    end
+end
+
+function Player:moveRight()
+    local chipset = GUIChipSet.getInstance()
+
+    if chipset:getButtonEnabled(KEYNAMES.Right) then
+        Moveable.moveRight(self)
+    else
+        self:animateInvalidKey()
+    end
+end
+
+function Player:moveUp()
+    local chipset = GUIChipSet.getInstance()
+
+    if chipset:getButtonEnabled(KEYNAMES.Up) then
+        Moveable.moveUp(self)
+    else
+        self:animateInvalidKey()
+    end
+end
+
+function Player:moveDown()
+    local chipset = GUIChipSet.getInstance()
+
+    if chipset:getButtonEnabled(KEYNAMES.Down) then
+        Moveable.moveDown(self)
+    else
+        self:animateInvalidKey()
+    end
+end
+
+function Player:jump()
+    local chipset = GUIChipSet.getInstance()
+
+    if chipset:getButtonEnabled(KEYNAMES.A) then
+        Moveable.jump(self)
+    else
+        self:animateInvalidKey()
+    end
+end
+
 -- Enter Level
 
 function Player:enterLevel(levelName, direction)
@@ -405,10 +455,6 @@ function Player:update()
 
     self:updateWarp()
 
-    -- Update variables set by collisions
-
-    self.didPressedInvalidKey = false
-
     -- Update state for checkpoint
 
     self:updateCheckpointState()
@@ -416,6 +462,10 @@ function Player:update()
     -- Animation Handling
 
     self:updateAnimationState()
+
+    -- Update variables set by collisions
+
+    self.didPressedInvalidKey = false
 
     -- GUI Overlap, Camera
 
@@ -587,6 +637,18 @@ function Player:updateActivations()
 
             if not warpCooldown then
                 otherSprite:activate(self)
+            end
+
+            -- To make things more interesting, if the picked up key is a left/right/jump key, and Player has double-key,
+            -- then enable dash/double jump accordingly.
+            ---@cast otherSprite Chip
+            local button = otherSprite.button
+            if GUIChipSet.getInstance():hasDoubleKey(button) then
+                if button == KEYNAMES.Right or button == KEYNAMES.Left then
+                    self.dashHandler:recharge()
+                elseif button == KEYNAMES.A then
+                    self.hasDoubleJumpRemaining = true
+                end
             end
         elseif tag == TAGS.Bot then
             botActive = otherSprite.spriteParent
@@ -813,8 +875,6 @@ function Player:isKeyPressedGated(key)
     if chipset:getButtonEnabled(key) then
         return true
     elseif pd.buttonJustPressed(key) then
-        self:animateInvalidKey()
-
         return false
     end
 end
