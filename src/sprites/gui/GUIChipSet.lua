@@ -107,7 +107,7 @@ function GUIChipSet:init()
   self:moveTo(0, 0)
   self:add()
 
-  isHidden = true
+  isHidden = false
 
   -- Checkpoint handling
 
