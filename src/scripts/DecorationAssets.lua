@@ -22,5 +22,23 @@ DECORATION_ASSETS = {
     },
     ["wheel-of-time"] = {
         path = "assets/images/wheel-1"
-    }
+    },
+    ["flower-1"] = {
+        path = "assets/images/flower-1",
+        startFrame = 1,
+        endFrame = 8,
+        animationParams = { tickStep = 2 }
+    },
+    ["flower-2"] = {
+        path = "assets/images/flower-2",
+        startFrame = 1,
+        endFrame = 8,
+        animationParams = { tickStep = 2 }
+    },
+    ["flower-3"] = {
+        path = "assets/images/flower-3",
+        startFrame = 1,
+        endFrame = 8,
+        animationParams = { tickStep = 2 }
+    },
 }

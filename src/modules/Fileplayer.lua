@@ -41,7 +41,7 @@ end
 
 function FilePlayer.load(config)
     --- Load instance since this is a static call
-    self = _instance
+    local self = _instance
 
     if config.title then
         self.files = MUSIC_CONFIG[config.title].assets
