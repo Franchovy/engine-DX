@@ -36,6 +36,25 @@ CollisionZoneScripts = {
             self.super.activate(self)
 
             Manager.emitEvent(EVENTS.ChipSetPower, true)
+        end,
+        initConfig = function(self)
+            ---@cast self CollisionZone
+            self.particles = ParticlePixel()
+            self.particles:setColor(1)
+            self.particles:setLifespan(1, 2)
+            self.particles:setBounds(self.x, self.y, self.width, self.height)
+            self.particles:setSpeed(2, 4)
+        end,
+        update = function(self)
+            self.super.update(self)
+
+            -- 1 out of 5 chance of emitting a particle
+            if math.random(1, 5) == 1 then
+                local x, y = self.x + math.random(0, self.width), self.y + math.random(0, self.height)
+
+                self.particles:moveTo(x, y)
+                self.particles:create(1)
+            end
         end
     },
     levelEnd = {

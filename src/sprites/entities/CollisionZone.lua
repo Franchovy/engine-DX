@@ -1,4 +1,5 @@
 --- @class CollisionZone : Entity
+--- @field initConfig fun()?
 CollisionZone = Class("CollisionZone", Entity)
 
 --- Slightly shrink the CollisionZone's colliderect to avoid triggering when not actually in the block.
@@ -18,6 +19,10 @@ function CollisionZone:init(data, levelName, ...)
     local config = assert(json.decode(data.fields.config), "Error decoding CollisionZone json!")
 
     self:loadConfig(config)
+
+    if self.initConfig then
+        self:initConfig()
+    end
 
     -- Collisions
 
@@ -45,7 +50,7 @@ function CollisionZone:loadConfig(config)
         elseif LDTK_CONFIG_ALIASES[key] then
             self.activate = function() ConfigHandler.loadConfig(config) end
         else
-            print("Unrecognized script or config key option: ".. key)
+            print("Unrecognized script or config key option: " .. key)
         end
     end
 end

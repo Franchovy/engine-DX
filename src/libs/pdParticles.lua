@@ -557,6 +557,7 @@ function ParticleImageBasic:update()
 end
 
 ---@class ParticlePixel : Particle
+---@operator call: ParticlePixel
 ParticlePixel = class("ParticlePixel").extends(Particle) or ParticlePixel
 
 function ParticlePixel:create(amount)
