@@ -398,12 +398,20 @@ function Player:revertCheckpoint()
 end
 
 function Player:animateInvalidKey()
+    if self.didPressedInvalidKey then
+        return
+    end
+
     self.questionMark:play()
     ScreenShake.performScreenShake(3, 1)
 
     self.didPressedInvalidKey = true
 
     spError:play(1)
+
+    playdate.frameTimer.performAfterDelay(12, function()
+        self.didPressedInvalidKey = false
+    end)
 end
 
 ---comment
@@ -462,10 +470,6 @@ function Player:update()
     -- Animation Handling
 
     self:updateAnimationState()
-
-    -- Update variables set by collisions
-
-    self.didPressedInvalidKey = false
 
     -- GUI Overlap, Camera
 
