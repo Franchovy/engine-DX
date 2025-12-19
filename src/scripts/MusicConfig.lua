@@ -38,13 +38,14 @@ MUSIC_CONFIG = {
             { file = "assets/music/04_the_city/04 The City A1", loopCount = 2, next = 3 }, -- Group 1: 2
             { file = "assets/music/04_the_city/04 The City A2", loopCount = 2, next = 4 },
             { file = "assets/music/04_the_city/04 The City A3", loopCount = 2, next = 5 },
-            { file = "assets/music/04_the_city/04 The City A2", loopCount = 1, next = 6 },
+            { file = "assets/music/04_the_city/04 The City A4", loopCount = 2, next = 6 },
+            { file = "assets/music/04_the_city/04 The City A2", loopCount = 1, next = 7 },
             { file = "assets/music/04_the_city/04 The City A0", loopCount = 2, next = 2 },
-            { file = "assets/music/04_the_city/04 The City B1", loopCount = 1, next = 8 }, -- Group 2: 7
-            { file = "assets/music/04_the_city/04 The City A2", loopCount = 2, next = 9 },
-            { file = "assets/music/04_the_city/04 The City A1", loopCount = 2, next = 10 },
-            { file = "assets/music/04_the_city/04 The City A2", loopCount = 2, next = 11 },
-            { file = "assets/music/04_the_city/04 The City A0", loopCount = 2, next = 7 },
+            { file = "assets/music/04_the_city/04 The City B1", loopCount = 1, next = 9 }, -- Group 2: 8
+            { file = "assets/music/04_the_city/04 The City A2", loopCount = 2, next = 10 },
+            { file = "assets/music/04_the_city/04 The City A1", loopCount = 2, next = 11 },
+            { file = "assets/music/04_the_city/04 The City A2", loopCount = 2, next = 12 },
+            { file = "assets/music/04_the_city/04 The City A0", loopCount = 2, next = 8 },
         }
     },
     ["The Vault"] = {
