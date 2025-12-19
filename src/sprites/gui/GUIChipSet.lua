@@ -469,7 +469,7 @@ function GUIChipSet:handleCheckpointRevert(state)
 
   -- Remove any chips that are in-progress pickups
   for i = 1, #chipsPickUp do
-    if chipsPickUp[i] then
+    if chipsPickUp[i] and chipsPickUp[i].sprite then
       chipsPickUp[i].sprite:remove()
       chipsPickUp[i].sprite = nil
 
