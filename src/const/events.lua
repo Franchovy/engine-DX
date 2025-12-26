@@ -11,5 +11,6 @@ EVENTS = {
     BotRescued = 'botRescued',
     SavePointSet = 'savePointSet',
     WorldComplete = 'worldComplete',
-    CollectiblePickup = "collectiblePickup"
+    CollectiblePickup = "collectiblePickup",
+    ReturnToCheckpointNamed = "returnToCheckpointNamed"
 }

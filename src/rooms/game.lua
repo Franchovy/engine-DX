@@ -300,6 +300,34 @@ function Game:handleCheckpointRevert(state)
     end
 end
 
+function Game:returnToCheckpointNamed(name, finishedCallback)
+    local player = Player.getInstance()
+    if not player then return end
+
+    Game.enableLevelChange = false
+
+    Transition:getInstance():fadeOut(1000, function()
+        player:freeze()
+
+        playdate.timer.performAfterDelay(2000, function()
+            Checkpoint.goToNamed(name)
+
+            Camera.setOffsetInstantaneous()
+
+            Transition:getInstance():fadeIn(500, function()
+                Game.enableLevelChange = true
+
+                player:unfreeze()
+
+                if finishedCallback then
+                    finishedCallback()
+                end
+            end)
+        end
+        )
+    end)
+end
+
 ---------------------------------
 --- Event-based methods
 ---------------------------------

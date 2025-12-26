@@ -13,13 +13,7 @@ local thresholdMainBarMin = 0.20
 function GUIPowerLevel.load(config)
     local instance = GUIPowerLevel:getInstance()
 
-    instance.isActive = true
-    instance.maxTime = config.time
-    instance.time = config.time
-    instance.objective = config.objective
-    instance.checkpointName = config.checkpointName
-
-    instance:add()
+    instance:startEnergyBar(config)
 end
 
 function GUIPowerLevel:init()
@@ -37,13 +31,21 @@ function GUIPowerLevel:init()
     self.objective = nil
     self.checkpointName = nil
 
-    self.displayChargePoints = true
+    self.isDisplayedChargePoints = true
     self.finalChargeCount = 3
+
+    self.checkpointHandler = CheckpointHandler.getOrCreate(self, self, {
+        isActive = self.isActive
+    })
 end
 
 local widthMainBar, heightMainBar <const> = 82, 9
 
 function GUIPowerLevel:draw()
+    if not self.isActive or not self.time or not self.maxTime or not self.finalChargeCount then
+        return
+    end
+
     local power = self.time / self.maxTime
     local powerMainBar = (power - thresholdMainBarMin) / (thresholdMainBarMax - thresholdMainBarMin)
     local widthPowerMainBar = math.max(0, powerMainBar * widthMainBar)
@@ -52,7 +54,7 @@ function GUIPowerLevel:draw()
 
     -- Charge points (for full charge)
 
-    if self.displayChargePoints then
+    if self.isDisplayedChargePoints then
         gfx.fillRect(5, 4, 1, 2)
         gfx.fillRect(5, 13, 1, 2)
     end
@@ -79,13 +81,73 @@ function GUIPowerLevel:draw()
 end
 
 function GUIPowerLevel:update()
+    if not self.isActive then
+        return
+    end
+
     local power = math.max(0, self.time / self.maxTime)
 
-    self.displayChargePoints = power > thresholdMainBarMax
+    -- If Power runs out
+    if power <= 0 then
+        -- End energy bar
+        self:onEnergyDepleted()
+        return
+    end
+
+    self.isDisplayedChargePoints = power > thresholdMainBarMax
 
     if power < thresholdMainBarMin then
-        self.finalChargeCount = math.ceil(power / thresholdMainBarMin * 3)
+        self.finalChargeCount = math.min(math.floor(power / thresholdMainBarMin * 4), 3)
     end
 
     self.time -= _G.delta_time / 10
+
+    -- Update state
+
+    self.checkpointHandler:pushState({
+        time = self.time
+    })
+end
+
+function GUIPowerLevel:startEnergyBar(config)
+    self.isActive = true
+    self.maxTime = config.time
+    self.time = config.time
+    self.objective = config.objective
+    self.checkpointName = config.checkpoint
+
+    self.checkpointHandler:pushState({
+        isActive = true,
+        time = config.time,
+        maxTime = config.time,
+        objective = config.objective,
+        checkpointName = config.checkpoint
+    })
+
+    self.isDisplayedChargePoints = true
+    self.finalChargeCount = 3
+
+    self:add()
+end
+
+function GUIPowerLevel:onEnergyDepleted()
+    if not self.isActive or not self.checkpointName then
+        return
+    end
+
+    self.isActive = false
+
+    -- Revert to checkpoint
+
+    Manager.emitEvent(EVENTS.ReturnToCheckpointNamed, self.checkpointName, function()
+        self:remove()
+    end)
+end
+
+function GUIPowerLevel:handleCheckpointRevert(state)
+    self.time = state.time or self.time
+    self.objective = state.objective or self.objective
+    self.checkpointName = state.checkpointName or self.checkpointName
+    self.isActive = state.isActive or self.isActive
+    self.maxTime = state.maxTime or self.maxTime
 end
