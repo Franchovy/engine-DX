@@ -81,7 +81,7 @@ function Menu:enter(previous)
   local shouldPlayMusic = MemoryCard.getShouldEnableMusic()
 
   if shouldPlayMusic and not FilePlayer.getInstance():isPlaying() then
-    FilePlayer.getInstance():play({ file = assets.tracks.menu })
+    FilePlayer.getInstance():playFile(assets.tracks.menu)
   end
 end
 

@@ -1,31 +1,52 @@
 local fileplayer <const> = playdate.sound.fileplayer
 
----@alias FileToPlay {file: string, loopCount: number, next: number}
+---@alias FileToPlay {file: string}
+---@alias Loop {asset: integer, count: integer}[]
+
+-- Local functions
 
 ---comment
 ---@param fileplayer _FilePlayer
 ---@param self FilePlayer
 local function _finishCallback(fileplayer, self)
-    if #self.fileQueue > 0 then
-        ---@type FileToPlay
-        local fileNext = table.remove(self.fileQueue, 1)
+    local loop = self.loops[self.loop]
+    local track = loop[self.loopIndex]
 
-        self:play(fileNext)
+    if track.count and self.loopCount < track.count then
+        -- Track in progress
+        self.loopCount += 1
     else
-        -- Keep repeating this loop
-        local loopCount = self.fileCurrent.loopCount
+        -- Track finished
 
-        if not self.isPaused and self.fileplayer then
-            self.fileplayer:play(loopCount or 1)
+        self.loopCount = 1
+
+        if self.loopIndex < #loop then
+            -- Go to next track
+            self.loopIndex += 1
+        else
+            self.loopIndex = 1
+
+            if #self.queue > 0 then
+                -- Play next loop
+
+                local nextLoop = table.remove(self.queue, 1)
+                self.loop = nextLoop
+                self.loopIndex = 1
+            end
         end
     end
+
+    self:play()
 end
 
 ---@class FilePlayer
 ---@field fileplayer playdate.sound.fileplayer
 ---@field fileCurrent FileToPlay currently playing file
----@field fileQueue FileToPlay[]
 ---@field files FileToPlay[]
+---@field loops Loop[]
+---@field loop integer
+---@field loopIndex integer
+---@field queue number[]
 FilePlayer = Class("FilePlayer")
 
 local _instance
@@ -44,30 +65,29 @@ function FilePlayer.load(config)
     local self = _instance
 
     if config.title then
-        self.files = MUSIC_CONFIG[config.title].assets
         self:clear()
+
+        self.files = MUSIC_CONFIG[config.title].assets
+        self.loops = MUSIC_CONFIG[config.title].loops
     end
 
     if config.loop
-        and self.files -- Ensure a track is loaded.
+        and self.files and self.loops -- Ensure a track is loaded.
     then
         if self.isPaused then
-            -- If paused, remove current fileplayer and queue
-
             self:clear()
-            self:play(self.files[config.loop])
-        elseif self.fileplayer == nil then
-            -- Load and play this track.
+        end
 
-            self:play(self.files[config.loop])
+        if self.fileplayer == nil then
+            -- If paused / not started, remove current fileplayer and play first loop
+
+            self.loop = config.loop
+
+            self:play()
         else
-            -- Add this track to queue.
+            -- Add this loop to queue.
 
-            if not self.fileQueue then
-                self.fileQueue = {}
-            end
-
-            table.insert(self.fileQueue, self.files[config.loop])
+            table.insert(self.queue, config.loop)
         end
     end
 end
@@ -100,7 +120,13 @@ end
 function FilePlayer:clear()
     self.fileCurrent = nil
     self.fileplayer = nil
-    self.fileQueue = {}
+    self.loops = {}
+    self.files = {}
+    self.queue = {}
+
+    self.loop = 1
+    self.loopIndex = 1
+    self.loopCount = 1
 end
 
 function FilePlayer:setPaused(shouldPause)
@@ -120,29 +146,26 @@ function FilePlayer:isPlaying()
 end
 
 ---comment
----@param fileConfig FileToPlay?
-function FilePlayer:play(fileConfig)
-    if fileConfig then
-        self.fileCurrent = fileConfig
-    end
+---@param file string
+function FilePlayer:playFile(file)
+    self:clear()
 
-    local fileplayer = assert(fileplayer.new(self.fileCurrent.file), "File not found!")
-    fileplayer:setVolume(self.volume)
+    self.fileplayer = fileplayer.new(file)
 
-    local loopCount = self.fileCurrent.loopCount
-    local next = self.fileCurrent.next
+    self.files = {
+        { file = file }
+    }
 
-    -- Switch over to next track
-    if not self.isPaused then
-        fileplayer:play(loopCount or 1)
-    end
+    self.loops = { { { asset = 1 } } }
 
-    fileplayer:setFinishCallback(_finishCallback, self)
+    self:play()
+end
 
-    self.fileplayer = fileplayer
+function FilePlayer:play()
+    local loop = self.loops[self.loop][self.loopIndex]
+    local file = self.files[loop.asset].file
 
-    if next then
-        -- Add next to queue
-        table.insert(self.fileQueue, self.files[next])
-    end
+    self.fileplayer = fileplayer.new(file)
+    self.fileplayer:play(1)
+    self.fileplayer:setFinishCallback(_finishCallback, self)
 end

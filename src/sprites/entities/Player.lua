@@ -619,6 +619,7 @@ function Player:updateActivations()
 
         if self.didJump and drillableBlock:getTicksToDrillLeft() <= preBreakJumpTicks then
             -- Consume block (early break with jump)
+            spDrill:stop()
             drillableBlock:consume()
             self.particlesDrilling:playEndAnimation()
         elseif self.didJump or pd.buttonJustReleased(pd.kButtonDown) then
