@@ -46,6 +46,31 @@ local function _showHideTimerCallback(timer, self)
   end
 end
 
+local function _updateButtonSpriteMask(self, sprite, i)
+  local image = sprite:getImage()
+  if self.chipSet[i] and image ~= imageButtonEmpty then
+    local imageMaskCurrent = image:getMaskImage()
+    local imageMaskNew
+
+    if not self:getIsPowered() and imageMaskCurrent ~= imageButtonMaskDefault then
+      -- Set enabled appearance (using image mask)
+
+      imageMaskNew = imageButtonMaskDefault
+    elseif self:getIsPowered() and imageMaskCurrent ~= imageButtonMaskFaded then
+      -- Set disabled appearance (using image mask)
+
+      imageMaskNew = imageButtonMaskFaded
+    end
+
+    -- Update appearance if needed
+    if imageMaskNew ~= nil then
+      image:setMaskImage(imageMaskNew)
+
+      sprite:markDirty()
+    end
+  end
+end
+
 -- Static Variables
 
 local shouldPowerUpNextTick = false
@@ -439,28 +464,12 @@ function GUIChipSet:updateButtonSpriteMasks()
   end
 
   for i, sprite in ipairs(buttonSprites) do
-    local image = sprite:getImage()
-    if self.chipSet[i] and image ~= imageButtonEmpty then
-      local imageMaskCurrent = image:getMaskImage()
-      local imageMaskNew
+    _updateButtonSpriteMask(self, sprite, i)
+  end
 
-      if not self:getIsPowered() and imageMaskCurrent ~= imageButtonMaskDefault then
-        -- Set enabled appearance (using image mask)
-
-        imageMaskNew = imageButtonMaskDefault
-      elseif self:getIsPowered() and imageMaskCurrent ~= imageButtonMaskFaded then
-        -- Set disabled appearance (using image mask)
-
-        imageMaskNew = imageButtonMaskFaded
-      end
-
-      -- Update appearance if needed
-      if imageMaskNew ~= nil then
-        image:setMaskImage(imageMaskNew)
-
-        sprite:markDirty()
-      end
-    end
+  for i, chipPickUp in ipairs(chipsPickUp) do
+    local sprite = chipPickUp.sprite
+    _updateButtonSpriteMask(self, sprite, i)
   end
 end
 
