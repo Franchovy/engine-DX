@@ -13,6 +13,7 @@ BOT_ANIMATION_STATES = {
 local DIALOG_STATES = {
     Unopened = 'unopened',
     Expanded = 'expanded',
+    Busy = 'busy',
     Finished = 'finished'
 }
 
@@ -308,7 +309,7 @@ function Bot:setupDialogLines(rawText)
                         self.walkDestination = targetPoint
 
                         self:closeDialogSprite()
-                        self.dialogState = DIALOG_STATES.Finished
+                        self.dialogState = DIALOG_STATES.Busy
 
                         return true
                     end
@@ -392,6 +393,8 @@ end
 
 function Bot:onBButtonPress()
     if self.dialogState == DIALOG_STATES.Expanded then
+        self:getNextLine()
+    elseif self.dialogState == DIALOG_STATES.Finished then
         self:getNextLine()
     end
 end
@@ -498,8 +501,6 @@ function Bot:update()
             -- Show next dialog line
 
             self:getNextLine()
-        elseif self.isActivated and self.dialogState == DIALOG_STATES.Expanded then
-            -- Continue dialog
         elseif not self.isActivated then
             -- No longer activated, close dialog
 
@@ -655,10 +656,7 @@ function Bot:addDialogSprite(text)
         width = width,
         padding = 8,
         nineSlice = nineSliceSpeech,
-        speed = 4.5,
-        onPageComplete = function()
-            self.timer = playdate.timer.performAfterDelay(durationDialog, self.getNextLine, self)
-        end
+        speed = 4.5
     }
 
     -- Clear previous dialog sprite
