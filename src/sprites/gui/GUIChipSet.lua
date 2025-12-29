@@ -30,9 +30,20 @@ local imageButtonMaskFaded
 
 ---@type _Sprite[]
 local buttonSprites = {}
+local yOffsetButtonSprite <const> = 15
 
 local function _makeButtonSpritePosition(n)
-  return 16 + (n - 1) * 26, 14
+  return 16 + (n - 1) * 26, yOffsetButtonSprite
+end
+
+local function _showHideTimerCallback(timer, self)
+  self:moveTo(0, timer.value)
+
+  -- Weird work-around to move button sprites down by 1.
+  for i, sprite in ipairs(buttonSprites) do
+    local xSprite, ySprite = _makeButtonSpritePosition(i)
+    sprite:moveTo(self.x + xSprite, self.y + ySprite + 1)
+  end
 end
 
 -- Static Variables
@@ -172,9 +183,7 @@ function GUIChipSet:hide()
 
   local startPos = timerAnimation ~= nil and timerAnimation.value or 0
   timerAnimation = playdate.timer.new(300, startPos, -self.height, playdate.easingFunctions.inQuad)
-  timerAnimation.updateCallback = function(timer)
-    self:moveTo(0, timer.value)
-  end
+  timerAnimation.updateCallback = function(timer) _showHideTimerCallback(timer, self) end
 end
 
 function GUIChipSet:show()
@@ -186,9 +195,7 @@ function GUIChipSet:show()
 
   local startPos = timerAnimation ~= nil and timerAnimation.value or -self.height
   timerAnimation = playdate.timer.new(300, startPos, 0, playdate.easingFunctions.outQuad)
-  timerAnimation.updateCallback = function(timer)
-    self:moveTo(0, timer.value)
-  end
+  timerAnimation.updateCallback = function(timer) _showHideTimerCallback(timer, self) end
 end
 
 function GUIChipSet:getIsPowered()
@@ -232,7 +239,7 @@ function GUIChipSet:performPickUp(button, sprite)
 
   -- If animatorChipPush is in progress, adapt end location to reflect animator progress
   if animatorChipPush and not animatorChipPush:ended() then
-    pointEnd.x = _makeButtonSpritePosition(math.min(#buttonSprites, 3) + #chipsPickUp -
+    pointEnd.x, pointEnd.y = _makeButtonSpritePosition(math.min(#buttonSprites, 3) + #chipsPickUp -
       animatorChipPush:progress())
   end
 
@@ -335,7 +342,7 @@ function GUIChipSet:update()
 end
 
 function GUIChipSet:updateButtonPickupAnimation()
-  if not (#chipsPickUp >= 1) then
+  if #chipsPickUp == 0 then
     return
   end
 
@@ -346,7 +353,8 @@ function GUIChipSet:updateButtonPickupAnimation()
       -- Update end position if push animation is ongoing
 
       if animatorChipPush and not animatorChipPush:ended() then
-        chipPickUp.animator.endValue.x = _makeButtonSpritePosition(math.min(#buttonSprites, 3) + i -
+        chipPickUp.animator.endValue.x, chipPickUp.animator.endValue.y = _makeButtonSpritePosition(math.min(
+            #buttonSprites, 3) + i -
           animatorChipPush:currentValue())
 
         chipPickUp.animator.change = chipPickUp.animator.endValue - chipPickUp.animator.startValue
