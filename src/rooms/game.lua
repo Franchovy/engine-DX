@@ -476,6 +476,12 @@ function Game:gameWillPause()
     playdate.setMenuImage(pauseImage, offset)
 end
 
+function Game:gameWillResume()
+    playdate.frameTimer.performAfterDelay(1, function()
+        Camera.setOffsetInstantaneous()
+    end)
+end
+
 function Game:createPauseMenuImage()
     local image = gfx.image.new(400, 240, gfx.kColorClear)
     gfx.pushContext(image)
