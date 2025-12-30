@@ -551,14 +551,19 @@ function Player:updateActivations()
         local tag = otherSprite:getTag()
         local isBelowCenter = self:centerX() < otherSprite:right() and self:centerX() > otherSprite:left()
 
-        -- If there are two bottom activations, choose only the one that is directly below the player.
+        -- If there are two bottom activations, + not centered
         if #self.activationsDown > 1 and not isBelowCenter then
-            goto continue
+            for _, otherSprite in ipairs(self.activationsDown) do
+                -- If there is another DrillableBlock, then let that take priority.
+                if otherSprite:getTag() == TAGS.DrillableBlock then
+                    goto continue
+                end
+            end
         end
 
         -- If Drilling
         if tag == TAGS.DrillableBlock then
-            if self:isHoldingDownKeyGated() and isBelowCenter then
+            if self:isHoldingDownKeyGated() then
                 -- Play drilling sound
                 if not spDrill:isPlaying() then
                     spDrill:play(1)
