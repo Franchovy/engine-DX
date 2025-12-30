@@ -682,7 +682,7 @@ function Player:updateWarp()
     -- Revert checkpoint if crank change is larger than threshold
 
     if crankWatch:getDidPassThreshold() then
-        crankValue += playdate.getCrankChange()
+        crankValue += math.abs(playdate.getCrankChange())
         local warpCount = 1 + math.floor((crankValue - crankThreshold) / crankIncrememntAdditionalThreshold)
 
         for i = 1, warpCount do

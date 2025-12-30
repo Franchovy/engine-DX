@@ -1,4 +1,5 @@
 ---@class CrankWatch: _Object
+---@operator call:CrankWatch
 CrankWatch = Class("CrankWatch")
 
 local crankChange = 0
