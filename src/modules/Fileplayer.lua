@@ -1,6 +1,5 @@
 local fileplayer <const> = playdate.sound.fileplayer
 
----@alias FileToPlay {file: string}
 ---@alias Loop {asset: integer, count: integer}[]
 
 -- Local functions
@@ -40,10 +39,8 @@ local function _finishCallback(fileplayer, self)
 end
 
 ---@class FilePlayer
----@field fileplayer playdate.sound.fileplayer
----@field fileCurrent FileToPlay currently playing file
----@field files FileToPlay[]
----@field fileplayers FilePlayer[]
+---@field fileplayer _FilePlayer
+---@field fileplayers _FilePlayer[]
 ---@field loops Loop[]
 ---@field loop integer
 ---@field loopIndex integer
@@ -68,12 +65,21 @@ function FilePlayer.load(config)
     if config.title then
         self:clearTrack()
 
-        self.files = MUSIC_CONFIG[config.title].assets
+        -- Load files into fileplayers
+        for i, asset in ipairs(MUSIC_CONFIG[config.title].assets) do
+            local fileplayerNew = fileplayer.new(asset)
+            table.insert(self.fileplayers, fileplayerNew)
+
+            -- Trigger initial load for fileplayer
+            fileplayerNew:play()
+            fileplayerNew:pause()
+        end
+
         self.loops = MUSIC_CONFIG[config.title].loops
     end
 
     if config.loop
-        and self.files and self.loops -- Ensure a track is loaded.
+        and self.fileplayers and self.loops -- Ensure a track is loaded.
     then
         if self.fileplayer == nil or self.isPaused then
             -- If paused / not started, remove current fileplayer and play first loop
@@ -83,7 +89,7 @@ function FilePlayer.load(config)
             if not self.isPaused then
                 self:play()
             else
-                -- Reset loop to head
+                -- Reset to new loop head
                 self:resetLoop()
             end
         else
@@ -120,10 +126,9 @@ function FilePlayer:stop()
 end
 
 function FilePlayer:clearTrack()
-    self.fileCurrent = nil
     self.fileplayer = nil
+    self.fileplayers = {}
     self.loops = {}
-    self.files = {}
     self.queue = {}
 
     self.loop = 1
@@ -165,9 +170,7 @@ function FilePlayer:playFile(file)
 
     self.fileplayer = fileplayer.new(file)
 
-    self.files = {
-        { file = file }
-    }
+    self.fileplayers = { self.fileplayer }
 
     self.loops = { { { asset = 1 } } }
 
@@ -176,9 +179,8 @@ end
 
 function FilePlayer:play()
     local loop = self.loops[self.loop][self.loopIndex]
-    local file = self.files[loop.asset].file
+    self.fileplayer = self.fileplayers[loop.asset]
 
-    self.fileplayer = fileplayer.new(file)
     self.fileplayer:play(1)
     self.fileplayer:setFinishCallback(_finishCallback, self)
 end
