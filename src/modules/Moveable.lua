@@ -8,7 +8,7 @@ Moveable = {}
 
 local coefficientTime = 1
 
----@alias Config {gravity: number?, movement:number|{air: {acceleration:number,friction:number?}, ground: {acceleration:number,friction:number?}},dash: {frames:integer,speed:number}?,jump: {speed:number, doubleJump:boolean?, coyoteFrames: integer?}?}
+---@alias Config {gravity: number?, movement:number|{air: {acceleration:number,friction:number?}, ground: {acceleration:number,friction:number?}},dash: {frames:integer,speed:number, rechargeAutomatically:boolean}?,jump: {speed:number, doubleJump:boolean?, coyoteFrames: integer?}?}
 
 ---@param config Config
 function Moveable:init(config)
@@ -35,7 +35,7 @@ function Moveable:init(config)
         self.speedDash = config.dash.speed
         self.framesDash = config.dash.frames
 
-        self.dashHandler = Dash()
+        self.dashHandler = Dash(config.dash.rechargeAutomatically)
     end
 
     if config.jump then

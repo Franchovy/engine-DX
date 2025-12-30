@@ -122,7 +122,8 @@ function Player:init(entityData, levelName, ...)
         },
         dash = {
             frames = 6,
-            speed = 32
+            speed = 32,
+            rechargeAutomatically = false
         }
     })
 
@@ -290,6 +291,10 @@ function Player:handleCheckpointRevert(state)
 
     if state.hasDoubleJumpRemaining ~= nil then
         self.hasDoubleJumpRemaining = state.hasDoubleJumpRemaining
+    end
+
+    if state.hasDashRemaining ~= nil then
+        self.dashHandler:setHasDashRemaining(state.hasDashRemaining)
     end
 end
 
@@ -656,7 +661,7 @@ function Player:updateActivations()
             end
 
             -- To make things more interesting, if the picked up key is a left/right/jump key, and Player has double-key,
-            -- then enable dash/double jump accordingly.
+            -- then enable dash/double jump as soon as it's picked up (not waiting for ground-touch.).
             ---@cast otherSprite Chip
             local button = otherSprite.button
             if GUIChipSet.getInstance():hasDoubleKey(button) then
@@ -731,6 +736,7 @@ function Player:updateCheckpointState()
         state = state or {}
 
         state.hasDoubleJumpRemaining = self.hasDoubleJumpRemaining
+        state.hasDashRemaining = self.dashHandler:getHasDashRemaining()
     end
 
     if state then

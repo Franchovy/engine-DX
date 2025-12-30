@@ -8,10 +8,12 @@ Dash = Class("Dash")
 -- Local constants
 
 local framesDashRemainingMax <const> = 2
-local framesDashCooldownMax <const> = 25
+local framesDashCooldownMax <const> = 16
 local msCooldownTime <const> = 500
 
-function Dash:init()
+---comment
+---@param rechargeAutomatically boolean
+function Dash:init(rechargeAutomatically)
     ---@type string|number
     self.lastKeyPressed = nil
     ---@type integer
@@ -22,6 +24,8 @@ function Dash:init()
     self.framesDashRemaining = framesDashRemainingMax
     ---@type boolean
     self.isActivated = false
+
+    self.rechargeAutomatically = rechargeAutomatically
 end
 
 function Dash:registerKeyPressed(key)
@@ -77,7 +81,20 @@ end
 
 function Dash:finish()
     self.isActivated = false
+
     self.framesDashCooldown = framesDashCooldownMax
+end
+
+function Dash:getHasDashRemaining()
+    return (not self.isActivated) and (self.framesDashRemaining == framesDashRemainingMax)
+end
+
+function Dash:setHasDashRemaining(isDashRemaining)
+    if not isDashRemaining then
+        self.framesDashRemaining = 0
+    else
+        self:recharge()
+    end
 end
 
 function Dash:updateFrame()
