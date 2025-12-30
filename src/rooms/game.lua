@@ -124,9 +124,10 @@ function Game:setupSystemMenu()
 
     -- Music enabled/disabled
     local shouldEnableMusic = MemoryCard.getShouldEnableMusic()
+    FilePlayer.getInstance():setPaused(not shouldEnableMusic, false)
 
     systemMenu:addCheckmarkMenuItem("music", shouldEnableMusic, function(shouldEnableMusic)
-        FilePlayer.getInstance():setPaused(not shouldEnableMusic)
+        FilePlayer.getInstance():setPaused(not shouldEnableMusic, true)
 
         MemoryCard.setShouldEnableMusic(shouldEnableMusic)
     end)

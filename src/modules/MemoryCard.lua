@@ -71,7 +71,7 @@ function MemoryCard.getValue(file, keyOrKeys, default)
         -- Get next nested element in table
         if t[key] then
           t = t[key]
-        else 
+        else
           -- Or return default, if table doesn't exist.
           return default
         end
@@ -162,7 +162,7 @@ end
 -- User Preferences
 
 function MemoryCard.setShouldEnableMusic(shouldEnableMusic)
-  MemoryCard.getValue(SAVE_FILE.GameData, "shouldEnableMusic", shouldEnableMusic)
+  MemoryCard.setValue(SAVE_FILE.GameData, "shouldEnableMusic", shouldEnableMusic)
 end
 
 function MemoryCard.getShouldEnableMusic()

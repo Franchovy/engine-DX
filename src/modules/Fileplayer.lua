@@ -43,6 +43,7 @@ end
 ---@field fileplayer playdate.sound.fileplayer
 ---@field fileCurrent FileToPlay currently playing file
 ---@field files FileToPlay[]
+---@field fileplayers FilePlayer[]
 ---@field loops Loop[]
 ---@field loop integer
 ---@field loopIndex integer
@@ -65,7 +66,7 @@ function FilePlayer.load(config)
     local self = _instance
 
     if config.title then
-        self:clear()
+        self:clearTrack()
 
         self.files = MUSIC_CONFIG[config.title].assets
         self.loops = MUSIC_CONFIG[config.title].loops
@@ -74,16 +75,17 @@ function FilePlayer.load(config)
     if config.loop
         and self.files and self.loops -- Ensure a track is loaded.
     then
-        if self.isPaused then
-            self:clear()
-        end
-
-        if self.fileplayer == nil then
+        if self.fileplayer == nil or self.isPaused then
             -- If paused / not started, remove current fileplayer and play first loop
 
             self.loop = config.loop
 
-            self:play()
+            if not self.isPaused then
+                self:play()
+            else
+                -- Reset loop to head
+                self:resetLoop()
+            end
         else
             -- Add this loop to queue.
 
@@ -96,7 +98,7 @@ function FilePlayer:init()
     self.volume = 0.7
     self.isPaused = false
 
-    self:clear()
+    self:clearTrack()
 
     ---@type _FilePlayer?
     self.fileplayer = nil
@@ -117,7 +119,7 @@ function FilePlayer:stop()
     end
 end
 
-function FilePlayer:clear()
+function FilePlayer:clearTrack()
     self.fileCurrent = nil
     self.fileplayer = nil
     self.loops = {}
@@ -129,15 +131,26 @@ function FilePlayer:clear()
     self.loopCount = 1
 end
 
-function FilePlayer:setPaused(shouldPause)
+function FilePlayer:resetLoop()
+    -- Clear queue
+    self.queue = {}
+
+    -- Set track to loop head
+    self.loopIndex = 1
+    self.loopCount = 1
+end
+
+function FilePlayer:setPaused(shouldPause, shouldPlay)
     self.isPaused = shouldPause
 
-    if self.fileplayer then
-        if shouldPause then
+    if shouldPause then
+        if self.fileplayer then
             self.fileplayer:pause()
-        else
-            self:play()
         end
+    end
+
+    if not shouldPause and shouldPlay then
+        self:play()
     end
 end
 
@@ -148,7 +161,7 @@ end
 ---comment
 ---@param file string
 function FilePlayer:playFile(file)
-    self:clear()
+    self:clearTrack()
 
     self.fileplayer = fileplayer.new(file)
 
