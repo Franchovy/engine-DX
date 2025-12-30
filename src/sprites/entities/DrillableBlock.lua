@@ -31,7 +31,6 @@ end
 
 function DrillableBlock:activateDown()
     if self.ticksToDrill >= maxTicksToDrill then
-
         self:consume()
     else
         self.ticksToDrill += 1
@@ -86,8 +85,8 @@ end
 function DrillableBlock:handleCheckpointRevert(state)
     if self.fields.consumed and not state.consumed then
         local sfx = spListBlockCrush[math.random(1, 4)]
-        sfx:setOffset(0.3)
         sfx:play(1, -1)
+        sfx:setOffset(0.36)
     end
 
     DrillableBlock.super.handleCheckpointRevert(self, state)

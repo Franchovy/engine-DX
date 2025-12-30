@@ -50,3 +50,12 @@ function Chip:activate()
 
   self:consume()
 end
+
+function Chip:handleCheckpointRevert(state)
+  if self.fields.consumed and not state.consumed then
+    spCollect:play(1, -1)
+    spCollect:setOffset(0.26)
+  end
+
+  Chip.super.handleCheckpointRevert(self, state)
+end
