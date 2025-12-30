@@ -281,10 +281,16 @@ function Player:unfreeze()
 end
 
 function Player:handleCheckpointRevert(state)
-    self:moveTo(state.x, state.y)
+    if state.x and state.y then
+        self:moveTo(state.x, state.y)
 
-    self.latestCheckpointPosition.x = state.x
-    self.latestCheckpointPosition.y = state.y
+        self.latestCheckpointPosition.x = state.x
+        self.latestCheckpointPosition.y = state.y
+    end
+
+    if state.hasDoubleJumpRemaining ~= nil then
+        self.hasDoubleJumpRemaining = state.hasDoubleJumpRemaining
+    end
 end
 
 function Player:moveLeft()
@@ -709,14 +715,26 @@ function Player:updateWarp()
 end
 
 function Player:updateCheckpointState()
+    local state = nil
+
     if self.x ~= self.latestCheckpointPosition.x or self.y ~= self.latestCheckpointPosition.y then
         self.latestCheckpointPosition.x = self.x
         self.latestCheckpointPosition.y = self.y
 
-        self.checkpointHandler:pushState({
-            x = self.latestCheckpointPosition.x,
-            y = self.latestCheckpointPosition.y,
-        })
+        state = state or {}
+
+        state.x = self.latestCheckpointPosition.x
+        state.y = self.latestCheckpointPosition.y
+    end
+
+    if not self:getIsTouchingGround() then
+        state = state or {}
+
+        state.hasDoubleJumpRemaining = self.hasDoubleJumpRemaining
+    end
+
+    if state then
+        self.checkpointHandler:pushState(state)
 
         Checkpoint.increment()
     end
