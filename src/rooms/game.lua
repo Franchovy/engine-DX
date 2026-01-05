@@ -42,6 +42,9 @@ function Game:init(filepathLevel)
 
     local progressDataLevel = MemoryCard.levelProgressToLoad(filepathLevel)
 
+    -- Clear pathfinding data
+    LDTkPathFinding.unload()
+
     worldCurrent = LDtkWorld(filepathLevel, progressDataLevel)
     worldCurrent.isCompleted = false
 
