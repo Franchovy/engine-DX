@@ -12,9 +12,6 @@ local gfx <const> = playdate.graphics
 local timer <const> = playdate.timer
 local frameTimer <const> = playdate.frameTimer
 
-local imageLogo <const> = assert(gfx.image.new(assets.images.logo))
-
-local showLogo = true
 local last_time = 0
 
 --- @class SCENES : table
@@ -83,8 +80,6 @@ local function init()
 
   -- Hide logo
 
-  showLogo = false
-
   gfx.sprite.setAlwaysRedraw(true)
 end
 
@@ -94,11 +89,6 @@ function playdate.update()
   frameTimer.updateTimers()
 
   CrankWatch.update()
-
-  if showLogo then
-    imageLogo:drawAnchored(200, 120, 0.5, 0.5)
-    return
-  end
 
   updateDeltaTime()
 
@@ -239,4 +229,4 @@ if playdate.isSimulator then
   playdate.keyPressed = _debugKeypress
 end
 
-playdate.timer.performAfterDelay(1000, init)
+init()
