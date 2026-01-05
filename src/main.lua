@@ -41,9 +41,6 @@ local function init()
   gfx.setBackgroundColor(0)
   gfx.clear(0)
 
-  -- Modal message
-
-  GUIModalMessage()
 
   -- Settings
 
@@ -51,13 +48,15 @@ local function init()
     performanceMode = false
   })
 
+  -- Instantiate global singletons
+
+  GUIModalMessage()
+  Transition()
+  FilePlayer()
+
   -- DEBUG: - Memory Clear
 
   -- MemoryCard.clearAll()
-
-  -- FilePlayer instantiation
-
-  FilePlayer()
 
   -- Read file paths
 

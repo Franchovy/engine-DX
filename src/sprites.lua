@@ -1,3 +1,4 @@
 import "sprites/entities"
 import "sprites/gui"
 import "sprites/effects"
+import "sprites/menu"

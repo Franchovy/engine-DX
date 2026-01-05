@@ -55,7 +55,6 @@ function Game:init(filepathLevel)
 
     --
 
-    Transition()
     GUILightingEffect()
     Background()
     GUILevelName()

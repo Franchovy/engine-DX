@@ -21,21 +21,8 @@ _G.assets = {
         box = "assets/images/box",
         background = "assets/images/background",
         background2 = "assets/images/background-2",
-        menu = {
-            buttonAStart = "assets/images/menu/A-Start",
-            buttonAContinue = "assets/images/menu/A-Continue",
-            buttonBLevelSelect = "assets/images/menu/B-LevelSelect",
-            title = "assets/images/menu/title"
-        },
-        botFaces = {
-            [1] = "assets/images/bots/B-face",
-            [2] = "assets/images/bots/C-face",
-            [3] = "assets/images/bots/D-face",
-            [4] = "assets/images/bots/E-face",
-            [5] = "assets/images/bots/F-face",
-            [6] = "assets/images/bots/G-face",
-            [7] = "assets/images/bots/H-face",
-        }
+        title = "assets/images/Discontrolled-title",
+        menuItem = "assets/images/Menu-Item"
     },
     imageTables = {
         elevatorLarge = "assets/images/elevator-large",

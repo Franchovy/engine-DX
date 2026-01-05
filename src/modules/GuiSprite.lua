@@ -18,7 +18,11 @@ end
 
 --- Returns the singleton instance of the GuiSprite.
 --- @return GuiSprite
-function GuiSprite:getInstance() return assert(self.instance, "Instance of GUI class needs to be created!") end
+function GuiSprite:getInstance()
+    assert(self, "You should call GuiSprite:getInstance() with a colon (:), not a period (.).")
+
+    return assert(self.instance, "Instance of GUI class needs to be created!")
+end
 
 function GuiSprite:destroy()
     if self.instance then

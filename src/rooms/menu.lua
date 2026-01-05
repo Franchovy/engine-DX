@@ -4,18 +4,24 @@ local gfx <const> = pd.graphics
 
 -- Constants / Assets
 
-local imageSpriteRobot <const> = assert(gfx.imagetable.new(assets.imageTables.player))
-local imageTitle <const> = assert(gfx.image.new(assets.images.menu.title))
-local imageButtonAStart <const> = assert(gfx.image.new(assets.images.menu.buttonAStart))
-local imageButtonAContinue <const> = assert(gfx.image.new(assets.images.menu.buttonAContinue))
-local imageButtonBLevelSelect <const> = assert(gfx.image.new(assets.images.menu.buttonBLevelSelect))
 local spButton = assert(sound.sampleplayer.new(assets.sounds.menuSelect))
+local imageTitle <const> = assert(gfx.image.new(assets.images.title))
 
 -- Local Variables
 
-local spriteRobot
 local sceneManager
 local isFirstTimePlay
+local spriteTitle
+local menuOptions
+local selectedIndex = { 1, 1 }
+
+local function _performOnMenuItems(fn)
+  for i, row in ipairs(menuOptions) do
+    for j, item in ipairs(row) do
+      fn(item, i, j)
+    end
+  end
+end
 
 -- Level Selection
 
@@ -36,13 +42,26 @@ function Menu:enter(previous)
 
   isFirstTimePlay = MemoryCard.getLastPlayed() == nil
 
-  -- Draw player sprite
+  -- Create menu options
 
-  spriteRobot = AnimatedSprite.new(imageSpriteRobot)
-  spriteRobot:addState("placeholder-name", 9, 12, { tickStep = 2 }).asDefault()
-  spriteRobot:add()
-  spriteRobot:moveTo(200, 160)
-  spriteRobot:playAnimation()
+  if isFirstTimePlay then
+    menuOptions = {
+      MenuItem("New Game"),
+      MenuItem("Options"),
+    }
+  else
+    menuOptions = {
+      {
+        MenuItem("Continue"),
+        MenuItem("Load Game")
+
+      },
+      {
+        MenuItem("Options"),
+        MenuItem("Credits")
+      }
+    }
+  end
 
   -- Reset draw offset
 
@@ -71,10 +90,19 @@ function Menu:enter(previous)
     end
   end
 
-  self.image = self:createMenuImage()
-  self.sprite = gfx.sprite.new(self.image)
-  self.sprite:setCenter(0, 0)
-  self.sprite:add()
+  -- Add title
+
+  spriteTitle = gfx.sprite.new(imageTitle)
+  spriteTitle:moveTo(200, 120)
+  spriteTitle:add()
+
+  -- Animate in menu
+
+  local transition = Transition:getInstance()
+  transition:add()
+  transition:fadeIn(1600, function()
+    self:animateInMenuOptions()
+  end)
 
   -- Play music
 
@@ -85,42 +113,41 @@ function Menu:enter(previous)
   end
 end
 
+function Menu:animateInMenuOptions()
+  local frametimer = playdate.frameTimer.new(60, 80, 0, playdate.easingFunctions.inOutExpo)
+
+  _performOnMenuItems(function(item, i, j)
+    item:add()
+  end)
+
+  frametimer.updateCallback = function(timer)
+    local value = timer.value
+    spriteTitle:moveTo(200, 40 + value)
+
+    _performOnMenuItems(function(item, i, j)
+      item:moveTo(100 + (j - 1) * 200, 100 + (i - 1) * 80 + value)
+    end)
+  end
+
+  frametimer.timerEndedCallback = function(timer)
+    self:updateSelectedMenuItem()
+  end
+
+  frametimer:start()
+end
+
 function Menu:leave(next, ...)
   -- destroy entities and cleanup resources
 
-  spriteRobot:remove()
+  spriteTitle:remove()
+
+  _performOnMenuItems(function(item)
+    item:remove()
+  end)
 
   if next.class == Game then
     FilePlayer.getInstance():stop()
   end
-end
-
-function Menu:createMenuImage()
-  local image = gfx.image.new(400, 240)
-
-  gfx.pushContext(image)
-
-  -- Draw Title Image
-  imageTitle:drawAnchored(200, 20, 0.5, 0)
-
-  -- Draw Button Images
-  if isFirstTimePlay then
-    imageButtonAStart:drawAnchored(30, 216, 0, 1)
-  else
-    imageButtonAContinue:drawAnchored(30, 216, 0, 1)
-    imageButtonBLevelSelect:drawAnchored(370, 216, 1, 1)
-  end
-
-  -- Draw collectibles count
-  if self.collectiblesCount and self.collectiblesCount > 0 then
-    gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-    gfx.drawTextAligned("Collectibles: " .. self.collectiblesCount, 4, 4, kTextAlignment.left)
-    gfx.setImageDrawMode(gfx.kDrawModeCopy)
-  end
-
-  gfx.popContext()
-
-  return image
 end
 
 function Menu:AButtonDown()
@@ -176,4 +203,54 @@ function Menu:BButtonHeld()
   GUIModalMessage.showMessage(
     shouldActivatePerformanceMode and "Performance Mode Activated." or "Performance Mode Turned Off."
   )
+end
+
+function Menu:upButtonDown()
+  local i, j = table.unpack(selectedIndex)
+
+  i = math.max(1, i - 1)
+
+  selectedIndex = { i, j }
+
+  self:updateSelectedMenuItem()
+end
+
+function Menu:downButtonDown()
+  local i, j = table.unpack(selectedIndex)
+
+  i = math.min(2, i + 1)
+
+  selectedIndex = { i, j }
+
+  self:updateSelectedMenuItem()
+end
+
+function Menu:rightButtonDown()
+  local i, j = table.unpack(selectedIndex)
+
+  j = math.min(2, j + 1)
+
+  selectedIndex = { i, j }
+
+  self:updateSelectedMenuItem()
+end
+
+function Menu:leftButtonDown()
+  local i, j = table.unpack(selectedIndex)
+
+  j = math.max(1, j - 1)
+
+  selectedIndex = { i, j }
+
+  self:updateSelectedMenuItem()
+end
+
+function Menu:updateSelectedMenuItem()
+  _performOnMenuItems(function(item, i, j)
+    if selectedIndex[1] == i and selectedIndex[2] == j then
+      item:setSelected(true)
+    else
+      item:setSelected(false)
+    end
+  end)
 end
