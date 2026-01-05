@@ -22,7 +22,9 @@ _G.assets = {
         background = "assets/images/background",
         background2 = "assets/images/background-2",
         title = "assets/images/Discontrolled-title",
-        menuItem = "assets/images/Menu-Item"
+        menuItem = "assets/images/Menu-Item",
+        menuChoose = "assets/images/menu-choose-indicator",
+        menuSelect = "assets/images/menu-select-indicator",
     },
     imageTables = {
         elevatorLarge = "assets/images/elevator-large",

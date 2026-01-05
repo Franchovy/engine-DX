@@ -9,7 +9,7 @@ function MenuItem:init(menuItemText)
     local image = image:copy()
 
     gfx.pushContext(image)
-    textImage:draw(18, 6)
+    textImage:draw(22, 10)
     gfx.popContext()
 
     self.baseImage = image

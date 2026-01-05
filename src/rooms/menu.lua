@@ -6,6 +6,8 @@ local gfx <const> = pd.graphics
 
 local spButton = assert(sound.sampleplayer.new(assets.sounds.menuSelect))
 local imageTitle <const> = assert(gfx.image.new(assets.images.title))
+local imageIndicatorChoose <const> = assert(gfx.image.new(assets.images.menuChoose))
+local imageIndicatorSelect <const> = assert(gfx.image.new(assets.images.menuSelect))
 
 -- Local Variables
 
@@ -14,6 +16,8 @@ local isFirstTimePlay
 local spriteTitle
 local menuOptions
 local selectedIndex = { 1, 1 }
+local spriteIndicatorChoose
+local spriteIndicatorSelect
 
 local function _performOnMenuItems(fn)
   for i, row in ipairs(menuOptions) do
@@ -53,15 +57,28 @@ function Menu:enter(previous)
     menuOptions = {
       {
         MenuItem("Continue"),
-        MenuItem("Load Game")
-
+        MenuItem("Options"),
       },
       {
-        MenuItem("Options"),
+        MenuItem("Load Game"),
         MenuItem("Credits")
       }
     }
   end
+
+  -- Add indicators
+
+  spriteIndicatorChoose = gfx.sprite.new(imageIndicatorChoose)
+  spriteIndicatorSelect = gfx.sprite.new(imageIndicatorSelect)
+
+  spriteIndicatorChoose:setIgnoresDrawOffset(true)
+  spriteIndicatorSelect:setIgnoresDrawOffset(true)
+
+  spriteIndicatorChoose:moveTo(60, 220)
+  spriteIndicatorSelect:moveTo(340, 220)
+
+  spriteIndicatorChoose:add()
+  spriteIndicatorSelect:add()
 
   -- Reset draw offset
 
@@ -94,6 +111,7 @@ function Menu:enter(previous)
 
   spriteTitle = gfx.sprite.new(imageTitle)
   spriteTitle:moveTo(200, 120)
+  spriteTitle:setIgnoresDrawOffset(true)
   spriteTitle:add()
 
   -- Animate in menu
@@ -103,6 +121,10 @@ function Menu:enter(previous)
   transition:fadeIn(1600, function()
     self:animateInMenuOptions()
   end)
+
+  -- LDtk world in background
+
+  self:setupLDtkWorld()
 
   -- Play music
 
@@ -118,6 +140,7 @@ function Menu:animateInMenuOptions()
 
   _performOnMenuItems(function(item, i, j)
     item:add()
+    item:setIgnoresDrawOffset(true)
   end)
 
   frametimer.updateCallback = function(timer)
@@ -125,7 +148,7 @@ function Menu:animateInMenuOptions()
     spriteTitle:moveTo(200, 40 + value)
 
     _performOnMenuItems(function(item, i, j)
-      item:moveTo(100 + (j - 1) * 200, 100 + (i - 1) * 80 + value)
+      item:moveTo(100 + (j - 1) * 200, 100 + (i - 1) * 60 + value)
     end)
   end
 
@@ -134,16 +157,52 @@ function Menu:animateInMenuOptions()
   end
 
   frametimer:start()
+
+  self.animateInTimer = frametimer
+end
+
+function Menu:setupLDtkWorld()
+  -- LDTK World
+
+  self.world = LDtkWorld("assets/worlds/menu.ldtk")
+  self.world:loadLevel("Level_0")
+
+  self:startBGWorldAnimation()
+end
+
+function Menu:startBGWorldAnimation()
+  local bounds = LDtk.get_rect("Level_0")
+  gfx.setDrawOffset(-bounds.x, -bounds.y)
+
+  local frametimer = playdate.frameTimer.new(2000, 0, bounds.width - 400)
+
+  frametimer.delay = 40
+
+  frametimer:start()
+  frametimer.updateCallback = function(timer)
+    gfx.setDrawOffset(-bounds.x - timer.value, -bounds.y)
+  end
+
+  frametimer.timerEndedCallback = function(timer)
+    playdate.timer.performAfterDelay(3000, function()
+      self:startBGWorldAnimation()
+    end)
+  end
+
+  self.worldTimer = frametimer
 end
 
 function Menu:leave(next, ...)
   -- destroy entities and cleanup resources
 
-  spriteTitle:remove()
+  if self.animateInTimer then
+    self.animateInTimer:remove()
+  end
+  if self.worldTimer then
+    self.worldTimer:remove()
+  end
 
-  _performOnMenuItems(function(item)
-    item:remove()
-  end)
+  gfx.sprite.removeAll()
 
   if next.class == Game then
     FilePlayer.getInstance():stop()
@@ -151,6 +210,10 @@ function Menu:leave(next, ...)
 end
 
 function Menu:AButtonDown()
+  if not self.animateInTimer then
+    return
+  end
+
   local filepathLevel = MemoryCard.getLastPlayed()
 
   if filepathLevel then

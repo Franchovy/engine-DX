@@ -27,7 +27,10 @@ function ReadFile.initialize()
 
     for _, filenameArea in pairs(filesAreas) do
         local indexArea, nameArea = string.match(filenameArea, "^(%d+)%s%-%s(.+)/$")
-        assert(indexArea and nameArea, "Invalid levels section/folder naming format!")
+
+        if not (indexArea and nameArea) then
+            goto continue1
+        end
 
         table.insert(areas, indexArea, nameArea)
         worlds[nameArea] = {}
@@ -39,7 +42,7 @@ function ReadFile.initialize()
         for _, filenameWorld in pairs(filesLevels) do
             -- Skip ldtk backup folders
             if string.match(filenameWorld, "^(%d+)%s%-%s(.+)/$") then
-                goto continue
+                goto continue2
             end
 
             local indexWorld, nameWorld = string.match(filenameWorld, "^(%d+)%s%-%s(.+)(.ldtk)$")
@@ -47,8 +50,10 @@ function ReadFile.initialize()
 
             table.insert(worlds[nameArea], indexWorld, nameWorld)
 
-            ::continue::
+            ::continue2::
         end
+
+        ::continue1::
     end
 
     -- Populate reverse lookup table for areas and worlds
