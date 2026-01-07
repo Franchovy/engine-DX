@@ -17,7 +17,9 @@ local spriteTitle
 ---@type MenuItem[][] 2-D Array of menu items
 local menuOptions
 local selectedIndex = { 1, 1 }
+---@type _Sprite
 local spriteIndicatorChoose
+---@type _Sprite
 local spriteIndicatorSelect
 
 ---comment
@@ -80,9 +82,6 @@ function Menu:enter(previous)
   spriteIndicatorChoose:moveTo(60, 220)
   spriteIndicatorSelect:moveTo(340, 220)
 
-  spriteIndicatorChoose:add()
-  spriteIndicatorSelect:add()
-
   -- Reset draw offset
 
   gfx.setDrawOffset(0, 0)
@@ -139,7 +138,7 @@ function Menu:enter(previous)
 end
 
 function Menu:animateInMenuOptions()
-  -- Fade in the menu items
+  -- Set up: add and create mask image base
 
   local menuItem = menuOptions[1][1]
   local menuItemImageMask = menuItem:getImage():getMaskImage():copy()
@@ -150,6 +149,8 @@ function Menu:animateInMenuOptions()
     item:add()
     item:setIgnoresDrawOffset(true)
   end)
+
+  -- Frametimer for moving & fade animation
 
   local frametimer = playdate.frameTimer.new(60, 80, 0, playdate.easingFunctions.inOutExpo)
   frametimer.updateCallback = function(timer)
@@ -168,12 +169,50 @@ function Menu:animateInMenuOptions()
   end
 
   frametimer.timerEndedCallback = function(timer)
+    self:animateInIndicators()
+
     self:updateSelectedMenuItem()
   end
 
   frametimer:start()
 
   self.animateInTimer = frametimer
+end
+
+function Menu:animateInIndicators()
+  local maskIndicatorChoose = imageIndicatorChoose:getMaskImage():copy()
+  local maskIndicatorSelect = imageIndicatorSelect:getMaskImage():copy()
+
+  local baseImageChoose = gfx.image.new(maskIndicatorChoose.width, maskIndicatorChoose.height, gfx.kColorBlack)
+  local baseImageSelect = gfx.image.new(maskIndicatorSelect.width, maskIndicatorSelect.height, gfx.kColorBlack)
+
+  spriteIndicatorChoose:getImage():setMaskImage(baseImageChoose)
+  spriteIndicatorSelect:getImage():setMaskImage(baseImageSelect)
+
+  spriteIndicatorChoose:add()
+  spriteIndicatorSelect:add()
+
+  -- Fade in
+
+  local frametimer = playdate.frameTimer.new(20, 0, 1)
+
+  frametimer.updateCallback = function(timer)
+    local value = timer.value
+
+    gfx.pushContext(baseImageChoose)
+    maskIndicatorChoose:drawFaded(0, 0, value, gfx.image.kDitherTypeAtkinson)
+    gfx.popContext()
+
+    spriteIndicatorChoose:getImage():setMaskImage(baseImageChoose)
+
+    gfx.pushContext(baseImageSelect)
+    maskIndicatorSelect:drawFaded(0, 0, value, gfx.image.kDitherTypeAtkinson)
+    gfx.popContext()
+
+    spriteIndicatorSelect:getImage():setMaskImage(baseImageSelect)
+  end
+
+  frametimer:start()
 end
 
 function Menu:setupLDtkWorld()
@@ -199,9 +238,7 @@ function Menu:startBGWorldAnimation()
   end
 
   frametimer.timerEndedCallback = function(timer)
-    playdate.timer.performAfterDelay(3000, function()
-      self:startBGWorldAnimation()
-    end)
+    self:startBGWorldAnimation()
   end
 
   self.worldTimer = frametimer
