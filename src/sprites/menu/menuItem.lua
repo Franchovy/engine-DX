@@ -2,6 +2,7 @@ local gfx <const> = playdate.graphics
 
 local image <const> = assert(gfx.image.new(assets.images.menuItem))
 
+---@class MenuItem : _Sprite
 MenuItem = Class("MenuItem", gfx.sprite)
 
 function MenuItem:init(menuItemText)

@@ -14,11 +14,14 @@ local imageIndicatorSelect <const> = assert(gfx.image.new(assets.images.menuSele
 local sceneManager
 local isFirstTimePlay
 local spriteTitle
+---@type MenuItem[][] 2-D Array of menu items
 local menuOptions
 local selectedIndex = { 1, 1 }
 local spriteIndicatorChoose
 local spriteIndicatorSelect
 
+---comment
+---@param fn fun(item: MenuItem, i: number, j: number)
 local function _performOnMenuItems(fn)
   for i, row in ipairs(menuOptions) do
     for j, item in ipairs(row) do
@@ -136,18 +139,30 @@ function Menu:enter(previous)
 end
 
 function Menu:animateInMenuOptions()
-  local frametimer = playdate.frameTimer.new(60, 80, 0, playdate.easingFunctions.inOutExpo)
+  -- Fade in the menu items
+
+  local menuItem = menuOptions[1][1]
+  local menuItemImageMask = menuItem:getImage():getMaskImage():copy()
+  local baseImage = gfx.image.new(menuItemImageMask.width, menuItemImageMask.height, gfx.kColorBlack)
 
   _performOnMenuItems(function(item, i, j)
+    item:getImage():setMaskImage(baseImage)
     item:add()
     item:setIgnoresDrawOffset(true)
   end)
 
+  local frametimer = playdate.frameTimer.new(60, 80, 0, playdate.easingFunctions.inOutExpo)
   frametimer.updateCallback = function(timer)
     local value = timer.value
+    local progress = 1 - (value / 80) ^ 0.25
     spriteTitle:moveTo(200, 40 + value)
 
+    gfx.pushContext(baseImage)
+    menuItemImageMask:drawFaded(0, 0, progress, gfx.image.kDitherTypeAtkinson)
+    gfx.popContext()
+
     _performOnMenuItems(function(item, i, j)
+      item:getImage():setMaskImage(baseImage)
       item:moveTo(100 + (j - 1) * 200, 100 + (i - 1) * 60 + value)
     end)
   end
