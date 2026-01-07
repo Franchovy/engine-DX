@@ -80,6 +80,7 @@ local isPoweredPermanent = false
 local chipSetNeedsUpdate = false
 local isHidden = false
 local timerAnimation = nil
+local isAdded = false
 
 ---@alias ChipPickup { x : number, y : number, button : KEYNAMES, sprite : _Sprite, animator: _Animator }
 
@@ -172,6 +173,8 @@ end
 function GUIChipSet:add()
   GUIChipSet.super.add(self)
 
+  isAdded = true
+
   for _, sprite in ipairs(buttonSprites) do
     sprite:add()
   end
@@ -183,6 +186,8 @@ end
 
 function GUIChipSet:remove()
   GUIChipSet.super.remove(self)
+
+  isAdded = false
 
   for _, sprite in ipairs(buttonSprites) do
     sprite:remove()
@@ -260,19 +265,32 @@ function GUIChipSet:performPickUp(button, sprite)
   chipPickup:moveTo(xChip, yChip)
   chipPickup:add()
 
-  local pointEnd = geo.point.new(_makeButtonSpritePosition(#buttonSprites + #chipsPickUp + 1))
+  if isAdded then
+    local pointEnd = geo.point.new(_makeButtonSpritePosition(#buttonSprites + #chipsPickUp + 1))
 
-  -- If animatorChipPush is in progress, adapt end location to reflect animator progress
-  if animatorChipPush and not animatorChipPush:ended() then
-    pointEnd.x, pointEnd.y = _makeButtonSpritePosition(math.min(#buttonSprites, 3) + #chipsPickUp -
-      animatorChipPush:progress())
+    -- If animatorChipPush is in progress, adapt end location to reflect animator progress
+    if animatorChipPush and not animatorChipPush:ended() then
+      pointEnd.x, pointEnd.y = _makeButtonSpritePosition(math.min(#buttonSprites, 3) + #chipsPickUp -
+        animatorChipPush:progress())
+    end
+
+    animatorChipPickup = gfx.animator.new(800, geo.point.new(xChip, yChip), pointEnd,
+      playdate.easingFunctions.inOutExpo)
+
+    table.insert(chipsPickUp,
+      { x = xChip, y = yChip, button = button, sprite = chipPickup, animator = animatorChipPickup })
+  else
+    -- Alternative animation for when GUIChipSet is not visible
+    local frameTimer = playdate.frameTimer.new(16, 1, 0)
+    local image = chipPickup:getImage()
+    frameTimer.updateCallback = function(timer)
+      chipPickup:setImage(image:fadedImage(timer.value, gfx.image.kDitherTypeAtkinson))
+    end
+
+    frameTimer.timerEndedCallback = function()
+      chipPickup:remove()
+    end
   end
-
-  animatorChipPickup = gfx.animator.new(800, geo.point.new(xChip, yChip), pointEnd,
-    playdate.easingFunctions.inOutExpo)
-
-  table.insert(chipsPickUp,
-    { x = xChip, y = yChip, button = button, sprite = chipPickup, animator = animatorChipPickup })
 end
 
 function GUIChipSet:addButton(chip)

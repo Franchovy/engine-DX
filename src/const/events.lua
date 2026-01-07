@@ -12,5 +12,6 @@ EVENTS = {
     SavePointSet = 'savePointSet',
     WorldComplete = 'worldComplete',
     CollectiblePickup = "collectiblePickup",
-    ReturnToCheckpointNamed = "returnToCheckpointNamed"
+    ReturnToCheckpointNamed = "returnToCheckpointNamed",
+    EnableCinematicMode = 'enableCinematicMode'
 }

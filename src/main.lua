@@ -122,6 +122,8 @@ playdate.gameWillResume = Manager.gameWillResume
 
 -- Debug methods to modify crank value
 
+local isEnabledCinematicMode = false
+
 if playdate.isSimulator then
   local keyCombinationChipset = nil
   local keyCombinationTeleport = nil
@@ -130,12 +132,18 @@ if playdate.isSimulator then
     local debugCrankValue = nil
 
     if not (keyCombinationTeleport or keyCombinationChipset) then
+      -- Warp shortcuts
       if key == "1" then
         debugCrankValue = Player.__getCrankThreshold() * 2
       elseif key == "2" then
         debugCrankValue = Player.__getCrankThreshold() * 2 + Player.__getCrankThresholdIncrementAdditional()
       elseif key == "3" then
         debugCrankValue = Player.__getCrankThreshold() * 2 + Player.__getCrankThresholdIncrementAdditional() * 3
+      elseif key == "c" then
+        -- Toggle Cinematic mode
+        isEnabledCinematicMode = not isEnabledCinematicMode
+
+        Manager.emitEvent(EVENTS.EnableCinematicMode, isEnabledCinematicMode)
       end
     end
 

@@ -23,6 +23,8 @@ local offsetView = {
     y = viewOffsetYDefault
 }
 
+local zoom = 1
+
 local drawOffsetTarget = geo.point.new(0, 0)
 
 -- Independently track level bounds and draw offset.
@@ -67,6 +69,14 @@ function Camera.load(config)
     else
         focusPoint = nil
     end
+end
+
+function Camera.setZoom(zoomNew)
+    assert(zoomNew == 1 or zoomNew == 2 or zoomNew == 4 or zoomNew == 8,
+        "Error: Only powers of 2 are supported for now.")
+    zoom = zoomNew
+
+    playdate.display.setScale(zoomNew)
 end
 
 function Camera.setOffset(x, y)
@@ -118,20 +128,23 @@ function Camera.calculateDrawOffsetTarget()
     local xIdeal, yIdeal
     local player = Player.getInstance()
 
+    local offsetViewX, offsetViewY = offsetView.x / zoom, offsetView.y / zoom
+    local displayWidth, displayHeight = 400 / zoom, 240 / zoom
+
     if focusPoint then
         if isSoftFocus and player then
             -- Balance Focus point and Player
 
-            xIdeal, yIdeal = (focusPoint.x + player.x) / 2 - offsetView.x, (focusPoint.y + player.y) / 2 - offsetView.y
+            xIdeal, yIdeal = (focusPoint.x + player.x) / 2 - offsetViewX, (focusPoint.y + player.y) / 2 - offsetViewY
         else
             -- Fix on Focus point
 
-            xIdeal, yIdeal = focusPoint.x - offsetView.x, focusPoint.y - offsetView.y
+            xIdeal, yIdeal = focusPoint.x - offsetViewX, focusPoint.y - offsetViewY
         end
     elseif player then
         -- Fix on Player
 
-        xIdeal, yIdeal = player.x - offsetView.x, player.y - offsetView.y
+        xIdeal, yIdeal = player.x - offsetViewX, player.y - offsetViewY
     else
         -- Nothing to focus on. Skip altogether.
 
@@ -146,13 +159,13 @@ function Camera.calculateDrawOffsetTarget()
 
     -- Positon camera within level bounds
 
-    local xCameraOffset = math.max(math.min(xIdeal, levelBounds.right - 400), levelBounds.x)
-    local yCameraOffset = math.max(math.min(yIdeal, levelBounds.bottom - 240), levelBounds.y)
+    local xCameraOffset = math.max(math.min(xIdeal, levelBounds.right - displayWidth), levelBounds.x)
+    local yCameraOffset = math.max(math.min(yIdeal, levelBounds.bottom - displayHeight), levelBounds.y)
 
     -- Center offset for small levels
 
-    local xLevelBounds = levelBounds.width < 400 and (400 - levelBounds.width) / 2 or 0
-    local yLevelBounds = levelBounds.height < 240 and (240 - levelBounds.height) / 2 or 0
+    local xLevelBounds = levelBounds.width < displayWidth and (displayWidth - levelBounds.width) / 2 or 0
+    local yLevelBounds = levelBounds.height < displayHeight and (displayHeight - levelBounds.height) / 2 or 0
 
     local xCameraOffsetBounded = -xCameraOffset + xLevelBounds
     local yCameraOffsetBounded = -yCameraOffset + yLevelBounds

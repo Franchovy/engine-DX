@@ -473,6 +473,18 @@ function Game:collectiblePickup(collectibleIndex, collectibleHash)
     MemoryCard.setLevelCompletion(worldCurrent.filepath, { collectibles = collectibles })
 end
 
+function Game:enableCinematicMode(shouldEnable)
+    if shouldEnable then
+        GUIChipSet:getInstance():remove()
+        GUISpriteRescueCounter:getInstance():remove()
+        Camera.setZoom(2)
+    else
+        GUIChipSet:getInstance():add()
+        GUISpriteRescueCounter:getInstance():add()
+        Camera.setZoom(1)
+    end
+end
+
 function Game:gameWillPause()
     local pauseImage, offset = self:createPauseMenuImage()
 
