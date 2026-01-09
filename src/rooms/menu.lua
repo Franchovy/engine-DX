@@ -287,7 +287,9 @@ function Menu:leave(next, ...)
     self.worldTimer:remove()
   end
 
-  gfx.sprite.removeAll()
+  gfx.sprite.performOnAllSprites(function(sprite)
+    sprite:remove()
+  end)
 
   if next.class == Game then
     FilePlayer.getInstance():stop()
