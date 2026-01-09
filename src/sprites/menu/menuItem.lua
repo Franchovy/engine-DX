@@ -6,7 +6,7 @@ local image <const> = assert(gfx.image.new(assets.images.menuItem))
 MenuItem = Class("MenuItem", gfx.sprite)
 
 function MenuItem:init(menuItemText)
-    local textImage = gfx.imageWithText(menuItemText, 170, 40, nil, nil, nil, kTextAlignment.left, Fonts.Menu.Large)
+    local textImage = gfx.imageWithText(menuItemText, 170, 40, nil, nil, nil, kTextAlignment.left, Fonts.Menu.Medium)
     local image = image:copy()
 
     gfx.pushContext(image)
