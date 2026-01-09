@@ -32,6 +32,39 @@ local function _performOnMenuItems(fn)
   end
 end
 
+local function _onPressPlay()
+  local filepathLevel = MemoryCard.getLastPlayed()
+
+  if filepathLevel then
+    -- Check if level file exists (useful while game is WIP)
+    local worldFileExists = ReadFile.worldFileExists(filepathLevel)
+
+    if not worldFileExists then
+      -- If doesn't exist, reset the last played.
+
+      filepathLevel = nil
+    end
+  end
+
+  if not filepathLevel then
+    -- Start with first level
+
+    filepathLevel = ReadFile.getFirstWorld()
+  end
+
+  if filepathLevel then
+    spButton:play(1)
+
+    -- Load LDtk file
+
+    Game.loadAndEnter(filepathLevel)
+  end
+end
+
+local function _onPressLevelSelect()
+  sceneManager:enter(SCENES.levelSelect)
+end
+
 -- Level Selection
 
 ---@class Menu : Room
@@ -55,18 +88,15 @@ function Menu:enter(previous)
 
   if isFirstTimePlay then
     menuOptions = {
-      MenuItem("New Game"),
-      MenuItem("Options"),
+      MenuItem("New Game", _onPressPlay),
     }
   else
     menuOptions = {
       {
-        MenuItem("Continue"),
-        MenuItem("Options"),
+        MenuItem("Continue", _onPressPlay),
       },
       {
-        MenuItem("Load Game"),
-        MenuItem("Credits")
+        MenuItem("lvl Select", _onPressLevelSelect),
       }
     }
   end
@@ -78,6 +108,8 @@ function Menu:enter(previous)
 
   spriteIndicatorChoose:setIgnoresDrawOffset(true)
   spriteIndicatorSelect:setIgnoresDrawOffset(true)
+  spriteIndicatorChoose:setZIndex(Z_INDEX.HUD.Main)
+  spriteIndicatorSelect:setZIndex(Z_INDEX.HUD.Main)
 
   spriteIndicatorChoose:moveTo(60, 220)
   spriteIndicatorSelect:moveTo(340, 220)
@@ -114,6 +146,7 @@ function Menu:enter(previous)
   spriteTitle = gfx.sprite.new(imageTitle)
   spriteTitle:moveTo(200, 115)
   spriteTitle:setIgnoresDrawOffset(true)
+  spriteTitle:setZIndex(Z_INDEX.HUD.Main)
   spriteTitle:add()
 
   -- Animate in menu
@@ -266,51 +299,15 @@ function Menu:AButtonDown()
     return
   end
 
-  local filepathLevel = MemoryCard.getLastPlayed()
+  -- Run whichever menu option is selected
 
-  if filepathLevel then
-    -- Check if level file exists (useful while game is WIP)
-    local worldFileExists = ReadFile.worldFileExists(filepathLevel)
+  local i, j = table.unpack(selectedIndex)
+  local menuItem = menuOptions[i][j]
 
-    if not worldFileExists then
-      -- If doesn't exist, reset the last played.
-
-      filepathLevel = nil
-    end
-  end
-
-  if not filepathLevel then
-    -- Start with first level
-
-    filepathLevel = ReadFile.getFirstWorld()
-  end
-
-  if filepathLevel then
-    spButton:play(1)
-
-    -- Load LDtk file
-
-    Game.loadAndEnter(filepathLevel)
-  end
-end
-
-local isBButtonHeld = nil
-
-function Menu:BButtonDown()
-  isBButtonHeld = false
-end
-
-function Menu:BButtonUp()
-  if isBButtonHeld == false then
-    isBButtonHeld = nil
-
-    sceneManager:enter(SCENES.levelSelect)
-  end
+  menuItem:performCallback()
 end
 
 function Menu:BButtonHeld()
-  isBButtonHeld = true
-
   local performanceMode = Settings.get(SETTINGS.PerformanceMode)
   local shouldActivatePerformanceMode = not performanceMode
   Settings.set(SETTINGS.PerformanceMode, shouldActivatePerformanceMode)
