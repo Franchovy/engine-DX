@@ -112,7 +112,7 @@ function Menu:enter(previous)
   -- Add title
 
   spriteTitle = gfx.sprite.new(imageTitle)
-  spriteTitle:moveTo(200, 120)
+  spriteTitle:moveTo(200, 115)
   spriteTitle:setIgnoresDrawOffset(true)
   spriteTitle:add()
 
@@ -152,11 +152,11 @@ function Menu:animateInMenuOptions()
 
   -- Frametimer for moving & fade animation
 
-  local frametimer = playdate.frameTimer.new(60, 80, 0, playdate.easingFunctions.inOutExpo)
+  local frametimer = playdate.frameTimer.new(60, 60, 0, playdate.easingFunctions.inOutExpo)
   frametimer.updateCallback = function(timer)
     local value = timer.value
     local progress = 1 - (value / 80) ^ 0.25
-    spriteTitle:moveTo(200, 40 + value)
+    spriteTitle:moveTo(200, 55 + value)
 
     gfx.pushContext(baseImage)
     menuItemImageMask:drawFaded(0, 0, progress, gfx.image.kDitherTypeAtkinson)
@@ -164,7 +164,7 @@ function Menu:animateInMenuOptions()
 
     _performOnMenuItems(function(item, i, j)
       item:getImage():setMaskImage(baseImage)
-      item:moveTo(100 + (j - 1) * 200, 100 + (i - 1) * 60 + value)
+      item:moveTo(100 + (j - 1) * 200, 135 + (i - 1) * 50 + value)
     end)
   end
 
