@@ -486,7 +486,7 @@ function Game:enableCinematicMode(shouldEnable)
     if shouldEnable then
         GUIChipSet:getInstance():remove()
         GUISpriteRescueCounter:getInstance():remove()
-        Camera.setZoom(2)
+        --Camera.setZoom(2)
     else
         GUIChipSet:getInstance():add()
         GUISpriteRescueCounter:getInstance():add()

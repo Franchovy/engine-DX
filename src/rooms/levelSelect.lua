@@ -10,6 +10,8 @@ LevelSelect = Class("LevelSelect", Room)
 
 local sceneManager
 
+local isAllLevelsEnabled = false
+
 ---
 --- LIFECYCLE
 ---
@@ -57,6 +59,10 @@ function LevelSelect:draw()
   self.gridView:draw()
 end
 
+function LevelSelect:enableAllLevels()
+  isAllLevelsEnabled = true
+end
+
 ---
 --- INPUT
 ---
@@ -65,7 +71,7 @@ function LevelSelect:AButtonDown()
   local indexArea, indexWorld = self.gridView:getSelection()
   local isWorldLocked = self.gridView:getSelectionIsLocked()
 
-  if isWorldLocked then
+  if isWorldLocked and not isAllLevelsEnabled then
     return
   end
 

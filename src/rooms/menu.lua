@@ -263,7 +263,7 @@ function Menu:startBGWorldAnimation()
 
   local frametimer = playdate.frameTimer.new(2000, 0, bounds.width - 400)
 
-  frametimer.delay = 40
+  frametimer.delay = 0
 
   frametimer:start()
   frametimer.updateCallback = function(timer)
