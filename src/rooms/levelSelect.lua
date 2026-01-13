@@ -17,6 +17,9 @@ local sceneManager
 function LevelSelect:enter(previous, data)
   local data = data or {}
 
+  -- Refresh level completion
+  MenuGridView:refresh()
+
   gfx.setFont(Fonts.Menu.Small)
 
   sceneManager = self.manager

@@ -581,6 +581,12 @@ end
 
 function ParticlePixel:update()
     local c = playdate.graphics.getColor()
+
+    if type(c) == "table" then
+        -- Playdate has a dither pattern set instead of color. Reset
+        c = 1
+    end
+
     playdate.graphics.setColor(self.colour)
     for part = 1, #self.particles, 1 do
         local pix = self.particles[part]
@@ -594,6 +600,7 @@ function ParticlePixel:update()
 
         self.particles[part] = pix
     end
+
     playdate.graphics.setColor(c)
 
     if self.mode == 0 then

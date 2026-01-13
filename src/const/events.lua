@@ -9,6 +9,7 @@ EVENTS = {
     CheckpointIncrement = 'checkpointIncrement',
     HideOrShowGUI = 'hideOrShowGui',
     BotRescued = 'botRescued',
+    BotRescuedFake = 'botRescuedFake',
     SavePointSet = 'savePointSet',
     WorldComplete = 'worldComplete',
     CollectiblePickup = "collectiblePickup",

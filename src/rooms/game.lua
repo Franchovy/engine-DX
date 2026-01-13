@@ -54,7 +54,7 @@ function Game:init(filepathLevel)
 
     local progressData = MemoryCard.getLevelCompletion(filepathLevel)
 
-    GUISpriteRescueCounter:getInstance():loadProgressData(progressData)
+    GUISpriteRescueCounter.loadProgressData(progressData)
 
     --
 
@@ -364,6 +364,15 @@ function Game:botRescued(bot, botNumber)
     MemoryCard.setLevelCompletion(worldCurrent.filepath, { rescuedSprites = rescuedSprites })
 end
 
+function Game:botRescuedFake(bot, botNumber, isActuallySaved)
+    local spriteRescueCounter = GUISpriteRescueCounter.getInstance()
+    spriteRescueCounter:setSpriteRescued(botNumber, bot.fields.spriteNumber)
+
+    playdate.timer.performAfterDelay(5000, function()
+        spriteRescueCounter:setSpriteRescued(botNumber, bot.fields.spriteNumber, isActuallySaved)
+    end)
+end
+
 function Game:worldComplete(args)
     if worldCurrent.isCompleted then
         return
@@ -596,3 +605,20 @@ function Game:createPauseMenuImage()
 
     return image, offset
 end
+
+-- Debug script:
+
+_G["photo-mode"] = {
+    load = function()
+        playdate.frameTimer.performAfterDelay(2, function()
+            -- Hide Player
+            Player.getInstance():remove()
+
+            -- Hide GUI
+            GUIChipSet:getInstance():remove()
+            GUISpriteRescueCounter:getInstance():remove()
+
+            GUILightingEffect:getInstance():remove()
+        end)
+    end
+}

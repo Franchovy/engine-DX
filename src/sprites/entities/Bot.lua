@@ -456,7 +456,19 @@ function Bot:setRescued()
         self.spriteRescueIndicator:setImage(imageIndicatorRescue)
         self:removeChild(self.spriteRescueIndicator)
 
-        Manager.emitEvent(EVENTS.BotRescued, self, self.rescueNumber)
+        -- For negative rescue numbers, reset the save number after a short time
+
+        if self.rescueNumber < 0 then
+            local spriteNumberAbsolute = math.abs(self.rescueNumber)
+            local rescuedSprites = GUISpriteRescueCounter.getInstance():getRescuedSprites()
+            local isSpriteAlreadyRescued = (rescuedSprites[spriteNumberAbsolute] or {}).value or false
+
+            Manager.emitEvent(EVENTS.BotRescuedFake, self, spriteNumberAbsolute, isSpriteAlreadyRescued)
+        else
+            -- Emit rescue event
+
+            Manager.emitEvent(EVENTS.BotRescued, self, self.rescueNumber)
+        end
     end
 end
 
@@ -776,6 +788,13 @@ function Bot:executeProps(props)
 
     if props.showCrankIndicator then
         self.showCrankIndicator = true
+    end
+
+    if props.fakeSave then
+        local rescuedSprites = GUISpriteRescueCounter.getInstance():getRescuedSprites()
+        local isSpriteNumberSaved = (rescuedSprites[self.rescueNumber] or {}).value or false
+
+        print("On save, reset rescue count: " .. props.fakeSave)
     end
 
     -- Bleeps config

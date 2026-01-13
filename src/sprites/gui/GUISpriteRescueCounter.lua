@@ -139,8 +139,16 @@ function GUISpriteRescueCounter:resetSpriteRescued(indexSpriteCounter)
     spriteCounter:setImage(imagetableSprite[1])
 end
 
-function GUISpriteRescueCounter:setSpriteRescued(number, spriteImageIndex)
-    local indexSpriteCounter = number
+---comment
+---@param rescueNumber number
+---@param spriteImageIndex number
+---@param isRescued boolean? Defaults to true
+function GUISpriteRescueCounter:setSpriteRescued(rescueNumber, spriteImageIndex, isRescued)
+    if isRescued == nil then
+        isRescued = true
+    end
+
+    local indexSpriteCounter = rescueNumber
 
     -- Create state table if not exists
     if not stateSpriteCounters[indexSpriteCounter] then
@@ -148,14 +156,14 @@ function GUISpriteRescueCounter:setSpriteRescued(number, spriteImageIndex)
     end
 
     -- Set states
-    stateSpriteCounters[indexSpriteCounter].value = true
+    stateSpriteCounters[indexSpriteCounter].value = isRescued
     stateSpriteCounters[indexSpriteCounter].indexSpriteImage = spriteImageIndex
 
     local spriteCounter = spriteCounters[indexSpriteCounter]
 
     -- Set image
-    local imageRescued = imagetableSprite[2]
-    spriteCounter:setImage(imageRescued)
+    local imageNew = imagetableSprite[isRescued and 2 or 1]
+    spriteCounter:setImage(imageNew)
 end
 
 function GUISpriteRescueCounter:loadRescuedSprites(rescuedSprites)

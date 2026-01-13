@@ -88,7 +88,7 @@ function Menu:enter(previous)
 
   if isFirstTimePlay then
     menuOptions = {
-      MenuItem("New Game", _onPressPlay),
+      { MenuItem("New Game", _onPressPlay), }
     }
   else
     menuOptions = {
@@ -197,7 +197,7 @@ function Menu:animateInMenuOptions()
 
     _performOnMenuItems(function(item, i, j)
       item:getImage():setMaskImage(baseImage)
-      item:moveTo(100 + (j - 1) * 200, 135 + (i - 1) * 50 + value)
+      item:moveTo(100 + (j - 1) * 200, 133 + (i - 1) * 44 + value)
     end)
   end
 
@@ -332,7 +332,7 @@ end
 function Menu:downButtonDown()
   local i, j = table.unpack(selectedIndex)
 
-  i = math.min(2, i + 1)
+  i = math.min(#menuOptions, i + 1)
 
   selectedIndex = { i, j }
 
@@ -342,7 +342,7 @@ end
 function Menu:rightButtonDown()
   local i, j = table.unpack(selectedIndex)
 
-  j = math.min(2, j + 1)
+  j = math.min(#menuOptions[1], j + 1)
 
   selectedIndex = { i, j }
 
