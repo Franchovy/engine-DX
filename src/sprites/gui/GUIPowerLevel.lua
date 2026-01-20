@@ -10,7 +10,7 @@ GUIPowerLevel = Class("GUIPowerLevel", GuiSprite)
 local thresholdMainBarMax = 0.90
 local thresholdMainBarMin = 0.20
 
-local crankValueDecreaseCoefficient <const> = 50
+local crankValueDecreaseCoefficient <const> = 600
 local thresholdCrankInput <const> = 3000
 
 function GUIPowerLevel.load(config)
@@ -79,8 +79,24 @@ function GUIPowerLevel:draw()
     gfx.setDitherPattern(0.2, gfx.image.kDitherTypeBayer2x2)
 
     -- Main power bar
+
     gfx.fillRoundRect(5 + (widthMainBar - widthPowerMainBar), 5, widthPowerMainBar,
         heightMainBar, 2)
+
+    -- Rewind bar
+
+    if self.crankLevel > 0 then
+        local widthCrankLevelMainBar = widthMainBar * self.crankLevel / thresholdCrankInput
+
+        gfx.setColor(1)
+        gfx.fillRoundRect(5 + (widthMainBar - widthCrankLevelMainBar), 5, widthCrankLevelMainBar,
+            heightMainBar, 2)
+
+        gfx.setColor(0)
+        gfx.setDitherPattern(0.5, gfx.image.kDitherTypeDiagonalLine)
+        gfx.fillRoundRect(5 + (widthMainBar - widthCrankLevelMainBar), 5, widthCrankLevelMainBar,
+            heightMainBar, 2)
+    end
 
     imagePowerBar:draw(0, 0)
 end
@@ -110,9 +126,12 @@ function GUIPowerLevel:update()
     local deltaTime = _G.delta_time / 10
     self.time -= deltaTime
 
-    self.checkpointHandler:pushState({
-        deltaTime = deltaTime
-    })
+    -- Push checkpoint state if (and only if) no warp is in progress.
+    if math.abs(playdate.getCrankChange()) < 5 then
+        self.checkpointHandler:pushState({
+            deltaTime = deltaTime
+        })
+    end
 
     self.crankLevel = math.max(self.crankLevel - deltaTime * crankValueDecreaseCoefficient, 0)
 end
@@ -141,6 +160,7 @@ function GUIPowerLevel:startEnergyBar(config)
     self.time = config.time
     self.objective = config.objective
     self.checkpointName = config.checkpoint
+    self.crankLevel = 0
 
     self.checkpointHandler:pushState({
         isActive = true,
