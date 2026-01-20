@@ -10,6 +10,9 @@ GUIPowerLevel = Class("GUIPowerLevel", GuiSprite)
 local thresholdMainBarMax = 0.90
 local thresholdMainBarMin = 0.20
 
+local crankValueDecreaseCoefficient <const> = 50
+local thresholdCrankInput <const> = 3000
+
 function GUIPowerLevel.load(config)
     local instance = GUIPowerLevel:getInstance()
 
@@ -37,6 +40,8 @@ function GUIPowerLevel:init()
     self.checkpointHandler = CheckpointHandler.getOrCreate(self, self, {
         isActive = self.isActive
     })
+
+    self.crankLevel = 0
 end
 
 local widthMainBar, heightMainBar <const> = 82, 9
@@ -90,7 +95,7 @@ function GUIPowerLevel:update()
     -- If Power runs out
     if power <= 0 then
         -- End energy bar
-        self:onEnergyDepleted()
+        self:onEnergyDepleted(2000)
         return
     end
 
@@ -100,13 +105,34 @@ function GUIPowerLevel:update()
         self.finalChargeCount = math.min(math.floor(power / thresholdMainBarMin * 4), 3)
     end
 
-    self.time -= _G.delta_time / 10
-
     -- Update state
 
+    local deltaTime = _G.delta_time / 10
+    self.time -= deltaTime
+
     self.checkpointHandler:pushState({
-        time = self.time
+        deltaTime = deltaTime
     })
+
+    self.crankLevel = math.max(self.crankLevel - deltaTime * crankValueDecreaseCoefficient, 0)
+end
+
+function GUIPowerLevel:getIsActive()
+    return self.isActive or false
+end
+
+function GUIPowerLevel:handleCrankInput()
+    if not self.isActive then
+        return
+    end
+
+    local crankChange = math.abs(playdate.getCrankChange())
+
+    self.crankLevel += crankChange
+
+    if self.crankLevel > thresholdCrankInput then
+        self:onEnergyDepleted(500)
+    end
 end
 
 function GUIPowerLevel:startEnergyBar(config)
@@ -130,7 +156,7 @@ function GUIPowerLevel:startEnergyBar(config)
     self:add()
 end
 
-function GUIPowerLevel:onEnergyDepleted()
+function GUIPowerLevel:onEnergyDepleted(delayTime)
     if not self.isActive or not self.checkpointName then
         return
     end
@@ -139,15 +165,18 @@ function GUIPowerLevel:onEnergyDepleted()
 
     -- Revert to checkpoint
 
-    Manager.emitEvent(EVENTS.ReturnToCheckpointNamed, self.checkpointName, function()
+    Manager.emitEvent(EVENTS.ReturnToCheckpointNamed, self.checkpointName, delayTime, function()
         self:remove()
     end)
 end
 
 function GUIPowerLevel:handleCheckpointRevert(state)
-    self.time = state.time or self.time
+    if state.deltaTime then
+        local timeNew = math.min(self.time + state.deltaTime, self.maxTime)
+        self.time = timeNew
+    end
+
     self.objective = state.objective or self.objective
     self.checkpointName = state.checkpointName or self.checkpointName
     self.isActive = state.isActive or self.isActive
-    self.maxTime = state.maxTime or self.maxTime
 end

@@ -221,6 +221,8 @@ function Game:enter(previous, data)
     end
 end
 
+local ticksBButtonHeld = 0
+
 function Game:update()
     -- System updates
 
@@ -250,12 +252,30 @@ function Game:update()
         end
     end
 
+    -- If there is the power bar showing
+    -- If the objective has been met
+    -- If B button is held
+    -- > redirect crank to reset to checkpoint
+
     if player and playdate.buttonIsPressed(playdate.kButtonB) then
-        if player.activeBot then
-            if playdate.buttonJustPressed(playdate.kButtonB) then
+        ticksBButtonHeld += 1
+
+        -- Short press
+        if playdate.buttonJustReleased(playdate.kButtonB) and ticksBButtonHeld < 12 then
+            if player.activeBot then
                 player.activeBot:onBButtonPress()
             end
-        else
+        end
+
+        -- Long press
+
+        if ticksBButtonHeld > 12 then
+            local guiPowerLevel = GUIPowerLevel:getInstance()
+
+            if guiPowerLevel and guiPowerLevel:getIsActive() then
+                guiPowerLevel:handleCrankInput()
+            end
+
             GUIScreenEdges:getInstance():animateIn()
 
             -- Update camera if pressing a direction + B button
@@ -303,16 +323,16 @@ function Game:handleCheckpointRevert(state)
     end
 end
 
-function Game:returnToCheckpointNamed(name, finishedCallback)
+function Game:returnToCheckpointNamed(name, delayTime, finishedCallback)
     local player = Player.getInstance()
     if not player then return end
 
     Game.enableLevelChange = false
 
-    Transition:getInstance():fadeOut(1000, function()
-        player:freeze()
+    player:freeze()
 
-        playdate.timer.performAfterDelay(2000, function()
+    Transition:getInstance():fadeOut(1000, function()
+        playdate.timer.performAfterDelay(delayTime, function()
             Checkpoint.goToNamed(name)
 
             Camera.setOffsetInstantaneous()

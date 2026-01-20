@@ -135,7 +135,8 @@ CollisionZoneScripts = {
 
             if not nameCheckpoint then return end
 
-            Manager.emitEvent(EVENTS.ReturnToCheckpointNamed, nameCheckpoint, function() self.isActivated = false end)
+            Manager.emitEvent(EVENTS.ReturnToCheckpointNamed, 2000, nameCheckpoint,
+            function() self.isActivated = false end)
         end
     },
     showCrankIndicator = {

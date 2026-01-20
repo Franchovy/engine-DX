@@ -67,7 +67,7 @@ function GUILightingEffect:init()
 end
 
 function GUILightingEffect:createBackgroundImages()
-    local phaseAdditionalSize = phaseSize / 2
+    local phaseAdditionalSize = phaseSize
     imageBackground = gfx.image.new(400 + phaseAdditionalSize, 241 + phaseAdditionalSize, gfx.kColorClear)
     maskImage = imageBackground:getMaskImage()
 end
