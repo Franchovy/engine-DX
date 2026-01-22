@@ -31,7 +31,13 @@ function CrankWatch:getThresholdProportion()
 end
 
 function CrankWatch.update()
-    crankChange = _crankChangeDebug or playdate.getCrankChange()
+    if not playdate.buttonIsPressed(playdate.kButtonB) then
+        crankChange = _crankChangeDebug or playdate.getCrankChange()
+    else
+        -- No crank when B button is pressed.
+        crankChange = 0
+    end
+
     _crankChangeDebug = nil
 end
 
