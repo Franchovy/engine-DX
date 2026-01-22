@@ -382,6 +382,14 @@ function Game:botRescued(bot, botNumber)
     -- Save the rescued sprite list
     local rescuedSprites = spriteRescueCounter:getRescuedSprites()
     MemoryCard.setLevelCompletion(worldCurrent.filepath, { rescuedSprites = rescuedSprites })
+
+    -- If showing power bar, prompt to hold B + rewind
+
+    local powerLevel = GUIPowerLevel:getInstance()
+
+    if powerLevel.isActive then
+        GUIModalMessage.showMessage("Hold B + Crank to rewind out of the puzzle.")
+    end
 end
 
 function Game:botRescuedFake(bot, botNumber, isActuallySaved)
