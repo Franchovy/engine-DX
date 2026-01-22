@@ -21,6 +21,7 @@ class("AnimatedSprite").extends(gfx.sprite)
 ---@param imagetable table|string actual imagetable or path
 ---@param states? table If provided, calls `setStates(states)` after initialisation
 ---@param animate? boolean If `True`, then the animation of default state will start after initialisation. Default: `False`
+---@return AnimatedSprite
 function AnimatedSprite.new(imagetable, states, animate)
     return AnimatedSprite(imagetable, states, animate)
 end

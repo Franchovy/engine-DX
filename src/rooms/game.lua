@@ -219,6 +219,15 @@ function Game:enter(previous, data)
 
         Checkpoint.incrementNamed("savepoint")
     end
+
+    -- DEBUG CODE:
+
+    playdate.timer.performAfterDelay(1000, function()
+        if playdate.buttonIsPressed(playdate.kButtonDown) then
+            Manager.getInstance():enter(SCENES.worldComplete, "assets/worlds/1 - Story/5 - The Vault.ldtk",
+                "assets/worlds/1 - Story/6 - The Source.ldtk")
+        end
+    end)
 end
 
 local ticksBButtonHeld = 0
