@@ -3,7 +3,7 @@ local gfx <const> = playdate.graphics
 ---@class WorldComplete : Room
 WorldComplete = Class("WorldComplete", Room)
 
-local spriteWorldCompleteText
+local sprite = gfx.sprite.new()
 
 function WorldComplete:init()
 end
@@ -11,25 +11,27 @@ end
 function WorldComplete:enter(previous, currentLevelName, nextLevelName)
     gfx.setDrawOffset(0, 0)
 
-    gfx.setFont(Fonts.Dialog)
-    spriteWorldCompleteText = gfx.sprite.spriteWithText("World complete, congratulations!", 200, 60, nil, nil, nil,
-        kTextAlignment.center)
-    spriteWorldCompleteText:getImage():setInverted(true)
-    spriteWorldCompleteText:moveTo(200, 120)
-    spriteWorldCompleteText:add()
+    sprite:setSize(400, 240)
+    sprite:moveTo(200, 120)
+    sprite:add()
 
-    playdate.timer.performAfterDelay(5000, function()
-        Transition:getInstance():fadeOut(1600, function()
-            Game.loadAndEnter(nextLevelName)
+    if nextLevelName then
+        playdate.timer.performAfterDelay(5000, function()
+            Transition:getInstance():fadeOut(1600, function()
+                Game.loadAndEnter(nextLevelName)
+            end)
         end)
-    end)
+    end
 end
 
 function WorldComplete:leave()
-    spriteWorldCompleteText:remove()
-    spriteWorldCompleteText = nil
+    sprite:remove()
 end
 
-function WorldComplete:draw()
+function sprite:draw(x, y, width, height)
+    gfx.setColor(gfx.kColorBlack)
+    gfx.fillRect(0, 0, 400, 240)
 
+    gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
+    gfx.drawTextAligned("World Complete!", 200, 120, kTextAlignment.center)
 end
