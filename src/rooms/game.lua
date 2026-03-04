@@ -219,17 +219,6 @@ function Game:enter(previous, data)
 
         Checkpoint.incrementNamed("savepoint")
     end
-
-    -- DEBUG CODE:
-
-    playdate.timer.performAfterDelay(1000, function()
-        if playdate.buttonIsPressed(playdate.kButtonDown) then
-            local filepathLevelNext = ReadFile.getNextWorld(worldCurrent.filepath)
-
-            Manager.getInstance():enter(SCENES.worldComplete, worldCurrent.filepath,
-                filepathLevelNext)
-        end
-    end)
 end
 
 local ticksBButtonHeld = 0
