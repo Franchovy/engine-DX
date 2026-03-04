@@ -199,6 +199,10 @@ function GUISpriteRescueCounter:getTotalSpritesToRescue()
     return self.rescueSpriteCount
 end
 
+function GUISpriteRescueCounter:getIsBotRescued(botNumber)
+    return stateSpriteCounters[botNumber].value
+end
+
 function GUISpriteRescueCounter:isAllSpritesRescued()
     for _, state in ipairs(stateSpriteCounters) do
         if not state or state.value == false then

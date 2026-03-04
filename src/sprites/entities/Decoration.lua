@@ -19,10 +19,17 @@ function Decoration:init(data, levelName)
 
     EntityAnimated.init(self, data, levelName, imagetable)
 
-    self:addState("d", self.config.startFrame or 1, self.config.endFrame or 1, self.config.animationParams or {})
-        .asDefault()
+    if self.config.setupAnimation then
+        local configData = data.fields.config and
+            assert(json.decode(data.fields.config), "Invalid config json for decoration asset!") or nil
 
-    self:playAnimation()
+        self.config.setupAnimation(self, configData)
+    else
+        self:addState("d", self.config.startFrame or 1, self.config.endFrame or 1, self.config.animationParams or {})
+            .asDefault()
+
+        self:playAnimation()
+    end
 end
 
 function Decoration:add()
