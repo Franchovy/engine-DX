@@ -21,6 +21,11 @@ local widthImageLevel, heightImageLevel
 local imageBotsRescued
 local widthImageBotsRescued, heightImageBotsRescued
 
+---@type MenuItem
+local restartButton
+---@type MenuItem
+local continueButton
+
 local animatorTitleReveal = gfx.animator.new(1200, 0, 1, playdate.easingFunctions.inCirc)
 local animatorTitleMove = gfx.animator.new(800, 0, 1, playdate.easingFunctions.inOutExpo)
 local animatorLevelReveal = gfx.animator.new(1200, 0, 1, playdate.easingFunctions.inExpo)
@@ -29,14 +34,13 @@ local countBotsShown = 0
 
 function WorldComplete:init()
     self:setupImageTitle()
-    self:setupImageBotsRescued()
+    self:setupButtons()
 end
 
 function WorldComplete:enter(previous, filepathLevelCurrent, filepathLevelNext)
     local _, levelName, _, indexWorld = ReadFile.getAreaWorld(filepathLevelCurrent)
 
-    print(filepathLevelCurrent)
-    print(filepathLevelNext)
+    --
 
     gfx.setDrawOffset(0, 0)
 
@@ -51,9 +55,37 @@ function WorldComplete:enter(previous, filepathLevelCurrent, filepathLevelNext)
     spritePlayer = AnimatedSprite(imagetablePlayer)
     spritePlayer:addState("default-x", 9, 12, { loop = true, tickStep = 2, flip = 1 }, true)
     spritePlayer:moveTo(300, 120)
-    spritePlayer:add()
+
+    -- Set up bot rescued graphics
+
+    local dataBotsRescued = MemoryCard.getValue(SAVE_FILE.GameData, { "levels", filepathLevelCurrent, "rescuedSprites" },
+        {})
+    local countBotsRescued, total = 0, 0
+    local botsSaved = {}
+
+    for _, data in ipairs(dataBotsRescued) do
+        local isRescued, botId = data.value, data.botId
+        total += 1
+
+        if isRescued then
+            countBotsRescued += 1
+            table.insert(botsSaved, botId)
+        end
+    end
+
+    self:setupImageTextBotsRescued(countBotsRescued, total)
+    self:setupBotsRescued(botsSaved)
+
+    --
+
+    playdate.timer.performAfterDelay(2000, function()
+        self:animateButtons()
+    end)
 
     if filepathLevelNext then
+        -- Debug code (No exit)
+        if true then return end
+
         playdate.timer.performAfterDelay(15000, function()
             Transition:getInstance():fadeOut(1600, function()
                 Game.loadAndEnter(filepathLevelNext)
@@ -167,7 +199,7 @@ function WorldComplete:setupImageLevel(levelNumber, levelName)
     widthImageLevel, heightImageLevel = imageLevel:getSize()
 end
 
-function WorldComplete:setupImageBotsRescued(rescueCount, total)
+function WorldComplete:setupImageTextBotsRescued(rescueCount, total)
     rescueCount = rescueCount or 0
     total = total or 0
 
@@ -185,4 +217,81 @@ function WorldComplete:setupImageBotsRescued(rescueCount, total)
     imageBotsRescued:setMaskImage(mask)
 
     widthImageBotsRescued, heightImageBotsRescued = imageBotsRescued:getSize()
+end
+
+local function _onNextLevelPressed()
+
+end
+
+local function _onRestartPressed()
+
+end
+
+function WorldComplete:setupButtons()
+    restartButton = MenuItem("Restart", _onRestartPressed)
+    continueButton = MenuItem("Next Level", _onNextLevelPressed)
+
+    restartButton:moveTo(100, 300)
+    continueButton:moveTo(300, 300)
+end
+
+function WorldComplete:animateButtons()
+    continueButton:add()
+    restartButton:add()
+
+    self:updateButtons()
+
+    local frametimer = playdate.frameTimer.new(26, 0, 1, playdate.easingFunctions.inOutExpo)
+
+    frametimer.updateCallback = function(timer)
+        if restartButton and continueButton then
+            local value = timer.value
+
+            restartButton:moveTo(100, 300 - value * 100)
+            continueButton:moveTo(300, 300 - value * 100)
+        end
+    end
+
+    frametimer:start()
+end
+
+function WorldComplete:setupBotsRescued(listBotIds)
+    -- Draw bots rescued
+
+    print("Drawing " .. #listBotIds .. " bots.")
+end
+
+local index = 2
+
+function WorldComplete:updateButtons()
+    restartButton:setSelected(index == 1)
+    continueButton:setSelected(index == 2)
+end
+
+function WorldComplete:leftButtonUp()
+    if index == 1 then
+        return
+    end
+
+    index -= 1
+
+    self:updateButtons()
+end
+
+function WorldComplete:rightButtonUp()
+    if index == 2 then
+        return
+    end
+
+    index += 1
+
+    self:updateButtons()
+end
+
+function WorldComplete:AButtonUp()
+    if index == 1 then
+        restartButton:performCallback()
+    else
+        continueButton:performCallback()
+    end
 end

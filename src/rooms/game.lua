@@ -224,8 +224,8 @@ function Game:enter(previous, data)
 
     playdate.timer.performAfterDelay(1000, function()
         if playdate.buttonIsPressed(playdate.kButtonDown) then
-            Manager.getInstance():enter(SCENES.worldComplete, "assets/worlds/1 - Story/5 - The Vault.ldtk",
-                "assets/worlds/1 - Story/6 - The Source.ldtk")
+            Manager.getInstance():enter(SCENES.worldComplete, "assets/worlds/1 - Story/1 - The Factory.ldtk",
+                "assets/worlds/1 - Story/2 - Darkened Caves.ldtk")
         end
     end)
 end
@@ -266,40 +266,49 @@ function Game:update()
     -- If B button is held
     -- > redirect crank to reset to checkpoint
 
-    if player and playdate.buttonIsPressed(playdate.kButtonB) then
-        ticksBButtonHeld += 1
-
+    if player then
         -- Short press
         if playdate.buttonJustReleased(playdate.kButtonB) and ticksBButtonHeld < 12 then
             if player.activeBot then
                 player.activeBot:onBButtonPress()
             end
-        end
+        elseif playdate.buttonIsPressed(playdate.kButtonB) then
+            ticksBButtonHeld += 1
 
-        -- Long press
-
-        if ticksBButtonHeld > 12 then
-            local guiPowerLevel = GUIPowerLevel:getInstance()
-
-            if guiPowerLevel and guiPowerLevel:getIsActive() then
-                guiPowerLevel:handleCrankInput()
+            -- Short press
+            if playdate.buttonJustReleased(playdate.kButtonB) and ticksBButtonHeld < 12 then
+                if player.activeBot then
+                    player.activeBot:onBButtonPress()
+                end
             end
 
-            GUIScreenEdges:getInstance():animateIn()
+            -- Long press
 
-            -- Update camera if pressing a direction + B button
+            if ticksBButtonHeld > 12 then
+                local guiPowerLevel = GUIPowerLevel:getInstance()
 
-            local directionX, directionY =
-                playdate.buttonIsPressed(KEYNAMES.Left) and 1 or playdate.buttonIsPressed(KEYNAMES.Right) and -1 or 0,
-                playdate.buttonIsPressed(KEYNAMES.Up) and 1 or playdate.buttonIsPressed(KEYNAMES.Down) and -1 or 0
+                if guiPowerLevel and guiPowerLevel:getIsActive() then
+                    guiPowerLevel:handleCrankInput()
+                end
 
-            local panOffsetX, panOffsetY = 150, 100
+                GUIScreenEdges:getInstance():animateIn()
 
-            Camera.setOffset(directionX * panOffsetX, directionY * panOffsetY)
+                -- Update camera if pressing a direction + B button
+
+                local directionX, directionY =
+                    playdate.buttonIsPressed(KEYNAMES.Left) and 1 or playdate.buttonIsPressed(KEYNAMES.Right) and -1 or 0,
+                    playdate.buttonIsPressed(KEYNAMES.Up) and 1 or playdate.buttonIsPressed(KEYNAMES.Down) and -1 or 0
+
+                local panOffsetX, panOffsetY = 150, 100
+
+                Camera.setOffset(directionX * panOffsetX, directionY * panOffsetY)
+            end
+        else
+            ticksBButtonHeld = 0
+
+            GUIScreenEdges:getInstance():animateOut()
+            Camera.setOffset(0, 0)
         end
-    else
-        GUIScreenEdges:getInstance():animateOut()
-        Camera.setOffset(0, 0)
     end
 end
 
@@ -385,8 +394,13 @@ function Game:levelComplete(data)
 end
 
 function Game:botRescued(bot, botNumber)
+    local assetName = assert(bot.fields.asset)
     local spriteRescueCounter = GUISpriteRescueCounter.getInstance()
-    spriteRescueCounter:setSpriteRescued(botNumber, bot.fields.spriteNumber)
+    spriteRescueCounter:setSpriteRescued(botNumber, assetName)
+
+    -- Save bot rescued status to MemoryCard
+
+    MemoryCard.setValue(SAVE_FILE.BotData, assetName, true)
 
     -- Save the rescued sprite list
     local rescuedSprites = spriteRescueCounter:getRescuedSprites()
@@ -403,10 +417,10 @@ end
 
 function Game:botRescuedFake(bot, botNumber, isActuallySaved)
     local spriteRescueCounter = GUISpriteRescueCounter.getInstance()
-    spriteRescueCounter:setSpriteRescued(botNumber, bot.fields.spriteNumber)
+    spriteRescueCounter:setSpriteRescued(botNumber, bot.fields.asset)
 
     playdate.timer.performAfterDelay(5000, function()
-        spriteRescueCounter:setSpriteRescued(botNumber, bot.fields.spriteNumber, isActuallySaved)
+        spriteRescueCounter:setSpriteRescued(botNumber, bot.fields.asset, isActuallySaved)
     end)
 end
 

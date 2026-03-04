@@ -8,7 +8,7 @@ local padding <const> = 3
 local maxSpriteCounters <const> = 7
 local spriteCounters <const> = {}
 
----@alias SpriteRescueCounter {value:boolean?, indexSpriteImage:number}
+---@alias SpriteRescueCounter {value:boolean?, botId:string}
 
 ---@type SpriteRescueCounter[]
 local stateSpriteCounters = {}
@@ -130,7 +130,7 @@ function GUISpriteRescueCounter:resetSpriteRescued(indexSpriteCounter)
 
     -- Reset states
     stateSpriteCounters[indexSpriteCounter].value = false
-    stateSpriteCounters[indexSpriteCounter].indexSpriteImage = nil
+    stateSpriteCounters[indexSpriteCounter].botId = nil
 
     local spriteCounter = spriteCounters[indexSpriteCounter]
 
@@ -141,9 +141,9 @@ end
 
 ---comment
 ---@param rescueNumber number
----@param spriteImageIndex number
+---@param botId string
 ---@param isRescued boolean? Defaults to true
-function GUISpriteRescueCounter:setSpriteRescued(rescueNumber, spriteImageIndex, isRescued)
+function GUISpriteRescueCounter:setSpriteRescued(rescueNumber, botId, isRescued)
     if isRescued == nil then
         isRescued = true
     end
@@ -157,7 +157,7 @@ function GUISpriteRescueCounter:setSpriteRescued(rescueNumber, spriteImageIndex,
 
     -- Set states
     stateSpriteCounters[indexSpriteCounter].value = isRescued
-    stateSpriteCounters[indexSpriteCounter].indexSpriteImage = spriteImageIndex
+    stateSpriteCounters[indexSpriteCounter].botId = botId
 
     local spriteCounter = spriteCounters[indexSpriteCounter]
 
@@ -177,7 +177,7 @@ function GUISpriteRescueCounter:loadRescuedSprites(rescuedSprites)
     -- Set new rescue states
     for i, state in pairs(rescuedSprites) do
         if state.value then
-            self:setSpriteRescued(i, state.indexSpriteImage)
+            self:setSpriteRescued(i, state.botId)
         else
             self:resetSpriteRescued(i)
         end
