@@ -47,6 +47,10 @@ local function _showHideTimerCallback(timer, self)
 end
 
 local function _updateButtonSpriteMask(self, sprite, i)
+  if not sprite then
+    return
+  end
+
   local image = sprite:getImage()
   if self.chipSet[i] and image ~= imageButtonEmpty then
     local imageMaskCurrent = image:getMaskImage()
