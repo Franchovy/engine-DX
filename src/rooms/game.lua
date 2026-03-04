@@ -224,8 +224,10 @@ function Game:enter(previous, data)
 
     playdate.timer.performAfterDelay(1000, function()
         if playdate.buttonIsPressed(playdate.kButtonDown) then
-            Manager.getInstance():enter(SCENES.worldComplete, "assets/worlds/1 - Story/1 - The Factory.ldtk",
-                "assets/worlds/1 - Story/2 - Darkened Caves.ldtk")
+            local filepathLevelNext = ReadFile.getNextWorld(worldCurrent.filepath)
+
+            Manager.getInstance():enter(SCENES.worldComplete, worldCurrent.filepath,
+                filepathLevelNext)
         end
     end)
 end

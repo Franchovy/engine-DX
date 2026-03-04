@@ -7,6 +7,8 @@ local imagetablePlayer = assert(gfx.imagetable.new(assets.imageTables.player))
 
 local sprite = gfx.sprite.new()
 local spritePlayer
+---@type _Sprite[]
+local spritesBots = {}
 
 ---@type _Image
 local imageTitle
@@ -30,15 +32,19 @@ local animatorTitleReveal = gfx.animator.new(1200, 0, 1, playdate.easingFunction
 local animatorTitleMove = gfx.animator.new(800, 0, 1, playdate.easingFunctions.inOutExpo)
 local animatorLevelReveal = gfx.animator.new(1200, 0, 1, playdate.easingFunctions.inExpo)
 local animatorBotsRescuedReveal = gfx.animator.new(800, 0, 1, playdate.easingFunctions.inExpo)
-local countBotsShown = 0
+
+local filepathLevelCurrent, filepathLevelNext
 
 function WorldComplete:init()
     self:setupImageTitle()
     self:setupButtons()
 end
 
-function WorldComplete:enter(previous, filepathLevelCurrent, filepathLevelNext)
-    local _, levelName, _, indexWorld = ReadFile.getAreaWorld(filepathLevelCurrent)
+function WorldComplete:enter(previous, filepathLevelCurrentNew, filepathLevelNextNew)
+    filepathLevelCurrent = filepathLevelCurrentNew
+    filepathLevelNext = filepathLevelNextNew
+
+    local _, levelName, _, indexWorld = ReadFile.getAreaWorld(filepathLevelCurrentNew)
 
     --
 
@@ -78,27 +84,27 @@ function WorldComplete:enter(previous, filepathLevelCurrent, filepathLevelNext)
 
     --
 
-    playdate.timer.performAfterDelay(2000, function()
-        self:animateButtons()
+    playdate.timer.performAfterDelay(3000, function()
+        self:animateBotsRescued()
     end)
 
-    if filepathLevelNext then
-        -- Debug code (No exit)
-        if true then return end
-
-        playdate.timer.performAfterDelay(15000, function()
-            Transition:getInstance():fadeOut(1600, function()
-                Game.loadAndEnter(filepathLevelNext)
-            end)
-        end)
-    end
+    playdate.timer.performAfterDelay(4000, function()
+        self:animateButtons()
+    end)
 end
 
 function WorldComplete:leave()
+    -- Remove sprites
     Player.destroy()
     spritePlayer = nil
-
     sprite:remove()
+    for _, sprite in pairs(spritesBots) do
+        sprite:remove()
+    end
+    spritesBots = {}
+
+    -- Clear animated image
+    imageTitle:setMaskImage(gfx.image.new(300, 40, gfx.kColorBlack))
 end
 
 function sprite:draw(x, y, width, height)
@@ -220,11 +226,23 @@ function WorldComplete:setupImageTextBotsRescued(rescueCount, total)
 end
 
 local function _onNextLevelPressed()
+    if not filepathLevelNext then
+        return
+    end
 
+    Transition:getInstance():fadeOut(1600, function()
+        Game.loadAndEnter(filepathLevelNext)
+    end)
 end
 
 local function _onRestartPressed()
+    if not filepathLevelCurrent then
+        return
+    end
 
+    Transition:getInstance():fadeOut(1600, function()
+        Game.loadAndEnter(filepathLevelCurrent)
+    end)
 end
 
 function WorldComplete:setupButtons()
@@ -240,6 +258,7 @@ function WorldComplete:animateButtons()
     restartButton:add()
 
     self:updateButtons()
+    self:enableButtons()
 
     local frametimer = playdate.frameTimer.new(26, 0, 1, playdate.easingFunctions.inOutExpo)
 
@@ -258,10 +277,59 @@ end
 function WorldComplete:setupBotsRescued(listBotIds)
     -- Draw bots rescued
 
-    print("Drawing " .. #listBotIds .. " bots.")
+    local startX, startY = 32, 140
+    local spacingX = 32 + 12
+
+    for i, botId in ipairs(listBotIds) do
+        local configAnimation = BotConfig[botId].animations
+        local animationFrames
+
+        if configAnimation[BOT_ANIMATION_STATES.Happy] then
+            animationFrames = configAnimation[BOT_ANIMATION_STATES.Happy]
+        elseif configAnimation[BOT_ANIMATION_STATES.Idle] then
+            animationFrames = configAnimation[BOT_ANIMATION_STATES.Idle]
+        end
+
+        local animationSpeed = BotConfig[botId].animationSpeed or 2
+
+        local sprite = AnimatedSprite.new(FILE_PATHS.ASSETS.BOT_IMAGES .. botId)
+        sprite:addState("d", animationFrames[1], animationFrames[2], { tickStep = animationSpeed })
+        sprite:playAnimation()
+        sprite:moveTo(startX + (i - 1) * spacingX, startY)
+
+        table.insert(spritesBots, sprite)
+    end
 end
 
+function WorldComplete:animateBotsRescued()
+    local total = #spritesBots
+
+    if total == 0 then
+        return
+    end
+
+    local frametimer = playdate.frameTimer.new(30 * total, 0, total)
+
+    frametimer.updateCallback = function(timer)
+        local index = math.floor(timer.value)
+
+        -- Show bot at index
+        local sprite = spritesBots[index]
+
+        if sprite then
+            sprite:add()
+        end
+    end
+end
+
+--- INPUT BUTTONS HANDLING
+
 local index = 2
+local isButtonsEnabled = false
+
+function WorldComplete:enableButtons()
+    isButtonsEnabled = true
+end
 
 function WorldComplete:updateButtons()
     restartButton:setSelected(index == 1)
@@ -269,7 +337,7 @@ function WorldComplete:updateButtons()
 end
 
 function WorldComplete:leftButtonUp()
-    if index == 1 then
+    if (not isButtonsEnabled) or index == 1 then
         return
     end
 
@@ -279,7 +347,7 @@ function WorldComplete:leftButtonUp()
 end
 
 function WorldComplete:rightButtonUp()
-    if index == 2 then
+    if (not isButtonsEnabled) or index == 2 then
         return
     end
 
@@ -289,6 +357,10 @@ function WorldComplete:rightButtonUp()
 end
 
 function WorldComplete:AButtonUp()
+    if not isButtonsEnabled then
+        return
+    end
+
     if index == 1 then
         restartButton:performCallback()
     else

@@ -1,4 +1,4 @@
----@alias BotConfig {animationSpeed:number, animations: {string:[number, number][]}[]}
+---@type {string: {animationSpeed:number, animations: {string:[number, number][]}[]}}
 BotConfig = {
     BPK = { animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 8 }, [BOT_ANIMATION_STATES.Talking] = { 9, 11 } } },
     ELR = { animationSpeed = 4, animations = { [BOT_ANIMATION_STATES.Idle] = { 1, 4 }, [BOT_ANIMATION_STATES.Talking] = { 5, 8 }, [BOT_ANIMATION_STATES.Sad] = { 9, 12 }, [BOT_ANIMATION_STATES.Happy] = { 13, 16 } } },
