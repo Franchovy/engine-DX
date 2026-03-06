@@ -58,6 +58,8 @@ local function init()
 
   -- MemoryCard.clearAll()
 
+  MinimapDrawer.initialize()
+
   -- Read file paths
 
   ReadFile.initialize()

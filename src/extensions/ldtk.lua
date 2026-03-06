@@ -2,6 +2,27 @@ local pd <const> = playdate
 local gfx <const> = pd.graphics
 -- Add all layers as tilemaps
 
+local function _addToMinimap(sprite)
+    local mapScale = MinimapDrawer.getScale()
+
+    local x, y = sprite:left(), sprite:top()
+    local width, height = sprite:getSize()
+    local mapX, mapY, mapWidth, mapHeight = math.floor(x / mapScale),
+        math.floor(y / mapScale),
+        math.ceil(width / mapScale),
+        math.ceil(height / mapScale)
+
+    for i = mapX, mapX + mapWidth do
+        for j = mapY, mapY + mapHeight do
+            MinimapDrawer.setPoint(
+                i,
+                j,
+                gfx.kColorWhite
+            )
+        end
+    end
+end
+
 local function _applyWallTiles(levelName, layerName, tilemap, enumValue, levelBounds, collisionGroup)
     local solidTiles = LDtk.get_empty_tileIDs(levelName, enumValue, layerName)
     if solidTiles then
@@ -10,6 +31,8 @@ local function _applyWallTiles(levelName, layerName, tilemap, enumValue, levelBo
             lsprite:setTag(TAGS.Wall)
             lsprite:setGroups(collisionGroup)
             lsprite:moveBy(levelBounds.x, levelBounds.y)
+
+            _addToMinimap(lsprite)
         end
     end
 end
@@ -33,6 +56,7 @@ function LDtk.loadAllLayersAsSprites(levelName)
             else
                 sprite:setZIndex(Z_INDEX.Level.Decor)
             end
+
             sprite:add()
 
             _applyWallTiles(levelName, layerName, tilemap, "Solid", levelBounds, GROUPS.Solid)

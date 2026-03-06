@@ -45,6 +45,9 @@ function Game:init(filepathLevel)
     -- Clear pathfinding data
     LDTkPathFinding.unload()
 
+    -- Clear minimap data
+    MinimapDrawer.clear()
+
     worldCurrent = LDtkWorld(filepathLevel, progressDataLevel)
     worldCurrent.isCompleted = false
 
@@ -222,6 +225,8 @@ function Game:enter(previous, data)
 end
 
 local ticksBButtonHeld = 0
+local ticksAButtonHeld = 0
+local spriteMinimap = nil
 
 function Game:update()
     -- System updates
@@ -231,6 +236,12 @@ function Game:update()
     -- Input handling (for player)
 
     local player = Player.getInstance()
+
+    if playdate.buttonIsPressed(playdate.kButtonA) then
+        ticksAButtonHeld += 1
+    else
+        ticksAButtonHeld = 0
+    end
 
     if player and not playdate.buttonIsPressed(playdate.kButtonB) then
         local elevator = player:getElevatorActivating()
@@ -256,6 +267,8 @@ function Game:update()
     -- If the objective has been met
     -- If B button is held
     -- > redirect crank to reset to checkpoint
+
+    _G.drawMinimap = nil
 
     if player then
         -- Short press
@@ -284,21 +297,47 @@ function Game:update()
 
                 GUIScreenEdges:getInstance():animateIn()
 
-                -- Update camera if pressing a direction + B button
-
                 local directionX, directionY =
-                    playdate.buttonIsPressed(KEYNAMES.Left) and 1 or playdate.buttonIsPressed(KEYNAMES.Right) and -1 or 0,
-                    playdate.buttonIsPressed(KEYNAMES.Up) and 1 or playdate.buttonIsPressed(KEYNAMES.Down) and -1 or 0
+                    playdate.buttonIsPressed(KEYNAMES.Left) and 1 or playdate.buttonIsPressed(KEYNAMES.Right) and -1 or
+                    0,
+                    playdate.buttonIsPressed(KEYNAMES.Up) and 1 or playdate.buttonIsPressed(KEYNAMES.Down) and -1 or
+                    0
 
-                local panOffsetX, panOffsetY = 150, 100
+                -- If pressing A button, show minimap
 
-                Camera.setOffset(directionX * panOffsetX, directionY * panOffsetY)
+                if ticksAButtonHeld > 12 then
+                    if not spriteMinimap then
+                        spriteMinimap = gfx.sprite.new(MinimapDrawer.getImage())
+                        spriteMinimap:setIgnoresDrawOffset(true)
+                        spriteMinimap:setZIndex(32767)
+
+                        -- Center map on player
+                        local scale = MinimapDrawer.getScale()
+                        local x, y = player.x, player.y
+                        spriteMinimap:moveTo(-x / scale + 200, -y / scale + 120)
+                    end
+
+                    spriteMinimap:add()
+                    spriteMinimap:moveBy(directionX * 2, directionY * 2)
+                else
+                    -- Else, if pressing D-Pad, pan camera
+
+                    -- Update camera if pressing a direction + B button
+
+                    local panOffsetX, panOffsetY = 150, 100
+
+                    Camera.setOffset(directionX * panOffsetX, directionY * panOffsetY)
+                end
             end
         else
             ticksBButtonHeld = 0
 
             GUIScreenEdges:getInstance():animateOut()
             Camera.setOffset(0, 0)
+        end
+
+        if spriteMinimap and (ticksAButtonHeld == 0 or ticksBButtonHeld == 0) then
+            spriteMinimap:remove()
         end
     end
 end

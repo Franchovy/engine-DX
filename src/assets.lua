@@ -13,7 +13,6 @@ _G.assets = {
     images = {
         powerbar = "assets/images/power-bar",
         indicatorBotRescue = "assets/images/indicator-bot-rescue",
-        logo = "assets/images/logo",
         tileset = "assets/images/tileset",
         hudPanel = "assets/images/hud-panel",
         speech = "assets/images/speech",
