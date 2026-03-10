@@ -24,6 +24,7 @@ _G.assets = {
         menuItem = "assets/images/Menu-Item",
         menuChoose = "assets/images/menu-choose-indicator",
         menuSelect = "assets/images/menu-select-indicator",
+        guiMinimap = "assets/images/gui-minimap",
     },
     imageTables = {
         elevatorLarge = "assets/images/elevator-large",

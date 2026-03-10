@@ -72,6 +72,29 @@ function playdate.graphics.sprite:centerY()
     return self.y - self:centerOffsetY() + self.height / 2
 end
 
+-- "Is-added" tracker
+
+local _add = playdate.graphics.sprite.add
+
+local function addSwizzled(self)
+    self.isAdded = true
+
+    _add(self)
+end
+
+local _remove = playdate.graphics.sprite.remove
+
+local function removeSwizzled(self)
+    self.isAdded = false
+
+    _remove(self)
+end
+
+playdate.graphics.sprite.add = addSwizzled
+playdate.graphics.sprite.remove = removeSwizzled
+
+--
+
 function playdate.graphics.image:getImageHash()
     local width, height = self:getSize()
     local prime = 16777619 -- A large prime number
@@ -91,7 +114,7 @@ function playdate.graphics.image:getImageHash()
 end
 
 --- Animator stubs
---- 
+---
 
 ---@class _Animator
 ---@field endValue _Point|number

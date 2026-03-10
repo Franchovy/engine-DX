@@ -226,6 +226,7 @@ end
 
 local ticksBButtonHeld = 0
 local ticksAButtonHeld = 0
+---@type Minimap?
 local spriteMinimap = nil
 
 function Game:update()
@@ -307,18 +308,15 @@ function Game:update()
 
                 if ticksAButtonHeld > 12 then
                     if not spriteMinimap then
-                        spriteMinimap = gfx.sprite.new(MinimapDrawer.getImage())
-                        spriteMinimap:setIgnoresDrawOffset(true)
-                        spriteMinimap:setZIndex(32767)
-
-                        -- Center map on player
-                        local scale = MinimapDrawer.getScale()
-                        local x, y = player.x, player.y
-                        spriteMinimap:moveTo(-x / scale + 200, -y / scale + 120)
+                        spriteMinimap = Minimap()
                     end
 
-                    spriteMinimap:add()
-                    spriteMinimap:moveBy(directionX * 2, directionY * 2)
+                    if not spriteMinimap.isAdded then
+                        spriteMinimap:centerOnPlayer()
+                        spriteMinimap:add()
+                    end
+
+                    spriteMinimap:navigate(directionX, directionY)
                 else
                     -- Else, if pressing D-Pad, pan camera
 
@@ -567,7 +565,7 @@ function Game:enableCinematicMode(shouldEnable)
     if shouldEnable then
         GUIChipSet:getInstance():remove()
         GUISpriteRescueCounter:getInstance():remove()
-        --Camera.setZoom(2)
+        Camera.setZoom(2)
     else
         GUIChipSet:getInstance():add()
         GUISpriteRescueCounter:getInstance():add()
